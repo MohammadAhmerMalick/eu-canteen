@@ -35,14 +35,15 @@ export default function Home() {
   return (
     <div className="mx-auto h-screen max-w-7xl">
       <header className="px-4 py-2">
-        <div className="flex items-center justify-between gap-10">
+        <div className="flex items-center justify-between gap-4">
           <Image
             height={120}
             width={80}
             src="/images/logo.svg"
             alt="Poolaster"
+            className="w-16 md:w-24"
           />
-          <div className="flex gap-2 rounded-full bg-black p-2">
+          <div className="flex gap-2 rounded-full bg-black p-2 text-sm md:text-base">
             <button className="px-2 text-white">Register Here</button>
             <button className="rounded-full bg-primary px-4 py-1 text-white">
               Login
@@ -51,15 +52,15 @@ export default function Home() {
         </div>
       </header>
       <main className="px-4">
-        <section className="grid grid-cols-1 gap-4 py-10 md:grid-cols-[500px_auto] md:py-20">
-          <div>
-            <h1 className="bellota-light text-6xl uppercase md:text-7xl">
+        <section className="grid grid-cols-1 gap-4 gap-y-12 py-8 md:grid-cols-[500px_auto] md:py-20">
+          <div className="text-center md:text-start">
+            <h1 className="bellota-light text-5xl uppercase md:text-7xl">
               <span className="playfair-display-regular">Poolaster</span>
-              <span className="-mt-4 mb-2 block h-2 w-[350px] bg-primary md:-mt-5 md:h-3 md:w-[420px]" />
+              <span className="-mt-4 mb-2 block h-2 w-[280px] bg-primary md:-mt-5 md:h-3 md:w-[420px]" />
               <span>Restaurant</span>
             </h1>
 
-            <p className="mt-4 max-w-[400px]">
+            <p className="mt-4 md:max-w-[400px]">
               Savor the essence of exquisite flavors at poolaster RESTAURANT,
               where culinary artistry meets timeless elegance.
             </p>

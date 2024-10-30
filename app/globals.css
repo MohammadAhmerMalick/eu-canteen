@@ -2,7 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+  font-style: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+}
+
+.poppins-thin {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-extrabold {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.poppins-black {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Bellota:wght@300;400;700&display=swap');
+
+.bellota-light {
+  font-family: 'Bellota', system-ui;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.bellota-regular {
+  font-family: 'Bellota', system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bellota-bold {
+  font-family: 'Bellota', system-ui;
+  font-weight: 700;
+  font-style: normal;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&display=swap');
+
+.playfair-display-light {
+  font-family: 'Playfair Display', serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.playfair-display-regular {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.playfair-display-bold {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
+
+.mrs-saint-delafield-regular {
+  font-family: 'Mrs Saint Delafield', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -10,12 +120,35 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #ffffff;
   }
-}
+} */
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  /* color: var(--foreground); */
+  /* background: var(--background); */
+
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.bg-primary-light {
+  background-color: #fee9de;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff7800;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

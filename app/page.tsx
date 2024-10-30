@@ -1,8 +1,118 @@
+import Image from 'next/image'
+
+const products = [
+  {
+    id: 1,
+    image: '/images/products/p-1.png',
+    title: 'Chinese Yakisbo',
+    details:
+      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+  },
+  {
+    id: 2,
+    image: '/images/products/p-1.png',
+    title: 'Chinese Yakisbo',
+    details:
+      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+  },
+  {
+    id: 3,
+    image: '/images/products/p-1.png',
+    title: 'Chinese Yakisbo',
+    details:
+      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+  },
+  {
+    id: 4,
+    image: '/images/products/p-1.png',
+    title: 'Chinese Yakisbo',
+    details:
+      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+  },
+]
+
 export default function Home() {
   return (
-    <div>
-      <main>Canteen</main>
-      <footer>Canteen</footer>
+    <div className="mx-auto h-screen max-w-7xl">
+      <header className="px-4 py-2">
+        <div className="flex items-center justify-between gap-10">
+          <Image
+            height={120}
+            width={80}
+            src="/images/logo.svg"
+            alt="Poolaster"
+          />
+          <div className="flex gap-2 rounded-full bg-black p-2">
+            <button className="px-2 text-white">Register Here</button>
+            <button className="rounded-full bg-primary px-4 py-1 text-white">
+              Login
+            </button>
+          </div>
+        </div>
+      </header>
+      <main className="px-4">
+        <section className="grid grid-cols-1 gap-4 py-10 md:grid-cols-[500px_auto] md:py-20">
+          <div>
+            <h1 className="bellota-light text-6xl uppercase md:text-7xl">
+              <span className="playfair-display-regular">Poolaster</span>
+              <span className="-mt-4 mb-2 block h-2 w-[350px] bg-primary md:-mt-5 md:h-3 md:w-[420px]" />
+              <span>Restaurant</span>
+            </h1>
+
+            <p className="mt-4 max-w-[400px]">
+              Savor the essence of exquisite flavors at poolaster RESTAURANT,
+              where culinary artistry meets timeless elegance.
+            </p>
+
+            <button className="mt-6 rounded-full bg-primary px-4 py-2 text-white">
+              Explore More
+            </button>
+          </div>
+
+          <div className="gap-5 md:flex">
+            {products.map(({ id, image, title, details }, c) => (
+              <div
+                key={id}
+                className={`relative mt-28 min-w-full rounded-3xl bg-white p-6 pt-32 shadow-lg md:min-w-72 ${c ? 'hidden md:block' : ''}`}
+              >
+                <Image
+                  height={230}
+                  width={230}
+                  alt="p"
+                  src={image}
+                  className="absolute -top-28 left-0 right-0 mx-auto drop-shadow-xl"
+                />
+                <h2 className="mb-3 text-2xl">{title}</h2>
+                <p className="text-neutral-700">{details}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section>
+          <Image
+            width={1280}
+            height={600}
+            alt="banner"
+            src="/images/banners/banner-1.png"
+            className="mx-auto"
+          />
+        </section>
+        <section className="grid justify-center gap-8 py-20 text-center">
+          <Image
+            width={178}
+            height={63}
+            alt="For the best memories"
+            src="/images/extras/h1-icon-img.png.png"
+            className="mx-auto"
+          />
+          <h2 className="bellota-light max-w-lg text-3xl uppercase text-orange-900">
+            Poolaster is for everyone who collects beautiful moments
+          </h2>
+          <h3 className="mrs-saint-delafield-regular text-3xl text-orange-700/50">
+            For the best memories
+          </h3>
+        </section>
+      </main>
     </div>
   )
 }

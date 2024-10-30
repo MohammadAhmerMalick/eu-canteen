@@ -56,7 +56,7 @@ export default function Home() {
           <div className="text-center md:text-start">
             <h1 className="bellota-light text-5xl uppercase md:text-7xl">
               <span className="playfair-display-regular">Poolaster</span>
-              <span className="-mt-4 mb-2 block h-2 w-[280px] bg-primary md:-mt-5 md:h-3 md:w-[420px]" />
+              <span className="mx-auto -mt-4 mb-2 block h-2 w-[280px] bg-primary md:mx-0 md:-mt-5 md:h-3 md:w-[420px]" />
               <span>Restaurant</span>
             </h1>
 

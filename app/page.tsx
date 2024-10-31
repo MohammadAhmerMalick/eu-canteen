@@ -1,3 +1,6 @@
+import Button from '@/frontend/components/Button'
+import SectionHeading from '@/frontend/components/SectionHeading'
+import OurMenuSection from '@/frontend/sections/OurMenuSection'
 import Image from 'next/image'
 
 const products = [
@@ -43,8 +46,8 @@ export default function Home() {
             alt="Poolaster"
             className="w-16 md:w-24"
           />
-          <div className="flex gap-2 rounded-full bg-black p-2 text-sm md:text-base">
-            <button className="px-2 text-white">Register Here</button>
+          <div className="flex gap-2 rounded-full bg-black p-1 text-sm md:text-base">
+            <button className="pr-2 ps-3 text-white">Register Here</button>
             <button className="rounded-full bg-primary px-4 py-1 text-white">
               Login
             </button>
@@ -65,9 +68,7 @@ export default function Home() {
               where culinary artistry meets timeless elegance.
             </p>
 
-            <button className="mt-6 rounded-full bg-primary px-4 py-2 text-white">
-              Explore More
-            </button>
+            <Button>Explore More</Button>
           </div>
 
           <div className="gap-5 md:flex">
@@ -106,13 +107,31 @@ export default function Home() {
             src="/images/extras/h1-icon-img.png.png"
             className="mx-auto"
           />
-          <h2 className="bellota-light max-w-lg text-3xl uppercase text-orange-900">
+          <SectionHeading>
             Poolaster is for everyone who collects beautiful moments
-          </h2>
+          </SectionHeading>
           <h3 className="mrs-saint-delafield-regular text-3xl text-orange-700/50">
             For the best memories
           </h3>
         </section>
+        <section className="grid grid-cols-2 gap-10">
+          <div>
+            <SectionHeading>
+              ONLY THE FINEST <br />
+              FOOD & GREAT SERVICE
+            </SectionHeading>
+            <p className="mt-4">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod temporincididunt ut labore et dolore agna aliqua. Ut enim
+              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+              aliquip ex ea ommodo consequat.
+            </p>
+
+            <Button>Read More</Button>
+          </div>
+        </section>
+
+        <OurMenuSection />
       </main>
     </div>
   )

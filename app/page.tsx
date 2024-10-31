@@ -1,7 +1,10 @@
-import Button from '@/frontend/components/Button'
-import SectionHeading from '@/frontend/components/SectionHeading'
-import OurMenuSection from '@/frontend/sections/OurMenuSection'
 import Image from 'next/image'
+
+import Footer from '@/sections/Footer'
+import Button from '@/components/Button'
+import OurMenuSection from '@/sections/OurMenuSection'
+import SectionHeading from '@/components/SectionHeading'
+import VideoBannerSection from '@/sections/VideoBannerSection'
 
 const products = [
   {
@@ -36,8 +39,8 @@ const products = [
 
 export default function Home() {
   return (
-    <div className="mx-auto h-screen max-w-7xl">
-      <header className="px-4 py-2">
+    <>
+      <header className="mx-auto max-w-7xl px-4 py-2">
         <div className="flex items-center justify-between gap-4">
           <Image
             height={120}
@@ -54,7 +57,7 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <main className="px-4">
+      <main className="mx-auto max-w-7xl px-4">
         <section className="grid grid-cols-1 gap-4 gap-y-12 py-8 md:grid-cols-[500px_auto] md:py-20">
           <div className="text-center md:text-start">
             <h1 className="bellota-light text-5xl uppercase md:text-7xl">
@@ -68,7 +71,7 @@ export default function Home() {
               where culinary artistry meets timeless elegance.
             </p>
 
-            <Button>Explore More</Button>
+            <Button className="mt-6">Explore More</Button>
           </div>
 
           <div className="gap-5 md:flex">
@@ -114,7 +117,7 @@ export default function Home() {
             For the best memories
           </h3>
         </section>
-        <section className="grid grid-cols-2 gap-10">
+        <section className="grid justify-between gap-10 text-center md:grid-cols-2 md:text-left">
           <div>
             <SectionHeading>
               ONLY THE FINEST <br />
@@ -127,12 +130,22 @@ export default function Home() {
               aliquip ex ea ommodo consequat.
             </p>
 
-            <Button>Read More</Button>
+            <Button className="mt-6">Read More</Button>
+          </div>
+          <div>
+            <Image
+              width={320}
+              height={3025}
+              alt="Only The Finest Food & Great Service"
+              src="/images/banners/service-banner.png"
+              className="mx-auto hidden w-full max-w-80 md:block"
+            />
           </div>
         </section>
-
+        <VideoBannerSection />
         <OurMenuSection />
       </main>
-    </div>
+      <Footer />
+    </>
   )
 }

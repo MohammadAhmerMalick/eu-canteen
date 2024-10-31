@@ -1,12 +1,20 @@
 import { ReactNode } from 'react'
 
+import { classnames } from '@/utils'
+
 interface SectionHeadingProps {
   children: ReactNode
+  className?: string
 }
 
-const SectionHeading = ({ children }: SectionHeadingProps) => {
+const SectionHeading = ({ children, className }: SectionHeadingProps) => {
   return (
-    <h2 className="bellota-light max-w-lg text-3xl uppercase text-orange-900">
+    <h2
+      className={classnames(
+        'bellota-light max-w-lg text-3xl uppercase text-orange-900',
+        className
+      )}
+    >
       {children}
     </h2>
   )

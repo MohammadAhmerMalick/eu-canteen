@@ -39,7 +39,7 @@ const LoginPage = () => {
         <Button className="mt-4">Login</Button>
         <p className="text-center text-sm font-light">
           Don&apos;t have and account yet?{' '}
-          <a href="signup" className="font-semibold">
+          <a href="register" className="font-semibold">
             Register for free
           </a>
         </p>

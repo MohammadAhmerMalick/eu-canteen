@@ -31,7 +31,7 @@ const menu = [
 ]
 const OurMenuSection = () => {
   return (
-    <section className="grid justify-center gap-10 py-20 text-center">
+    <section className="my-10 grid justify-center gap-10 text-center md:my-20">
       <SectionHeading className="mx-auto">Our Menu</SectionHeading>
       <div className="grid gap-1">
         <p>

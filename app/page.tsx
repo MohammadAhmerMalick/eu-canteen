@@ -6,6 +6,7 @@ import Button from '@/components/Button'
 import OurMenuSection from '@/sections/OurMenuSection'
 import SectionHeading from '@/components/SectionHeading'
 import VideoBannerSection from '@/sections/VideoBannerSection'
+import AgentAssistance from '@/components/AgentAssistance'
 
 const products = [
   {
@@ -40,7 +41,7 @@ const products = [
 
 export default function Home() {
   return (
-    <div className="bg-primary-light">
+    <div className="w-screen overflow-hidden bg-primary-light">
       <header className="mx-auto max-w-7xl px-4 py-2">
         <div className="flex items-center justify-between gap-4">
           <Image
@@ -64,7 +65,7 @@ export default function Home() {
         </div>
       </header>
       <main className="mx-auto max-w-7xl px-4">
-        <section className="grid grid-cols-1 gap-4 gap-y-12 py-8 md:grid-cols-[500px_auto] md:py-20">
+        <section className="my-10 grid grid-cols-1 gap-4 gap-y-12 md:my-20 md:grid-cols-[500px_auto]">
           <div className="text-center md:text-start">
             <h1 className="bellota-light text-5xl uppercase md:text-7xl">
               <span className="playfair-display-regular">Poolaster</span>
@@ -79,27 +80,29 @@ export default function Home() {
 
             <Button className="mt-6">Explore More</Button>
           </div>
-
-          <div className="gap-5 md:flex">
-            {products.map(({ id, image, title, details }, c) => (
-              <div
-                key={id}
-                className={`relative mt-28 min-w-full rounded-3xl bg-white p-6 pt-32 shadow-lg md:min-w-72 ${c ? 'hidden md:block' : ''}`}
-              >
-                <Image
-                  height={230}
-                  width={230}
-                  alt="p"
-                  src={image}
-                  className="absolute -top-28 left-0 right-0 mx-auto drop-shadow-xl"
-                />
-                <h2 className="mb-3 text-2xl">{title}</h2>
-                <p className="text-neutral-700">{details}</p>
-              </div>
-            ))}
+          <div>
+            <div className="gap-5 md:flex">
+              {products.map(({ id, image, title, details }, c) => (
+                <div
+                  key={id}
+                  className={`relative mt-28 min-w-full rounded-3xl bg-white p-6 pt-32 shadow-lg md:min-w-72 ${c ? 'hidden md:block' : ''}`}
+                >
+                  <Image
+                    height={230}
+                    width={230}
+                    alt="p"
+                    src={image}
+                    className="absolute -top-28 left-0 right-0 mx-auto drop-shadow-xl"
+                  />
+                  <h2 className="mb-3 text-2xl">{title}</h2>
+                  <p className="text-neutral-700">{details}</p>
+                </div>
+              ))}
+            </div>
+            <AgentAssistance className="ml-auto mt-4" expended />
           </div>
         </section>
-        <section>
+        <section className="my-10 md:my-20">
           <Image
             width={1280}
             height={600}
@@ -108,7 +111,7 @@ export default function Home() {
             className="mx-auto"
           />
         </section>
-        <section className="grid justify-center gap-8 py-20 text-center">
+        <section className="my-10 grid justify-center gap-8 text-center md:my-20">
           <Image
             width={178}
             height={63}
@@ -123,7 +126,7 @@ export default function Home() {
             For the best memories
           </h3>
         </section>
-        <section className="grid justify-between gap-10 text-center md:grid-cols-2 md:text-left">
+        <section className="my-10 grid justify-between gap-10 text-center md:my-20 md:grid-cols-2 md:text-left">
           <div>
             <SectionHeading>
               ONLY THE FINEST <br />
@@ -138,15 +141,13 @@ export default function Home() {
 
             <Button className="mt-6">Read More</Button>
           </div>
-          <div>
-            <Image
-              width={320}
-              height={3025}
-              alt="Only The Finest Food & Great Service"
-              src="/images/banners/service-banner.png"
-              className="mx-auto hidden w-full max-w-80 md:block"
-            />
-          </div>
+          <Image
+            width={320}
+            height={3025}
+            alt="Only The Finest Food & Great Service"
+            src="/images/banners/service-banner.png"
+            className="mx-auto hidden w-full max-w-80 md:block"
+          />
         </section>
         <VideoBannerSection />
         <OurMenuSection />

@@ -20,6 +20,10 @@ const config: Config = {
         screen: '100vh',
         dscreen: '100dvh',
       },
+      width: {
+        screen: '100vw',
+        dscreen: '100dvw',
+      },
     },
   },
   plugins: [],

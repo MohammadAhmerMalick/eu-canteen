@@ -7,6 +7,7 @@ const config: Config = {
     './frontend/sections/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'selector',
   theme: {
     extend: {
       colors: {
@@ -17,6 +18,11 @@ const config: Config = {
       },
       height: {
         screen: '100vh',
+        dscreen: '100dvh',
+      },
+      width: {
+        screen: '100vw',
+        dscreen: '100dvw',
       },
     },
   },

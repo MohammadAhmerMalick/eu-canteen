@@ -38,9 +38,9 @@ const Footer = () => {
         <div className="flex flex-wrap justify-center gap-2 text-sm md:-mt-12 md:justify-between">
           <p className="flex gap-3">
             <span className="uppercase">Pinterest</span>
-            <span className="w-0.5 bg-primary" />
+            <span className="w-px bg-primary" />
             <span className="uppercase">Facebook</span>
-            <span className="w-0.5 bg-primary" />
+            <span className="w-px bg-primary" />
             <span className="uppercase">Instagram</span>
           </p>
 

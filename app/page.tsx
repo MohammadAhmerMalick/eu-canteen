@@ -39,7 +39,7 @@ const products = [
 
 export default function Home() {
   return (
-    <>
+    <div className="bg-primary-light">
       <header className="mx-auto max-w-7xl px-4 py-2">
         <div className="flex items-center justify-between gap-4">
           <Image
@@ -146,6 +146,6 @@ export default function Home() {
         <OurMenuSection />
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

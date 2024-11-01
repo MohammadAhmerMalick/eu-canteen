@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 
 import Footer from '@/sections/Footer'
@@ -49,11 +50,16 @@ export default function Home() {
             alt="Poolaster"
             className="w-16 md:w-24"
           />
-          <div className="flex gap-2 rounded-full bg-black p-1 text-sm md:text-base">
-            <button className="pr-2 ps-3 text-white">Register Here</button>
-            <button className="rounded-full bg-primary px-4 py-1 text-white">
+          <div className="flex items-center gap-2 rounded-full bg-black p-1 text-sm md:text-base">
+            <Link href="/register" className="db pr-2 ps-3 text-white">
+              Register Here
+            </Link>
+            <Link
+              href="/login"
+              className="rounded-full bg-primary px-4 py-1 text-white"
+            >
               Login
-            </button>
+            </Link>
           </div>
         </div>
       </header>

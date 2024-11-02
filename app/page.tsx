@@ -8,44 +8,14 @@ import OurMenuSection from '@/sections/OurMenuSection'
 import SectionHeading from '@/components/SectionHeading'
 import VideoBannerSection from '@/sections/VideoBannerSection'
 import AgentAssistance from '@/components/AgentAssistance'
+import ProductCarousel from '@/components/ProductCarousel'
 
-const products = [
-  {
-    id: 1,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-  {
-    id: 2,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-  {
-    id: 3,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-  {
-    id: 4,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-]
-
-export default function Home() {
+const HomePage = async () => {
   return (
     <div className="w-screen overflow-hidden bg-primary-light">
       <Header />
       <main className="mx-auto max-w-7xl px-4">
-        <section className="my-10 grid grid-cols-1 gap-4 gap-y-12 md:my-20 md:grid-cols-[500px_auto]">
+        <section className="my-10 grid grid-cols-1 gap-4 gap-y-12 md:mt-20 md:grid-cols-[500px_2000px]">
           <div className="text-center md:text-start">
             <h1 className="bellota-light text-5xl uppercase md:text-7xl">
               <span className="playfair-display-regular">Poolaster</span>
@@ -65,26 +35,7 @@ export default function Home() {
               Explore More
             </Link>
           </div>
-          <div>
-            <div className="gap-5 md:flex">
-              {products.map(({ id, image, title, details }, c) => (
-                <div
-                  key={id}
-                  className={`relative mt-28 min-w-full rounded-3xl bg-white p-6 pt-32 shadow-lg md:min-w-72 ${c ? 'hidden md:block' : ''}`}
-                >
-                  <Image
-                    height={230}
-                    width={230}
-                    alt="p"
-                    src={image}
-                    className="absolute -top-28 left-0 right-0 mx-auto drop-shadow-xl"
-                  />
-                  <h2 className="mb-3 text-2xl">{title}</h2>
-                  <p className="text-neutral-700">{details}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ProductCarousel />
         </section>
         <AgentAssistance className="ml-auto mt-4" expended />
         <section className="my-10 md:my-20">
@@ -141,3 +92,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default HomePage

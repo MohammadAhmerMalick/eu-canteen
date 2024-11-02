@@ -7,14 +7,14 @@ const Header = () => {
   const isLoggedIn = true
 
   return (
-    <header className="mx-auto max-w-7xl px-4 py-2">
-      <div className="flex items-center justify-between gap-4">
+    <header className="bg-primary-light">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2">
         <Link href="/">
           <Image
             height={120}
             width={80}
-            src="/images/logo.svg"
             alt="Poolaster"
+            src="/images/logo.svg"
             className={classnames(
               'duration-300 md:w-24',
               isLoggedIn ? 'w-10' : 'w-14'

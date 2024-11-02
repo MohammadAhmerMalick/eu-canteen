@@ -1,71 +1,21 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+import Header from '@/sections/Header'
 import Footer from '@/sections/Footer'
 import Button from '@/components/Button'
 import OurMenuSection from '@/sections/OurMenuSection'
 import SectionHeading from '@/components/SectionHeading'
 import VideoBannerSection from '@/sections/VideoBannerSection'
 import AgentAssistance from '@/components/AgentAssistance'
+import ProductCarousel from '@/components/ProductCarousel'
 
-const products = [
-  {
-    id: 1,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-  {
-    id: 2,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-  {
-    id: 3,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-  {
-    id: 4,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-]
-
-export default function Home() {
+const HomePage = async () => {
   return (
     <div className="w-screen overflow-hidden bg-primary-light">
-      <header className="mx-auto max-w-7xl px-4 py-2">
-        <div className="flex items-center justify-between gap-4">
-          <Image
-            height={120}
-            width={80}
-            src="/images/logo.svg"
-            alt="Poolaster"
-            className="w-16 md:w-24"
-          />
-          <div className="flex items-center gap-2 rounded-full bg-black p-1 text-sm md:text-base">
-            <Link href="/register" className="db pr-2 ps-3 text-white">
-              Register Here
-            </Link>
-            <Link
-              href="/login"
-              className="rounded-full bg-primary px-4 py-1 text-white"
-            >
-              Login
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header />
       <main className="mx-auto max-w-7xl px-4">
-        <section className="my-10 grid grid-cols-1 gap-4 gap-y-12 md:my-20 md:grid-cols-[500px_auto]">
+        <section className="my-10 grid grid-cols-1 gap-4 gap-y-12 md:mt-20 md:grid-cols-[500px_2000px]">
           <div className="text-center md:text-start">
             <h1 className="bellota-light text-5xl uppercase md:text-7xl">
               <span className="playfair-display-regular">Poolaster</span>
@@ -78,30 +28,16 @@ export default function Home() {
               where culinary artistry meets timeless elegance.
             </p>
 
-            <Button className="mt-6">Explore More</Button>
+            <Link
+              href="/products"
+              className="mt-6 inline-block rounded-3xl bg-primary px-4 py-2 text-white"
+            >
+              Explore More
+            </Link>
           </div>
-          <div>
-            <div className="gap-5 md:flex">
-              {products.map(({ id, image, title, details }, c) => (
-                <div
-                  key={id}
-                  className={`relative mt-28 min-w-full rounded-3xl bg-white p-6 pt-32 shadow-lg md:min-w-72 ${c ? 'hidden md:block' : ''}`}
-                >
-                  <Image
-                    height={230}
-                    width={230}
-                    alt="p"
-                    src={image}
-                    className="absolute -top-28 left-0 right-0 mx-auto drop-shadow-xl"
-                  />
-                  <h2 className="mb-3 text-2xl">{title}</h2>
-                  <p className="text-neutral-700">{details}</p>
-                </div>
-              ))}
-            </div>
-            <AgentAssistance className="ml-auto mt-4" expended />
-          </div>
+          <ProductCarousel />
         </section>
+        <AgentAssistance className="ml-auto mt-4" expended />
         <section className="my-10 md:my-20">
           <Image
             width={1280}
@@ -156,3 +92,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default HomePage

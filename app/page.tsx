@@ -99,9 +99,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <AgentAssistance className="ml-auto mt-4" expended />
           </div>
         </section>
+        <AgentAssistance className="ml-auto mt-4" expended />
         <section className="my-10 md:my-20">
           <Image
             width={1280}

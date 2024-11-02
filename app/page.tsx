@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+import Header from '@/sections/Header'
 import Footer from '@/sections/Footer'
 import Button from '@/components/Button'
 import OurMenuSection from '@/sections/OurMenuSection'
@@ -42,28 +43,7 @@ const products = [
 export default function Home() {
   return (
     <div className="w-screen overflow-hidden bg-primary-light">
-      <header className="mx-auto max-w-7xl px-4 py-2">
-        <div className="flex items-center justify-between gap-4">
-          <Image
-            height={120}
-            width={80}
-            src="/images/logo.svg"
-            alt="Poolaster"
-            className="w-16 md:w-24"
-          />
-          <div className="flex items-center gap-2 rounded-full bg-black p-1 text-sm md:text-base">
-            <Link href="/register" className="db pr-2 ps-3 text-white">
-              Register Here
-            </Link>
-            <Link
-              href="/login"
-              className="rounded-full bg-primary px-4 py-1 text-white"
-            >
-              Login
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header />
       <main className="mx-auto max-w-7xl px-4">
         <section className="my-10 grid grid-cols-1 gap-4 gap-y-12 md:my-20 md:grid-cols-[500px_auto]">
           <div className="text-center md:text-start">
@@ -78,7 +58,12 @@ export default function Home() {
               where culinary artistry meets timeless elegance.
             </p>
 
-            <Button className="mt-6">Explore More</Button>
+            <Link
+              href="/products"
+              className="mt-6 inline-block rounded-3xl bg-primary px-4 py-2 text-white"
+            >
+              Explore More
+            </Link>
           </div>
           <div>
             <div className="gap-5 md:flex">

@@ -5,18 +5,18 @@ import { classnames } from '@/utils'
 
 const Header = () => {
   const isLoggedIn = true
-
+  // const [expend, setExpend] = useState(expended)
   return (
     <header className="bg-primary-light">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2">
         <Link href="/">
           <Image
-            height={120}
+            height={100}
             width={80}
             alt="Poolaster"
             src="/images/logo.svg"
             className={classnames(
-              'duration-300 md:w-24',
+              'duration-300 md:w-20',
               isLoggedIn ? 'w-10' : 'w-14'
             )}
           />
@@ -27,14 +27,29 @@ const Header = () => {
             <p className="rounded-3xl bg-white px-4 py-2 text-sm shadow-lg">
               €5.08
             </p>
-            <div className={classnames('rounded-full bg-white p-1 shadow')}>
-              <Image
-                width={56}
-                height={56}
-                alt="Agent"
-                src="/images/agents/agent-1.png"
-                className="w-10 rounded-full border border-primary bg-primary"
-              />
+            <div className="relative">
+              <div className="flex h-12 overflow-hidden rounded-full bg-white p-1 shadow md:h-14 md:p-2">
+                <Image
+                  width={40}
+                  height={40}
+                  alt="Agent"
+                  src="/images/agents/agent-1.png"
+                  className="h-10 w-10 rounded-full border border-primary bg-primary"
+                />
+                <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
+                  <p>Richard Watson</p>
+                  <p className="text-neutral-500">#EP-1749051</p>
+                </div>
+              </div>
+              <div className="absolute right-0 top-14 z-50 overflow-hidden rounded-3xl bg-white px-4 py-3 shadow md:left-0 md:top-16">
+                <div className="text-right text-sm md:text-left">
+                  <p>Home</p>
+                  <p>Dashboard</p>
+                  <p>Settings</p>
+                  <p>Orders</p>
+                  <p>Profile</p>
+                </div>
+              </div>
             </div>
           </div>
         ) : (

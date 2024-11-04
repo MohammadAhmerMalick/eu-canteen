@@ -17,9 +17,9 @@ const HomePage = async () => {
       <main className="mx-auto max-w-7xl px-4">
         <section className="my-10 grid grid-cols-1 gap-4 gap-y-12 md:mt-20 md:grid-cols-[500px_2000px]">
           <div className="text-center md:text-start">
-            <h1 className="bellota-light text-5xl uppercase md:text-7xl">
-              <span className="playfair-display-regular">Poolaster</span>
-              <span className="mx-auto -mt-4 mb-2 block h-2 w-[280px] bg-primary md:mx-0 md:-mt-5 md:h-3 md:w-[420px]" />
+            <h1 className="bellota-regular bellota-light text-5xl uppercase md:text-7xl">
+              <span className="font-semibold">Poolaster</span>
+              <span className="mx-auto -mt-4 mb-2 block h-2 w-[286px] bg-primary md:mx-0 md:-mt-5 md:h-3 md:w-[430px]" />
               <span>Restaurant</span>
             </h1>
 

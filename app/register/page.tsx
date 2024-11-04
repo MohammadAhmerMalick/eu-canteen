@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import Image from 'next/image'
 
 import Button from '@/components/Button'
@@ -9,13 +10,15 @@ const SignupPage = () => {
   return (
     <main className="flex h-dscreen items-center justify-center bg-primary-light p-2">
       <div className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10">
-        <Image
-          height={90}
-          width={90}
-          src="/images/logo.svg"
-          alt="Poolaster"
-          className="mx-auto w-20"
-        />
+        <Link href="/">
+          <Image
+            height={90}
+            width={90}
+            src="/images/logo.svg"
+            alt="Poolaster"
+            className="mx-auto w-20"
+          />
+        </Link>
         <h1 className="text-lg font-bold">Registration</h1>
         <Input
           value=""

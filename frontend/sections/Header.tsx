@@ -1,11 +1,20 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
+import Button from '@/components/Button'
 
 const Header = () => {
-  const isLoggedIn = true
-  // const [expend, setExpend] = useState(expended)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const flag = !!localStorage.getItem('isLoggedIn')
+    setIsLoggedIn(flag)
+  }, [])
+
   return (
     <header className="bg-primary-light">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2">
@@ -48,6 +57,12 @@ const Header = () => {
                   <p>Settings</p>
                   <p>Orders</p>
                   <p>Profile</p>
+                  <Button
+                    onClick={() => localStorage.removeItem('isLoggedIn')}
+                    className="mt-2 w-full"
+                  >
+                    Log out
+                  </Button>
                 </div>
               </div>
             </div>

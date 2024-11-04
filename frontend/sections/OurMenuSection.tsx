@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 
 import Button from '@/components/Button'
@@ -84,7 +85,12 @@ const OurMenuSection = () => {
         ))}
       </div>
       <div className="relative flex justify-center">
-        <Button className="relative z-10">Explore More</Button>
+        <Link
+          href="/products"
+          className="relative z-10 block rounded-3xl bg-primary px-4 py-2 text-white"
+        >
+          Explore More
+        </Link>
         <div className="absolute bottom-0 top-0 my-auto h-px w-full bg-gradient-to-r from-transparent via-orange-700 to-transparent" />
       </div>
     </section>

@@ -4,11 +4,21 @@ import Image from 'next/image'
 
 import Button from '@/components/Button'
 import Input from '@/components/common/Input'
+import { useAuthStore } from '@/store/provider'
+import Link from 'next/link'
 
 const LoginPage = () => {
+  const { isLoggedIn, setIsLoggedIn } = useAuthStore((state) => state)
+
   return (
     <main className="flex h-dscreen items-center justify-center bg-primary-light p-2">
       <div className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10">
+        {isLoggedIn ? <div>x</div> : <div>u</div>}
+        <button onClick={() => setIsLoggedIn(!isLoggedIn)}>
+          {isLoggedIn ? 'loggedIn' : 'notLogedIn'}
+        </button>
+
+        <Link href="/">home</Link>
         <Image
           height={90}
           width={90}

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { classnames } from '@/utils'
 
 const Header = () => {
-  const isLoggedIn = true
+  const isLoggedIn = false
 
   return (
     <header className="mx-auto max-w-7xl px-4 py-2">

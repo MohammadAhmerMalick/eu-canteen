@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 
+import { AuthStoreProvider } from '@/store/provider'
+
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -14,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="overflow-x-hidden antialiased">{children}</body>
+      <body className="overflow-x-hidden antialiased">
+        <AuthStoreProvider>{children}</AuthStoreProvider>
+      </body>
     </html>
   )
 }

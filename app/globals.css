@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bellota:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 * {
   font-style: inherit;
@@ -64,8 +68,6 @@
   font-style: normal;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Bellota:wght@300;400;700&display=swap');
-
 .bellota-light {
   font-family: 'Bellota', system-ui;
   font-weight: 300;
@@ -83,8 +85,6 @@
   font-weight: 700;
   font-style: normal;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&display=swap');
 
 .playfair-display-light {
   font-family: 'Playfair Display', serif;
@@ -104,12 +104,34 @@
   font-style: normal;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
-
 .mrs-saint-delafield-regular {
   font-family: 'Mrs Saint Delafield', cursive;
   font-weight: 400;
   font-style: normal;
+}
+
+.philosopher-regular {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.philosopher-bold {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.philosopher-regular-italic {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.philosopher-bold-italic {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 700;
+  font-style: italic;
 }
 
 /* :root {

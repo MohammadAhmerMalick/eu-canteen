@@ -135,9 +135,9 @@ const ProductPage = () => {
       <main className="px-4">
         <section className="mx-auto flex max-w-7xl gap-4 py-4">
           <div className="relative flex w-full items-center rounded-3xl bg-black md:h-52">
-            <div className="z-10 rounded-3xl bg-gradient-to-r from-transparent to-black px-4 py-2 text-white md:px-10 md:py-10">
+            <div className="z-10 w-full rounded-3xl bg-gradient-to-r from-transparent to-black px-4 py-6 text-white md:w-max md:px-10 md:py-10">
               {/* bg-black/25 */}
-              <h1 className="mb-2 text-xl md:text-3xl">
+              <h1 className="philosopher-bold mb-2 text-xl md:text-3xl">
                 It’s not just Food,
                 <br /> it’s an Experience
               </h1>

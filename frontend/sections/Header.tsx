@@ -78,7 +78,7 @@ const Header = () => {
               </Link>
               <Link
                 href="/login"
-                className="rounded-full bg-primary px-4 py-1 text-white"
+                className="rounded-full bg-primary px-3 py-1 text-white"
               >
                 Login
               </Link>

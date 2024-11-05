@@ -11,8 +11,9 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    const flag = !!localStorage.getItem('isLoggedIn')
-    setIsLoggedIn(flag)
+    // const flag = !!localStorage.getItem('isLoggedIn')
+    // setIsLoggedIn(flag)
+    setIsLoggedIn(false)
   }, [])
 
   return (

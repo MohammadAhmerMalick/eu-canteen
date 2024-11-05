@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 import { classnames } from '@/utils'
+import AiOutlinePhone from '@/icons/AiOutlinePhone'
 
 interface AgentAssistanceProps {
   expended?: boolean
@@ -18,7 +19,7 @@ const AgentAssistance = ({
   return (
     <div
       className={classnames(
-        'grid h-[72px] grid-cols-[56px_auto_56px] gap-4 overflow-hidden rounded-full bg-white p-2 shadow duration-300',
+        'grid h-[72px] grid-cols-[56px_auto_56px] items-center gap-4 overflow-hidden rounded-full bg-white p-2 shadow duration-300',
         expend ? 'max-w-80' : 'max-w-[72px]',
         className
       )}
@@ -32,11 +33,12 @@ const AgentAssistance = ({
         onClick={() => setExpend(!expend)}
       />
       <div className="min-w-40 text-sm">
-        <p>Richard Watson</p>
-        <p className="text-neutral-500">LUCA</p>
+        <p>LUCA</p>
         <p className="text-xs text-neutral-500">Management</p>
       </div>
-      <div className="w-14 rounded-full bg-primary" />
+      <div className="flex h-full w-14 -scale-x-100 items-center justify-center rounded-full bg-primary text-3xl text-white">
+        <AiOutlinePhone />
+      </div>
     </div>
   )
 }

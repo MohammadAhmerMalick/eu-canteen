@@ -6,9 +6,9 @@ import LinkButton from '@/components/common/LinkButton'
 
 const NotFoundPage = () => {
   return (
-    <main className="grid h-dscreen grid-rows-[0px_auto] bg-primary-light">
+    <div className="grid h-dscreen grid-rows-[0px_auto] bg-primary-light">
       <Header />
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-4 px-4">
+      <main className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-4 px-4">
         <div className="flex items-center justify-center gap-4 text-center">
           <span className="playfair-display-regular -mt-14 text-9xl md:-mt-36 md:text-[320px]">
             4
@@ -31,8 +31,8 @@ const NotFoundPage = () => {
           to find is no longer available,
         </p>
         <LinkButton href="/">Back To Home</LinkButton>
-      </div>
-    </main>
+      </main>
+    </div>
   )
 }
 

@@ -93,9 +93,9 @@ const SignupPage = () => {
         <Button className="mt-4">Request For Register</Button>
         <p className="text-center text-sm font-light">
           Alredy have an account?{' '}
-          <a href="login" className="font-semibold">
+          <Link href="login" className="font-semibold">
             Login
-          </a>
+          </Link>
         </p>
       </form>
     </main>

@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "i": "npm i --legacy-peer-deps",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,7 +14,8 @@
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-multi-carousel": "^2.8.5",
-    "react-toastify": "^10.0.6"
+    "react-toastify": "^10.0.6",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.0.2",

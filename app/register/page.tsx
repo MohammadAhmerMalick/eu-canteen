@@ -8,6 +8,7 @@ import { type FormEvent, useState } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
+import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
 const SignupPage = () => {
   const [name, setName] = useState('')
@@ -63,7 +64,7 @@ const SignupPage = () => {
           labelText="Email"
           onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
-          placeholder="email@compas.unimib.it"
+          placeholder="email@compus.unimib.it"
         />
         <Input
           isRequired
@@ -86,8 +87,33 @@ const SignupPage = () => {
 
         <div>
           <p>Attach You University Id Card</p>
-          <p className="text-xs text-neutral-500">Upload Front</p>
-          <p className="text-xs text-neutral-500">Upload Back</p>
+          <p className="flex items-center gap-1 text-xs text-neutral-500">
+            <AiOutlinePaperClip /> Upload Front
+          </p>
+          <p className="flex items-center gap-1 text-xs text-neutral-500">
+            <AiOutlinePaperClip /> Upload Back
+          </p>
+        </div>
+
+        <div>
+          <p>Consents and Terms of Use:</p>
+          <p className="text-xs text-neutral-500">
+            <Link className="text-blue-800" href="privacy-policy">
+              Privacy Policy
+            </Link>{' '}
+            and{' '}
+            <Link className="text-blue-800" href="terms-and-conditions">
+              Terms and conditions
+            </Link>{' '}
+            of service
+          </p>
+
+          <div className="flex items-center">
+            <label className="flex items-center gap-2 text-xs text-neutral-500">
+              <input id="link-checkbox" type="checkbox" required />
+              <span>I consent to the processing of above data</span>
+            </label>
+          </div>
         </div>
 
         <Button className="mt-4">Request For Register</Button>

@@ -1,15 +1,36 @@
 'use client'
 
+import Link from 'next/link'
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
+import { useState, type FormEvent } from 'react'
 
 import Button from '@/components/Button'
 import Input from '@/components/common/Input'
-import Link from 'next/link'
 
 const LoginPage = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const resetForm = () => {
+    setEmail('')
+    setPassword('')
+  }
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    resetForm()
+    redirect('/')
+    // toast.success('Your request has been submitted for the review')
+  }
+
   return (
     <main className="flex h-dscreen items-center justify-center bg-primary-light p-2">
-      <div className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10">
+      <form
+        onSubmit={onSubmit}
+        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
+      >
         <Link href="/">
           <Image
             height={90}
@@ -21,19 +42,21 @@ const LoginPage = () => {
         </Link>
         <h1 className="text-lg font-bold">Login</h1>
         <Input
-          value=""
+          isRequired
           id="email"
           type="email"
+          value={email}
           labelText="Email"
-          onChange={() => {}}
+          onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
           placeholder="email@compas.unimib.it"
         />
         <Input
-          value=""
+          isRequired
           id="password"
           type="password"
-          onChange={() => {}}
+          value={password}
+          onChange={({ value }) => setPassword(value)}
           labelText="Password"
           placeholder="✳✳✳✳✳✳✳✳✳✳"
           labelClassName="text-sm"
@@ -51,7 +74,7 @@ const LoginPage = () => {
             Register for free
           </a>
         </p>
-      </div>
+      </form>
     </main>
   )
 }

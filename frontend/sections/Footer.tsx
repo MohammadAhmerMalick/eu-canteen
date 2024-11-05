@@ -7,13 +7,17 @@ const Footer = () => {
         <div className="grid gap-3 md:grid-cols-3">
           <div className="mx-auto max-w-72 border-b border-primary pb-3 md:mx-0 md:max-w-full md:border-b-0 md:border-r">
             <p className="mb-2 font-semibold uppercase">Contact Us</p>
-            <p className="font-light">3420500567</p>
-            <p className="font-light">info@poolaster.com</p>
+            <a href="tel:+393420500567" className="block font-light">
+              +39 342 050 0567
+            </a>
+            <a href="mailto:info@poolaster.com" className="font-light">
+              info@poolaster.com
+            </a>
           </div>
           <div className="mx-auto max-w-72 border-b border-primary pb-3 md:mx-0 md:max-w-full md:border-b-0 md:border-r">
             <p className="mb-2 font-semibold uppercase">Address</p>
             <p className="font-light">
-              Clover Sport Village, 12 21562 . Milan . Italy
+              Address: Via Comasina, 115, 20161 Milan-Italy.
             </p>
           </div>
           <div>

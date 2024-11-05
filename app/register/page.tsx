@@ -2,14 +2,40 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+import { redirect } from 'next/navigation'
+import { type FormEvent, useState } from 'react'
 
 import Button from '@/components/Button'
 import Input from '@/components/common/Input'
 
 const SignupPage = () => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
+  const [matricola, setMatricola] = useState('')
+
+  const resetForm = () => {
+    setName('')
+    setEmail('')
+    setWhatsapp('')
+    setMatricola('')
+  }
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    resetForm()
+    toast.success('Your request has been submitted for the review')
+    redirect('/')
+  }
+
   return (
     <main className="flex h-dscreen items-center justify-center bg-primary-light p-2">
-      <div className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10">
+      <form
+        onSubmit={onSubmit}
+        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
+      >
         <Link href="/">
           <Image
             height={90}
@@ -21,34 +47,38 @@ const SignupPage = () => {
         </Link>
         <h1 className="text-lg font-bold">Registration</h1>
         <Input
-          value=""
+          isRequired
           id="name"
+          value={name}
           labelText="Full Name"
-          onChange={() => {}}
+          onChange={({ value }) => setName(value)}
           labelClassName="text-sm"
           placeholder="John Doe"
         />
         <Input
-          value=""
+          isRequired
           id="email"
           type="email"
+          value={email}
           labelText="Email"
-          onChange={() => {}}
+          onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
           placeholder="email@compas.unimib.it"
         />
         <Input
-          value=""
+          isRequired
           id="whatsapp"
-          onChange={() => {}}
+          value={whatsapp}
+          onChange={({ value }) => setWhatsapp(value)}
           labelText="Whatsapp Number"
           placeholder="+39000000000"
           labelClassName="text-sm"
         />
         <Input
-          value=""
+          isRequired
           id="matricola"
-          onChange={() => {}}
+          value={matricola}
+          onChange={({ value }) => setMatricola(value)}
           labelText="Matricola Number"
           placeholder="✳✳✳✳✳✳✳✳✳✳"
           labelClassName="text-sm"
@@ -67,7 +97,7 @@ const SignupPage = () => {
             Login
           </a>
         </p>
-      </div>
+      </form>
     </main>
   )
 }

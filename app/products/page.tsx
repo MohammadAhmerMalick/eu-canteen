@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 import { classnames } from '@/utils'
 import Header from '@/sections/Header'
-import Button from '@/components/Button'
+import Button from '@/components/common/Button'
 
 const menu = [
   {

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
-import Button from '@/components/Button'
+import Button from '@/components/common/Button'
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -17,7 +17,7 @@ const Header = () => {
   }, [])
 
   return (
-    <header className="bg-primary-light">
+    <header className="relative z-50 bg-primary-light">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2">
         <Link href="/">
           <Image

@@ -8,7 +8,7 @@
     "React": true
   },
   "extends": [
-    "airbnb",
+    // "airbnb",
     "prettier",
     "next/typescript",
     "eslint:recommended",

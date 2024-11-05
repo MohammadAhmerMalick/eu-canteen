@@ -5,8 +5,8 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { useState, type FormEvent } from 'react'
 
-import Button from '@/components/Button'
 import Input from '@/components/common/Input'
+import Button from '@/components/common/Button'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')

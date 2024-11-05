@@ -1,14 +1,14 @@
-import Link from 'next/link'
 import Image from 'next/image'
 
 import Header from '@/sections/Header'
 import Footer from '@/sections/Footer'
-import Button from '@/components/Button'
+import Button from '@/components/common/Button'
 import OurMenuSection from '@/sections/OurMenuSection'
+import LinkButton from '@/components/common/LinkButton'
 import SectionHeading from '@/components/SectionHeading'
-import VideoBannerSection from '@/sections/VideoBannerSection'
 import AgentAssistance from '@/components/AgentAssistance'
 import ProductCarousel from '@/components/ProductCarousel'
+import VideoBannerSection from '@/sections/VideoBannerSection'
 
 const HomePage = async () => {
   return (
@@ -28,12 +28,9 @@ const HomePage = async () => {
               where culinary artistry meets timeless elegance.
             </p>
 
-            <Link
-              href="/products"
-              className="mt-6 inline-block rounded-3xl bg-primary px-4 py-2 text-white"
-            >
+            <LinkButton className="mt-6" href="/products">
               Explore More
-            </Link>
+            </LinkButton>
           </div>
           <ProductCarousel />
         </section>

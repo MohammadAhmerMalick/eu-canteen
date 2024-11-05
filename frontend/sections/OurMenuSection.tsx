@@ -1,8 +1,8 @@
-import Link from 'next/link'
 import Image from 'next/image'
 
-import Button from '@/components/Button'
+import Button from '@/components/common/Button'
 import SectionHeading from '@/components/SectionHeading'
+import LinkButton from '@/components/common/LinkButton'
 
 const menu = [
   {
@@ -85,12 +85,9 @@ const OurMenuSection = () => {
         ))}
       </div>
       <div className="relative flex justify-center">
-        <Link
-          href="/products"
-          className="relative z-10 block rounded-3xl bg-primary px-4 py-2 text-white"
-        >
+        <LinkButton className="relative z-10" href="/products">
           Explore More
-        </Link>
+        </LinkButton>
         <div className="absolute bottom-0 top-0 my-auto h-px w-full bg-gradient-to-r from-transparent via-orange-700 to-transparent" />
       </div>
     </section>

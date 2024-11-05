@@ -6,8 +6,8 @@ import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 
-import Button from '@/components/Button'
 import Input from '@/components/common/Input'
+import Button from '@/components/common/Button'
 
 const SignupPage = () => {
   const [name, setName] = useState('')
@@ -93,9 +93,9 @@ const SignupPage = () => {
         <Button className="mt-4">Request For Register</Button>
         <p className="text-center text-sm font-light">
           Alredy have an account?{' '}
-          <a href="login" className="font-semibold">
+          <Link href="login" className="font-semibold">
             Login
-          </a>
+          </Link>
         </p>
       </form>
     </main>

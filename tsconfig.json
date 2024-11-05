@@ -21,8 +21,10 @@
     "paths": {
       // "@/*": ["./*"]
       "@/utils": ["./utils"],
+      "@/store/*": ["./state_management/*"],
       "@/sections/*": ["./frontend/sections/*"],
-      "@/components/*": ["./frontend/components/*"]
+      "@/components/*": ["./frontend/components/*"],
+      "@/icons/*": ["./frontend/components/icons/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

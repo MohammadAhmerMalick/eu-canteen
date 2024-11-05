@@ -5,8 +5,8 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { useState, type FormEvent } from 'react'
 
-import Button from '@/components/Button'
 import Input from '@/components/common/Input'
+import Button from '@/components/common/Button'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
@@ -70,9 +70,9 @@ const LoginPage = () => {
         </Button>
         <p className="text-center text-sm font-light">
           Don&apos;t have and account yet?{' '}
-          <a href="register" className="font-semibold">
+          <Link href="register" className="font-semibold">
             Register for free
-          </a>
+          </Link>
         </p>
       </form>
     </main>

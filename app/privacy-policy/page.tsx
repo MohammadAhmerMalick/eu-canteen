@@ -1,10 +1,11 @@
+import Footer from '@/sections/Footer'
 import Header from '@/sections/Header'
 
 const termsandconditionsPage = () => {
   return (
     <div className="w-screen overflow-hidden bg-primary-light">
       <Header />
-      <div className="mx-auto my-6 max-w-7xl px-4">
+      <main className="mx-auto my-6 max-w-7xl px-4">
         <h1 className="mb-4 text-center text-xl uppercase md:text-3xl">
           <span className="block">Customer information</span>
           <span className="block">for Web App and TPL web</span>
@@ -213,7 +214,8 @@ const termsandconditionsPage = () => {
           appeal.
         </p>
         <p className="mb-2 font-light text-neutral-900">Updated: 20/05/2024</p>
-      </div>
+      </main>
+      <Footer />
     </div>
   )
 }

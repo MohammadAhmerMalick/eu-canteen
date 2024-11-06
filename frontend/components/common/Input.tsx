@@ -1,12 +1,15 @@
 'use client'
 
-import { classnames } from '@/utils'
+import { useRef } from 'react'
+
+import { allowOnlyNumber, classnames } from '@/utils'
 
 interface Input {
   id: string
   value: string
   labelText?: string
   placeholder: string
+  onlyNumber?: boolean
   isRequired?: boolean
   labelClassName?: string
   inputClassName?: string
@@ -19,19 +22,24 @@ const Input = ({
   value,
   labelText,
   isRequired,
+  onlyNumber,
   placeholder,
   inputClassName,
   type = 'text',
   labelClassName,
   onChange,
 }: Input) => {
+  const INPUT = useRef<HTMLInputElement>(null)
+
   return (
     <label htmlFor={id} className={classnames('block', labelClassName)}>
       {labelText}
       <input
         id={id}
         type={type}
+        ref={INPUT}
         value={value}
+        onInput={(e) => (onlyNumber ? allowOnlyNumber(e) : e)}
         required={isRequired}
         placeholder={placeholder}
         className={classnames(

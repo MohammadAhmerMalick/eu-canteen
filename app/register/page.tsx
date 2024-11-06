@@ -8,6 +8,7 @@ import { type FormEvent, useState } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
+import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
 import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
 const SignupPage = () => {
@@ -15,6 +16,8 @@ const SignupPage = () => {
   const [email, setEmail] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [matricola, setMatricola] = useState('')
+  const [idCardBack, setIdCardBack] = useState<File | ''>('')
+  const [idCardFront, setIdCardFront] = useState<File | ''>('')
 
   const resetForm = () => {
     setName('')
@@ -32,7 +35,7 @@ const SignupPage = () => {
   }
 
   return (
-    <main className="flex h-dscreen items-center justify-center bg-primary-light p-2">
+    <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
       <form
         onSubmit={onSubmit}
         className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
@@ -46,7 +49,7 @@ const SignupPage = () => {
             className="mx-auto w-20"
           />
         </Link>
-        <h1 className="text-lg font-bold">Registration</h1>
+        <h1 className="text-lg font-semibold">Registration</h1>
         <Input
           isRequired
           id="name"
@@ -54,7 +57,7 @@ const SignupPage = () => {
           labelText="Full Name"
           onChange={({ value }) => setName(value)}
           labelClassName="text-sm"
-          placeholder="John Doe"
+          placeholder="Asad Khan"
         />
         <Input
           isRequired
@@ -68,15 +71,17 @@ const SignupPage = () => {
         />
         <Input
           isRequired
+          onlyNumber
           id="whatsapp"
           value={whatsapp}
           onChange={({ value }) => setWhatsapp(value)}
-          labelText="Whatsapp Number"
-          placeholder="+39000000000"
+          labelText="WhatsApp Number"
+          placeholder="39000000000"
           labelClassName="text-sm"
         />
         <Input
           isRequired
+          onlyNumber
           id="matricola"
           value={matricola}
           onChange={({ value }) => setMatricola(value)}
@@ -87,33 +92,72 @@ const SignupPage = () => {
 
         <div>
           <p>Attach You University Id Card</p>
-          <p className="flex items-center gap-1 text-xs text-neutral-500">
-            <AiOutlinePaperClip /> Upload Front
-          </p>
-          <p className="flex items-center gap-1 text-xs text-neutral-500">
-            <AiOutlinePaperClip /> Upload Back
-          </p>
+          <label className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500">
+            <input
+              required
+              type="file"
+              id="idCardFront"
+              accept="image/*"
+              name="idCardFront"
+              className="absolute left-10 w-1 opacity-0"
+              onChange={({ target }) => setIdCardFront(target.files?.[0] || '')}
+            />
+            <span className="text-primary">
+              <AiOutlinePaperClip />
+            </span>
+            Upload Front
+            {idCardFront ? (
+              <span className="text-green-600">
+                <HiBadgeCheck />
+              </span>
+            ) : (
+              ''
+            )}
+          </label>
+          <label className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500">
+            <input
+              required
+              type="file"
+              id="idCardBack"
+              accept="image/*"
+              name="idCardBack"
+              className="absolute left-10 w-1 opacity-0"
+              onChange={({ target }) => setIdCardBack(target.files?.[0] || '')}
+            />
+            <span className="text-primary">
+              <AiOutlinePaperClip />
+            </span>
+            Upload Back
+            {idCardBack ? (
+              <span className="text-green-600">
+                <HiBadgeCheck />
+              </span>
+            ) : (
+              ''
+            )}
+          </label>
         </div>
 
         <div>
           <p>Consents and Terms of Use:</p>
           <p className="text-xs text-neutral-500">
-            <Link className="text-blue-800" href="privacy-policy">
+            <Link className="text-primary underline" href="privacy-policy">
               Privacy Policy
             </Link>{' '}
             and{' '}
-            <Link className="text-blue-800" href="terms-and-conditions">
+            <Link
+              className="text-primary underline"
+              href="terms-and-conditions"
+            >
               Terms and conditions
             </Link>{' '}
             of service
           </p>
 
-          <div className="flex items-center">
-            <label className="flex items-center gap-2 text-xs text-neutral-500">
-              <input id="link-checkbox" type="checkbox" required />
-              <span>I consent to the processing of above data</span>
-            </label>
-          </div>
+          <label className="mt-1 flex items-center gap-2 text-xs text-neutral-500">
+            <input id="link-checkbox" type="checkbox" required />
+            <span>I consent to the processing of above data</span>
+          </label>
         </div>
 
         <Button className="mt-4">Request For Register</Button>

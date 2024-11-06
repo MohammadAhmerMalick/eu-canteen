@@ -26,7 +26,7 @@ const LoginPage = () => {
   }
 
   return (
-    <main className="flex h-dscreen items-center justify-center bg-primary-light p-2">
+    <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
       <form
         onSubmit={onSubmit}
         className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
@@ -40,7 +40,7 @@ const LoginPage = () => {
             className="mx-auto w-20"
           />
         </Link>
-        <h1 className="text-lg font-bold">Login</h1>
+        <h1 className="text-lg font-semibold">Login</h1>
         <Input
           isRequired
           id="email"
@@ -61,7 +61,9 @@ const LoginPage = () => {
           placeholder="✳✳✳✳✳✳✳✳✳✳"
           labelClassName="text-sm"
         />
-        <p className="text-right text-sm text-neutral-500">Forgot Password?</p>
+        <p className="ml-auto w-max cursor-pointer text-sm text-neutral-500">
+          Forgot Password?
+        </p>
         <Button
           onClick={() => localStorage.setItem('isLoggedIn', 'true')}
           className="mt-4"

@@ -2,27 +2,25 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
 import { useState, type FormEvent } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
+import loginAction from '@/actions/loginAction'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const resetForm = () => {
-    setEmail('')
-    setPassword('')
-  }
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    resetForm()
-    redirect('/')
-    // toast.success('Your request has been submitted for the review')
+    const { success, message } = await loginAction({ email, password })
+    if (success) redirect('/')
+
+    toast.error(message)
   }
 
   return (

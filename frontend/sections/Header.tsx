@@ -2,19 +2,13 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
+import { useMainStore } from '@/store/provider'
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    // const flag = !!localStorage.getItem('isLoggedIn')
-    // setIsLoggedIn(flag)
-    setIsLoggedIn(false)
-  }, [])
+  const { isLoggedIn, setIsLoggedIn } = useMainStore((state) => state)
 
   return (
     <header className="relative z-50 bg-primary-light">
@@ -59,7 +53,7 @@ const Header = () => {
                   <p>Orders</p>
                   <p>Profile</p>
                   <Button
-                    onClick={() => localStorage.removeItem('isLoggedIn')}
+                    onClick={() => setIsLoggedIn(false)}
                     className="mt-2 w-full"
                   >
                     Log out

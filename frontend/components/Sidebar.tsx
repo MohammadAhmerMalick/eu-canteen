@@ -18,13 +18,13 @@ const links = [
 ]
 const Sidebar = () => {
   return (
-    <aside className="flex h-screen max-w-80 flex-col gap-4 p-4 shadow-md">
+    <aside className="flex min-h-screen max-w-80 flex-col gap-4 p-4">
       <Image
         height={100}
         width={80}
         alt="Poolaster"
         src="/images/logo.svg"
-        className={'mx-5 mb-4 w-14 duration-300 md:w-20'}
+        className="mx-5 mb-4 w-14 duration-300 md:w-20"
       />
 
       <div className="grid">
@@ -33,10 +33,16 @@ const Sidebar = () => {
             key={label}
             href={link}
             className={classnames(
-              'flex items-center gap-3 rounded-lg bg-white px-6 py-4 !text-black',
+              'group relative flex items-center gap-3 rounded-lg bg-white px-6 py-3 text-sm !text-black',
               isActive && 'bg-primary-light !text-primary'
             )}
           >
+            <span
+              className={classnames(
+                'alt absolute -left-4 bottom-0 top-0 my-auto w-1 rounded-xl bg-primary duration-300 group-hover:h-11',
+                isActive ? 'h-11' : 'h-0'
+              )}
+            />
             <span className="text-xl">
               <Icon />
             </span>

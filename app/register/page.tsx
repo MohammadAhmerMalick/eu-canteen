@@ -92,7 +92,10 @@ const SignupPage = () => {
 
         <div>
           <p>Attach You University Id Card</p>
-          <label className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500">
+          <label
+            htmlFor="idCardFront"
+            className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
+          >
             <input
               required
               type="file"
@@ -114,7 +117,10 @@ const SignupPage = () => {
               ''
             )}
           </label>
-          <label className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500">
+          <label
+            htmlFor="idCardBack"
+            className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
+          >
             <input
               required
               type="file"
@@ -154,8 +160,11 @@ const SignupPage = () => {
             of service
           </p>
 
-          <label className="mt-1 flex items-center gap-2 text-xs text-neutral-500">
-            <input id="link-checkbox" type="checkbox" required />
+          <label
+            htmlFor="linkCheckbox"
+            className="mt-1 flex items-center gap-2 text-xs text-neutral-500"
+          >
+            <input id="linkCheckbox" type="checkbox" required />
             <span>I consent to the processing of above data</span>
           </label>
         </div>

@@ -1,9 +1,11 @@
 import Sidebar from '@/components/Sidebar'
+import PanelHeader from '@/sections/PanelHeader'
 
 const StudentsPage = () => {
   return (
-    <div>
+    <div className="flex">
       <Sidebar />
+      <PanelHeader />
     </div>
   )
 }

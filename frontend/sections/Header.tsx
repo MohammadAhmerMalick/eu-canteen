@@ -34,14 +34,17 @@ const Header = () => {
               €5.08
             </p>
             <div className="relative">
-              <div className="flex h-12 overflow-hidden rounded-full bg-white p-1 shadow md:h-14 md:p-2">
+              <div
+                aria-hidden
+                onClick={() => setExpended(!expended)}
+                className="flex h-12 cursor-pointer overflow-hidden rounded-full bg-white p-1 shadow md:h-14 md:p-2"
+              >
                 <Image
                   width={40}
                   height={40}
                   alt="Agent"
-                  src="/images/agents/agent-1.png"
+                  src="/images/students/s-1.png"
                   className="h-10 w-10 rounded-full border border-primary bg-primary"
-                  onClick={() => setExpended(!expended)}
                 />
                 <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
                   <p>Asad Khan</p>
@@ -56,7 +59,7 @@ const Header = () => {
               >
                 <div className="grid gap-1 text-right text-sm md:text-left">
                   <Link href="/">Home</Link>
-                  <p className="text-neutral-400">Dashboard</p>
+                  <Link href="/admin/students">Dashboard</Link>
                   <p className="text-neutral-400">Settings</p>
                   <p className="text-neutral-400">Orders</p>
                   <p className="text-neutral-400">Profile</p>

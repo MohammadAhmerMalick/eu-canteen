@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 import { classnames } from '@/utils'
 import Input from '@/components/common/Input'
@@ -14,6 +14,7 @@ import FiSearch from '@/components/icons/FiSearch'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
 
 const PanelHeader = () => {
+  const router = useRouter()
   const { setIsLoggedIn } = useMainStore((state) => state)
 
   const [expended, setExpended] = useState(false)
@@ -21,7 +22,7 @@ const PanelHeader = () => {
 
   const logout = () => {
     setIsLoggedIn(false)
-    redirect('/')
+    router.push('/')
   }
 
   return (

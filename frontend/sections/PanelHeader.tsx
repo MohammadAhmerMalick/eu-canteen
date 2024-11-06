@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { classnames } from '@/utils'
@@ -15,15 +15,18 @@ import AiOutlineBell from '@/components/icons/AiOutlineBell'
 
 const PanelHeader = () => {
   const router = useRouter()
-  const { setIsLoggedIn } = useMainStore((state) => state)
+  const { isLoggedIn, setIsLoggedIn } = useMainStore((state) => state)
 
   const [expended, setExpended] = useState(false)
   const [globalSarch, setGlobalSarch] = useState('')
 
   const logout = () => {
     setIsLoggedIn(false)
-    router.push('/')
   }
+
+  useEffect(() => {
+    if (!isLoggedIn) router.push('/')
+  }, [isLoggedIn, router])
 
   return (
     <div className="z-0 grid h-min w-full grid-cols-[auto_300px] items-center gap-2 p-8">
@@ -52,7 +55,7 @@ const PanelHeader = () => {
 
         <div
           aria-hidden
-          className="relative flex items-center gap-3"
+          className="relative flex cursor-pointer items-center gap-3"
           onClick={() => setExpended(!expended)}
         >
           <div>

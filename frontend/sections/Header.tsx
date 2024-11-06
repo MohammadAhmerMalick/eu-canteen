@@ -2,19 +2,15 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
+import { useMainStore } from '@/store/provider'
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    // const flag = !!localStorage.getItem('isLoggedIn')
-    // setIsLoggedIn(flag)
-    setIsLoggedIn(false)
-  }, [])
+  const { isLoggedIn, setIsLoggedIn } = useMainStore((state) => state)
+  const [expended, setExpended] = useState(false)
 
   return (
     <header className="relative z-50 bg-primary-light">
@@ -45,22 +41,28 @@ const Header = () => {
                   alt="Agent"
                   src="/images/agents/agent-1.png"
                   className="h-10 w-10 rounded-full border border-primary bg-primary"
+                  onClick={() => setExpended(!expended)}
                 />
                 <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
-                  <p>Richard Watson</p>
+                  <p>Asad Khan</p>
                   <p className="text-neutral-500">#EP-1749051</p>
                 </div>
               </div>
-              <div className="absolute right-0 top-14 z-50 overflow-hidden rounded-3xl bg-white px-4 py-3 shadow md:left-0 md:top-16">
-                <div className="text-right text-sm md:text-left">
-                  <p>Home</p>
-                  <p>Dashboard</p>
-                  <p>Settings</p>
-                  <p>Orders</p>
-                  <p>Profile</p>
+              <div
+                className={classnames(
+                  'absolute right-0 top-14 z-50 overflow-hidden rounded-3xl bg-white px-4 shadow duration-300 md:left-0 md:top-16',
+                  expended ? 'max-h-48 py-3' : 'max-h-0 py-0'
+                )}
+              >
+                <div className="grid gap-1 text-right text-sm md:text-left">
+                  <Link href="/">Home</Link>
+                  <p className="text-neutral-400">Dashboard</p>
+                  <p className="text-neutral-400">Settings</p>
+                  <p className="text-neutral-400">Orders</p>
+                  <p className="text-neutral-400">Profile</p>
                   <Button
-                    onClick={() => localStorage.removeItem('isLoggedIn')}
-                    className="mt-2 w-full"
+                    onClick={() => setIsLoggedIn(false)}
+                    className="w-full min-w-max"
                   >
                     Log out
                   </Button>

@@ -2,31 +2,29 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
 import { useState, type FormEvent } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
+import loginAction from '@/actions/loginAction'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const resetForm = () => {
-    setEmail('')
-    setPassword('')
-  }
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    resetForm()
-    redirect('/')
-    // toast.success('Your request has been submitted for the review')
+    const { success, message } = await loginAction({ email, password })
+    if (success) redirect('/')
+
+    toast.error(message)
   }
 
   return (
-    <main className="flex h-dscreen items-center justify-center bg-primary-light p-2">
+    <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
       <form
         onSubmit={onSubmit}
         className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
@@ -40,7 +38,7 @@ const LoginPage = () => {
             className="mx-auto w-20"
           />
         </Link>
-        <h1 className="text-lg font-bold">Login</h1>
+        <h1 className="text-lg font-semibold">Login</h1>
         <Input
           isRequired
           id="email"
@@ -61,7 +59,9 @@ const LoginPage = () => {
           placeholder="✳✳✳✳✳✳✳✳✳✳"
           labelClassName="text-sm"
         />
-        <p className="text-right text-sm text-neutral-500">Forgot Password?</p>
+        <p className="ml-auto w-max cursor-pointer text-sm text-neutral-500">
+          Forgot Password?
+        </p>
         <Button
           onClick={() => localStorage.setItem('isLoggedIn', 'true')}
           className="mt-4"

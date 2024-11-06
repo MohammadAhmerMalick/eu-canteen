@@ -21,7 +21,7 @@ export type AuthActions = {
 export const authActions = (set: any) => ({
   setIsLoggedIn: (flag: boolean) =>
     set((state: any) => {
-      logoutAction()
+      if (!flag) logoutAction()
       return { ...state, isLoggedIn: flag }
     }),
 })

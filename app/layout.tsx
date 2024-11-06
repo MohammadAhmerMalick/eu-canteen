@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   title: 'Poolaster',
   description: 'Canteen',
   icons: [
-    { rel: 'apple-touch-icon', url: './images/logo.svg' },
-    { rel: 'icon', url: './images/logo.svg' },
+    { rel: 'apple-touch-icon', url: '/images/logo.svg' },
+    { rel: 'icon', url: '/images/logo.svg' },
   ],
 }
 

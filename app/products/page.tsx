@@ -123,8 +123,10 @@ const menu = [
 ]
 
 const categories = [
-  { id: 1, name: 'Noodles', image: '/images/categories/1.png' },
-  { id: 2, name: 'Burgers', image: '/images/categories/2.png' },
+  { id: 1, name: 'Pasta', image: '/images/categories/pasta.png' },
+  { id: 2, name: 'Chicken', image: '/images/categories/chicken.png' },
+  { id: 3, name: 'Pizza', image: '/images/categories/pizza.png' },
+  { id: 4, name: 'Vegetables', image: '/images/categories/vegetables.png' },
 ]
 
 const ProductPage = () => {
@@ -136,7 +138,6 @@ const ProductPage = () => {
         <section className="mx-auto flex max-w-7xl gap-4 py-4">
           <div className="relative flex w-full items-center rounded-3xl bg-black md:h-52">
             <div className="z-10 w-full rounded-3xl bg-gradient-to-r from-transparent to-black px-4 py-6 text-white md:w-max md:px-10 md:py-10">
-              {/* bg-black/25 */}
               <h1 className="philosopher-bold mb-2 text-xl md:text-3xl">
                 It’s not just Food,
                 <br /> it’s an Experience
@@ -154,7 +155,7 @@ const ProductPage = () => {
             />
           </div>
         </section>
-        <section className="mx-auto flex max-w-7xl gap-2 md:gap-4 md:pt-4">
+        <section className="mx-auto flex max-w-7xl flex-wrap justify-center gap-2 md:gap-4 md:pt-4">
           {categories.map(({ id, image, name }) => (
             <button
               onClick={() => setActiveCategory(id)}
@@ -163,7 +164,7 @@ const ProductPage = () => {
                 'flex items-center gap-2 rounded-3xl border py-2 pl-3 pr-5 ring-1 duration-300',
                 activeCategory === id
                   ? 'border-primary bg-primary-light shadow ring-orange-200'
-                  : 'border-white bg-white shadow-sm ring-orange-200'
+                  : 'border-white bg-white ring-orange-200'
               )}
             >
               <Image src={image} alt={name} height={32} width={32} />

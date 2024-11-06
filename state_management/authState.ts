@@ -1,3 +1,5 @@
+import logoutAction from '@/actions/logoutAction'
+
 export type AuthState = {
   isLoggedIn: boolean
   count: number
@@ -18,5 +20,8 @@ export type AuthActions = {
 
 export const authActions = (set: any) => ({
   setIsLoggedIn: (flag: boolean) =>
-    set((state: any) => ({ ...state, isLoggedIn: flag })),
+    set((state: any) => {
+      if (!flag) logoutAction()
+      return { ...state, isLoggedIn: flag }
+    }),
 })

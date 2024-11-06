@@ -21,6 +21,7 @@
     "paths": {
       // "@/*": ["./*"]
       "@/utils": ["./utils"],
+      "@/actions/*": ["./actions/*"],
       "@/store/*": ["./state_management/*"],
       "@/sections/*": ["./frontend/sections/*"],
       "@/components/*": ["./frontend/components/*"],

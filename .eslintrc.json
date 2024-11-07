@@ -45,6 +45,7 @@
     "react/require-default-props": "off", // let it handle by TypeScript
     "nonblock-statement-body-position": "off", // let it handle by prettier
     "react/jsx-one-expression-per-line": "off", // let it handle by prettier
+    "import/no-extraneous-dependencies": "warn",
     "@typescript-eslint/no-explicit-any": "warn"
   }
 }

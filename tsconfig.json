@@ -24,6 +24,7 @@
       "@/actions/*": ["./actions/*"],
       "@/store/*": ["./state_management/*"],
       "@/sections/*": ["./frontend/sections/*"],
+      "@/database/*": ["./backend/database/*"],
       "@/components/*": ["./frontend/components/*"],
       "@/icons/*": ["./frontend/components/icons/*"]
     }

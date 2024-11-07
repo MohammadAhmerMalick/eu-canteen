@@ -1,3 +1,3 @@
-import testSeed from '@/database/seeds/testSeed'
+import rolesSeed from '@/database/seeds/rolesSeed'
 
-testSeed()
+rolesSeed()

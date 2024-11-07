@@ -8,6 +8,7 @@ import { type FormEvent, useState } from 'react'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
+import insertUserAction from '@/actions/insertUserAction'
 import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
 import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
@@ -16,8 +17,8 @@ const SignupPage = () => {
   const [email, setEmail] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [matricola, setMatricola] = useState('')
-  const [idCardBack, setIdCardBack] = useState<File | ''>('')
-  const [idCardFront, setIdCardFront] = useState<File | ''>('')
+  const [idCardBackImage, setIdCardBackImage] = useState<File | ''>('')
+  const [idCardFrontImage, setIdCardFrontImage] = useState<File | ''>('')
 
   const resetForm = () => {
     setName('')
@@ -26,12 +27,33 @@ const SignupPage = () => {
     setMatricola('')
   }
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    resetForm()
-    toast.success('Your request has been submitted for the review')
-    redirect('/')
+    if (idCardBackImage && idCardFrontImage) {
+      const { success, message, codeMessage } = await insertUserAction({
+        name,
+        email,
+        whatsapp,
+        matricola,
+        idCardBackImage: idCardBackImage.name,
+        idCardFrontImage: idCardFrontImage.name,
+      })
+
+      if (success) {
+        toast.success('Your request has been submitted for the review')
+        resetForm()
+        redirect('/')
+      } else if (codeMessage === 'user_already_exist')
+        toast.warn(
+          'Your request is aready in pending state, contact admin for further information'
+        )
+      else if (codeMessage === 'fields_are_missing') toast.warn(message)
+      else
+        toast.error(
+          'Unable to handle request right now, please contact to admin'
+        )
+    }
   }
 
   return (
@@ -103,13 +125,15 @@ const SignupPage = () => {
               accept="image/*"
               name="idCardFront"
               className="absolute left-10 w-1 opacity-0"
-              onChange={({ target }) => setIdCardFront(target.files?.[0] || '')}
+              onChange={({ target }) =>
+                setIdCardFrontImage(target.files?.[0] || '')
+              }
             />
             <span className="text-primary">
               <AiOutlinePaperClip />
             </span>
             Upload Front
-            {idCardFront ? (
+            {idCardFrontImage ? (
               <span className="text-green-600">
                 <HiBadgeCheck />
               </span>
@@ -128,13 +152,15 @@ const SignupPage = () => {
               accept="image/*"
               name="idCardBack"
               className="absolute left-10 w-1 opacity-0"
-              onChange={({ target }) => setIdCardBack(target.files?.[0] || '')}
+              onChange={({ target }) =>
+                setIdCardBackImage(target.files?.[0] || '')
+              }
             />
             <span className="text-primary">
               <AiOutlinePaperClip />
             </span>
             Upload Back
-            {idCardBack ? (
+            {idCardBackImage ? (
               <span className="text-green-600">
                 <HiBadgeCheck />
               </span>

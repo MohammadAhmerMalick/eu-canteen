@@ -9,8 +9,8 @@ const rolesTable = pgTable('roles', {
   name: varchar({ length: 20 }).notNull().unique(),
 
   published: boolean().default(true),
-  created_at: timestamp().default(sql`now()`),
-  deleted_at: timestamp(),
+  createdAt: timestamp().default(sql`now()`),
+  deletedAt: timestamp(),
 })
 
 export default rolesTable

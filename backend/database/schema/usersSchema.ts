@@ -11,18 +11,21 @@ const usersTable = pgTable('users', {
 
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull(),
-  whatsapp_number: varchar({ length: 20 }).notNull(),
-  matricola_number: varchar({ length: 20 }).notNull(),
-  id_card_front_image: varchar({ length: 20 }),
-  id_card_back_image: varchar({ length: 20 }),
+  whatsapp: varchar({ length: 20 }).notNull(),
+  matricola: varchar({ length: 20 }).notNull(),
+  idCardFrontImage: varchar({ length: 20 }),
+  idCardBackImage: varchar({ length: 20 }),
+  approved: boolean().default(false),
 
-  role_id: varchar({ length: 20 }).references(() => rolesTable.name, {
-    onDelete: 'cascade',
-  }),
+  roleName: varchar({ length: 20 })
+    .default('student')
+    .references(() => rolesTable.name, {
+      onDelete: 'cascade',
+    }),
 
   published: boolean().default(true),
-  created_at: timestamp().default(sql`now()`),
-  deleted_at: timestamp(),
+  createdAt: timestamp().default(sql`now()`),
+  deletedAt: timestamp(),
 })
 
 export default usersTable

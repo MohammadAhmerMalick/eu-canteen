@@ -22,6 +22,7 @@
       // "@/*": ["./*"]
       "@/utils": ["./utils"],
       "@/actions/*": ["./actions/*"],
+      "@/models/*": ["./backend/models/*"],
       "@/store/*": ["./state_management/*"],
       "@/sections/*": ["./frontend/sections/*"],
       "@/database/*": ["./backend/database/*"],

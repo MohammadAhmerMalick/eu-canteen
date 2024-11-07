@@ -1,5 +1,5 @@
-import { boolean, pgTable, varchar, uuid, timestamp } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
+import { boolean, pgTable, varchar, uuid, timestamp } from 'drizzle-orm/pg-core'
 
 const testSchema = pgTable('test', {
   id: uuid()

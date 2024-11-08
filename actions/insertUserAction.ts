@@ -25,6 +25,14 @@ const insertUserAction = async (formData: FormData) => {
       codeMessage: 'fields_are_missing',
     }
 
+  // is email valid
+  if (!/@compus.unimib.it\s*$/.test(email))
+    return {
+      success: false,
+      message: 'Kindly use an authorized email',
+      codeMessage: 'must_be_unimib_email',
+    }
+
   // if user exists
   const user = await UserModel.getUserByEmail(email)
   if (user.length)

@@ -50,6 +50,7 @@ const SignupPage = () => {
           'Your request is aready in pending state, contact admin for further information'
         )
       else if (codeMessage === 'fields_are_missing') toast.warn(message)
+      else if (codeMessage === 'must_be_unimib_email') toast.error(message)
       else
         toast.error(
           'Unable to handle request right now, please contact to admin'

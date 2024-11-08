@@ -1,31 +1,23 @@
 'use server'
 
 import UserModel from '@/models/UserModel'
+import { storeFileLocally } from '@/utils'
 
-interface insertUserActioProps {
-  name: string
-  email: string
-  whatsapp: string
-  matricola: string
-  idCardBackImage: string
-  idCardFrontImage: string
-}
+const insertUserAction = async (formData: FormData) => {
+  const name = formData.get('name') as string
+  const email = formData.get('email') as string
+  const whatsapp = formData.get('whatsapp') as string
+  const matricola = formData.get('matricola') as string
+  const idCardFrontImageFile = formData.get('idCardFrontImage') as File
+  const idCardBackImageFile = formData.get('idCardBackImage') as File
 
-const insertUserAction = async ({
-  name,
-  email,
-  whatsapp,
-  matricola,
-  idCardBackImage,
-  idCardFrontImage,
-}: insertUserActioProps) => {
   if (
     !name ||
     !email ||
     !whatsapp ||
     !matricola ||
-    !idCardFrontImage ||
-    !idCardBackImage
+    !idCardBackImageFile ||
+    !idCardFrontImageFile
   )
     return {
       success: false,
@@ -41,6 +33,12 @@ const insertUserAction = async ({
       message: 'User already exist',
       codeMessage: 'user_already_exist',
     }
+
+  // store file locally
+  const { destinationFileName: idCardBackImage } =
+    await storeFileLocally(idCardBackImageFile)
+  const { destinationFileName: idCardFrontImage } =
+    await storeFileLocally(idCardFrontImageFile)
 
   const newUser = await UserModel.createUser({
     name,

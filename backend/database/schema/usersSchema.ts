@@ -13,8 +13,8 @@ const usersTable = pgTable('users', {
   email: varchar({ length: 255 }).notNull(),
   whatsapp: varchar({ length: 20 }).notNull(),
   matricola: varchar({ length: 20 }).notNull(),
-  idCardFrontImage: varchar({ length: 20 }),
-  idCardBackImage: varchar({ length: 20 }),
+  idCardFrontImage: varchar({ length: 255 }),
+  idCardBackImage: varchar({ length: 255 }),
   approved: boolean().default(false),
 
   roleName: varchar({ length: 20 })

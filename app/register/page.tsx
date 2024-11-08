@@ -30,15 +30,16 @@ const SignupPage = () => {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    const formData = new FormData(e.currentTarget)
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('whatsapp', whatsapp)
+    formData.append('matricola', matricola)
+    formData.append('idCardBackImage', idCardBackImage)
+    formData.append('idCardFrontImage', idCardFrontImage)
+
     if (idCardBackImage && idCardFrontImage) {
-      const { success, message, codeMessage } = await insertUserAction({
-        name,
-        email,
-        whatsapp,
-        matricola,
-        idCardBackImage: idCardBackImage.name,
-        idCardFrontImage: idCardFrontImage.name,
-      })
+      const { success, message, codeMessage } = await insertUserAction(formData)
 
       if (success) {
         toast.success('Your request has been submitted for the review')
@@ -59,6 +60,7 @@ const SignupPage = () => {
   return (
     <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
       <form
+        encType="multipart/form-data"
         onSubmit={onSubmit}
         className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
       >
@@ -123,7 +125,6 @@ const SignupPage = () => {
               type="file"
               id="idCardFront"
               accept="image/*"
-              name="idCardFront"
               className="absolute left-10 w-1 opacity-0"
               onChange={({ target }) =>
                 setIdCardFrontImage(target.files?.[0] || '')
@@ -150,7 +151,6 @@ const SignupPage = () => {
               type="file"
               id="idCardBack"
               accept="image/*"
-              name="idCardBack"
               className="absolute left-10 w-1 opacity-0"
               onChange={({ target }) =>
                 setIdCardBackImage(target.files?.[0] || '')

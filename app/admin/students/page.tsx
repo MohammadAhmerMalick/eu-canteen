@@ -1,13 +1,5 @@
-import Sidebar from '@/components/Sidebar'
-import PanelHeader from '@/sections/PanelHeader'
-
 const StudentsPage = () => {
-  return (
-    <div className="flex">
-      <Sidebar />
-      <PanelHeader />
-    </div>
-  )
+  return <div className="flex">student</div>
 }
 
 export default StudentsPage

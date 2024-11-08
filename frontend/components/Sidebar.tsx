@@ -7,14 +7,36 @@ import VscGraph from '@/icons/VscGraph'
 import Button from '@/components/common/Button'
 import AiOutlineHome from '@/icons/AiOutlineHome'
 import AiOutlineFile from '@/icons/AiOutlineFile'
+import AiOutlineBell from '@/icons/AiOutlineBell'
 import LinkButton from '@/components/common/LinkButton'
 
 const links = [
-  { link: '/', label: 'Dashboard', isActive: false, Icon: AiOutlineHome },
-  { link: '/', label: 'Order Detail', isActive: false, Icon: AiOutlineFile },
-  { link: '/', label: 'Students', isActive: true, Icon: FiUsers },
-  { link: '/', label: 'Analytics', isActive: false, Icon: VscGraph },
-  { link: '/', label: 'Products', isActive: false, Icon: BiDish },
+  {
+    link: '/admin/dashboard',
+    label: 'Dashboard',
+    isActive: false,
+    Icon: AiOutlineHome,
+  },
+  {
+    link: '/admin/orders',
+    label: 'Orders',
+    isActive: false,
+    Icon: AiOutlineFile,
+  },
+  { link: '/admin/students', label: 'Students', isActive: true, Icon: FiUsers },
+  {
+    link: '/admin/analytics',
+    label: 'Analytics',
+    isActive: false,
+    Icon: VscGraph,
+  },
+  { link: '/admin/products', label: 'Products', isActive: false, Icon: BiDish },
+  {
+    link: '/admin/notifications',
+    label: 'Notifications',
+    isActive: false,
+    Icon: AiOutlineBell,
+  },
 ]
 const Sidebar = () => {
   return (

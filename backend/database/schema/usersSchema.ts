@@ -7,7 +7,8 @@ const usersTable = pgTable('users', {
   id: uuid()
     .primaryKey()
     .default(sql`gen_random_uuid()`)
-    .unique(),
+    .unique()
+    .notNull(),
 
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull(),
@@ -15,9 +16,10 @@ const usersTable = pgTable('users', {
   matricola: varchar({ length: 20 }).notNull(),
   idCardFrontImage: varchar({ length: 255 }),
   idCardBackImage: varchar({ length: 255 }),
-  approved: boolean().default(false),
+  approved: boolean().default(false).notNull(),
 
   roleName: varchar({ length: 20 })
+    .notNull()
     .default('student')
     .references(() => rolesTable.name, {
       onDelete: 'cascade',

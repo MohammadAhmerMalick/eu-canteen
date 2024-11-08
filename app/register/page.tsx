@@ -61,7 +61,6 @@ const SignupPage = () => {
   return (
     <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
       <form
-        encType="multipart/form-data"
         onSubmit={onSubmit}
         className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
       >

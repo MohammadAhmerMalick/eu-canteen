@@ -8,6 +8,7 @@ interface Input {
   id: string
   value: string
   labelText?: string
+  readOnly?: boolean
   placeholder: string
   onlyNumber?: boolean
   isRequired?: boolean
@@ -20,6 +21,7 @@ interface Input {
 const Input = ({
   id,
   value,
+  readOnly,
   labelText,
   isRequired,
   onlyNumber,
@@ -36,6 +38,7 @@ const Input = ({
       {labelText}
       <input
         id={id}
+        readOnly={readOnly}
         type={type}
         ref={INPUT}
         value={value}

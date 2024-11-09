@@ -4,19 +4,27 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
+import FaPlus from '@/components/icons/FaPlus'
+import Button from '@/components/common/Button'
+import usersTable from '@/database/schema/usersSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import getStudentsActions from '@/actions/getStudentsActions'
-import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import EditUserModal from '@/components/modals/EditUserModal'
-import usersTable from '@/database/schema/usersSchema'
+import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
+import CreateUserModal from '@/components/modals/createUserModal'
+import DeleteUserModal from '@/components/modals/DeleteUserModal'
 
 const StudentsPage = () => {
   const [students, setStudents] = useState<(typeof usersTable.$inferInsert)[]>(
     []
   )
-  const [modaldata, setModaldata] = useState<
+  const [editModaldata, setEditModaldata] = useState<
     typeof usersTable.$inferInsert | null
   >(null)
+  const [deleteModaldata, setDeleteModaldata] = useState<
+    typeof usersTable.$inferInsert | null
+  >(null)
+  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
 
   const getStudents = useCallback(async () => {
     const { data } = await getStudentsActions()
@@ -29,8 +37,20 @@ const StudentsPage = () => {
 
   return (
     <div>
-      {modaldata && (
-        <EditUserModal student={modaldata} onClose={() => setModaldata(null)} />
+      {editModaldata && (
+        <EditUserModal
+          student={editModaldata}
+          onClose={() => setEditModaldata(null)}
+        />
+      )}
+      {deleteModaldata && (
+        <DeleteUserModal
+          student={deleteModaldata}
+          onClose={() => setDeleteModaldata(null)}
+        />
+      )}
+      {isAddUserModalVisible && (
+        <CreateUserModal onClose={() => setIsAddUserModalVisible(false)} />
       )}
       <table className="w-full text-sm">
         <thead>
@@ -43,7 +63,15 @@ const StudentsPage = () => {
               Student ID
             </td>
             <td className="border-b border-neutral-300 p-2 text-center">
-              Actions
+              Status
+            </td>
+            <td className="border-b border-neutral-300 p-2 text-center">
+              <Button
+                className="mx-auto flex items-center gap-1 rounded-lg"
+                onClick={() => setIsAddUserModalVisible(true)}
+              >
+                <FaPlus /> Add Student
+              </Button>
             </td>
           </tr>
         </thead>
@@ -53,7 +81,7 @@ const StudentsPage = () => {
               <td className="border-b border-neutral-300 p-2">
                 <div className="grid grid-cols-[40px_auto] items-center gap-2">
                   <Image
-                    alt="name"
+                    alt={student.name}
                     width={40}
                     height={40}
                     src="/images/students/s-1.png"
@@ -74,30 +102,40 @@ const StudentsPage = () => {
               <td className="border-b border-neutral-300 p-2">
                 {student.matricola}
               </td>
+              <td className="border-b border-neutral-300 p-2 text-center font-semibold">
+                {student.approved ? (
+                  <p className="text-green-700">Active</p>
+                ) : (
+                  <p className="text-red-700">Inactive</p>
+                )}
+              </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 <Image
                   alt="name"
                   width={40}
                   height={40}
-                  src={`/images/students/${student.idCardFrontImage}`}
+                  src={`/images/students/id-cards/${student.idCardFrontImage}`}
                   className="mx-1 inline"
                 />
                 <Image
                   alt="name"
                   width={40}
                   height={40}
-                  src={`/images/students/${student.idCardBackImage}`}
+                  src={`/images/students/id-cards/${student.idCardBackImage}`}
                   className="mx-1 inline"
                 />
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 <button
+                  onClick={() => setEditModaldata(student)}
                   className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
-                  onClick={() => setModaldata(student)}
                 >
                   <AiOutlineEdit />
                 </button>
-                <button className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow">
+                <button
+                  onClick={() => setDeleteModaldata(student)}
+                  className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
+                >
                   <AiOutlineDelete />
                 </button>
               </td>

@@ -43,10 +43,14 @@ const insertUserAction = async (formData: FormData) => {
     }
 
   // store file locally
-  const { destinationFileName: idCardBackImage } =
-    await storeFileLocally(idCardBackImageFile)
-  const { destinationFileName: idCardFrontImage } =
-    await storeFileLocally(idCardFrontImageFile)
+  const { destinationFileName: idCardBackImage } = await storeFileLocally(
+    idCardBackImageFile,
+    'students/id-cards/'
+  )
+  const { destinationFileName: idCardFrontImage } = await storeFileLocally(
+    idCardFrontImageFile,
+    'students/id-cards/'
+  )
 
   const newUser = await UserModel.createUser({
     name,

@@ -27,18 +27,21 @@ export const getCookie = (name: string): string => {
 }
 
 // store file locally
-export const storeFileLocally = async (file: File) => {
+export const storeFileLocally = async (
+  file: File,
+  directoryFolder: string = ''
+) => {
   // set unique name for file to upload to prevent file name conflict
   const destinationFileName = `${randomUUID()}_${file.name}`
 
-  const directory = `public/user-data`
+  const directory = `public/images/${directoryFolder}`
 
   // create directory if it does not exist
   if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
 
   const fileLocalPath = path.join(
     process.cwd(),
-    `${directory}/${destinationFileName}`
+    `${directory}${destinationFileName}`
   )
 
   // upload file to local

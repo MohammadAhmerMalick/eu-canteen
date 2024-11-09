@@ -1,20 +1,20 @@
-// import { toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
-// import insertUserAction from '@/actions/insertUserAction'
-import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
 import usersTable from '@/database/schema/usersSchema'
+import updateUserAction from '@/actions/updateUserAction'
+import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
 
-interface ModalProp {
+interface EditUserModalProp {
   onClose(): any
   student: typeof usersTable.$inferInsert
 }
 
-const Modal = ({ onClose, student }: ModalProp) => {
+const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -23,37 +23,29 @@ const Modal = ({ onClose, student }: ModalProp) => {
   const [email, setEmail] = useState(student.email)
   const [whatsapp, setWhatsapp] = useState(student.whatsapp)
   const [matricola, setMatricola] = useState(student.matricola)
+  const [approved, setApproved] = useState(!!student.approved)
   const [idCardBackImage, setIdCardBackImage] = useState<File | ''>('')
   const [idCardFrontImage, setIdCardFrontImage] = useState<File | ''>('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // return
 
-    // const formData = new FormData(e.currentTarget)
-    // formData.append('name', name)
-    // formData.append('email', email)
-    // formData.append('whatsapp', whatsapp)
-    // formData.append('matricola', matricola)
-    // formData.append('idCardBackImage', idCardBackImage)
-    // formData.append('idCardFrontImage', idCardFrontImage)
+    const formData = new FormData(e.currentTarget)
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('whatsapp', whatsapp)
+    formData.append('matricola', matricola)
+    formData.append('idCardBackImage', idCardBackImage)
+    formData.append('idCardFrontImage', idCardFrontImage)
+    formData.append('approved', approved ? 'approved' : '')
 
-    // if (idCardBackImage && idCardFrontImage) {
-    //   const { success, message, codeMessage } = await insertUserAction(formData)
-
-    //   if (success)
-    //     toast.success('Your request has been submitted for the review')
-    //   else if (codeMessage === 'user_already_exist')
-    //     toast.warn(
-    //       'Your request is aready in pending state, contact admin for further information'
-    //     )
-    //   else if (codeMessage === 'fields_are_missing') toast.warn(message)
-    //   else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    //   else
-    //     toast.error(
-    //       'Unable to handle request right now, please contact to admin'
-    //     )
-    // }
+    const { success, message, codeMessage } = await updateUserAction(formData)
+    if (success) {
+      toast.success('Student updated')
+      onClose()
+    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
+    else
+      toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
@@ -117,7 +109,6 @@ const Modal = ({ onClose, student }: ModalProp) => {
               className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
             >
               <input
-                required
                 type="file"
                 id="idCardFront"
                 accept="image/*"
@@ -143,7 +134,6 @@ const Modal = ({ onClose, student }: ModalProp) => {
               className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
             >
               <input
-                required
                 type="file"
                 id="idCardBack"
                 accept="image/*"
@@ -169,20 +159,33 @@ const Modal = ({ onClose, student }: ModalProp) => {
           <div>
             <p>Status:</p>
 
-            <label
-              htmlFor="linkCheckbox"
-              className="mt-1 flex items-center gap-2 text-xs text-neutral-500"
-            >
-              <input
-                required
-                type="checkbox"
-                id="linkCheckbox"
-                checked={student.approved}
-              />
-              <span>
+            <div className="mt-1 text-xs text-neutral-500">
+              <p className="mb-2">
                 Checking this means user profile will automatically be active
-              </span>
-            </label>
+              </p>
+              <label htmlFor="approve" className="me-3 inline-flex gap-2">
+                <input
+                  required
+                  type="radio"
+                  name="approved"
+                  id="approve"
+                  checked={approved}
+                  onChange={() => setApproved(true)}
+                />
+                Approve
+              </label>
+              <label htmlFor="pending" className="me-3 inline-flex gap-2">
+                <input
+                  required
+                  type="radio"
+                  name="approved"
+                  id="pending"
+                  checked={!approved}
+                  onChange={() => setApproved(false)}
+                />
+                Pending
+              </label>
+            </div>
           </div>
         </div>
         <Button className="ml-auto w-max !py-1">Update User</Button>
@@ -191,4 +194,4 @@ const Modal = ({ onClose, student }: ModalProp) => {
   )
 }
 
-export default Modal
+export default EditUserModal

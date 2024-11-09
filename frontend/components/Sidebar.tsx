@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 import BiDish from '@/icons/BiDish'
 import { classnames } from '@/utils'
@@ -7,16 +10,38 @@ import VscGraph from '@/icons/VscGraph'
 import Button from '@/components/common/Button'
 import AiOutlineHome from '@/icons/AiOutlineHome'
 import AiOutlineFile from '@/icons/AiOutlineFile'
+import AiOutlineBell from '@/icons/AiOutlineBell'
 import LinkButton from '@/components/common/LinkButton'
 
 const links = [
-  { link: '/', label: 'Dashboard', isActive: false, Icon: AiOutlineHome },
-  { link: '/', label: 'Order Detail', isActive: false, Icon: AiOutlineFile },
-  { link: '/', label: 'Students', isActive: true, Icon: FiUsers },
-  { link: '/', label: 'Analytics', isActive: false, Icon: VscGraph },
-  { link: '/', label: 'Products', isActive: false, Icon: BiDish },
+  {
+    link: '/admin/dashboard',
+    label: 'Dashboard',
+    Icon: AiOutlineHome,
+  },
+  {
+    link: '/admin/orders',
+    label: 'Orders',
+    Icon: AiOutlineFile,
+  },
+  { link: '/admin/students', label: 'Students', Icon: FiUsers },
+  {
+    link: '/admin/analytics',
+    label: 'Analytics',
+    isActive: false,
+    Icon: VscGraph,
+  },
+  { link: '/admin/products', label: 'Products', Icon: BiDish },
+  {
+    link: '/admin/notifications',
+    label: 'Notifications',
+    isActive: false,
+    Icon: AiOutlineBell,
+  },
 ]
 const Sidebar = () => {
+  const pathname = usePathname()
+
   return (
     <aside className="flex min-h-screen max-w-80 flex-col gap-4 p-4">
       <Image
@@ -28,19 +53,21 @@ const Sidebar = () => {
       />
 
       <div className="grid">
-        {links.map(({ link, label, isActive, Icon }) => (
+        {links.map(({ link, label, Icon }) => (
           <LinkButton
             key={label}
             href={link}
             className={classnames(
-              'group relative flex items-center gap-3 rounded-lg bg-white px-6 py-3 text-sm !text-black',
-              isActive && 'bg-primary-light !text-primary'
+              'group relative flex items-center gap-3 rounded-lg px-6 py-3 text-sm duration-300',
+              pathname === link
+                ? 'bg-primary-light !text-primary'
+                : 'bg-white !text-black'
             )}
           >
             <span
               className={classnames(
                 'alt absolute -left-4 bottom-0 top-0 my-auto w-1 rounded-xl bg-primary duration-300 group-hover:h-11',
-                isActive ? 'h-11' : 'h-0'
+                pathname === link ? 'h-11' : 'h-0'
               )}
             />
             <span className="text-xl">

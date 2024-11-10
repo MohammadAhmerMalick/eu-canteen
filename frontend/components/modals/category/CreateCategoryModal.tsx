@@ -33,10 +33,7 @@ const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
     if (success) {
       toast.success('Category created successfully')
       onClose()
-    } else if (codeMessage === 'category_already_exist')
-      toast.warn(
-        'Your request is aready in pending state, contact admin for further information'
-      )
+    } else if (codeMessage === 'category_already_exist') toast.warn(message)
     else if (codeMessage === 'fields_are_missing') toast.warn(message)
     else if (codeMessage === 'must_be_unimib_email') toast.error(message)
     else

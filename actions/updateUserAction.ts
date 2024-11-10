@@ -1,18 +1,19 @@
 'use server'
 
 import UserModel from '@/models/UserModel'
-import { storeFileLocally } from '@/utils'
+// import { storeFileLocally } from '@/utils'
 import usersTable from '@/database/schema/usersSchema'
 
 const updateUserAction = async (formData: FormData) => {
   try {
+    const id = formData.get('id') as string
     const name = formData.get('name') as string
     const email = formData.get('email') as string
     const approved = formData.get('approved') as string
     const whatsapp = formData.get('whatsapp') as string
     const matricola = formData.get('matricola') as string
-    const idCardFrontImageFile = formData.get('idCardFrontImage') as File
-    const idCardBackImageFile = formData.get('idCardBackImage') as File
+    // const idCardFrontImageFile = formData.get('idCardFrontImage') as File
+    // const idCardBackImageFile = formData.get('idCardBackImage') as File
 
     // is email valid
     if (!/@compus.unimib.it\s*$/.test(email))
@@ -31,22 +32,22 @@ const updateUserAction = async (formData: FormData) => {
     }
 
     // store file locally
-    if (idCardBackImageFile) {
-      const { destinationFileName } = await storeFileLocally(
-        idCardBackImageFile,
-        'students/id-cards/'
-      )
-      payload.idCardBackImage = destinationFileName
-    }
-    if (idCardFrontImageFile) {
-      const { destinationFileName } = await storeFileLocally(
-        idCardFrontImageFile,
-        'students/id-cards/'
-      )
-      payload.idCardFrontImage = destinationFileName
-    }
+    // if (idCardBackImageFile) {
+    //   const { destinationFileName } = await storeFileLocally(
+    //     idCardBackImageFile,
+    //     'students/id-cards/'
+    //   )
+    //   payload.idCardBackImage = destinationFileName
+    // }
+    // if (idCardFrontImageFile) {
+    //   const { destinationFileName } = await storeFileLocally(
+    //     idCardFrontImageFile,
+    //     'students/id-cards/'
+    //   )
+    //   payload.idCardFrontImage = destinationFileName
+    // }
 
-    const user = await UserModel.updateUser(payload)
+    const user = await UserModel.updateUser(payload, id)
 
     console.log({ updateUserAction: 'success' })
 

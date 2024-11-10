@@ -12,9 +12,6 @@ class ProductModel {
   static getProduct = (id: string) =>
     db.select().from(productsTable).where(eq(productsTable.id, id))
 
-  static getProductByName = (name: string) =>
-    db.select().from(productsTable).where(eq(productsTable.name, name))
-
   static createProduct = (product: typeof productsTable.$inferInsert) =>
     db.insert(productsTable).values(product).returning({ id: productsTable.id })
 

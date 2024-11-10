@@ -10,7 +10,7 @@ import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import categoriesTable from '@/database/schema/categoriesSchema'
 import EditCategoryModal from '@/components/modals/category/EditCategoryModal'
-import getAllCategoriesActions from '@/actions/category/getAllCategoriesActions'
+import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import DeleteCategoryModal from '@/components/modals/category/DeleteCategoryModal'
 import CreateCategoryModal from '@/components/modals/category/CreateCategoryModal'
 
@@ -28,7 +28,7 @@ const CategoriesPage = () => {
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
 
   const getCategories = useCallback(async () => {
-    const { data } = await getAllCategoriesActions()
+    const { data } = await getAllCategoriesAction()
     setCategories(data)
   }, [])
 

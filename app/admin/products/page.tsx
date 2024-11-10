@@ -10,7 +10,7 @@ import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import productsTable from '@/database/schema/productsSchema'
 import EditProductModal from '@/components/modals/product/EditProductModal'
-import getAllProductsActions from '@/actions/product/getAllProductsActions'
+import getAllProductsAction from '@/actions/product/getAllProductsAction'
 import DeleteProductModal from '@/components/modals/product/DeleteProductModal'
 import CreateProductModal from '@/components/modals/product/CreateProductModal'
 
@@ -28,7 +28,7 @@ const ProductsPage = () => {
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
 
   const getProducts = useCallback(async () => {
-    const { data } = await getAllProductsActions()
+    const { data } = await getAllProductsAction()
     setProducts(data)
   }, [])
 
@@ -87,7 +87,7 @@ const ProductsPage = () => {
                     alt={product.name}
                     width={40}
                     height={40}
-                    src={`/images/products/${product.image}`}
+                    src="/images/products/p-1.png"
                     className={classnames(
                       'rounded-full border-2',
                       product.published

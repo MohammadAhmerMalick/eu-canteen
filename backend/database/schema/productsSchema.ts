@@ -11,6 +11,8 @@ import {
 
 const productsTable = pgTable('products', {
   id: uuid()
+    .unique()
+    .notNull()
     .primaryKey()
     .default(sql`gen_random_uuid()`),
 

@@ -8,7 +8,7 @@ import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
 import usersTable from '@/database/schema/usersSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
-import getStudentsActions from '@/actions/getStudentsActions'
+import getStudentsAction from '@/actions/getStudentsAction'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import EditUserModal from '@/components/modals/user/EditUserModal'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
@@ -27,7 +27,7 @@ const StudentsPage = () => {
   const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
 
   const getStudents = useCallback(async () => {
-    const { data } = await getStudentsActions()
+    const { data } = await getStudentsAction()
     setStudents(data)
   }, [])
 

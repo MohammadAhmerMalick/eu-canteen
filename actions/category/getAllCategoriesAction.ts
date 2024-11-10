@@ -2,18 +2,18 @@
 
 import CategoryModel from '@/models/CategoryModel'
 
-const getAllCategoriesActions = async () => {
+const getAllCategoriesAction = async () => {
   try {
     const categories = await CategoryModel.getAllCategories()
 
-    console.log({ getAllCategoriesActions: 'success' })
+    console.log({ getAllCategoriesAction: 'success' })
 
     return {
       success: true,
       data: categories,
     }
   } catch (error) {
-    console.log({ getAllCategoriesActions: error })
+    console.log({ getAllCategoriesAction: error })
 
     return {
       success: false,
@@ -22,4 +22,4 @@ const getAllCategoriesActions = async () => {
   }
 }
 
-export default getAllCategoriesActions
+export default getAllCategoriesAction

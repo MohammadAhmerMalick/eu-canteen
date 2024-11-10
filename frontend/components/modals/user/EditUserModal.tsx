@@ -31,6 +31,7 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
     e.preventDefault()
 
     const formData = new FormData()
+    formData.append('name', student.id || '')
     formData.append('name', name)
     formData.append('email', email)
     formData.append('whatsapp', whatsapp)

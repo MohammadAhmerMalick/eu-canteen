@@ -1,7 +1,11 @@
 // import rolesSeed from '@/database/seeds/rolesSeed'
-// import categoriesSeed from '@/database/seeds/categoriesSeed'
+// import usersSeed from '@/database/seeds/usersSeed'
+import notifications from '@/database/seeds/notificationsSeed'
 // import productsSeed from '@/database/seeds/productsSeed'
+// import categoriesSeed from '@/database/seeds/categoriesSeed'
 
 // rolesSeed()
-// categoriesSeed()
+// usersSeed()
+notifications()
 // productsSeed()
+// categoriesSeed()

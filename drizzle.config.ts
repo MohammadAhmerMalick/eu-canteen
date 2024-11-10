@@ -1,6 +1,6 @@
 import { defineConfig } from 'drizzle-kit'
 
-const schemas = ['users', 'roles', 'categories', 'products']
+const schemas = ['users', 'roles', 'categories', 'products', 'notifications']
 
 const getSchemaPath = (fileNames: string[]) =>
   fileNames.map((fileName) => `./backend/database/schema/${fileName}Schema.ts`)

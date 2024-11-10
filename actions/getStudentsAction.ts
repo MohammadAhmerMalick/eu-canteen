@@ -2,7 +2,7 @@
 
 import UserModel from '@/models/UserModel'
 
-const getStudentsActions = async () => {
+const getStudentsAction = async () => {
   const students = await UserModel.getStudents()
 
   return {
@@ -11,4 +11,4 @@ const getStudentsActions = async () => {
   }
 }
 
-export default getStudentsActions
+export default getStudentsAction

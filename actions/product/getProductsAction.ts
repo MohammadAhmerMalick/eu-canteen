@@ -2,18 +2,18 @@
 
 import ProductModel from '@/models/ProductModel'
 
-const getProductsActions = async () => {
+const getProductsAction = async () => {
   try {
     const products = await ProductModel.getProducts()
 
-    console.log({ getProductsActions: 'success' })
+    console.log({ getProductsAction: 'success' })
 
     return {
       success: true,
       data: products,
     }
   } catch (error) {
-    console.log({ getProductsActions: error })
+    console.log({ getProductsAction: error })
 
     return {
       success: false,
@@ -22,4 +22,4 @@ const getProductsActions = async () => {
   }
 }
 
-export default getProductsActions
+export default getProductsAction

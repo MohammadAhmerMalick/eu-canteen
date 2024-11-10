@@ -12,7 +12,9 @@ export const classnames = (...args: unknown[]) => {
     .trim()
 }
 
-export const allowOnlyNumber = (event: FormEvent<HTMLInputElement>) => {
+export const allowOnlyNumber = (
+  event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
   const target = event?.currentTarget
   const value = target?.value
 

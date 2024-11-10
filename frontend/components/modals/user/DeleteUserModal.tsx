@@ -56,12 +56,21 @@ const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
             )}
           />
           <div className="grid h-min gap-2">
-            <p>Name: {student.name}</p>
-            <p>Email: {student.email}</p>
-            <p>WhatsApp: {student.whatsapp}</p>
-            <p>Matricola Number: {student.matricola}</p>
             <p>
-              Status:{' '}
+              <span className="text-primary">Name:</span> {student.name}
+            </p>
+            <p>
+              <span className="text-primary">Email:</span> {student.email}
+            </p>
+            <p>
+              <span className="text-primary">WhatsApp:</span> {student.whatsapp}
+            </p>
+            <p>
+              <span className="text-primary">Matricola Number:</span>{' '}
+              {student.matricola}
+            </p>
+            <p>
+              <span className="text-primary">Status:</span>{' '}
               {student.approved ? (
                 <span className="text-green-700">Active</span>
               ) : (

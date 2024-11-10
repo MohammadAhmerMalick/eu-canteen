@@ -63,7 +63,7 @@ const EditCategoryModal = ({ onClose, category }: EditCategoryModalProp) => {
             labelText="Full Name"
             onChange={({ value }) => setName(value)}
             labelClassName="text-sm"
-            placeholder="Asad Khan"
+            placeholder="Burger"
           />
 
           <div>

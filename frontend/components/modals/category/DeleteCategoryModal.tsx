@@ -59,9 +59,12 @@ const DeleteCategoryModal = ({
             )}
           />
           <div className="grid h-min gap-2">
-            <p>Name: {category.name}</p>
             <p>
-              Status:{' '}
+              {' '}
+              <span className="text-primary">Name:</span> {category.name}
+            </p>
+            <p>
+              <span className="text-primary">Status:</span>{' '}
               {category.published ? (
                 <span className="text-green-700">Active</span>
               ) : (

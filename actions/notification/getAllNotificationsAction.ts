@@ -2,18 +2,18 @@
 
 import NotificationModel from '@/models/NotificationModel'
 
-const getAllNotificationsActions = async () => {
+const getAllNotificationsAction = async () => {
   try {
     const notification = await NotificationModel.getAllNotifications()
 
-    console.log({ getAllNotificationsActions: 'success' })
+    console.log({ getAllNotificationsAction: 'success' })
 
     return {
       success: true,
       data: notification,
     }
   } catch (error) {
-    console.log({ getAllNotificationsActions: error })
+    console.log({ getAllNotificationsAction: error })
 
     return {
       success: false,
@@ -22,4 +22,4 @@ const getAllNotificationsActions = async () => {
   }
 }
 
-export default getAllNotificationsActions
+export default getAllNotificationsAction

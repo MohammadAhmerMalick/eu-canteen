@@ -23,9 +23,17 @@ class NotificationModel {
       .values(notification)
       .returning({ id: notificationsTable.id })
 
-  static deleteNotification = (id: string) =>
+  static makeNotificationRead = (id: string) =>
     db
-      .delete(notificationsTable)
+      .update(notificationsTable)
+      .set({ isRead: true })
+      .where(eq(notificationsTable.id, id))
+      .returning({ id: notificationsTable.id })
+
+  static softDeleteNotification = (id: string) =>
+    db
+      .update(notificationsTable)
+      .set({ published: false })
       .where(eq(notificationsTable.id, id))
       .returning({ id: notificationsTable.id })
 }

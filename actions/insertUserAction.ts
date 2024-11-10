@@ -1,7 +1,8 @@
 'use server'
 
 import UserModel from '@/models/UserModel'
-import { storeFileLocally } from '@/utils'
+// import { storeFileLocally } from '@/utils'
+import usersTable from '@/database/schema/usersSchema'
 
 const insertUserAction = async (formData: FormData) => {
   const name = formData.get('name') as string
@@ -43,23 +44,25 @@ const insertUserAction = async (formData: FormData) => {
     }
 
   // store file locally
-  const { destinationFileName: idCardBackImage } = await storeFileLocally(
-    idCardBackImageFile,
-    'students/id-cards/'
-  )
-  const { destinationFileName: idCardFrontImage } = await storeFileLocally(
-    idCardFrontImageFile,
-    'students/id-cards/'
-  )
+  // const { destinationFileName: idCardBackImage } = await storeFileLocally(
+  //   idCardBackImageFile,
+  //   'students/id-cards/'
+  // )
+  // const { destinationFileName: idCardFrontImage } = await storeFileLocally(
+  //   idCardFrontImageFile,
+  //   'students/id-cards/'
+  // )
 
-  const newUser = await UserModel.createUser({
+  const payload: typeof usersTable.$inferInsert = {
     name,
     email,
     whatsapp,
     matricola,
-    idCardBackImage,
-    idCardFrontImage,
-  })
+    idCardBackImage: idCardFrontImageFile.name,
+    idCardFrontImage: idCardBackImageFile.name,
+  }
+
+  const newUser = await UserModel.createUser(payload)
 
   return {
     success: true,

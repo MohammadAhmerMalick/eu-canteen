@@ -5,10 +5,10 @@ import rolesTable from '@/database/schema/rolesSchema'
 
 const usersTable = pgTable('users', {
   id: uuid()
-    .primaryKey()
-    .default(sql`gen_random_uuid()`)
     .unique()
-    .notNull(),
+    .notNull()
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
 
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
@@ -17,6 +17,7 @@ const usersTable = pgTable('users', {
   idCardFrontImage: varchar({ length: 255 }),
   idCardBackImage: varchar({ length: 255 }),
   approved: boolean().default(false).notNull(),
+  password: varchar({ length: 36 }),
 
   roleName: varchar({ length: 20 })
     .notNull()

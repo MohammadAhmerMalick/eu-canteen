@@ -30,7 +30,7 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const formData = new FormData(e.currentTarget)
+    const formData = new FormData()
     formData.append('name', name)
     formData.append('email', email)
     formData.append('whatsapp', whatsapp)

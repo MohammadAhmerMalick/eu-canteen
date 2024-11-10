@@ -4,15 +4,15 @@ import { FormEvent, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
-import usersTable from '@/database/schema/usersSchema'
-import deleteUserAction from '@/actions/deleteupdateUserAction'
+import productsTable from '@/database/schema/productsSchema'
+import deleteProductAction from '@/actions/product/deleteProductAction'
 
-interface DeleteUserModalProp {
+interface DeleteProductModalProp {
   onClose(): any
-  student: typeof usersTable.$inferInsert
+  product: typeof productsTable.$inferInsert
 }
 
-const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
+const DeleteProductModal = ({ onClose, product }: DeleteProductModalProp) => {
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -21,9 +21,9 @@ const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
     e.preventDefault()
 
     const formData = new FormData(e.currentTarget)
-    formData.append('id', student.id?.toString() || '')
+    formData.append('id', product.id?.toString() || '')
 
-    const { success } = await deleteUserAction(formData)
+    const { success } = await deleteProductAction(formData)
     if (success) {
       toast.success('Student Deleted')
       onClose()
@@ -43,26 +43,35 @@ const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
           'grid max-h-full w-full max-w-xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
         )}
       >
-        <h1 className="text-lg font-semibold">Delete User</h1>
+        <h1 className="text-lg font-semibold">Delete Product</h1>
         <div className="grid grid-cols-2 gap-2">
           <Image
-            alt={student.name}
+            alt={product.name}
             width={200}
             height={200}
-            src="/images/students/s-1.png"
+            src={`/images/products/${product.image}`}
             className={classnames(
               'rounded-full border-2',
-              student.approved ? 'border-primary' : 'border-neutral-400'
+              product.published ? 'border-primary' : 'border-neutral-400'
             )}
           />
-          <div className="grid gap-2">
-            <p>Name: {student.name}</p>
-            <p>Email: {student.email}</p>
-            <p>WhatsApp: {student.whatsapp}</p>
-            <p>Matricola Number: {student.matricola}</p>
+          <div className="grid h-min gap-2">
             <p>
-              Status:{' '}
-              {student.approved ? (
+              <span className="text-primary">Name:</span> {product.name}
+            </p>
+            <p>
+              <span className="text-primary">Stock:</span> {product.stock}
+            </p>
+            <p>
+              <span className="text-primary">Price:</span> {product.price}
+            </p>
+            <p>
+              <span className="text-primary">Description:</span>{' '}
+              {product.description}
+            </p>
+            <p>
+              <span className="text-primary">Status</span>:{' '}
+              {product.published ? (
                 <span className="text-green-700">Active</span>
               ) : (
                 <span className="text-red-700">Inactive</span>
@@ -70,10 +79,10 @@ const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
             </p>
           </div>
         </div>
-        <Button className="ml-auto w-max !py-1">Delete User</Button>
+        <Button className="ml-auto w-max !py-1">Delete Product</Button>
       </form>
     </div>
   )
 }
 
-export default DeleteUserModal
+export default DeleteProductModal

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import notificationsTable from '@/database/schema/notificationsSchema'
-import getNotificationsActions from '@/actions/notification/getAllNotificationsAction'
+import getNotificationsAction from '@/actions/notification/getNotificationsAction'
 import ViewNotificationModal from '@/components/modals/notification/ViewNotificationModal'
 import softDeleteNotificationAction from '@/actions/notification/softDeleteNotificationAction'
 
@@ -24,13 +24,13 @@ const NotificationsPage = () => {
     formData.append('id', id)
 
     const { success } = await softDeleteNotificationAction(formData)
-    if (success) toast.success('Student Deleted')
+    if (success) toast.success('Notification Deleted')
     else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
   const getNotifications = useCallback(async () => {
-    const { data } = await getNotificationsActions()
+    const { data } = await getNotificationsAction()
     setNotifications(data)
   }, [])
 

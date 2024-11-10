@@ -15,12 +15,12 @@ class UserModel {
   static createUser = (user: typeof usersTable.$inferInsert) =>
     db.insert(usersTable).values(user).returning({ id: usersTable.id })
 
-  static updateUser = (user: typeof usersTable.$inferInsert) =>
+  static updateUser = (user: typeof usersTable.$inferInsert, id: string) =>
     db
       .update(usersTable)
       .set(user)
       .returning({ id: usersTable.id })
-      .where(eq(usersTable.email, user.email))
+      .where(eq(usersTable.id, id))
 
   static deleteUser = (id: string) =>
     db

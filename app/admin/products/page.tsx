@@ -87,7 +87,7 @@ const ProductsPage = () => {
                     alt={product.name}
                     width={40}
                     height={40}
-                    src={`/images/products/${product.image}`}
+                    src="/images/products/p-1.png"
                     className={classnames(
                       'rounded-full border-2',
                       product.published

@@ -9,19 +9,19 @@ import Button from '@/components/common/Button'
 import usersTable from '@/database/schema/usersSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import getStudentsActions from '@/actions/getStudentsActions'
-import EditUserModal from '@/components/modals/EditUserModal'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
-import CreateUserModal from '@/components/modals/createUserModal'
-import DeleteUserModal from '@/components/modals/DeleteUserModal'
+import EditUserModal from '@/components/modals/user/EditUserModal'
+import CreateUserModal from '@/components/modals/user/CreateUserModal'
+import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
 
 const StudentsPage = () => {
   const [students, setStudents] = useState<(typeof usersTable.$inferInsert)[]>(
     []
   )
-  const [editModaldata, setEditModaldata] = useState<
+  const [editModalData, setEditModalData] = useState<
     typeof usersTable.$inferInsert | null
   >(null)
-  const [deleteModaldata, setDeleteModaldata] = useState<
+  const [deleteModalData, setDeleteModalData] = useState<
     typeof usersTable.$inferInsert | null
   >(null)
   const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
@@ -37,16 +37,16 @@ const StudentsPage = () => {
 
   return (
     <div>
-      {editModaldata && (
+      {editModalData && (
         <EditUserModal
-          student={editModaldata}
-          onClose={() => setEditModaldata(null)}
+          student={editModalData}
+          onClose={() => setEditModalData(null)}
         />
       )}
-      {deleteModaldata && (
+      {deleteModalData && (
         <DeleteUserModal
-          student={deleteModaldata}
-          onClose={() => setDeleteModaldata(null)}
+          student={deleteModalData}
+          onClose={() => setDeleteModalData(null)}
         />
       )}
       {isAddUserModalVisible && (
@@ -127,13 +127,13 @@ const StudentsPage = () => {
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 <button
-                  onClick={() => setEditModaldata(student)}
+                  onClick={() => setEditModalData(student)}
                   className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
                 >
                   <AiOutlineEdit />
                 </button>
                 <button
-                  onClick={() => setDeleteModaldata(student)}
+                  onClick={() => setDeleteModalData(student)}
                   className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
                 >
                   <AiOutlineDelete />

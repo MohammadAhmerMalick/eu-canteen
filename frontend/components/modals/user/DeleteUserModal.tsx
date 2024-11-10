@@ -5,7 +5,7 @@ import { FormEvent, type MouseEvent } from 'react'
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
 import usersTable from '@/database/schema/usersSchema'
-import deleteUserAction from '@/actions/deleteupdateUserAction'
+import deleteUserAction from '@/actions/deleteUserAction'
 
 interface DeleteUserModalProp {
   onClose(): any
@@ -55,7 +55,7 @@ const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
               student.approved ? 'border-primary' : 'border-neutral-400'
             )}
           />
-          <div className="grid gap-2">
+          <div className="grid h-min gap-2">
             <p>Name: {student.name}</p>
             <p>Email: {student.email}</p>
             <p>WhatsApp: {student.whatsapp}</p>

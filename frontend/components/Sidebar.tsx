@@ -7,6 +7,7 @@ import BiDish from '@/icons/BiDish'
 import { classnames } from '@/utils'
 import FiUsers from '@/icons/FiUsers'
 import VscGraph from '@/icons/VscGraph'
+import BiBasket from '@/icons/BiBasket'
 import Button from '@/components/common/Button'
 import AiOutlineHome from '@/icons/AiOutlineHome'
 import AiOutlineFile from '@/icons/AiOutlineFile'
@@ -37,6 +38,12 @@ const links = [
     label: 'Notifications',
     isActive: false,
     Icon: AiOutlineBell,
+  },
+  {
+    link: '/admin/categories',
+    label: 'Categories',
+    isActive: false,
+    Icon: BiBasket,
   },
 ]
 const Sidebar = () => {

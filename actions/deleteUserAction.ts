@@ -18,6 +18,7 @@ const deleteUserAction = async (formData: FormData) => {
     }
   } catch (error) {
     console.log({ deleteUserAction: error })
+
     return {
       success: false,
       data: {},

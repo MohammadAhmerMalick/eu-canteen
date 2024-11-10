@@ -9,7 +9,7 @@ const categoriesTable = pgTable('categories', {
   name: varchar({ length: 20 }).notNull().unique(),
   image: varchar({ length: 255 }).notNull(),
 
-  published: boolean().default(false),
+  published: boolean().default(true),
   createdAt: timestamp().default(sql`now()`),
   deletedAt: timestamp(),
 })

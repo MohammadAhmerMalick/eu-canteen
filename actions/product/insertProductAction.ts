@@ -17,15 +17,6 @@ const insertProductAction = async (formData: FormData) => {
       codeMessage: 'fields_are_missing',
     }
 
-  // if product exists
-  const product = await ProductModel.getProductByName(name)
-  if (product.length)
-    return {
-      success: false,
-      message: 'Product already exist',
-      codeMessage: 'product_already_exist',
-    }
-
   // const { destinationFileName } = await storeFileLocally(image, 'products/')
 
   const newProduct = await ProductModel.createProduct({

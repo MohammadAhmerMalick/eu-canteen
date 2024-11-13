@@ -2,6 +2,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
@@ -15,6 +16,8 @@ interface EditUserModalProp {
 }
 
 const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
+  const { updateUser } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -40,8 +43,10 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
     formData.append('idCardFrontImage', idCardFrontImage)
     formData.append('approved', approved ? 'approved' : '')
 
-    const { success, message, codeMessage } = await updateUserAction(formData)
+    const { success, message, codeMessage, data } =
+      await updateUserAction(formData)
     if (success) {
+      updateUser(data[0])
       toast.success('Student updated')
       onClose()
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)

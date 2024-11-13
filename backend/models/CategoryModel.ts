@@ -16,18 +16,28 @@ class CategoryModel {
     db.select().from(categoriesTable).where(eq(categoriesTable.name, name))
 
   static createCategory = (category: typeof categoriesTable.$inferInsert) =>
-    db
-      .insert(categoriesTable)
-      .values(category)
-      .returning({ id: categoriesTable.id })
+    db.insert(categoriesTable).values(category).returning({
+      id: categoriesTable.id,
+      name: categoriesTable.name,
+      image: categoriesTable.image,
+      published: categoriesTable.published,
+      createdAt: categoriesTable.createdAt,
+      deletedAt: categoriesTable.deletedAt,
+    })
 
   static updateCategory = (category: typeof categoriesTable.$inferInsert) =>
-    category.id &&
     db
       .update(categoriesTable)
       .set(category)
-      .returning({ id: categoriesTable.id })
-      .where(eq(categoriesTable.id, category.id))
+      .returning({
+        id: categoriesTable.id,
+        name: categoriesTable.name,
+        image: categoriesTable.image,
+        published: categoriesTable.published,
+        createdAt: categoriesTable.createdAt,
+        deletedAt: categoriesTable.deletedAt,
+      })
+      .where(eq(categoriesTable.id, category.id || ''))
 
   static deleteCategory = (id: string) =>
     db

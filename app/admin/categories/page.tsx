@@ -32,7 +32,7 @@ const CategoriesPage = () => {
   }, [setCategories])
 
   useEffect(() => {
-    if (categories.length) getCategories()
+    if (!categories.length) getCategories()
   }, [getCategories, categories.length])
 
   return (

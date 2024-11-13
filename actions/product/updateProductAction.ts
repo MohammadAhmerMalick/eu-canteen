@@ -45,9 +45,10 @@ const updateProductAction = async (formData: FormData) => {
     }
   } catch (error) {
     console.log({ updateProductAction: error })
+
     return {
       success: false,
-      data: {},
+      data: [],
       message: 'Unable to update product',
       codeMessage: 'server_error',
     }

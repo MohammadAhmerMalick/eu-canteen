@@ -16,7 +16,7 @@ import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
 
 const StudentsPage = () => {
-  const { students, setStudents } = useStore((state) => state)
+  const { users, setUsers } = useStore((state) => state)
 
   const [editModalData, setEditModalData] = useState<
     typeof usersTable.$inferInsert | null
@@ -28,12 +28,12 @@ const StudentsPage = () => {
 
   const getStudents = useCallback(async () => {
     const { data } = await getStudentsAction()
-    setStudents(data)
-  }, [setStudents])
+    setUsers(data)
+  }, [setUsers])
 
   useEffect(() => {
-    if (!students.length) getStudents()
-  }, [getStudents, students.length])
+    if (!users.length) getStudents()
+  }, [getStudents, users.length])
 
   return (
     <div>
@@ -76,34 +76,32 @@ const StudentsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {students.map((student) => (
-            <tr key={student.id}>
+          {users.map((user) => (
+            <tr key={user.id}>
               <td className="border-b border-neutral-300 p-2">
                 <div className="grid grid-cols-[40px_auto] items-center gap-2">
                   <Image
-                    alt={student.name}
+                    alt={user.name}
                     width={40}
                     height={40}
                     src="/images/students/s-1.png"
                     className={classnames(
                       'rounded-full border-2',
-                      student.approved ? 'border-primary' : 'border-neutral-400'
+                      user.approved ? 'border-primary' : 'border-neutral-400'
                     )}
                   />
-                  {student.name}
+                  {user.name}
                 </div>
               </td>
+              <td className="border-b border-neutral-300 p-2">{user.email}</td>
               <td className="border-b border-neutral-300 p-2">
-                {student.email}
+                {user.whatsapp}
               </td>
               <td className="border-b border-neutral-300 p-2">
-                {student.whatsapp}
-              </td>
-              <td className="border-b border-neutral-300 p-2">
-                {student.matricola}
+                {user.matricola}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center font-semibold">
-                {student.approved ? (
+                {user.approved ? (
                   <p className="text-green-700">Active</p>
                 ) : (
                   <p className="text-red-700">Inactive</p>
@@ -114,26 +112,26 @@ const StudentsPage = () => {
                   alt="name"
                   width={40}
                   height={40}
-                  src={`/images/students/id-cards/${student.idCardFrontImage}`}
+                  src={`/images/students/id-cards/${user.idCardFrontImage}`}
                   className="mx-1 inline"
                 />
                 <Image
                   alt="name"
                   width={40}
                   height={40}
-                  src={`/images/students/id-cards/${student.idCardBackImage}`}
+                  src={`/images/students/id-cards/${user.idCardBackImage}`}
                   className="mx-1 inline"
                 />
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 <button
-                  onClick={() => setEditModalData(student)}
+                  onClick={() => setEditModalData(user)}
                   className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
                 >
                   <AiOutlineEdit />
                 </button>
                 <button
-                  onClick={() => setDeleteModalData(student)}
+                  onClick={() => setDeleteModalData(user)}
                   className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
                 >
                   <AiOutlineDelete />

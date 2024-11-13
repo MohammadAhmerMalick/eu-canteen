@@ -21,7 +21,7 @@ const deleteUserAction = async (formData: FormData) => {
 
     return {
       success: false,
-      data: {},
+      data: [],
       message: 'Unable to delete user',
       codeMessage: 'server_error',
     }

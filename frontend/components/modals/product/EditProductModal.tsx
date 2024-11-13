@@ -2,6 +2,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
@@ -16,6 +17,8 @@ interface EditProductModalProp {
 }
 
 const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
+  const { updateCategory } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -39,9 +42,10 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
     formData.append('description', description)
     formData.append('published', published ? 'published' : '')
 
-    const { success, message, codeMessage } =
+    const { success, message, codeMessage, data } =
       await updateProductAction(formData)
     if (success) {
+      updateCategory(data[0])
       toast.success('Product updated')
       onClose()
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)

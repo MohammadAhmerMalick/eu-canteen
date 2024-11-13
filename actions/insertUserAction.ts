@@ -21,6 +21,7 @@ const insertUserAction = async (formData: FormData) => {
     !idCardFrontImageFile
   )
     return {
+      data: [],
       success: false,
       message: 'All fields are required',
       codeMessage: 'fields_are_missing',
@@ -29,6 +30,7 @@ const insertUserAction = async (formData: FormData) => {
   // is email valid
   if (!/@compus.unimib.it\s*$/.test(email))
     return {
+      data: [],
       success: false,
       message: 'Kindly use an authorized email',
       codeMessage: 'must_be_unimib_email',
@@ -38,6 +40,7 @@ const insertUserAction = async (formData: FormData) => {
   const user = await UserModel.getUserByEmail(email)
   if (user.length)
     return {
+      data: [],
       success: false,
       message: 'User already exist',
       codeMessage: 'user_already_exist',

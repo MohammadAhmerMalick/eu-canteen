@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import productsTable from '@/database/schema/productsSchema'
 import deleteProductAction from '@/actions/product/deleteProductAction'
@@ -13,6 +14,8 @@ interface DeleteProductModalProp {
 }
 
 const DeleteProductModal = ({ onClose, product }: DeleteProductModalProp) => {
+  const { deleteProduct } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -23,8 +26,9 @@ const DeleteProductModal = ({ onClose, product }: DeleteProductModalProp) => {
     const formData = new FormData(e.currentTarget)
     formData.append('id', product.id?.toString() || '')
 
-    const { success } = await deleteProductAction(formData)
+    const { success, data } = await deleteProductAction(formData)
     if (success) {
+      deleteProduct(data[0].id)
       toast.success('Student Deleted')
       onClose()
     } else

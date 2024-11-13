@@ -21,7 +21,7 @@ const deleteProductAction = async (formData: FormData) => {
 
     return {
       success: false,
-      data: {},
+      data: [],
       message: 'Unable to delete product',
       codeMessage: 'server_error',
     }

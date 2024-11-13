@@ -1,25 +1,19 @@
 import { createStore } from 'zustand/vanilla'
-import {
-  authActions,
-  AuthActions,
-  AuthState,
-  defaultAuthState,
-} from './authState'
 
-export type DefaultMainState = AuthState
-export type MainStore = AuthState & AuthActions
+import { defaultState } from '@/store/defaultState'
+import { AuthSlice, createAuthSlice } from '@/store/slices/authSlice'
+import { AppSlice, AppState, createAppSlice } from '@/store/slices/appSlice'
 
-export const defaultMainState: DefaultMainState = defaultAuthState
+export type Store = AppSlice & AuthSlice
 
-export const initMainStore = (): DefaultMainState => {
-  return defaultMainState
+export const initStore = () => {
+  return defaultState
 }
-export const createMainStore = (
-  initState: DefaultMainState = defaultMainState
-) => {
-  return createStore<MainStore>()((set) => ({
+
+export const createAppStore = (initState: AppState = defaultState) => {
+  return createStore<Store>()((set, get, store) => ({
     ...initState,
-    ...authActions(set),
-    decrementCount: () => set((state) => ({ count: state.count + 1 })),
+    ...createAppSlice(set, get, store),
+    ...createAuthSlice(set, get, store),
   }))
 }

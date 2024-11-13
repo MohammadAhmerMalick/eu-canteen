@@ -3,10 +3,10 @@
 import { useEffect } from 'react'
 
 import { getCookie } from '@/utils'
-import { useMainStore } from '@/store/provider'
+import { useStore } from '@/store/provider'
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  const { setIsLoggedIn } = useMainStore((state) => state)
+  const { setIsLoggedIn } = useStore((state) => state)
 
   useEffect(() => {
     const token = getCookie('token')

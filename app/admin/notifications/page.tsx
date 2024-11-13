@@ -3,6 +3,7 @@
 import { toast } from 'react-toastify'
 import { useCallback, useEffect, useState } from 'react'
 
+import { useStore } from '@/store/provider'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import notificationsTable from '@/database/schema/notificationsSchema'
@@ -11,9 +12,7 @@ import ViewNotificationModal from '@/components/modals/notification/ViewNotifica
 import softDeleteNotificationAction from '@/actions/notification/softDeleteNotificationAction'
 
 const NotificationsPage = () => {
-  const [notifications, setNotifications] = useState<
-    (typeof notificationsTable.$inferInsert)[]
-  >([])
+  const { notifications, setNotifications } = useStore((state) => state)
 
   const [viewModalDate, setViewModalData] = useState<
     typeof notificationsTable.$inferInsert | null
@@ -32,11 +31,11 @@ const NotificationsPage = () => {
   const getNotifications = useCallback(async () => {
     const { data } = await getNotificationsAction()
     setNotifications(data)
-  }, [])
+  }, [setNotifications])
 
   useEffect(() => {
-    getNotifications()
-  }, [getNotifications])
+    if (notifications.length) getNotifications()
+  }, [getNotifications, notifications.length])
 
   return (
     <div>

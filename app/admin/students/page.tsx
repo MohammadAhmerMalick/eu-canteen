@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
 import usersTable from '@/database/schema/usersSchema'
@@ -15,9 +16,8 @@ import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
 
 const StudentsPage = () => {
-  const [students, setStudents] = useState<(typeof usersTable.$inferInsert)[]>(
-    []
-  )
+  const { students, setStudents } = useStore((state) => state)
+
   const [editModalData, setEditModalData] = useState<
     typeof usersTable.$inferInsert | null
   >(null)
@@ -29,11 +29,11 @@ const StudentsPage = () => {
   const getStudents = useCallback(async () => {
     const { data } = await getStudentsAction()
     setStudents(data)
-  }, [])
+  }, [setStudents])
 
   useEffect(() => {
-    getStudents()
-  }, [getStudents])
+    if (!students.length) getStudents()
+  }, [getStudents, students.length])
 
   return (
     <div>

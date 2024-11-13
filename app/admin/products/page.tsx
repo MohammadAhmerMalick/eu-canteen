@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
@@ -15,9 +16,7 @@ import DeleteProductModal from '@/components/modals/product/DeleteProductModal'
 import CreateProductModal from '@/components/modals/product/CreateProductModal'
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState<
-    (typeof productsTable.$inferInsert)[]
-  >([])
+  const { products, setProducts } = useStore((state) => state)
 
   const [editModalData, setEditModalData] = useState<
     typeof productsTable.$inferInsert | null
@@ -30,11 +29,11 @@ const ProductsPage = () => {
   const getProducts = useCallback(async () => {
     const { data } = await getAllProductsAction()
     setProducts(data)
-  }, [])
+  }, [setProducts])
 
   useEffect(() => {
-    getProducts()
-  }, [getProducts])
+    if (!products.length) getProducts()
+  }, [getProducts, products.length])
 
   return (
     <div>

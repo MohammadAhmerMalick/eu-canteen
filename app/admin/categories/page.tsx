@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
@@ -15,9 +16,7 @@ import DeleteCategoryModal from '@/components/modals/category/DeleteCategoryModa
 import CreateCategoryModal from '@/components/modals/category/CreateCategoryModal'
 
 const CategoriesPage = () => {
-  const [categories, setCategories] = useState<
-    (typeof categoriesTable.$inferInsert)[]
-  >([])
+  const { categories, setCategories } = useStore((state) => state)
 
   const [editModalData, setEditModalData] = useState<
     typeof categoriesTable.$inferInsert | null
@@ -30,11 +29,11 @@ const CategoriesPage = () => {
   const getCategories = useCallback(async () => {
     const { data } = await getAllCategoriesAction()
     setCategories(data)
-  }, [])
+  }, [setCategories])
 
   useEffect(() => {
-    getCategories()
-  }, [getCategories])
+    if (categories.length) getCategories()
+  }, [getCategories, categories.length])
 
   return (
     <div>

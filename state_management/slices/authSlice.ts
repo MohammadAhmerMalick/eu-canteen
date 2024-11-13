@@ -1,6 +1,6 @@
-import { StateCreator } from 'zustand'
+import { type StateCreator } from 'zustand'
 
-import { Store } from '@/store/store'
+import { type Store } from '@/store/store'
 import logoutAction from '@/actions/logoutAction'
 
 export interface AuthState {

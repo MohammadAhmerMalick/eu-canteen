@@ -10,7 +10,7 @@ export interface ProductsState {
 export type ProductsActions = {
   setProducts(products: ProductsState['products']): void
   insertProduct(product: typeof productsTable.$inferInsert): void
-  updateProduct(products: typeof productsTable.$inferInsert): void
+  updateProduct(product: typeof productsTable.$inferInsert): void
   deleteProduct(id: string): void
 }
 
@@ -35,11 +35,11 @@ export const createProductsSlice: StateCreator<Store, [], [], ProductsSlice> = (
   updateProduct: async (product) =>
     set((state) => ({
       ...state,
-      products: state.products.map((c) => (c.id === product.id ? product : c)),
+      products: state.products.map((s) => (s.id === product.id ? product : s)),
     })),
   deleteProduct: async (id) =>
     set((state) => ({
       ...state,
-      products: state.products.filter((c) => c.id !== id),
+      products: state.products.filter((s) => s.id !== id),
     })),
 })

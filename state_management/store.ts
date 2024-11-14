@@ -4,7 +4,7 @@ import { createUsersSlice, type UsersSlice } from '@/store/slices/userssSlice'
 import {
   createProductsSlice,
   type ProductsSlice,
-} from '@/store/slices/productssSlice'
+} from '@/store/slices/productsSlice'
 import {
   type CategoriesSlice,
   createCategoriesSlice,

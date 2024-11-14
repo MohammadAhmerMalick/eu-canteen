@@ -17,7 +17,7 @@ interface EditProductModalProp {
 }
 
 const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
-  const { updateCategory } = useStore((state) => state)
+  const { updateProduct } = useStore((state) => state)
 
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -45,7 +45,7 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
     const { success, message, codeMessage, data } =
       await updateProductAction(formData)
     if (success) {
-      updateCategory(data[0])
+      updateProduct(data[0])
       toast.success('Product updated')
       onClose()
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)

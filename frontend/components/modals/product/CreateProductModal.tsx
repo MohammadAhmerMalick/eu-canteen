@@ -2,6 +2,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
@@ -14,6 +15,8 @@ interface CreateProductModalProp {
 }
 
 const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
+  const { insertProduct } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -32,10 +35,11 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
     formData.append('image', image)
     formData.append('description', description)
 
-    const { success, message, codeMessage } =
+    const { success, message, codeMessage, data } =
       await insertProductAction(formData)
 
     if (success) {
+      insertProduct(data[0])
       toast.success('Product created successfully')
       onClose()
     } else if (codeMessage === 'product_already_exist')

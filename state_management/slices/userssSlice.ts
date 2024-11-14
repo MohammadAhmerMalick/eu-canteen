@@ -9,8 +9,8 @@ export interface UsersState {
 
 export type UsersActions = {
   setUsers(users: UsersState['users']): void
-  updateUser(users: typeof usersTable.$inferInsert): void
   insertUser(users: typeof usersTable.$inferInsert): void
+  updateUser(users: typeof usersTable.$inferInsert): void
   deleteUser(id: string): void
 }
 

@@ -13,7 +13,15 @@ class ProductModel {
     db.select().from(productsTable).where(eq(productsTable.id, id))
 
   static createProduct = (product: typeof productsTable.$inferInsert) =>
-    db.insert(productsTable).values(product).returning({ id: productsTable.id })
+    db.insert(productsTable).values(product).returning({
+      id: productsTable.id,
+      name: productsTable.name,
+      description: productsTable.description,
+      stock: productsTable.stock,
+      price: productsTable.price,
+      image: productsTable.image,
+      published: productsTable.published,
+    })
 
   static updateProduct = (product: typeof productsTable.$inferInsert) =>
     db

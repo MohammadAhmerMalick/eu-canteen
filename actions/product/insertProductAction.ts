@@ -12,6 +12,7 @@ const insertProductAction = async (formData: FormData) => {
 
   if (!name || !image)
     return {
+      data: [],
       success: false,
       message: 'All fields are required',
       codeMessage: 'fields_are_missing',

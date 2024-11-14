@@ -21,6 +21,7 @@ class ProductModel {
       price: productsTable.price,
       image: productsTable.image,
       published: productsTable.published,
+      categoryId: productsTable.categoryId,
     })
 
   static updateProduct = (product: typeof productsTable.$inferInsert) =>
@@ -35,6 +36,7 @@ class ProductModel {
         price: productsTable.price,
         image: productsTable.image,
         published: productsTable.published,
+        categoryId: productsTable.categoryId,
       })
       .where(eq(productsTable.id, product.id || ''))
 

@@ -7,16 +7,18 @@ import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
+import productsTable from '@/database/schema/productsSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
-import productsTable from '@/database/schema/productsSchema'
-import EditProductModal from '@/components/modals/product/EditProductModal'
 import getAllProductsAction from '@/actions/product/getAllProductsAction'
+import EditProductModal from '@/components/modals/product/EditProductModal'
+import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import DeleteProductModal from '@/components/modals/product/DeleteProductModal'
 import CreateProductModal from '@/components/modals/product/CreateProductModal'
 
 const ProductsPage = () => {
   const { products, setProducts } = useStore((state) => state)
+  const { categories, setCategories } = useStore((state) => state)
 
   const [editModalData, setEditModalData] = useState<
     typeof productsTable.$inferInsert | null
@@ -34,6 +36,15 @@ const ProductsPage = () => {
   useEffect(() => {
     if (!products.length) getProducts()
   }, [getProducts, products.length])
+
+  const getCategories = useCallback(async () => {
+    const { data } = await getAllCategoriesAction()
+    setCategories(data)
+  }, [setCategories])
+
+  useEffect(() => {
+    if (!categories.length) getCategories()
+  }, [getCategories, categories.length])
 
   return (
     <div>

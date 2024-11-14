@@ -7,20 +7,22 @@ import productsTable from '@/database/schema/productsSchema'
 const updateProductAction = async (formData: FormData) => {
   try {
     const id = formData.get('id') as string
+    const image = formData.get('image') as File
     const name = formData.get('name') as string
-    const description = formData.get('description') as string
     const stock = formData.get('stock') as string
     const price = formData.get('price') as string
     const published = formData.get('published') as string
-    const image = formData.get('image') as File
+    const categoryId = formData.get('categoryId') as string
+    const description = formData.get('description') as string
 
     const payload: typeof productsTable.$inferInsert = {
       id,
       name,
+      categoryId,
       description,
+      image: image.name,
       stock: Number(stock),
       price: Number(price),
-      image: image.name,
       published: !!published,
     }
 

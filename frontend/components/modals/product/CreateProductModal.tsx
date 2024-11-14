@@ -4,17 +4,19 @@ import { FormEvent, useState, type MouseEvent } from 'react'
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
+import Select from '@/components/common/select'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
+import Textarea from '@/components/common/Textarea'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
 import insertProductAction from '@/actions/product/insertProductAction'
-import Textarea from '@/components/common/Textarea'
 
 interface CreateProductModalProp {
   onClose(): any
 }
 
 const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
+  const { categories } = useStore((state) => state)
   const { insertProduct } = useStore((state) => state)
 
   const onContainerClick = (
@@ -24,8 +26,9 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
   const [name, setName] = useState('')
   const [stock, setStock] = useState('')
   const [price, setPrice] = useState('')
-  const [description, setDescription] = useState('')
+  const [categoryId, setCategory] = useState('')
   const [image, setImage] = useState<File | ''>('')
+  const [description, setDescription] = useState('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -33,6 +36,8 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
     const formData = new FormData()
     formData.append('name', name)
     formData.append('image', image)
+    formData.append('stock', stock)
+    formData.append('categoryId', categoryId)
     formData.append('description', description)
 
     const { success, message, codeMessage, data } =
@@ -80,7 +85,7 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
             id="stock"
             onlyNumber
             value={stock}
-            labelText="stock"
+            labelText="Stock"
             onChange={({ value }) => setStock(value)}
             labelClassName="text-sm"
             placeholder="10"
@@ -90,10 +95,22 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
             id="price"
             onlyNumber
             value={price}
-            labelText="price"
+            labelText="Price"
             onChange={({ value }) => setPrice(value)}
             labelClassName="text-sm"
             placeholder="10"
+          />
+          <Select
+            id="categoryId"
+            value={categoryId}
+            labelText="Category"
+            labelClassName="text-sm"
+            onChange={({ value }) => setCategory(value)}
+            options={categories.map(({ id, name }) => ({
+              text: name,
+              key: id || '',
+              value: id || '',
+            }))}
           />
 
           <div>

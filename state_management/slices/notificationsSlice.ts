@@ -31,16 +31,16 @@ export const createNotificationsSlice: StateCreator<
   setNotifications: async (notifications) => {
     return set({ notifications })
   },
-  updateNotification: async (category) =>
+  updateNotification: async (notification) =>
     set((state) => ({
       ...state,
-      notifications: state.notifications.map((c) =>
-        c.id === category.id ? category : c
+      notifications: state.notifications.map((s) =>
+        s.id === notification.id ? notification : s
       ),
     })),
   deleteNotification: async (id) =>
     set((state) => ({
       ...state,
-      notifications: state.notifications.filter((c) => c.id !== id),
+      notifications: state.notifications.filter((s) => s.id !== id),
     })),
 })

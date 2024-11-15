@@ -7,7 +7,7 @@ const categoriesData = Array(6)
       'Lorem ipsum dolor sit amet consectetur. Nisl ipsum sit erat auctor mi tristique .',
     stock: 13,
     price: 12,
-    cateogryId: '51333a8f-55ee-41b3-967a-9c8e3b73056d',
+    categoryId: '248a0ae5-526d-4177-8c74-5d80256d64e1',
   }))
 
 export default categoriesData

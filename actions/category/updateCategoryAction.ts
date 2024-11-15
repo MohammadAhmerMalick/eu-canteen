@@ -39,9 +39,10 @@ const updateCategoryAction = async (formData: FormData) => {
     }
   } catch (error) {
     console.log({ updateCategoryAction: error })
+
     return {
       success: false,
-      data: {},
+      data: [],
       message: 'Unable to update category',
       codeMessage: 'server_error',
     }

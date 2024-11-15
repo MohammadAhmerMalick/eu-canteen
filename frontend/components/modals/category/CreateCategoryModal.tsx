@@ -2,6 +2,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
@@ -13,6 +14,8 @@ interface CreateCategoryModalProp {
 }
 
 const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
+  const { insertCategory } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -27,10 +30,11 @@ const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
     formData.append('name', name)
     formData.append('image', image)
 
-    const { success, message, codeMessage } =
+    const { success, message, codeMessage, data } =
       await insertCategoryAction(formData)
 
     if (success) {
+      insertCategory(data[0])
       toast.success('Category created successfully')
       onClose()
     } else if (codeMessage === 'category_already_exist') toast.warn(message)

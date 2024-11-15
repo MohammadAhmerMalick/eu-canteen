@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import categoriesTable from '@/database/schema/categoriesSchema'
 import deleteCategoryAction from '@/actions/category/deleteCategoryAction'
@@ -16,6 +17,8 @@ const DeleteCategoryModal = ({
   onClose,
   category,
 }: DeleteCategoryModalProp) => {
+  const { deleteCategory } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -26,8 +29,9 @@ const DeleteCategoryModal = ({
     const formData = new FormData(e.currentTarget)
     formData.append('id', category.id?.toString() || '')
 
-    const { success } = await deleteCategoryAction(formData)
+    const { success, data } = await deleteCategoryAction(formData)
     if (success) {
+      deleteCategory(data[0].id)
       toast.success('Student Deleted')
       onClose()
     } else

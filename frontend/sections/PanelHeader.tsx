@@ -8,14 +8,14 @@ import { useRouter } from 'next/navigation'
 import { classnames } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
-import { useMainStore } from '@/store/provider'
+import { useStore } from '@/store/provider'
 import VscGear from '@/components/icons/VscGear'
 import FiSearch from '@/components/icons/FiSearch'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
 
 const PanelHeader = () => {
   const router = useRouter()
-  const { isLoggedIn, setIsLoggedIn } = useMainStore((state) => state)
+  const { isLoggedIn, setIsLoggedIn } = useStore((state) => state)
 
   const [expended, setExpended] = useState(false)
   const [globalSarch, setGlobalSarch] = useState('')

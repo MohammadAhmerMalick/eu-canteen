@@ -1,23 +1,30 @@
 'use client'
 
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
+import Loading from '@/components/common/Loading'
+import DataError from '@/components/common/DataError'
+import productsTable from '@/database/schema/productsSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
-import productsTable from '@/database/schema/productsSchema'
-import EditProductModal from '@/components/modals/product/EditProductModal'
 import getAllProductsAction from '@/actions/product/getAllProductsAction'
+import EditProductModal from '@/components/modals/product/EditProductModal'
+import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import DeleteProductModal from '@/components/modals/product/DeleteProductModal'
 import CreateProductModal from '@/components/modals/product/CreateProductModal'
 
+const dataErrorMessage = 'Unable to load products'
+
 const ProductsPage = () => {
-  const [products, setProducts] = useState<
-    (typeof productsTable.$inferInsert)[]
-  >([])
+  const { products, setProducts } = useStore((state) => state)
+  const { categories, setCategories } = useStore((state) => state)
 
   const [editModalData, setEditModalData] = useState<
     typeof productsTable.$inferInsert | null
@@ -27,14 +34,28 @@ const ProductsPage = () => {
   >(null)
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
 
-  const getProducts = useCallback(async () => {
-    const { data } = await getAllProductsAction()
-    setProducts(data)
-  }, [])
+  const { isPending, error } = useQuery({
+    queryKey: ['getProducts'],
+    queryFn: async () => {
+      const { data, success } = await getAllProductsAction()
+      if (success) setProducts(data)
+      else toast.error(dataErrorMessage)
+      return data
+    },
+  })
+
+  const getCategories = useCallback(async () => {
+    const { data } = await getAllCategoriesAction()
+    setCategories(data)
+  }, [setCategories])
 
   useEffect(() => {
-    getProducts()
-  }, [getProducts])
+    if (!categories.length) getCategories()
+  }, [getCategories, categories.length])
+
+  if (isPending) return <Loading />
+
+  if (error) return <DataError error={error} message={dataErrorMessage} />
 
   return (
     <div>

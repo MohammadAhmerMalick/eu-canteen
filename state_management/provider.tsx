@@ -1,34 +1,32 @@
 'use client'
 
-import { useStore } from 'zustand'
-import { type ReactNode, createContext, useRef, useContext } from 'react'
-import { createMainStore, initMainStore, MainStore } from './store'
+import { createContext, type ReactNode, useContext, useRef } from 'react'
+import { type StoreApi, useStore as useZustandStore } from 'zustand'
 
-export type MainStoreApi = ReturnType<typeof createMainStore>
+import { createAppStore, initStore, type Store } from './store'
 
-export const MainStoreContext = createContext<MainStoreApi | undefined>(
-  undefined
-)
+const AppStoreContext = createContext<StoreApi<Store> | null>(null)
 
-export interface MainStoreProviderProps {
+interface AppStoreProviderProps {
   children: ReactNode
 }
 
-export const MainStoreProvider = ({ children }: MainStoreProviderProps) => {
-  const storeRef = useRef<MainStoreApi>()
-  if (!storeRef.current) storeRef.current = createMainStore(initMainStore())
+export const AppStoreProvider = ({ children }: AppStoreProviderProps) => {
+  const storeRef = useRef<StoreApi<Store>>()
+  if (!storeRef.current) storeRef.current = createAppStore(initStore())
 
   return (
-    <MainStoreContext.Provider value={storeRef.current}>
+    <AppStoreContext.Provider value={storeRef.current}>
       {children}
-    </MainStoreContext.Provider>
+    </AppStoreContext.Provider>
   )
 }
-export const useMainStore = <T,>(selector: (store: MainStore) => T): T => {
-  const mainStoreContext = useContext(MainStoreContext)
 
-  if (!mainStoreContext)
-    throw new Error(`useMainStore must be used within MainStoreProvider`)
+export const useStore = <T,>(selector: (store: Store) => T): T => {
+  const appStoreContext = useContext(AppStoreContext)
 
-  return useStore(mainStoreContext, selector)
+  if (!appStoreContext)
+    throw new Error('useStore must be use within AppStoreProvider')
+
+  return useZustandStore(appStoreContext, selector)
 }

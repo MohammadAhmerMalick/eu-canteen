@@ -13,13 +13,41 @@ class UserModel {
     db.select().from(usersTable).where(eq(usersTable.email, email))
 
   static createUser = (user: typeof usersTable.$inferInsert) =>
-    db.insert(usersTable).values(user).returning({ id: usersTable.id })
+    db.insert(usersTable).values(user).returning({
+      id: usersTable.id,
+      name: usersTable.name,
+      email: usersTable.email,
+      whatsapp: usersTable.whatsapp,
+      matricola: usersTable.matricola,
+      idCardFrontImage: usersTable.idCardFrontImage,
+      idCardBackImage: usersTable.idCardBackImage,
+      approved: usersTable.approved,
+      password: usersTable.password,
+      roleName: usersTable.roleName,
+      published: usersTable.published,
+      createdAt: usersTable.createdAt,
+      deletedAt: usersTable.deletedAt,
+    })
 
   static updateUser = (user: typeof usersTable.$inferInsert, id: string) =>
     db
       .update(usersTable)
       .set(user)
-      .returning({ id: usersTable.id })
+      .returning({
+        id: usersTable.id,
+        name: usersTable.name,
+        email: usersTable.email,
+        whatsapp: usersTable.whatsapp,
+        matricola: usersTable.matricola,
+        idCardFrontImage: usersTable.idCardFrontImage,
+        idCardBackImage: usersTable.idCardBackImage,
+        approved: usersTable.approved,
+        password: usersTable.password,
+        roleName: usersTable.roleName,
+        published: usersTable.published,
+        createdAt: usersTable.createdAt,
+        deletedAt: usersTable.deletedAt,
+      })
       .where(eq(usersTable.id, id))
 
   static deleteUser = (id: string) =>

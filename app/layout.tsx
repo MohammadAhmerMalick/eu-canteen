@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import Toast from '@/components/Toast'
-import { MainStoreProvider } from '@/store/provider'
+import { AppStoreProvider } from '@/store/provider'
 
 import './globals.css'
 
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="overflow-x-hidden antialiased">
-        <MainStoreProvider>{children}</MainStoreProvider>
+        <AppStoreProvider>{children}</AppStoreProvider>
         <Toast />
       </body>
     </html>

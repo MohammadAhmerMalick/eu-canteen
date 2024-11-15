@@ -9,6 +9,7 @@ const insertCategoryAction = async (formData: FormData) => {
 
   if (!name || !image)
     return {
+      data: [],
       success: false,
       message: 'All fields are required',
       codeMessage: 'fields_are_missing',
@@ -18,6 +19,7 @@ const insertCategoryAction = async (formData: FormData) => {
   const category = await CategoryModel.getCategoryByName(name)
   if (category.length)
     return {
+      data: [],
       success: false,
       message: 'Category already exist',
       codeMessage: 'category_already_exist',

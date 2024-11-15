@@ -2,7 +2,9 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
+import Select from '@/components/common/select'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import Textarea from '@/components/common/Textarea'
@@ -16,16 +18,20 @@ interface EditProductModalProp {
 }
 
 const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
+  const { categories } = useStore((state) => state)
+  const { updateProduct } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
 
   const [name, setName] = useState(product.name)
+  const [categoryId, setCategory] = useState(product.categoryId)
+  const [image, setImage] = useState<File | ''>('')
   const [stock, setStock] = useState(product.stock.toString())
   const [price, setPrice] = useState(product.price.toString())
-  const [description, setDescription] = useState(product.description)
   const [published, setPublished] = useState(!!product.published)
-  const [image, setImage] = useState<File | ''>('')
+  const [description, setDescription] = useState(product.description)
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -36,12 +42,14 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
     formData.append('image', image)
     formData.append('stock', stock)
     formData.append('price', price)
+    formData.append('categoryId', categoryId)
     formData.append('description', description)
     formData.append('published', published ? 'published' : '')
 
-    const { success, message, codeMessage } =
+    const { success, message, codeMessage, data } =
       await updateProductAction(formData)
     if (success) {
+      updateProduct(data[0])
       toast.success('Product updated')
       onClose()
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
@@ -72,7 +80,6 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
             labelClassName="text-sm"
             placeholder="Zinger Burger"
           />
-
           <Input
             isRequired
             id="stock"
@@ -92,6 +99,18 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
             onChange={({ value }) => setPrice(value)}
             labelClassName="text-sm"
             placeholder="10"
+          />
+          <Select
+            id="categoryId"
+            value={categoryId}
+            labelText="Category"
+            labelClassName="text-sm"
+            onChange={({ value }) => setCategory(value)}
+            options={categories.map(({ id, name }) => ({
+              text: name,
+              key: id || '',
+              value: id || '',
+            }))}
           />
 
           <div>

@@ -9,6 +9,8 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 
+import categoriesTable from '@/database/schema/categoriesSchema'
+
 const productsTable = pgTable('products', {
   id: uuid()
     .unique()
@@ -21,6 +23,12 @@ const productsTable = pgTable('products', {
   description: text().notNull(),
   stock: integer().notNull(),
   price: integer().notNull(),
+
+  categoryId: uuid('categoryId')
+    .notNull()
+    .references(() => categoriesTable.id, {
+      onDelete: 'cascade',
+    }),
 
   published: boolean().default(true),
   createdAt: timestamp().default(sql`now()`),

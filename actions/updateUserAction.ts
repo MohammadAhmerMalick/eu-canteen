@@ -18,9 +18,10 @@ const updateUserAction = async (formData: FormData) => {
     // is email valid
     if (!/@compus.unimib.it\s*$/.test(email))
       return {
+        data: [],
         success: false,
-        message: 'Kindly use an authorized email',
         codeMessage: 'must_be_unimib_email',
+        message: 'Kindly use an authorized email',
       }
 
     const payload: typeof usersTable.$inferInsert = {
@@ -52,16 +53,17 @@ const updateUserAction = async (formData: FormData) => {
     console.log({ updateUserAction: 'success' })
 
     return {
-      success: true,
       data: user,
+      success: true,
       message: 'User updated',
       codeMessage: 'user_updated',
     }
   } catch (error) {
     console.log({ updateUserAction: error })
+
     return {
+      data: [],
       success: false,
-      data: {},
       message: 'Unable to update user',
       codeMessage: 'server_error',
     }

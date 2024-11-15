@@ -6,10 +6,10 @@ import { useState } from 'react'
 
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
-import { useMainStore } from '@/store/provider'
+import { useStore } from '@/store/provider'
 
 const Header = () => {
-  const { isLoggedIn, setIsLoggedIn } = useMainStore((state) => state)
+  const { isLoggedIn, setIsLoggedIn } = useStore((state) => state)
   const [expended, setExpended] = useState(false)
 
   return (

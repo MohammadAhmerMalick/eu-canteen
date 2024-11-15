@@ -13,15 +13,32 @@ class ProductModel {
     db.select().from(productsTable).where(eq(productsTable.id, id))
 
   static createProduct = (product: typeof productsTable.$inferInsert) =>
-    db.insert(productsTable).values(product).returning({ id: productsTable.id })
+    db.insert(productsTable).values(product).returning({
+      id: productsTable.id,
+      name: productsTable.name,
+      description: productsTable.description,
+      stock: productsTable.stock,
+      price: productsTable.price,
+      image: productsTable.image,
+      published: productsTable.published,
+      categoryId: productsTable.categoryId,
+    })
 
   static updateProduct = (product: typeof productsTable.$inferInsert) =>
-    product.id &&
     db
       .update(productsTable)
       .set(product)
-      .returning({ id: productsTable.id })
-      .where(eq(productsTable.id, product.id))
+      .returning({
+        id: productsTable.id,
+        name: productsTable.name,
+        description: productsTable.description,
+        stock: productsTable.stock,
+        price: productsTable.price,
+        image: productsTable.image,
+        published: productsTable.published,
+        categoryId: productsTable.categoryId,
+      })
+      .where(eq(productsTable.id, product.id || ''))
 
   static deleteProduct = (id: string) =>
     db

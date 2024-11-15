@@ -2,6 +2,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
@@ -13,6 +14,8 @@ interface CreateUserModalProp {
 }
 
 const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
+  const { insertUser } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
@@ -36,9 +39,11 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
     formData.append('idCardFrontImage', idCardFrontImage)
 
     if (idCardBackImage && idCardFrontImage) {
-      const { success, message, codeMessage } = await insertUserAction(formData)
+      const { success, message, codeMessage, data } =
+        await insertUserAction(formData)
 
       if (success) {
+        insertUser(data[0])
         toast.success('User created successfully')
         onClose()
       } else if (codeMessage === 'user_already_exist')

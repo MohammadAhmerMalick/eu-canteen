@@ -1,25 +1,41 @@
 import { createStore } from 'zustand/vanilla'
+
+import { createUsersSlice, type UsersSlice } from '@/store/slices/userssSlice'
 import {
-  authActions,
-  AuthActions,
-  AuthState,
-  defaultAuthState,
-} from './authState'
+  createProductsSlice,
+  type ProductsSlice,
+} from '@/store/slices/productsSlice'
+import {
+  type CategoriesSlice,
+  createCategoriesSlice,
+} from '@/store/slices/categoriesSlice'
+import {
+  createNotificationsSlice,
+  type NotificationsSlice,
+} from '@/store/slices/notificationsSlice'
+import { defaultState } from '@/store/defaultState'
+import { type AppSlice, createAppSlice } from '@/store/slices/appSlice'
+import { type AuthSlice, createAuthSlice } from '@/store/slices/authSlice'
 
-export type DefaultMainState = AuthState
-export type MainStore = AuthState & AuthActions
+export type Store = AppSlice &
+  AuthSlice &
+  UsersSlice &
+  ProductsSlice &
+  CategoriesSlice &
+  NotificationsSlice
 
-export const defaultMainState: DefaultMainState = defaultAuthState
-
-export const initMainStore = (): DefaultMainState => {
-  return defaultMainState
+export const initStore = () => {
+  return defaultState
 }
-export const createMainStore = (
-  initState: DefaultMainState = defaultMainState
-) => {
-  return createStore<MainStore>()((set) => ({
+
+export const createAppStore = (initState = defaultState) => {
+  return createStore<Store>()((set, get, store) => ({
     ...initState,
-    ...authActions(set),
-    decrementCount: () => set((state) => ({ count: state.count + 1 })),
+    ...createAppSlice(set, get, store),
+    ...createAuthSlice(set, get, store),
+    ...createUsersSlice(set, get, store),
+    ...createProductsSlice(set, get, store),
+    ...createCategoriesSlice(set, get, store),
+    ...createNotificationsSlice(set, get, store),
   }))
 }

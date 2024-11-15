@@ -1,12 +1,16 @@
 'use client'
 
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import { useQuery } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
+import Loading from '@/components/common/Loading'
+import DataError from '@/components/common/DataError'
 import usersTable from '@/database/schema/usersSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import getStudentsAction from '@/actions/getStudentsAction'
@@ -14,6 +18,8 @@ import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import EditUserModal from '@/components/modals/user/EditUserModal'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
+
+const dataErrorMessage = 'Unable to load users'
 
 const StudentsPage = () => {
   const { users, setUsers } = useStore((state) => state)
@@ -26,14 +32,19 @@ const StudentsPage = () => {
   >(null)
   const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
 
-  const getStudents = useCallback(async () => {
-    const { data } = await getStudentsAction()
-    setUsers(data)
-  }, [setUsers])
+  const { isPending, error } = useQuery({
+    queryKey: ['getStudents'],
+    queryFn: async () => {
+      const { data, success } = await getStudentsAction()
+      if (success) setUsers(data)
+      else toast.error(dataErrorMessage)
+      return data
+    },
+  })
 
-  useEffect(() => {
-    if (!users.length) getStudents()
-  }, [getStudents, users.length])
+  if (isPending) return <Loading />
+
+  if (error) return <DataError error={error} message={dataErrorMessage} />
 
   return (
     <div>

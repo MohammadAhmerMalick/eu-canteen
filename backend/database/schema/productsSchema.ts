@@ -1,4 +1,3 @@
-import { sql } from 'drizzle-orm'
 import {
   boolean,
   integer,
@@ -8,6 +7,7 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
+import { sql } from 'drizzle-orm'
 
 import categoriesTable from '@/database/schema/categoriesSchema'
 

@@ -18,11 +18,11 @@ const updateProductAction = async (formData: FormData) => {
     const payload: typeof productsTable.$inferInsert = {
       id,
       name,
+      price,
       categoryId,
       description,
       image: image.name,
       stock: Number(stock),
-      price: Number(price),
       published: !!published,
     }
 

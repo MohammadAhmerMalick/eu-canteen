@@ -1,10 +1,13 @@
 import db from '@/database/index'
 import categoriesData from '@/database/data/categoriesData'
-import categoriesSchema from '@/database/schema/categoriesSchema'
+import categoriesTable from '@/database/schema/categoriesSchema'
 
 const categoriesSeed = async () => {
-  await db.delete(categoriesSchema)
-  await db.insert(categoriesSchema).values(categoriesData)
+  await db.delete(categoriesTable)
+  return db
+    .insert(categoriesTable)
+    .values(categoriesData)
+    .returning({ id: categoriesTable.id })
 }
 
 export default categoriesSeed

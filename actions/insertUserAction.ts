@@ -16,9 +16,10 @@ const insertUserAction = async (formData: FormData) => {
     !name ||
     !email ||
     !whatsapp ||
-    !matricola ||
-    !idCardBackImageFile ||
-    !idCardFrontImageFile
+    !matricola
+    // ||
+    // !idCardBackImageFile ||
+    // !idCardFrontImageFile
   )
     return {
       data: [],

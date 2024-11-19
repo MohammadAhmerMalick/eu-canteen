@@ -1,7 +1,7 @@
 import { getToken } from 'next-auth/jwt'
 import { NextResponse, NextRequest } from 'next/server'
 
-const middleware = async (req: NextRequest) => {
+export const middleware = async (req: NextRequest) => {
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
@@ -25,17 +25,15 @@ const middleware = async (req: NextRequest) => {
         return NextResponse.redirect(new URL('/', req.url))
     }
   // when user is not logged in
-  else if (req.nextUrl.pathname.startsWith('/student || /admin'))
+  else if (
+    req.nextUrl.pathname.startsWith('/student') ||
+    req.nextUrl.pathname.startsWith('/admin')
+  )
     return NextResponse.rewrite(new URL('/404', req.url))
 
   return NextResponse.next()
 }
 
-const config = {
-  matcher: [
-    // Match all routes except the ones that start with /login and api and the static folder
-    '/((?!api|_next/static|_next/image|favicon.ico|login).*)',
-  ],
+export const config = {
+  matcher: ['/admin/:path*', '/student/:path*'],
 }
-
-export { middleware, config }

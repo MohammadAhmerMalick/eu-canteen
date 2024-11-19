@@ -17,7 +17,7 @@ const usersTable = pgTable('users', {
   idCardFrontImage: varchar({ length: 255 }),
   idCardBackImage: varchar({ length: 255 }),
   approved: boolean().default(false).notNull(),
-  password: varchar({ length: 36 }),
+  password: varchar({ length: 255 }),
 
   roleName: varchar({ length: 20 })
     .notNull()

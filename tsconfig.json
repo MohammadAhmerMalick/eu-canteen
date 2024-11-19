@@ -21,7 +21,9 @@
     "paths": {
       // "@/*": ["./*"]
       "@/utils": ["./utils"],
+      "@/auth": ["./auth"],
       "@/actions/*": ["./actions/*"],
+      "@/libs/*": ["./backend/libs/*"],
       "@/models/*": ["./backend/models/*"],
       "@/store/*": ["./state_management/*"],
       "@/sections/*": ["./frontend/sections/*"],

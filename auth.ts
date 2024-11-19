@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth'
+import { compareSync } from 'bcrypt'
 import Credentials from 'next-auth/providers/credentials'
 
 import UserModel from '@/models/UserModel'
@@ -19,18 +20,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       },
       authorize: async ({ email, password }) => {
-        try {
-          let user: typeof usersTable.$inferInsert | null = null
+        let user: typeof usersTable.$inferInsert | null = null
 
-          const res = await UserModel.getUserByEmail(email as string)
-          user = res[0]
+        try {
+          const [dbUser] = await UserModel.getUserByEmail(email as string)
+          // console.log({ dbUser })
+          if (!dbUser) throw Error
+
+          user = dbUser
+          const isPasswordCorrect = compareSync(
+            password as string,
+            user.password || ''
+          )
+
+          if (!isPasswordCorrect) throw Error
 
           return { ...user, password: null, role: user?.roleName }
         } catch (error) {
-          console.log(error)
+          console.log({ Credentials: error })
         }
 
-        return {}
+        return user
       },
     }),
   ],

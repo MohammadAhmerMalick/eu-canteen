@@ -17,7 +17,9 @@ import softDeleteNotificationAction from '@/actions/notification/softDeleteNotif
 const dataErrorMessage = 'Unable to load notifications'
 
 const NotificationsPage = () => {
-  const { notifications, setNotifications } = useStore((state) => state)
+  const { notifications, deleteNotification, setNotifications } = useStore(
+    (state) => state
+  )
 
   const [viewModalDate, setViewModalData] = useState<
     typeof notificationsTable.$inferInsert | null
@@ -38,8 +40,10 @@ const NotificationsPage = () => {
     formData.append('id', id)
 
     const { success } = await softDeleteNotificationAction(formData)
-    if (success) toast.success('Notification Deleted')
-    else
+    if (success) {
+      deleteNotification(id)
+      toast.success('Notification Deleted')
+    } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 

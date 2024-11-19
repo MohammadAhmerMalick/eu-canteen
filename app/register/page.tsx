@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
@@ -30,7 +31,7 @@ const SignupPage = () => {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const formData = new FormData(e.currentTarget)
+    const formData = new FormData()
     formData.append('name', name)
     formData.append('email', email)
     formData.append('whatsapp', whatsapp)
@@ -38,30 +39,29 @@ const SignupPage = () => {
     formData.append('idCardBackImage', idCardBackImage)
     formData.append('idCardFrontImage', idCardFrontImage)
 
-    if (idCardBackImage && idCardFrontImage) {
-      const { success, message, codeMessage } = await insertUserAction(formData)
-
-      if (success) {
-        toast.success('Your request has been submitted for the review')
-        resetForm()
-        redirect('/')
-      } else if (codeMessage === 'user_already_exist')
-        toast.warn(
-          'Your request is aready in pending state, contact admin for further information'
-        )
-      else if (codeMessage === 'fields_are_missing') toast.warn(message)
-      else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-      else
-        toast.error(
-          'Unable to handle request right now, please contact to admin'
-        )
-    }
+    const { success, message, codeMessage } = await insertUserAction(formData)
+    if (success) {
+      toast.success('Your request has been submitted for the review')
+      resetForm()
+      redirect('/')
+    } else if (codeMessage === 'user_already_exist')
+      toast.warn(
+        'Your request is aready in pending state, contact admin for further information'
+      )
+    else if (codeMessage === 'fields_are_missing') toast.warn(message)
+    else if (codeMessage === 'must_be_unimib_email') toast.error(message)
+    else
+      toast.error('Unable to handle request right now, please contact to admin')
   }
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: onSubmit,
+  })
 
   return (
     <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
       <form
-        onSubmit={onSubmit}
+        onSubmit={mutate}
         className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
       >
         <Link href="/">
@@ -115,13 +115,12 @@ const SignupPage = () => {
         />
 
         <div>
-          <p>Attach You University Id Card</p>
+          <p>Attach You Profile Picture</p>
           <label
             htmlFor="idCardFront"
             className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
           >
             <input
-              required
               type="file"
               id="idCardFront"
               accept="image/*"
@@ -133,7 +132,7 @@ const SignupPage = () => {
             <span className="text-primary">
               <AiOutlinePaperClip />
             </span>
-            Upload Front
+            Upload Profile Picture
             {idCardFrontImage ? (
               <span className="text-green-600">
                 <HiBadgeCheck />
@@ -144,10 +143,9 @@ const SignupPage = () => {
           </label>
           <label
             htmlFor="idCardBack"
-            className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
+            className="relative mt-1 flex hidden w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
           >
             <input
-              required
               type="file"
               id="idCardBack"
               accept="image/*"
@@ -195,7 +193,9 @@ const SignupPage = () => {
           </label>
         </div>
 
-        <Button className="mt-4">Request For Register</Button>
+        <Button className="mt-4" disabled={isPending}>
+          Request For Register
+        </Button>
         <p className="text-center text-sm font-light">
           Alredy have an account?{' '}
           <Link href="login" className="font-semibold">

@@ -1,6 +1,7 @@
 import { useEffect, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import notificationsTable from '@/database/schema/notificationsSchema'
 import makeNotificationReadAction from '@/actions/notification/makeNotificationReadAction'
@@ -14,12 +15,19 @@ const ViewNotificationModal = ({
   onClose,
   notification,
 }: ViewNotificationModalProp) => {
+  const { updateNotification } = useStore((state) => state)
+
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
 
+  const makeNotificationReadA = () => {
+    updateNotification({ ...notification, isRead: true })
+    makeNotificationReadAction(notification.id || '')
+  }
+
   useEffect(() => {
-    if (!notification.isRead) makeNotificationReadAction(notification.id || '')
+    if (!notification.isRead) makeNotificationReadA()
   }, [notification.id, notification.isRead])
 
   return (

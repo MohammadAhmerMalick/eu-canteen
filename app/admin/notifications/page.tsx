@@ -1,9 +1,12 @@
 'use client'
 
+import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useCallback, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
+import Loading from '@/components/common/Loading'
+import DataError from '@/components/common/DataError'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import notificationsTable from '@/database/schema/notificationsSchema'
@@ -11,31 +14,42 @@ import getNotificationsAction from '@/actions/notification/getNotificationsActio
 import ViewNotificationModal from '@/components/modals/notification/ViewNotificationModal'
 import softDeleteNotificationAction from '@/actions/notification/softDeleteNotificationAction'
 
+const dataErrorMessage = 'Unable to load notifications'
+
 const NotificationsPage = () => {
-  const { notifications, setNotifications } = useStore((state) => state)
+  const { notifications, deleteNotification, setNotifications } = useStore(
+    (state) => state
+  )
 
   const [viewModalDate, setViewModalData] = useState<
     typeof notificationsTable.$inferInsert | null
   >(null)
+
+  const { isPending, error } = useQuery({
+    queryKey: ['getNotifications'],
+    queryFn: async () => {
+      const { data, success } = await getNotificationsAction()
+      if (success) setNotifications(data)
+      else toast.error(dataErrorMessage)
+      return data
+    },
+  })
 
   const onDelete = async (id: string) => {
     const formData = new FormData()
     formData.append('id', id)
 
     const { success } = await softDeleteNotificationAction(formData)
-    if (success) toast.success('Notification Deleted')
-    else
+    if (success) {
+      deleteNotification(id)
+      toast.success('Notification Deleted')
+    } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
-  const getNotifications = useCallback(async () => {
-    const { data } = await getNotificationsAction()
-    setNotifications(data)
-  }, [setNotifications])
+  if (isPending) return <Loading />
 
-  useEffect(() => {
-    if (notifications.length) getNotifications()
-  }, [getNotifications, notifications.length])
+  if (error) return <DataError error={error} message={dataErrorMessage} />
 
   return (
     <div>

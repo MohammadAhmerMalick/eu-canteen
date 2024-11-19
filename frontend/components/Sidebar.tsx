@@ -10,7 +10,7 @@ import FiUsers from '@/icons/FiUsers'
 import BiBasket from '@/icons/BiBasket'
 import Button from '@/components/common/Button'
 import AiOutlineHome from '@/icons/AiOutlineHome'
-// import AiOutlineFile from '@/icons/AiOutlineFile'
+import AiOutlineFile from '@/icons/AiOutlineFile'
 import AiOutlineBell from '@/icons/AiOutlineBell'
 import LinkButton from '@/components/common/LinkButton'
 
@@ -20,11 +20,11 @@ const links = [
     label: 'Dashboard',
     Icon: AiOutlineHome,
   },
-  // {
-  //   link: '/admin/orders',
-  //   label: 'Orders',
-  //   Icon: AiOutlineFile,
-  // },
+  {
+    link: '/admin/orders',
+    label: 'Orders',
+    Icon: AiOutlineFile,
+  },
   { link: '/admin/students', label: 'Students', Icon: FiUsers },
   // {
   //   link: '/admin/analytics',

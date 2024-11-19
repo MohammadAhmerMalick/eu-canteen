@@ -12,7 +12,8 @@
     "db:studio": "npx drizzle-kit studio",
     "db:generate": "npx drizzle-kit generate",
     "db:seed": "node --import tsx --env-file .env ./backend/database/seeds/index.ts",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "prepare": "husky"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.3",

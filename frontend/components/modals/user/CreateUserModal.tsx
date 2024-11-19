@@ -120,7 +120,6 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
               className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
             >
               <input
-                required
                 type="file"
                 id="idCardFront"
                 accept="image/*"
@@ -146,7 +145,6 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
               className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
             >
               <input
-                required
                 type="file"
                 id="idCardBack"
                 accept="image/*"

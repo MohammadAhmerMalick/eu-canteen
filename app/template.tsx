@@ -9,8 +9,8 @@ import { useStore } from '@/store/provider'
 const C = () => {
   const { data: session, status } = useSession()
   const { setAuth, setAuthStatus } = useStore((state) => state)
+
   useEffect(() => {
-    console.log({ status })
     setAuthStatus(status)
     if (status === 'authenticated') setAuth(session?.user)
   }, [session?.user, status, setAuth, setAuthStatus])

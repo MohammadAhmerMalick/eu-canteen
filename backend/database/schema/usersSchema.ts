@@ -14,6 +14,7 @@ const usersTable = pgTable('users', {
   email: varchar({ length: 255 }).notNull().unique(),
   whatsapp: varchar({ length: 20 }).notNull(),
   matricola: varchar({ length: 20 }).notNull().unique(),
+  image: varchar({ length: 255 }),
   idCardFrontImage: varchar({ length: 255 }),
   idCardBackImage: varchar({ length: 255 }),
   approved: boolean().default(false).notNull(),

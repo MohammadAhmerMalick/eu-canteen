@@ -90,7 +90,7 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
             labelText="Email"
             onChange={({ value }) => setEmail(value)}
             labelClassName="text-sm"
-            placeholder="email@compus.unimib.it"
+            placeholder="email@campus.unimib.it"
           />
           <Input
             isRequired

@@ -11,14 +11,15 @@ import Button from '@/components/common/Button'
 import loginAction from '@/actions/loginAction'
 
 const LoginPage = () => {
-  const { auth, authStatus } = useStore((state) => state)
+  const { auth, authStatus, setAuthStatus } = useStore((state) => state)
 
-  const [email, setEmail] = useState('asad@compus.unimib.it')
+  const [email, setEmail] = useState('asad@campus.unimib.it')
   const [password, setPassword] = useState('123123123')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     loginAction({ email, password })
+    setAuthStatus('loading')
 
     setTimeout(() => {
       window.location.href = '/login'

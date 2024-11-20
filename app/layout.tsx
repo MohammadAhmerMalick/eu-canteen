@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 
-// import { auth } from '@/auth'
 import Toast from '@/components/Toast'
 import { AppStoreProvider } from '@/store/provider'
 
@@ -20,8 +19,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // const session = await auth()
-
   return (
     <html lang="en">
       <body className="overflow-x-hidden antialiased">

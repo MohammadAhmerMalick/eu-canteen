@@ -2,8 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
@@ -14,15 +13,10 @@ import FiSearch from '@/components/icons/FiSearch'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
 
 const PanelHeader = () => {
-  const router = useRouter()
-  const { auth, logout } = useStore((state) => state)
+  const { logout } = useStore((state) => state)
 
   const [expended, setExpended] = useState(false)
   const [globalSarch, setGlobalSarch] = useState('')
-
-  useEffect(() => {
-    if (!auth?.id) router.push('/')
-  }, [auth?.id, router])
 
   return (
     <div className="z-0 grid h-min w-full grid-cols-[auto_300px] items-center gap-2 p-8">

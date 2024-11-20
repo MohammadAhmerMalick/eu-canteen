@@ -1,25 +1,31 @@
 'use client'
 
-import {
-  //  useEffect,
-  useState,
-} from 'react'
+import { useEffect, useState } from 'react'
+import { SessionProvider, useSession } from 'next-auth/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-// import { getCookie } from '@/utils'
-// import { useStore } from '@/store/provider'
+import { useStore } from '@/store/provider'
+
+const C = () => {
+  const { data: session, status } = useSession()
+  const { setAuth, setAuthStatus } = useStore((state) => state)
+  useEffect(() => {
+    console.log({ status })
+    setAuthStatus(status)
+    if (status === 'authenticated') setAuth(session?.user)
+  }, [session?.user, status, setAuth, setAuthStatus])
+  return <span className="absolute -z-50 hidden opacity-0">Poolaster</span>
+}
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  // const { setAuth } = useStore((state) => state)
-
   const [queryClient] = useState(() => new QueryClient())
 
-  // useEffect(() => {
-  //   const token = getCookie('token')
-  //   // setAuthn(!!token)
-  // }, [setAuth])
-
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <C />
+        {children}
+      </QueryClientProvider>
+    </SessionProvider>
   )
 }

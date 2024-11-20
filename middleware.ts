@@ -29,7 +29,7 @@ export const middleware = async (req: NextRequest) => {
     req.nextUrl.pathname.startsWith('/student') ||
     req.nextUrl.pathname.startsWith('/admin')
   )
-    return NextResponse.rewrite(new URL('/404', req.url))
+    return NextResponse.redirect(new URL('/', req.url))
 
   return NextResponse.next()
 }

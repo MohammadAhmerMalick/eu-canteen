@@ -7,10 +7,9 @@ import usersTable from '@/database/schema/usersSchema'
 const insertUserAction = async (formData: FormData) => {
   const name = formData.get('name') as string
   const email = formData.get('email') as string
+  const image = formData.get('image') as File
   const whatsapp = formData.get('whatsapp') as string
   const matricola = formData.get('matricola') as string
-  const idCardFrontImageFile = formData.get('idCardFrontImage') as File
-  const idCardBackImageFile = formData.get('idCardBackImage') as File
 
   if (
     !name ||
@@ -29,7 +28,7 @@ const insertUserAction = async (formData: FormData) => {
     }
 
   // is email valid
-  if (!/@compus.unimib.it\s*$/.test(email))
+  if (!/@campus.unimib.it\s*$/.test(email))
     return {
       data: [],
       success: false,
@@ -62,8 +61,7 @@ const insertUserAction = async (formData: FormData) => {
     email,
     whatsapp,
     matricola,
-    idCardBackImage: idCardFrontImageFile.name,
-    idCardFrontImage: idCardBackImageFile.name,
+    image: image.name,
   }
 
   const newUser = await UserModel.createUser(payload)

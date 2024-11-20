@@ -1,13 +1,14 @@
-import { sql } from 'drizzle-orm'
 import {
   boolean,
   integer,
+  numeric,
   pgTable,
   text,
   timestamp,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
+import { sql } from 'drizzle-orm'
 
 import categoriesTable from '@/database/schema/categoriesSchema'
 
@@ -22,7 +23,7 @@ const productsTable = pgTable('products', {
   image: varchar({ length: 255 }).notNull(),
   description: text().notNull(),
   stock: integer().notNull(),
-  price: integer().notNull(),
+  price: numeric({ precision: 10, scale: 4 }).notNull(),
 
   categoryId: uuid('categoryId')
     .notNull()

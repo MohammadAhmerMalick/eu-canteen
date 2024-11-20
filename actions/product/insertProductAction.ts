@@ -23,11 +23,11 @@ const insertProductAction = async (formData: FormData) => {
 
   const newProduct = await ProductModel.createProduct({
     name,
+    price,
     categoryId,
     description,
     image: image.name,
     stock: Number(stock),
-    price: Number(price),
   })
 
   return {

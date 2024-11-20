@@ -25,7 +25,6 @@ const dataErrorMessage = 'Unable to load products'
 const ProductsPage = () => {
   const { products, setProducts } = useStore((state) => state)
   const { categories, setCategories } = useStore((state) => state)
-
   const [editModalData, setEditModalData] = useState<
     typeof productsTable.$inferInsert | null
   >(null)

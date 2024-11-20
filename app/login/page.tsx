@@ -2,26 +2,37 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import loginAction from '@/actions/loginAction'
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const { auth, authStatus, setAuthStatus } = useStore((state) => state)
+
+  const [email, setEmail] = useState('asad@campus.unimib.it')
+  const [password, setPassword] = useState('123123123')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    loginAction({ email, password })
+    setAuthStatus('loading')
 
-    const { success, message } = await loginAction({ email, password })
-    if (success) redirect('/')
-
-    toast.error(message)
+    setTimeout(() => {
+      window.location.href = '/login'
+    }, 3000)
   }
+
+  useEffect(() => {
+    if (auth?.role) {
+      if (auth.role === 'admin') redirect('/admin/students')
+      if (auth.role === 'student') redirect('/student')
+      redirect('/')
+    }
+  }, [authStatus, auth])
 
   return (
     <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
@@ -63,8 +74,9 @@ const LoginPage = () => {
           Forgot Password?
         </p>
         <Button
-          onClick={() => localStorage.setItem('isLoggedIn', 'true')}
           className="mt-4"
+          disabled={authStatus === 'loading'}
+          onClick={() => localStorage.setItem('isLoggedIn', 'true')}
         >
           Login
         </Button>

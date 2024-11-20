@@ -1,6 +1,7 @@
 'use server'
 
-import { cookies } from 'next/headers'
+import { auth, signIn } from '@/auth'
+import { isRedirectError } from 'next/dist/client/components/redirect'
 
 interface loginActionProps {
   email: string
@@ -8,19 +9,32 @@ interface loginActionProps {
 }
 
 const loginAction = async ({ email, password }: loginActionProps) => {
-  const cookieStore = await cookies()
+  const formData = new FormData()
+  formData.append('email', email)
+  formData.append('password', password)
 
-  if (email === 'asad@poolaster.com' && password === 'admintest') {
-    cookieStore.set('token', 'testUsre')
-
-    return {
-      success: true,
-      message: 'Login successful',
-    }
+  try {
+    await signIn('credentials', formData)
+  } catch (err) {
+    if (!isRedirectError(err))
+      return {
+        data: {},
+        success: false,
+        message: 'Something went wrong',
+      }
   }
 
-  cookieStore.delete('token')
+  const session = await auth()
+
+  if (session?.user?.id)
+    return {
+      data: session?.user,
+      success: true,
+      message: 'Successful login',
+    }
+
   return {
+    data: {},
     success: false,
     message: 'Invalid Credentials',
   }

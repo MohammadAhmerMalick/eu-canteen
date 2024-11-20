@@ -22,7 +22,9 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
 
+  const [password, setPassword] = useState('')
   const [name, setName] = useState(student.name)
+  const [image, setImage] = useState<File | ''>('')
   const [email, setEmail] = useState(student.email)
   const [whatsapp, setWhatsapp] = useState(student.whatsapp)
   const [matricola, setMatricola] = useState(student.matricola)
@@ -37,6 +39,8 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
     formData.append('id', student.id || '')
     formData.append('name', name)
     formData.append('email', email)
+    formData.append('image', image)
+    formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
     formData.append('idCardBackImage', idCardBackImage)
@@ -85,7 +89,7 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
             labelText="Email"
             onChange={({ value }) => setEmail(value)}
             labelClassName="text-sm"
-            placeholder="email@compus.unimib.it"
+            placeholder="email@campus.unimib.it"
           />
           <Input
             isRequired
@@ -107,9 +111,40 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
             placeholder="✳✳✳✳✳✳✳✳✳✳"
             labelClassName="text-sm"
           />
+          <Input
+            id="password"
+            value={password}
+            onChange={({ value }) => setPassword(value)}
+            labelText="Password"
+            placeholder="✳✳✳✳✳✳✳✳✳✳"
+            labelClassName="text-sm"
+          />
 
           <div>
-            <p>University Id Card</p>
+            <p>Images</p>
+            <label
+              htmlFor="profileImage"
+              className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
+            >
+              <input
+                type="file"
+                id="profileImage"
+                accept="image/*"
+                className="absolute left-10 w-1 opacity-0"
+                onChange={({ target }) => setImage(target.files?.[0] || '')}
+              />
+              <span className="text-primary">
+                <AiOutlinePaperClip />
+              </span>
+              Upload Profile Image
+              {image ? (
+                <span className="text-green-600">
+                  <HiBadgeCheck />
+                </span>
+              ) : (
+                ''
+              )}
+            </label>
             <label
               htmlFor="idCardFront"
               className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
@@ -126,7 +161,7 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
               <span className="text-primary">
                 <AiOutlinePaperClip />
               </span>
-              Upload Front
+              Upload ID Care Front Side
               {idCardFrontImage ? (
                 <span className="text-green-600">
                   <HiBadgeCheck />
@@ -151,7 +186,7 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
               <span className="text-primary">
                 <AiOutlinePaperClip />
               </span>
-              Upload Back
+              Upload ID Care Back Side
               {idCardBackImage ? (
                 <span className="text-green-600">
                   <HiBadgeCheck />

@@ -1,16 +1,39 @@
-import { NextResponse } from 'next/server'
+import { getToken } from 'next-auth/jwt'
+import { NextResponse, NextRequest } from 'next/server'
 
-import type { NextRequest } from 'next/server'
+export const middleware = async (req: NextRequest) => {
+  const token = await getToken({
+    req,
+    secret: process.env.AUTH_SECRET,
+  })
 
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next()
+  if (token)
+    switch (token.role) {
+      case 'student': // student login
+        // secure admin path from students
+        if (req.nextUrl.pathname.startsWith('/admin'))
+          return NextResponse.rewrite(new URL('/404', req.url))
+        break
 
-  const token = request.cookies.get('token')
-  if (!token?.value) return NextResponse.redirect(new URL('/', request.url))
+      case 'admin': // admin login
+        // restrict student path from admin
+        if (req.nextUrl.pathname.startsWith('/student'))
+          return NextResponse.rewrite(new URL('/404', req.url))
+        break
 
-  return response
+      default:
+        return NextResponse.redirect(new URL('/', req.url))
+    }
+  // when user is not logged in
+  else if (
+    req.nextUrl.pathname.startsWith('/student') ||
+    req.nextUrl.pathname.startsWith('/admin')
+  )
+    return NextResponse.redirect(new URL('/', req.url))
+
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: '/admin/:path*',
+  matcher: ['/admin/:path*', '/student/:path*'],
 }

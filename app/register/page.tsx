@@ -18,8 +18,7 @@ const SignupPage = () => {
   const [email, setEmail] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [matricola, setMatricola] = useState('')
-  const [idCardBackImage, setIdCardBackImage] = useState<File | ''>('')
-  const [idCardFrontImage, setIdCardFrontImage] = useState<File | ''>('')
+  const [image, setImage] = useState<File | ''>('')
 
   const resetForm = () => {
     setName('')
@@ -34,10 +33,9 @@ const SignupPage = () => {
     const formData = new FormData()
     formData.append('name', name)
     formData.append('email', email)
+    formData.append('image', image)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
-    formData.append('idCardBackImage', idCardBackImage)
-    formData.append('idCardFrontImage', idCardFrontImage)
 
     const { success, message, codeMessage } = await insertUserAction(formData)
     if (success) {
@@ -91,7 +89,7 @@ const SignupPage = () => {
           labelText="Email"
           onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
-          placeholder="email@compus.unimib.it"
+          placeholder="email@campus.unimib.it"
         />
         <Input
           isRequired
@@ -117,48 +115,21 @@ const SignupPage = () => {
         <div>
           <p>Attach You Profile Picture</p>
           <label
-            htmlFor="idCardFront"
+            htmlFor="image"
             className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
           >
             <input
               type="file"
-              id="idCardFront"
+              id="image"
               accept="image/*"
               className="absolute left-10 w-1 opacity-0"
-              onChange={({ target }) =>
-                setIdCardFrontImage(target.files?.[0] || '')
-              }
+              onChange={({ target }) => setImage(target.files?.[0] || '')}
             />
             <span className="text-primary">
               <AiOutlinePaperClip />
             </span>
             Upload Profile Picture
-            {idCardFrontImage ? (
-              <span className="text-green-600">
-                <HiBadgeCheck />
-              </span>
-            ) : (
-              ''
-            )}
-          </label>
-          <label
-            htmlFor="idCardBack"
-            className="relative mt-1 flex hidden w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
-          >
-            <input
-              type="file"
-              id="idCardBack"
-              accept="image/*"
-              className="absolute left-10 w-1 opacity-0"
-              onChange={({ target }) =>
-                setIdCardBackImage(target.files?.[0] || '')
-              }
-            />
-            <span className="text-primary">
-              <AiOutlinePaperClip />
-            </span>
-            Upload Back
-            {idCardBackImage ? (
+            {image ? (
               <span className="text-green-600">
                 <HiBadgeCheck />
               </span>

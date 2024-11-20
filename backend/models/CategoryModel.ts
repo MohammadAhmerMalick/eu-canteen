@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { eq, getTableColumns } from 'drizzle-orm'
 
 import db from '@/database/index'
 import categoriesTable from '@/database/schema/categoriesSchema'
@@ -16,28 +16,17 @@ class CategoryModel {
     db.select().from(categoriesTable).where(eq(categoriesTable.name, name))
 
   static createCategory = (category: typeof categoriesTable.$inferInsert) =>
-    db.insert(categoriesTable).values(category).returning({
-      id: categoriesTable.id,
-      name: categoriesTable.name,
-      image: categoriesTable.image,
-      published: categoriesTable.published,
-      createdAt: categoriesTable.createdAt,
-      deletedAt: categoriesTable.deletedAt,
-    })
+    db
+      .insert(categoriesTable)
+      .values(category)
+      .returning(getTableColumns(categoriesTable))
 
   static updateCategory = (category: typeof categoriesTable.$inferInsert) =>
     db
       .update(categoriesTable)
       .set(category)
-      .returning({
-        id: categoriesTable.id,
-        name: categoriesTable.name,
-        image: categoriesTable.image,
-        published: categoriesTable.published,
-        createdAt: categoriesTable.createdAt,
-        deletedAt: categoriesTable.deletedAt,
-      })
       .where(eq(categoriesTable.id, category.id || ''))
+      .returning(getTableColumns(categoriesTable))
 
   static deleteCategory = (id: string) =>
     db

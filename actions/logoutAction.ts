@@ -1,11 +1,10 @@
 'use server'
 
-import { cookies } from 'next/headers'
+// import { signOut } from '@/auth'
 
 const logoutAction = async () => {
-  const cookieStore = await cookies()
+  // signOut()
 
-  cookieStore.delete('token')
   return {
     success: true,
     message: 'Logout successful',

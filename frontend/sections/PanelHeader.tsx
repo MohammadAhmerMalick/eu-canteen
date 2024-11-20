@@ -6,27 +6,23 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
-import { useStore } from '@/store/provider'
 import VscGear from '@/components/icons/VscGear'
 import FiSearch from '@/components/icons/FiSearch'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
 
 const PanelHeader = () => {
   const router = useRouter()
-  const { isLoggedIn, setIsLoggedIn } = useStore((state) => state)
+  const { auth, logout } = useStore((state) => state)
 
   const [expended, setExpended] = useState(false)
   const [globalSarch, setGlobalSarch] = useState('')
 
-  const logout = () => {
-    setIsLoggedIn(false)
-  }
-
   useEffect(() => {
-    if (!isLoggedIn) router.push('/')
-  }, [isLoggedIn, router])
+    if (!auth?.id) router.push('/')
+  }, [auth?.id, router])
 
   return (
     <div className="z-0 grid h-min w-full grid-cols-[auto_300px] items-center gap-2 p-8">
@@ -82,7 +78,7 @@ const PanelHeader = () => {
               <p className="text-neutral-400">Settings</p>
               <p className="text-neutral-400">Orders</p>
               <p className="text-neutral-400">Profile</p>
-              <Button onClick={() => logout()} className="w-full min-w-max">
+              <Button onClick={logout} className="w-full min-w-max">
                 Log out
               </Button>
             </div>

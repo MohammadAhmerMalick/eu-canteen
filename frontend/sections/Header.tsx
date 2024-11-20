@@ -5,12 +5,14 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 import { classnames } from '@/utils'
-import Button from '@/components/common/Button'
 import { useStore } from '@/store/provider'
+import Button from '@/components/common/Button'
 
 const Header = () => {
-  const { isLoggedIn, setIsLoggedIn } = useStore((state) => state)
+  const { auth, logout } = useStore((state) => state)
   const [expended, setExpended] = useState(false)
+
+  const isLoggedIn = !!auth?.id
 
   return (
     <header className="relative z-50 bg-primary-light">
@@ -63,10 +65,7 @@ const Header = () => {
                   <p className="text-neutral-400">Settings</p>
                   <p className="text-neutral-400">Orders</p>
                   <p className="text-neutral-400">Profile</p>
-                  <Button
-                    onClick={() => setIsLoggedIn(false)}
-                    className="w-full min-w-max"
-                  >
+                  <Button onClick={logout} className="w-full min-w-max">
                     Log out
                   </Button>
                 </div>

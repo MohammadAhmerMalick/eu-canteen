@@ -3,26 +3,40 @@ import { type StateCreator } from 'zustand'
 import { type Store } from '@/store/store'
 import logoutAction from '@/actions/logoutAction'
 
+interface Auth {
+  id: string
+  name: string
+  email: string
+  role: string
+}
+
 export interface AuthState {
-  isLoggedIn: boolean
+  auth: Auth | null
 }
 
 export type AuthActions = {
-  setIsLoggedIn(isLoggedIn: AuthState['isLoggedIn']): void
+  setAuth: (auth: Auth) => void
+  logout: () => void
 }
 
 export type AuthSlice = AuthState & AuthActions
 
 export const initialAuthState: AuthState = {
-  isLoggedIn: false,
+  auth: null,
 }
 
 export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (
   set
 ) => ({
   ...initialAuthState,
-  setIsLoggedIn: async (isLoggedIn) => {
-    if (!isLoggedIn) await logoutAction()
-    return set({ isLoggedIn })
-  },
+  setAuth: (auth: Auth) =>
+    set((state: any) => {
+      return { ...state, auth }
+    }),
+
+  logout: async () =>
+    set((state) => {
+      logoutAction()
+      return { ...state, auth: null }
+    }),
 })

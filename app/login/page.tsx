@@ -11,14 +11,18 @@ import Button from '@/components/common/Button'
 import loginAction from '@/actions/loginAction'
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('asad@compus.unimib.it')
+  const [password, setPassword] = useState('123123123')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const { success, message } = await loginAction({ email, password })
-    if (success) redirect('/')
+    const { success, message, data } = await loginAction({ email, password })
+    if (success) {
+      if (data.role === 'admin') redirect('/admin/students')
+      if (data.role === 'student') redirect('/student')
+      redirect('/')
+    }
 
     toast.error(message)
   }

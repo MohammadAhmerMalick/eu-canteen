@@ -24,8 +24,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         try {
           const [dbUser] = await UserModel.getUserByEmail(email as string)
-          // console.log({ dbUser })
-          if (!dbUser) throw Error
+          if (!dbUser) return {}
 
           user = dbUser
           const isPasswordCorrect = compareSync(
@@ -33,14 +32,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             user.password || ''
           )
 
-          if (!isPasswordCorrect) throw Error
+          if (!isPasswordCorrect) return {}
 
-          return { ...user, password: null, role: user?.roleName }
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.roleName,
+          }
         } catch (error) {
-          console.log({ Credentials: error })
+          console.log({ authorize: error })
         }
 
-        return user
+        return {}
       },
     }),
   ],
@@ -48,11 +52,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   debug: process.env.NODE_ENV === 'development',
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.roleName
+      if (user) token = { ...token, ...user }
       return token
     },
     async session({ session, token }) {
-      if (session?.user) session.user.roleName = token.role
+      if (session?.user)
+        session.user = {
+          id: token.id,
+          name: token.name,
+          email: token.email,
+          role: token.role,
+        }
       return session
     },
   },

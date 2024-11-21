@@ -1,5 +1,5 @@
-const StudentPanelPage = () => {
-  return <div>StudentPanelPage</div>
+const ProfilelPage = () => {
+  return <div>ProfilelPage</div>
 }
 
-export default StudentPanelPage
+export default ProfilelPage

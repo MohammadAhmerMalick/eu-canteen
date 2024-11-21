@@ -1,52 +1,23 @@
 'use client'
 
 import Image from 'next/image'
+import { type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 
-import BiDish from '@/icons/BiDish'
 import { classnames } from '@/utils'
-import FiUsers from '@/icons/FiUsers'
-// import VscGraph from '@/icons/VscGraph'
-import BiBasket from '@/icons/BiBasket'
 import Button from '@/components/common/Button'
-import AiOutlineHome from '@/icons/AiOutlineHome'
-import AiOutlineFile from '@/icons/AiOutlineFile'
-import AiOutlineBell from '@/icons/AiOutlineBell'
 import LinkButton from '@/components/common/LinkButton'
 
-const links = [
-  {
-    link: '/admin/dashboard',
-    label: 'Dashboard',
-    Icon: AiOutlineHome,
-  },
-  {
-    link: '/admin/orders',
-    label: 'Orders',
-    Icon: AiOutlineFile,
-  },
-  { link: '/admin/students', label: 'Students', Icon: FiUsers },
-  // {
-  //   link: '/admin/analytics',
-  //   label: 'Analytics',
-  //   isActive: false,
-  //   Icon: VscGraph,
-  // },
-  { link: '/admin/products', label: 'Products', Icon: BiDish },
-  {
-    link: '/admin/notifications',
-    label: 'Notifications',
-    isActive: false,
-    Icon: AiOutlineBell,
-  },
-  {
-    link: '/admin/categories',
-    label: 'Categories',
-    isActive: false,
-    Icon: BiBasket,
-  },
-]
-const Sidebar = () => {
+export interface SidebarLink {
+  link: string
+  label: string
+  icon: ReactNode
+}
+interface SidebarProps {
+  links: SidebarLink[]
+}
+
+const Sidebar = ({ links }: SidebarProps) => {
   const pathname = usePathname()
 
   return (
@@ -60,7 +31,7 @@ const Sidebar = () => {
       />
 
       <div className="grid">
-        {links.map(({ link, label, Icon }) => (
+        {links.map(({ link, label, icon }) => (
           <LinkButton
             key={label}
             href={link}
@@ -77,9 +48,7 @@ const Sidebar = () => {
                 pathname === link ? 'h-11' : 'h-0'
               )}
             />
-            <span className="text-xl">
-              <Icon />
-            </span>
+            <span className="text-xl">{icon}</span>
             {label}
           </LinkButton>
         ))}

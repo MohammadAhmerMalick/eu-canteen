@@ -13,7 +13,7 @@ import loginAction from '@/actions/loginAction'
 const LoginPage = () => {
   const { auth, authStatus, setAuthStatus } = useStore((state) => state)
 
-  const [email, setEmail] = useState('asad@campus.unimib.it')
+  const [email, setEmail] = useState('johndoe@campus.unimib.it')
   const [password, setPassword] = useState('123123123')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {

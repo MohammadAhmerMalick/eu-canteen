@@ -1,4 +1,4 @@
-import { useEffect, type MouseEvent } from 'react'
+import { useCallback, useEffect, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
@@ -21,14 +21,14 @@ const ViewNotificationModal = ({
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
 
-  const makeNotificationReadA = () => {
+  const makeNotificationReadA = useCallback(() => {
     updateNotification({ ...notification, isRead: true })
     makeNotificationReadAction(notification.id || '')
-  }
+  }, [notification, updateNotification])
 
   useEffect(() => {
     if (!notification.isRead) makeNotificationReadA()
-  }, [notification.id, notification.isRead])
+  }, [notification.id, notification.isRead, makeNotificationReadA])
 
   return (
     <div

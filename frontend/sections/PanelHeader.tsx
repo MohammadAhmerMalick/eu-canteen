@@ -49,8 +49,10 @@ const PanelHeader = () => {
           onClick={() => setExpended(!expended)}
         >
           <div>
-            <p className="">Asad Khan</p>
-            <p className="text-sm text-neutral-400">Admin</p>
+            <p className="">{auth?.name}</p>
+            <p className="text-sm text-neutral-400">
+              {auth?.role.toUpperCase()}
+            </p>
           </div>
           <Image
             width={40}

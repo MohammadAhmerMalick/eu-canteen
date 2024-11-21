@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { and, arrayOverlaps, eq } from 'drizzle-orm'
 
 import db from '@/database/index'
 import notificationsTable from '@/database/schema/notificationsSchema'
@@ -9,6 +9,17 @@ class NotificationModel {
       .select()
       .from(notificationsTable)
       .where(eq(notificationsTable.published, true))
+
+  static getPublicAndUserNotificationsByUserId = (userId: string) =>
+    db
+      .select()
+      .from(notificationsTable)
+      .where(
+        and(
+          eq(notificationsTable.published, true),
+          arrayOverlaps(notificationsTable.to, ['general', userId])
+        )
+      )
 
   static getAllNotifications = () => db.select().from(notificationsTable)
 

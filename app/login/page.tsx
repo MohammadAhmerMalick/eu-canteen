@@ -28,7 +28,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (auth?.role) {
-      if (auth.role === 'admin') redirect('/admin/students')
+      if (auth.role === 'admin') redirect(`/${auth.role}`)
       if (auth.role === 'student') redirect('/student')
       redirect('/')
     }

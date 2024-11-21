@@ -17,9 +17,8 @@ import softDeleteNotificationAction from '@/actions/notification/softDeleteNotif
 const dataErrorMessage = 'Unable to load notifications'
 
 const NotificationsPage = () => {
-  const { notifications, deleteNotification, setNotifications } = useStore(
-    (state) => state
-  )
+  const { notifications, auth, deleteNotification, setNotifications } =
+    useStore((state) => state)
 
   const [viewModalDate, setViewModalData] = useState<
     typeof notificationsTable.$inferInsert | null
@@ -68,6 +67,9 @@ const NotificationsPage = () => {
               Date & Time
             </td>
             <td className="border-b border-neutral-300 p-2 text-center">
+              Type
+            </td>
+            <td className="border-b border-neutral-300 p-2 text-center">
               Status
             </td>
             <td className="border-b border-neutral-300 p-2 text-center">
@@ -81,7 +83,9 @@ const NotificationsPage = () => {
               <td className="border-b border-neutral-300 p-2">
                 {notification.message}
               </td>
-
+              <td className="border-b border-neutral-300 p-2 text-center">
+                {auth?.id === notification.to?.[0] ? 'Private' : 'Public'}
+              </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 {new Date(notification.createdAt || '').toLocaleDateString()}{' '}
                 {new Date(notification.createdAt || '').toLocaleTimeString()}

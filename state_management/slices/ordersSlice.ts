@@ -1,16 +1,24 @@
 import { type StateCreator } from 'zustand'
 
 import { type Store } from '@/store/store'
+import usersTable from '@/database/schema/usersSchema'
 import ordersTable from '@/database/schema/ordersSchema'
+import productsTable from '@/database/schema/productsSchema'
+
+export interface Orders {
+  orders: typeof ordersTable.$inferInsert
+  users: typeof usersTable.$inferInsert | null
+  products: typeof productsTable.$inferInsert | null
+}
 
 export interface OrdersState {
-  orders: (typeof ordersTable.$inferInsert)[]
+  orders: Orders[]
 }
 
 export type OrdersActions = {
-  setOrders(orders: OrdersState['orders']): void
-  insertOrder(order: typeof ordersTable.$inferInsert): void
-  updateOrder(order: typeof ordersTable.$inferInsert): void
+  setOrders(orders: Orders[]): void
+  insertOrder(order: Orders): void
+  updateOrder(order: Orders): void
 }
 
 export type OrdersSlice = OrdersState & OrdersActions
@@ -34,6 +42,8 @@ export const createOrdersSlice: StateCreator<Store, [], [], OrdersSlice> = (
   updateOrder: async (order) =>
     set((state) => ({
       ...state,
-      orders: state.orders.map((s) => (s.id === order.id ? order : s)),
+      orders: state.orders.map((s) =>
+        s.orders.id === order.orders.id ? order : s
+      ),
     })),
 })

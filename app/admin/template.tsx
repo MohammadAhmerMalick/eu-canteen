@@ -1,3 +1,7 @@
+import type { ReactNode } from 'react'
+import { redirect } from 'next/navigation'
+
+import { auth } from '@/auth'
 import BiDish from '@/components/icons/BiDish'
 import FiUsers from '@/components/icons/FiUsers'
 import PanelHeader from '@/sections/PanelHeader'
@@ -39,7 +43,14 @@ const links: SidebarLink[] = [
   },
 ]
 
-export default function Template({ children }: { children: React.ReactNode }) {
+interface TemplateProps {
+  children: ReactNode
+}
+
+const Template = async ({ children }: TemplateProps) => {
+  const session = await auth()
+  if (session?.user.role !== 'admin') redirect('/')
+
   const styles = {
     gridTemplate: `
     'adminSideBar adminHeader' 108px
@@ -61,3 +72,5 @@ export default function Template({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
+
+export default Template

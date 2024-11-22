@@ -19,7 +19,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
   const { updateOrder } = useStore((state) => state)
 
   const [quantity, setQuantity] = useState(1)
-  const [type, setType] = useState('')
+  const [type, setType] = useState('takeaway')
 
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -102,7 +102,9 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
               value={type}
               onChange={({ target }) => setType(target.value)}
             >
-              <option value="takeaway">Takeaway</option>
+              <option value="takeaway" selected>
+                Takeaway
+              </option>
               <option value="dining">Dining</option>
             </select>
           </div>

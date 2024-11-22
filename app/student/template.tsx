@@ -1,3 +1,7 @@
+import type { ReactNode } from 'react'
+import { redirect } from 'next/navigation'
+
+import { auth } from '@/auth'
 import FiUsers from '@/components/icons/FiUsers'
 import PanelHeader from '@/sections/PanelHeader'
 import BsCreditCard from '@/components/icons/BsCreditCard'
@@ -25,7 +29,15 @@ const links: SidebarLink[] = [
   },
 ]
 
-export default function Template({ children }: { children: React.ReactNode }) {
+interface TemplateProps {
+  children: ReactNode
+}
+
+const Template = async ({ children }: TemplateProps) => {
+  const session = await auth()
+
+  if (session?.user.role !== 'student') redirect('/')
+
   const styles = {
     gridTemplate: `
     'adminSideBar adminHeader' 108px
@@ -47,3 +59,5 @@ export default function Template({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
+
+export default Template

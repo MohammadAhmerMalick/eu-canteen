@@ -1,16 +1,41 @@
-import { eq, getTableColumns } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 import db from '@/database/index'
 import ordersTable from '@/database/schema/ordersSchema'
+import usersTable from '@/database/schema/usersSchema'
+import productsTable from '@/database/schema/productsSchema'
 
 class OrderModel {
   static getOrders = () =>
-    db.select().from(ordersTable).where(eq(ordersTable.published, true))
+    db
+      .select()
+      .from(ordersTable)
+      .leftJoin(usersTable, eq(usersTable.id, ordersTable.userId))
+      .leftJoin(productsTable, eq(productsTable.id, ordersTable.productId))
+      .where(eq(ordersTable.published, true))
+
+  static getOrdersByUserId = (userId: string) =>
+    db
+      .select()
+      .from(ordersTable)
+      .leftJoin(usersTable, eq(usersTable.id, ordersTable.userId))
+      .leftJoin(productsTable, eq(productsTable.id, ordersTable.productId))
+      .where(
+        and(eq(ordersTable.published, true), eq(ordersTable.userId, userId))
+      )
+
+  static getOrdersId = (id: string) =>
+    db
+      .select()
+      .from(ordersTable)
+      .leftJoin(usersTable, eq(usersTable.id, ordersTable.userId))
+      .leftJoin(productsTable, eq(productsTable.id, ordersTable.productId))
+      .where(and(eq(ordersTable.published, true), eq(ordersTable.id, id)))
 
   static getAllOrders = () => db.select().from(ordersTable)
 
   static createOrder = (order: typeof ordersTable.$inferInsert) =>
-    db.insert(ordersTable).values(order).returning(getTableColumns(ordersTable))
+    db.insert(ordersTable).values(order).returning({ id: ordersTable.id })
 
   static updateOrderStatus = (
     status: (typeof ordersTable.$inferInsert)['status'],

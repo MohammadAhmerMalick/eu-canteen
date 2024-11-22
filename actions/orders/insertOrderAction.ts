@@ -20,13 +20,15 @@ const insertOrderAction = async ({
   const [product] = await ProductModel.getProduct(productId)
   const unitPrice = product.price
 
-  const newOrder = await OrderModel.createOrder({
+  const newOrderId = await OrderModel.createOrder({
     type,
     unitPrice,
     quantity,
     userId,
     productId,
   })
+
+  const newOrder = await OrderModel.getOrdersId(newOrderId[0].id)
 
   return {
     success: true,

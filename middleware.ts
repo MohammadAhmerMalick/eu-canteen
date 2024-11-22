@@ -7,6 +7,7 @@ export const middleware = async (req: NextRequest) => {
     secret: process.env.AUTH_SECRET,
   })
 
+  console.log({ token })
   if (token)
     switch (token.role) {
       case 'student': // student login

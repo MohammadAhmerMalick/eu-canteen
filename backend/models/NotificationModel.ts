@@ -1,4 +1,4 @@
-import { and, arrayOverlaps, eq } from 'drizzle-orm'
+import { and, arrayOverlaps, eq, getTableColumns } from 'drizzle-orm'
 
 import db from '@/database/index'
 import notificationsTable from '@/database/schema/notificationsSchema'
@@ -32,7 +32,7 @@ class NotificationModel {
     db
       .insert(notificationsTable)
       .values(notification)
-      .returning({ id: notificationsTable.id })
+      .returning(getTableColumns(notificationsTable))
 
   static makeNotificationRead = (id: string) =>
     db

@@ -1,20 +1,30 @@
 'use server'
 
+import { auth } from '@/auth'
 import NotificationModel from '@/models/NotificationModel'
 
-const insertNotificationAction = async (formData: FormData) => {
-  const message = formData.get('message') as string
+interface insertNotificationActionProps {
+  message: string
+  to: string[]
+}
 
-  if (!message)
+const insertNotificationAction = async ({
+  message,
+  to,
+}: insertNotificationActionProps) => {
+  if (!(message && to))
     return {
       success: false,
       message: 'All fields are required',
       codeMessage: 'fields_are_missing',
     }
 
+  const session = await auth()
+
   const newNotification = await NotificationModel.createNotification({
+    to,
     message,
-    userId: '13eee89e-fb6f-48bc-b997-dd54eb440544',
+    from: session?.user.id,
   })
 
   return {

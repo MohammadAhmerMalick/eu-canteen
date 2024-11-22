@@ -1,6 +1,5 @@
 import { createStore } from 'zustand/vanilla'
 
-import { createUsersSlice, type UsersSlice } from '@/store/slices/userssSlice'
 import {
   createProductsSlice,
   type ProductsSlice,
@@ -16,10 +15,13 @@ import {
 import { defaultState } from '@/store/defaultState'
 import { type AppSlice, createAppSlice } from '@/store/slices/appSlice'
 import { type AuthSlice, createAuthSlice } from '@/store/slices/authSlice'
+import { type UsersSlice, createUsersSlice } from '@/store/slices/usersSlice'
+import { type OrdersSlice, createOrdersSlice } from '@/store/slices/ordersSlice'
 
 export type Store = AppSlice &
   AuthSlice &
   UsersSlice &
+  OrdersSlice &
   ProductsSlice &
   CategoriesSlice &
   NotificationsSlice
@@ -34,6 +36,7 @@ export const createAppStore = (initState = defaultState) => {
     ...createAppSlice(set, get, store),
     ...createAuthSlice(set, get, store),
     ...createUsersSlice(set, get, store),
+    ...createOrdersSlice(set, get, store),
     ...createProductsSlice(set, get, store),
     ...createCategoriesSlice(set, get, store),
     ...createNotificationsSlice(set, get, store),

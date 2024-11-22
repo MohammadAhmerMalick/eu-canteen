@@ -13,7 +13,7 @@ import FiSearch from '@/components/icons/FiSearch'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
 
 const PanelHeader = () => {
-  const { logout } = useStore((state) => state)
+  const { auth, logout } = useStore((state) => state)
 
   const [expended, setExpended] = useState(false)
   const [globalSarch, setGlobalSarch] = useState('')
@@ -49,8 +49,10 @@ const PanelHeader = () => {
           onClick={() => setExpended(!expended)}
         >
           <div>
-            <p className="">Asad Khan</p>
-            <p className="text-sm text-neutral-400">Admin</p>
+            <p className="">{auth?.name}</p>
+            <p className="text-sm text-neutral-400">
+              {auth?.role.toUpperCase()}
+            </p>
           </div>
           <Image
             width={40}
@@ -68,7 +70,7 @@ const PanelHeader = () => {
           >
             <div className="grid gap-1 text-right text-sm md:text-left">
               <Link href="/">Home</Link>
-              <Link href="/admin/students">Dashboard</Link>
+              <Link href={`/${auth?.role || ''}`}>Dashboard</Link>
               <p className="text-neutral-400">Settings</p>
               <p className="text-neutral-400">Orders</p>
               <p className="text-neutral-400">Profile</p>

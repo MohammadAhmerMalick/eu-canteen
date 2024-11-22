@@ -1,6 +1,7 @@
 import {
   boolean,
   integer,
+  numeric,
   pgTable,
   timestamp,
   uuid,
@@ -19,7 +20,7 @@ const ordersTable = pgTable('orders', {
     .default(sql`gen_random_uuid()`),
 
   type: varchar({ length: 40 }).notNull(), // takeaway | dining
-  unitPrice: integer().notNull(),
+  unitPrice: numeric({ precision: 10, scale: 4 }).notNull(),
   quantity: integer().notNull(),
   status: varchar({ length: 40 }).notNull().default('pending'), // pending | ready | canceled | completed
 

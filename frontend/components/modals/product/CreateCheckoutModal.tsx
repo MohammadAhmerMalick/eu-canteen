@@ -8,7 +8,7 @@ import Button from '@/components/common/Button'
 import productsTable from '@/database/schema/productsSchema'
 import AiOutlinePlus from '@/components/icons/AiOutlinePlus'
 import AiOutlineMinus from '@/components/icons/AiOutlineMinus'
-import updateProductAction from '@/actions/product/updateProductAction'
+import insertOrderAction from '@/actions/orders/insertOrderAction'
 
 interface CreateCheckoutModalProp {
   onClose(): any
@@ -16,9 +16,10 @@ interface CreateCheckoutModalProp {
 }
 
 const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
-  const { updateProduct } = useStore((state) => state)
+  const { updateOrder } = useStore((state) => state)
 
   const [quantity, setQuantity] = useState(1)
+  const [type, setType] = useState('')
 
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -26,15 +27,15 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!product.id) return
 
-    const formData = new FormData()
-    formData.append('id', product.id || '')
-    formData.append('quantity', quantity.toString())
-
-    const { success, message, codeMessage, data } =
-      await updateProductAction(formData)
+    const { success, message, codeMessage, data } = await insertOrderAction({
+      type,
+      quantity,
+      productId: product.id,
+    })
     if (success) {
-      updateProduct(data[0])
+      updateOrder(data[0])
       toast.success('Product updated')
       onClose()
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
@@ -97,9 +98,12 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
 
           <div className="flex justify-between rounded-lg border border-neutral-300 p-2 text-sm font-semibold">
             <p>Order Type</p>
-            <select>
-              <option value="">Takeaway</option>
-              <option value="">Dining</option>
+            <select
+              value={type}
+              onChange={({ target }) => setType(target.value)}
+            >
+              <option value="takeaway">Takeaway</option>
+              <option value="dining">Dining</option>
             </select>
           </div>
 

@@ -49,7 +49,7 @@ const Header = () => {
                   className="h-10 w-10 rounded-full border border-primary bg-primary"
                 />
                 <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
-                  <p>Asad Khan</p>
+                  <p>{auth.name}</p>
                   <p className="text-neutral-500">#EP-1749051</p>
                 </div>
               </div>
@@ -61,7 +61,7 @@ const Header = () => {
               >
                 <div className="grid gap-1 text-right text-sm md:text-left">
                   <Link href="/">Home</Link>
-                  <Link href="/admin/students">Dashboard</Link>
+                  <Link href={`/${auth.role}`}>Dashboard</Link>
                   <p className="text-neutral-400">Settings</p>
                   <p className="text-neutral-400">Orders</p>
                   <p className="text-neutral-400">Profile</p>

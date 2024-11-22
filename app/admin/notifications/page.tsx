@@ -5,6 +5,8 @@ import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
+import FaPlus from '@/components/icons/FaPlus'
+import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
@@ -12,6 +14,7 @@ import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import notificationsTable from '@/database/schema/notificationsSchema'
 import getNotificationsAction from '@/actions/notification/getNotificationsAction'
 import ViewNotificationModal from '@/components/modals/notification/ViewNotificationModal'
+import SendNotificationModal from '@/components/modals/notification/SendNotificationModal'
 import softDeleteNotificationAction from '@/actions/notification/softDeleteNotificationAction'
 
 const dataErrorMessage = 'Unable to load notifications'
@@ -21,6 +24,7 @@ const NotificationsPage = () => {
     (state) => state
   )
 
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false)
   const [viewModalDate, setViewModalData] = useState<
     typeof notificationsTable.$inferInsert | null
   >(null)
@@ -59,6 +63,9 @@ const NotificationsPage = () => {
           onClose={() => setViewModalData(null)}
         />
       )}
+      {isAddModalVisible && (
+        <SendNotificationModal onClose={() => setIsAddModalVisible(false)} />
+      )}
 
       <table className="w-full text-sm">
         <thead>
@@ -70,8 +77,13 @@ const NotificationsPage = () => {
             <td className="border-b border-neutral-300 p-2 text-center">
               Status
             </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Actions
+            <td>
+              <Button
+                className="mx-auto flex items-center gap-1 rounded-lg"
+                onClick={() => setIsAddModalVisible(true)}
+              >
+                <FaPlus /> Send Notification
+              </Button>
             </td>
           </tr>
         </thead>

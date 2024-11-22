@@ -9,6 +9,7 @@ export interface NotificationsState {
 
 export type NotificationsActions = {
   setNotifications(notifications: NotificationsState['notifications']): void
+  insertNotification(notification: typeof notificationsTable.$inferInsert): void
   updateNotification(
     notifications: typeof notificationsTable.$inferInsert
   ): void
@@ -31,6 +32,11 @@ export const createNotificationsSlice: StateCreator<
   setNotifications: async (notifications) => {
     return set({ notifications })
   },
+  insertNotification: async (notification) =>
+    set((state) => ({
+      ...state,
+      notifications: [notification, ...state.notifications],
+    })),
   updateNotification: async (notification) =>
     set((state) => ({
       ...state,

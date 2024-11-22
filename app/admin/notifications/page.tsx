@@ -77,12 +77,14 @@ const NotificationsPage = () => {
             <td className="border-b border-neutral-300 p-2 text-center">
               Status
             </td>
-            <Button
-              className="mx-auto flex items-center gap-1 rounded-lg"
-              onClick={() => setIsAddModalVisible(true)}
-            >
-              <FaPlus /> Send Notification
-            </Button>
+            <td>
+              <Button
+                className="mx-auto flex items-center gap-1 rounded-lg"
+                onClick={() => setIsAddModalVisible(true)}
+              >
+                <FaPlus /> Send Notification
+              </Button>
+            </td>
           </tr>
         </thead>
         <tbody>

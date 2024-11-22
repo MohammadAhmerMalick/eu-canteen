@@ -1,41 +1,41 @@
-// import { toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
-// import { useStore } from '@/store/provider'
-// import Input from '@/components/common/Input'
+import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
-// import insertNotificationAction from '@/actions/notification/insertNotificationAction'
 import Textarea from '@/components/common/Textarea'
+import insertNotificationAction from '@/actions/notification/insertNotificationAction'
 
 interface SendNotificationModalProp {
   onClose(): any
 }
 
 const SendNotificationModal = ({ onClose }: SendNotificationModalProp) => {
-  // const { insertCategory } = useStore((state) => state)
+  const { insertNotification } = useStore((state) => state)
 
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
   ) => e.currentTarget === e.target && onClose()
 
-  const [message, setMessage] = useState('')
+  const [notificationMessage, setMessage] = useState('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    // const { success, message, codeMessage, data } =
-    //   await insertNotificationAction({
-    //     message,
-    //   })
+    const { success, message, codeMessage, data } =
+      await insertNotificationAction({
+        message: notificationMessage,
+        to: ['general'],
+      })
 
-    // if (success) {
-    //   insertCategory(data[0])
-    //   toast.success('Notification sent successfully')
-    //   onClose()
-    // } else if (codeMessage === 'fields_are_missing') toast.warn(message)
-    // else
-    //   toast.error('Unable to handle request right now, please contact to admin')
+    if (success) {
+      insertNotification(data[0])
+      toast.success('Notification sent successfully')
+      onClose()
+    } else if (codeMessage === 'fields_are_missing') toast.warn(message)
+    else
+      toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
@@ -51,14 +51,14 @@ const SendNotificationModal = ({ onClose }: SendNotificationModalProp) => {
         )}
       >
         <h1 className="text-lg font-semibold">Notification</h1>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4">
           <Textarea
             isRequired
             id="message"
-            value={message}
             labelText="Message"
             labelClassName="text-sm"
             placeholder="Hi everyone"
+            value={notificationMessage}
             onChange={({ value }) => setMessage(value)}
           />
         </div>

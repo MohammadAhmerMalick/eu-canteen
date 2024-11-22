@@ -14,6 +14,7 @@ const insertNotificationAction = async ({
 }: insertNotificationActionProps) => {
   if (!(message && to))
     return {
+      data: [],
       success: false,
       message: 'All fields are required',
       codeMessage: 'fields_are_missing',

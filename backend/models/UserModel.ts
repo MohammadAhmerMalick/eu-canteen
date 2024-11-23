@@ -18,14 +18,12 @@ class UserModel {
   static createUser = (user: typeof usersTable.$inferInsert) =>
     db.insert(usersTable).values(user).returning(getTableColumns(usersTable))
 
-  static updateUser = (user: typeof usersTable.$inferInsert, id: string) => {
-    console.log({ user, id })
-    return db
+  static updateUser = (user: typeof usersTable.$inferInsert, id: string) =>
+    db
       .update(usersTable)
       .set(user)
       .where(eq(usersTable.id, id))
       .returning(getTableColumns(usersTable))
-  }
 
   static deleteUser = (id: string) =>
     db

@@ -13,8 +13,8 @@ const ProductCell = ({ product }: ProductCellProps) => {
       <div className="flex gap-4">
         <Image
           alt={product.name}
-          width={70}
-          height={70}
+          width={52}
+          height={52}
           src="/images/products/p-1.png"
           className={classnames(
             'rounded-full border-2',
@@ -27,7 +27,6 @@ const ProductCell = ({ product }: ProductCellProps) => {
             Price: <span className="font-semibold">€{product.price}</span>
           </p>
           <p>Stock: {product.stock}</p>
-          <p className="line-clamp-1">{product.description}</p>
         </div>
       </div>
     </div>

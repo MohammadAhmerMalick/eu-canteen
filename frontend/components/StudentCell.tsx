@@ -13,8 +13,8 @@ const StudentCell = ({ student }: StudentCellProps) => {
       <div className="flex gap-4">
         <Image
           alt={student.name}
-          width={70}
-          height={70}
+          width={52}
+          height={52}
           src="/images/students/s-1.png"
           className={classnames(
             'rounded-full border-2',
@@ -25,7 +25,6 @@ const StudentCell = ({ student }: StudentCellProps) => {
           <p className="text-sm font-semibold">{student.name}</p>
           <p className="font-semibold">ID: {student.matricola}</p>
           <p>{student.email}</p>
-          <p>{student.whatsapp}</p>
         </div>
       </div>
     </div>

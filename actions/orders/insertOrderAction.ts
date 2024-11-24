@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from '@/auth'
+import UserModel from '@/models/UserModel'
 import OrderModel from '@/models/OrderModel'
 import ProductModel from '@/models/ProductModel'
 import TransactionModel from '@/models/TransactionModel'
@@ -24,15 +25,21 @@ const insertOrderAction = async ({
   const date = new Date()
   const dateTime = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
 
+  const amount = quantity * parseFloat(unitPrice)
   const [transaction] = await TransactionModel.createTransaction({
     userId,
     productId: product.id,
     transactionType: 'credit',
     description: `${product.name} ordered on ${dateTime}`,
-    amount: (quantity * parseFloat(unitPrice)).toFixed(4),
+    amount: amount.toFixed(4),
   })
 
-  const newOrderId = await OrderModel.createOrder({
+  const [user] = await UserModel.getUserById(userId)
+
+  const updatedCredit = (parseFloat(user.credit) - amount).toFixed(4)
+  await UserModel.updateUserCredit(userId, updatedCredit)
+
+  const [newOrderId] = await OrderModel.createOrder({
     type,
     userId,
     quantity,
@@ -41,7 +48,7 @@ const insertOrderAction = async ({
     transactionId: transaction.id,
   })
 
-  const newOrder = await OrderModel.getOrdersId(newOrderId[0].id)
+  const newOrder = await OrderModel.getOrdersId(newOrderId.id)
 
   return {
     success: true,

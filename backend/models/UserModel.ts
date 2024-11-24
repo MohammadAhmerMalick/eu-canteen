@@ -25,6 +25,16 @@ class UserModel {
       .where(eq(usersTable.id, id))
       .returning(getTableColumns(usersTable))
 
+  static updateUserCredit = (
+    id: string,
+    credit: (typeof usersTable.$inferInsert)['credit']
+  ) =>
+    db
+      .update(usersTable)
+      .set({ credit })
+      .where(eq(usersTable.id, id))
+      .returning(getTableColumns(usersTable))
+
   static deleteUser = (id: string) =>
     db
       .delete(usersTable)

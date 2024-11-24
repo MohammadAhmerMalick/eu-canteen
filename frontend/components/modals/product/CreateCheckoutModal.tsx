@@ -16,7 +16,7 @@ interface CreateCheckoutModalProp {
 }
 
 const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
-  const { auth, updateOrder } = useStore((state) => state)
+  const { auth, setAuth, updateOrder } = useStore((state) => state)
 
   const [quantity, setQuantity] = useState(1)
   const [type, setType] = useState('takeaway')
@@ -24,11 +24,13 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
   const handleQuantity = (operation: '+' | '-') => {
     if (!auth) return
 
-    if (operation === '+')
-      setQuantity((s) => {
-        return s + 1
-      })
-    else if (operation === '-') setQuantity((s) => (s > 1 ? s - 1 : s))
+    if (operation === '+') {
+      const updatedQuantity = quantity + 1
+
+      if (updatedQuantity * parseFloat(product.price) > parseFloat(auth.credit))
+        toast.warn('Low balance')
+      else setQuantity(updatedQuantity)
+    } else if (operation === '-') setQuantity((s) => (s > 1 ? s - 1 : s))
   }
 
   const onContainerClick = (
@@ -46,8 +48,14 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
     })
     if (success) {
       updateOrder(data[0])
-      toast.success('Product updated')
+      toast.success('Order placed')
       onClose()
+      setAuth({
+        ...auth,
+        credit: (parseFloat(auth?.credit) - parseFloat(product.price)).toFixed(
+          2
+        ),
+      })
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
     else
       toast.error('Unable to handle request right now, please contact to admin')
@@ -101,7 +109,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
               </div>
               <div className="text-right">
                 <p className="text-neutral-500">Price</p>
-                <p>€{Number(product.price).toFixed(2)}</p>
+                <p>€{parseFloat(product.price).toFixed(2)}</p>
               </div>
             </div>
           </div>

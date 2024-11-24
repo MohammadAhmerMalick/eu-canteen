@@ -17,20 +17,31 @@ interface Auth {
 }
 
 export interface AuthState {
-  auth: Auth | null
+  auth: Auth
   authStatus: 'loading' | 'authenticated' | 'unauthenticated'
 }
 
 export type AuthActions = {
   logout: () => void
-  setAuth: (auth: AuthState['auth']) => void
+  setAuth: (auth: Auth) => void
   setAuthStatus: (authStatus: AuthState['authStatus']) => void
 }
 
 export type AuthSlice = AuthState & AuthActions
 
 export const initialAuthState: AuthState = {
-  auth: null,
+  auth: {
+    id: '',
+    name: '',
+    role: '',
+    image: '',
+    email: '',
+    credit: '',
+    whatsapp: '',
+    matricola: '',
+    idCardBackImage: '',
+    idCardFrontImage: '',
+  },
   authStatus: 'unauthenticated',
 }
 
@@ -46,7 +57,7 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (
   logout: async () =>
     set((state) => {
       signOut({ redirectTo: '/login' })
-      return { ...state, auth: null }
+      return { ...state, auth: initialAuthState.auth }
     }),
 
   setAuthStatus: async (authStatus: AuthState['authStatus']) =>

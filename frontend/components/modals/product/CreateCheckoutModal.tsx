@@ -16,10 +16,22 @@ interface CreateCheckoutModalProp {
 }
 
 const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
-  const { updateOrder } = useStore((state) => state)
+  const { auth, setAuth, updateOrder } = useStore((state) => state)
 
   const [quantity, setQuantity] = useState(1)
   const [type, setType] = useState('takeaway')
+
+  const handleQuantity = (operation: '+' | '-') => {
+    if (!auth) return
+
+    if (operation === '+') {
+      const updatedQuantity = quantity + 1
+
+      if (updatedQuantity * parseFloat(product.price) > parseFloat(auth.credit))
+        toast.warn('Low balance')
+      else setQuantity(updatedQuantity)
+    } else if (operation === '-') setQuantity((s) => (s > 1 ? s - 1 : s))
+  }
 
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -36,8 +48,14 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
     })
     if (success) {
       updateOrder(data[0])
-      toast.success('Product updated')
+      toast.success('Order placed')
       onClose()
+      setAuth({
+        ...auth,
+        credit: (parseFloat(auth?.credit) - parseFloat(product.price)).toFixed(
+          2
+        ),
+      })
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
     else
       toast.error('Unable to handle request right now, please contact to admin')
@@ -74,7 +92,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setQuantity((s) => (s > 1 ? s - 1 : s))}
+                    onClick={() => handleQuantity('-')}
                     className="rounded-lg bg-primary-light p-1"
                   >
                     <AiOutlineMinus />
@@ -82,7 +100,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
                   <span>{quantity}</span>
                   <button
                     type="button"
-                    onClick={() => setQuantity((s) => s + 1)}
+                    onClick={() => handleQuantity('+')}
                     className="rounded-lg bg-primary-light p-1"
                   >
                     <AiOutlinePlus />
@@ -91,7 +109,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
               </div>
               <div className="text-right">
                 <p className="text-neutral-500">Price</p>
-                <p>€{Number(product.price).toFixed(2)}</p>
+                <p>€{parseFloat(product.price).toFixed(2)}</p>
               </div>
             </div>
           </div>
@@ -99,12 +117,10 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
           <div className="flex justify-between rounded-lg border border-neutral-300 p-2 text-sm font-semibold">
             <p>Order Type</p>
             <select
-              value={type}
               onChange={({ target }) => setType(target.value)}
+              defaultValue={type}
             >
-              <option value="takeaway" selected>
-                Takeaway
-              </option>
+              <option value="takeaway">Takeaway</option>
               <option value="dining">Dining</option>
             </select>
           </div>

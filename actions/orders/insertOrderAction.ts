@@ -1,8 +1,10 @@
 'use server'
 
 import { auth } from '@/auth'
+import UserModel from '@/models/UserModel'
 import OrderModel from '@/models/OrderModel'
 import ProductModel from '@/models/ProductModel'
+import TransactionModel from '@/models/TransactionModel'
 
 interface InsertOrderActionProps {
   type: string
@@ -20,15 +22,33 @@ const insertOrderAction = async ({
   const [product] = await ProductModel.getProduct(productId)
   const unitPrice = product.price
 
-  const newOrderId = await OrderModel.createOrder({
-    type,
-    unitPrice,
-    quantity,
+  const date = new Date()
+  const dateTime = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
+
+  const amount = quantity * parseFloat(unitPrice)
+  const [transaction] = await TransactionModel.createTransaction({
     userId,
-    productId,
+    productId: product.id,
+    type: 'credit',
+    description: `${product.name} ordered on ${dateTime}`,
+    amount: amount.toFixed(4),
   })
 
-  const newOrder = await OrderModel.getOrdersId(newOrderId[0].id)
+  const [user] = await UserModel.getUserById(userId)
+
+  const updatedCredit = (parseFloat(user.credit) - amount).toFixed(4)
+  await UserModel.updateUserCredit(userId, updatedCredit)
+
+  const [newOrderId] = await OrderModel.createOrder({
+    type,
+    userId,
+    quantity,
+    unitPrice,
+    productId,
+    transactionId: transaction.id,
+  })
+
+  const newOrder = await OrderModel.getOrdersId(newOrderId.id)
 
   return {
     success: true,

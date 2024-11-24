@@ -11,6 +11,7 @@ import { sql } from 'drizzle-orm'
 
 import usersTable from '@/database/schema/usersSchema'
 import productsTable from '@/database/schema/productsSchema'
+import transactionsTable from '@/database/schema/transactionsSchema'
 
 const ordersTable = pgTable('orders', {
   id: uuid()
@@ -32,6 +33,11 @@ const ordersTable = pgTable('orders', {
   productId: uuid()
     .notNull()
     .references(() => productsTable.id, {
+      onDelete: 'cascade',
+    }),
+  transactionId: uuid()
+    .notNull()
+    .references(() => transactionsTable.id, {
       onDelete: 'cascade',
     }),
 

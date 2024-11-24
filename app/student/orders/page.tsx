@@ -7,7 +7,7 @@ import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
 import ProductCell from '@/components/ProductCell'
 import DataError from '@/components/common/DataError'
-import getMyOrdersAction from '@/actions/orders/getMyOrderssAction'
+import getMyOrdersAction from '@/actions/orders/getMyOrdersAction'
 
 const dataErrorMessage = 'Unable to load orders'
 
@@ -23,8 +23,6 @@ const OrdersPage = () => {
       return data
     },
   })
-
-  console.log({ orders })
 
   if (isPending) return <Loading />
 
@@ -75,13 +73,13 @@ const OrdersPage = () => {
                 </span>
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
-                <span className="flex items-center gap-1">
-                  {/* <AiOutlineFieldTime />
+                {/* <span className="flex items-center gap-1"> */}
+                {/* <AiOutlineFieldTime />
                   <BiDish />
                 <AiOutlineCheck />
                 <AiOutlineClose /> */}
-                  Waiting
-                </span>
+                {order.status?.toUpperCase()}
+                {/* </span> */}
               </td>
             </tr>
           ))}

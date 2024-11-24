@@ -9,10 +9,9 @@ import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 
 const Header = () => {
-  const { auth, logout } = useStore((state) => state)
+  const { auth, authStatus, logout } = useStore((state) => state)
   const [expended, setExpended] = useState(false)
-
-  const isLoggedIn = !!auth?.id
+  const isLoggedIn = authStatus === 'authenticated' && !!auth
 
   return (
     <header className="relative z-50 bg-primary-light">
@@ -24,7 +23,7 @@ const Header = () => {
             alt="Poolaster"
             src="/images/logo.svg"
             className={classnames(
-              'duration-300 md:w-20',
+              'h-auto duration-300 md:w-20',
               isLoggedIn ? 'w-10' : 'w-14'
             )}
           />
@@ -33,7 +32,7 @@ const Header = () => {
         {isLoggedIn ? (
           <div className="flex items-center gap-2">
             <p className="rounded-3xl bg-white px-4 py-2 text-sm shadow-lg">
-              €5.08
+              €{auth.credit}
             </p>
             <div className="relative">
               <div

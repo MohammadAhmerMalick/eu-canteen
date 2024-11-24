@@ -4,17 +4,39 @@ import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
+import Select from '@/components/common/select'
 import Loading from '@/components/common/Loading'
 import StudentCell from '@/components/StudentCell'
 import ProductCell from '@/components/ProductCell'
+import { Orders } from '@/store/slices/ordersSlice'
 import DataError from '@/components/common/DataError'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import getOrdersAction from '@/actions/orders/getOrderssAction'
+import updateOrderStatusAction from '@/actions/orders/updateOrderStatusAction'
 
 const dataErrorMessage = 'Unable to load orders'
 
+const orderStatusOptions = [
+  {
+    id: 'pending',
+    name: 'Pending',
+  },
+  {
+    id: 'ready',
+    name: 'Ready',
+  },
+  {
+    id: 'canceled',
+    name: 'Canceled',
+  },
+  {
+    id: 'completed',
+    name: 'Completed',
+  },
+]
+
 const OrdersPage = () => {
-  const { orders, setOrders } = useStore((state) => state)
+  const { orders, setOrders, updateOrderStatus } = useStore((state) => state)
 
   const { isPending, error } = useQuery({
     queryKey: ['getOrders'],
@@ -26,7 +48,10 @@ const OrdersPage = () => {
     },
   })
 
-  console.log({ orders })
+  const onOrderStatusChange = (order: Orders['orders'], status: string) => {
+    updateOrderStatus({ ...order, status })
+    updateOrderStatusAction({ id: order.id || '', status })
+  }
 
   if (isPending) return <Loading />
 
@@ -89,7 +114,17 @@ const OrdersPage = () => {
                   <BiDish />
                 <AiOutlineCheck />
                 <AiOutlineClose /> */}
-                  Waiting
+                  <Select
+                    id="categoryId"
+                    value={order.status || 'pending'}
+                    labelClassName="mx-auto"
+                    onChange={({ value }) => onOrderStatusChange(order, value)}
+                    options={orderStatusOptions.map(({ id, name }) => ({
+                      text: name,
+                      key: id || '',
+                      value: id || '',
+                    }))}
+                  />
                 </span>
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">

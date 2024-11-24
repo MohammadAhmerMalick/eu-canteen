@@ -21,6 +21,7 @@ export type OrdersActions = {
   setOrders(orders: Orders[]): void
   insertOrder(order: Orders): void
   updateOrder(order: Orders): void
+  updateOrderStatus(order: Orders['orders']): void
 }
 
 export type OrdersSlice = OrdersState & OrdersActions
@@ -47,5 +48,16 @@ export const createOrdersSlice: StateCreator<Store, [], [], OrdersSlice> = (
       orders: state.orders.map((s) =>
         s.orders.id === order.orders.id ? order : s
       ),
+    })),
+  updateOrderStatus: async (order) =>
+    set((state) => ({
+      ...state,
+      orders: state.orders.map((s) => ({
+        ...s,
+        orders:
+          s.orders.id === order.id
+            ? { ...s.orders, status: order.status }
+            : s.orders,
+      })),
     })),
 })

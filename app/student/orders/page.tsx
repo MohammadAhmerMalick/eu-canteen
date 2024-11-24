@@ -73,13 +73,13 @@ const OrdersPage = () => {
                 </span>
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
-                <span className="flex items-center gap-1">
-                  {/* <AiOutlineFieldTime />
+                {/* <span className="flex items-center gap-1"> */}
+                {/* <AiOutlineFieldTime />
                   <BiDish />
                 <AiOutlineCheck />
                 <AiOutlineClose /> */}
-                  Waiting
-                </span>
+                {order.status?.toUpperCase()}
+                {/* </span> */}
               </td>
             </tr>
           ))}

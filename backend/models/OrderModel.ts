@@ -51,8 +51,8 @@ class OrderModel {
     db.insert(ordersTable).values(order).returning({ id: ordersTable.id })
 
   static updateOrderStatus = (
-    status: (typeof ordersTable.$inferInsert)['status'],
-    id: string
+    id: string,
+    status: (typeof ordersTable.$inferInsert)['status']
   ) =>
     db
       .update(ordersTable)

@@ -3,7 +3,7 @@ import { type StateCreator } from 'zustand'
 
 import { type Store } from '@/store/store'
 
-interface Auth {
+export interface Auth {
   id: string
   name: string
   email: string

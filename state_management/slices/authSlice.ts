@@ -7,6 +7,12 @@ interface Auth {
   id: string
   name: string
   email: string
+  whatsapp: string
+  matricola: string
+  image: string | null
+  idCardFrontImage: string | null
+  idCardBackImage: string | null
+  credit: string
   role: string
 }
 

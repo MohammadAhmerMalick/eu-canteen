@@ -1,31 +1,27 @@
 'use client'
 
 import { toast } from 'react-toastify'
+import { redirect } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
-import Loading from '@/components/common/Loading'
-import DataError from '@/components/common/DataError'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
-import getMyProfileAction from '@/actions/user/getMyProfileActon'
 import updateMyProfileAction from '@/actions/updateMyProfileAction'
 
-const dataErrorMessage = 'Unable to load student data'
-
 const ProfilePage = () => {
-  const { updateUser } = useStore((state) => state)
+  const { auth, updateUser } = useStore((state) => state)
 
-  const [id, setId] = useState('')
-  const [name, setName] = useState('')
+  if (!auth) redirect('/')
+
+  const [name, setName] = useState(auth.name)
   const [image, setImage] = useState<File | ''>('')
-  const [email, setEmail] = useState('')
-  const [whatsapp, setWhatsapp] = useState('')
-  const [matricola, setMatricola] = useState('')
+  const [email, setEmail] = useState(auth.email)
+  const [whatsapp, setWhatsapp] = useState(auth.whatsapp)
+  const [matricola, setMatricola] = useState(auth.matricola)
   const [idCardBackImage, setIdCardBackImage] = useState<File | ''>('')
   const [idCardFrontImage, setIdCardFrontImage] = useState<File | ''>('')
 
@@ -33,7 +29,6 @@ const ProfilePage = () => {
     e.preventDefault()
 
     const formData = new FormData()
-    formData.append('id', id)
     formData.append('name', name)
     formData.append('image', image)
     formData.append('whatsapp', whatsapp)
@@ -49,31 +44,6 @@ const ProfilePage = () => {
     else
       toast.error('Unable to handle request right now, please contact to admin')
   }
-
-  const { isPending, error } = useQuery({
-    queryKey: ['getUser'],
-    queryFn: async () => {
-      const { data, success } = await getMyProfileAction()
-      if (success) {
-        const student = data[0]
-        console.log({ student })
-
-        setId(student.id)
-        setName(student.name)
-        setImage('')
-        setEmail(student.email)
-        setWhatsapp(student.whatsapp)
-        setMatricola(student.matricola)
-        setIdCardBackImage('')
-        setIdCardFrontImage('')
-      } else toast.error(dataErrorMessage)
-      return data
-    },
-  })
-
-  if (isPending) return <Loading />
-
-  if (error) return <DataError error={error} message={dataErrorMessage} />
 
   return (
     <form

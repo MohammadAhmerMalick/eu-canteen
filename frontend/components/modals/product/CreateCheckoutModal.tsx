@@ -16,10 +16,20 @@ interface CreateCheckoutModalProp {
 }
 
 const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
-  const { updateOrder } = useStore((state) => state)
+  const { auth, updateOrder } = useStore((state) => state)
 
   const [quantity, setQuantity] = useState(1)
   const [type, setType] = useState('takeaway')
+
+  const handleQuantity = (operation: '+' | '-') => {
+    if (!auth) return
+
+    if (operation === '+')
+      setQuantity((s) => {
+        return s + 1
+      })
+    else if (operation === '-') setQuantity((s) => (s > 1 ? s - 1 : s))
+  }
 
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -74,7 +84,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setQuantity((s) => (s > 1 ? s - 1 : s))}
+                    onClick={() => handleQuantity('-')}
                     className="rounded-lg bg-primary-light p-1"
                   >
                     <AiOutlineMinus />
@@ -82,7 +92,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
                   <span>{quantity}</span>
                   <button
                     type="button"
-                    onClick={() => setQuantity((s) => s + 1)}
+                    onClick={() => handleQuantity('+')}
                     className="rounded-lg bg-primary-light p-1"
                   >
                     <AiOutlinePlus />
@@ -99,12 +109,10 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
           <div className="flex justify-between rounded-lg border border-neutral-300 p-2 text-sm font-semibold">
             <p>Order Type</p>
             <select
-              value={type}
               onChange={({ target }) => setType(target.value)}
+              defaultValue={type}
             >
-              <option value="takeaway" selected>
-                Takeaway
-              </option>
+              <option value="takeaway">Takeaway</option>
               <option value="dining">Dining</option>
             </select>
           </div>

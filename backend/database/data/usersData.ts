@@ -20,6 +20,7 @@ const usersData = [
     image: '',
     idCardFrontImage: '',
     idCardBackImage: '',
+    credit: parseFloat('700').toFixed(4),
     approved: true,
     password: hashPassword('123123123'),
     roleName: 'student',

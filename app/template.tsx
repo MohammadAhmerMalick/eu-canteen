@@ -1,19 +1,35 @@
 'use client'
 
+import {
+  useQuery,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { SessionProvider, useSession } from 'next-auth/react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
+import getMyProfileAction from '@/actions/user/getMyProfileActon'
 
 const C = () => {
   const { data: session, status } = useSession()
   const { setAuth, setAuthStatus } = useStore((state) => state)
 
+  useQuery({
+    queryKey: ['getMyProfile'],
+    queryFn: async () => {
+      setAuthStatus(status)
+      if (status === 'authenticated') setAuth(session?.user)
+
+      const { data, success } = await getMyProfileAction()
+      if (success) setAuth(data)
+      return data
+    },
+  })
+
   useEffect(() => {
     setAuthStatus(status)
-    if (status === 'authenticated') setAuth(session?.user)
-  }, [session?.user, status, setAuth, setAuthStatus])
+  }, [setAuthStatus, status])
   return <span className="absolute -z-50 hidden opacity-0">Poolaster</span>
 }
 

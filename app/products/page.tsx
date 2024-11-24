@@ -76,10 +76,10 @@ const ProductPage = () => {
               </p>
             </div>
             <Image
-              width={300}
-              height={300}
+              width={320}
+              height={190}
               alt="PRIMI €5"
-              className="absolute right-0 w-40 drop-shadow-lg md:right-14 md:w-80"
+              className="absolute right-0 h-auto w-40 drop-shadow-lg md:right-14 md:w-80"
               src="/images/banners/dish-1.png"
             />
           </div>
@@ -97,9 +97,10 @@ const ProductPage = () => {
               )}
             >
               <Image
-                width={32}
-                height={32}
+                width={40}
+                height={40}
                 alt={category.name}
+                className="h-9 w-auto"
                 src={`/images/categories/${category.image}`}
               />
               <p>{category.name}</p>
@@ -118,7 +119,7 @@ const ProductPage = () => {
                   <div className="rounded-3xl bg-primary-light p-2 shadow">
                     <Image
                       width={140}
-                      height={140}
+                      height={112}
                       alt="PRIMI €5"
                       className="m-auto max-h-28 object-contain"
                       src="/images/products/p-1.png"

@@ -1,5 +1,12 @@
+import {
+  boolean,
+  pgTable,
+  varchar,
+  uuid,
+  timestamp,
+  numeric,
+} from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
-import { boolean, pgTable, varchar, uuid, timestamp } from 'drizzle-orm/pg-core'
 
 import rolesTable from '@/database/schema/rolesSchema'
 
@@ -19,6 +26,7 @@ const usersTable = pgTable('users', {
   idCardBackImage: varchar({ length: 255 }),
   approved: boolean().default(false).notNull(),
   password: varchar({ length: 255 }),
+  credit: numeric({ precision: 10, scale: 4 }).default('0').notNull(),
 
   roleName: varchar({ length: 20 })
     .notNull()

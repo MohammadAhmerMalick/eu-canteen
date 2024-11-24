@@ -20,7 +20,7 @@ const transactionsTable = pgTable('transactions', {
     .default(sql`gen_random_uuid()`),
 
   amount: numeric({ precision: 10, scale: 4 }).notNull(),
-  transactionType: varchar({ length: 10 }).notNull(), // debit | credit
+  type: varchar({ length: 10 }).notNull(), // debit | credit
   description: text().notNull(),
 
   userId: uuid()
@@ -28,11 +28,9 @@ const transactionsTable = pgTable('transactions', {
     .references(() => usersTable.id, {
       onDelete: 'cascade',
     }),
-  productId: uuid()
-    .notNull()
-    .references(() => productsTable.id, {
-      onDelete: 'cascade',
-    }),
+  productId: uuid().references(() => productsTable.id, {
+    onDelete: 'cascade',
+  }),
 
   published: boolean().default(true),
   createdAt: timestamp().default(sql`now()`),

@@ -29,7 +29,7 @@ const insertOrderAction = async ({
   const [transaction] = await TransactionModel.createTransaction({
     userId,
     productId: product.id,
-    transactionType: 'credit',
+    type: 'credit',
     description: `${product.name} ordered on ${dateTime}`,
     amount: amount.toFixed(4),
   })

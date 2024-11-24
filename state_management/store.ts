@@ -9,6 +9,10 @@ import {
   createCategoriesSlice,
 } from '@/store/slices/categoriesSlice'
 import {
+  type TransactionsSlice,
+  createTransactionsSlice,
+} from '@/store/slices/transactionsSlice'
+import {
   createNotificationsSlice,
   type NotificationsSlice,
 } from '@/store/slices/notificationsSlice'
@@ -24,6 +28,7 @@ export type Store = AppSlice &
   OrdersSlice &
   ProductsSlice &
   CategoriesSlice &
+  TransactionsSlice &
   NotificationsSlice
 
 export const initStore = () => {
@@ -39,6 +44,7 @@ export const createAppStore = (initState = defaultState) => {
     ...createOrdersSlice(set, get, store),
     ...createProductsSlice(set, get, store),
     ...createCategoriesSlice(set, get, store),
+    ...createTransactionsSlice(set, get, store),
     ...createNotificationsSlice(set, get, store),
   }))
 }

@@ -7,7 +7,7 @@ import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
 import ProductCell from '@/components/ProductCell'
 import DataError from '@/components/common/DataError'
-import getMyOrdersAction from '@/actions/orders/getMyOrderssAction'
+import getMyOrdersAction from '@/actions/orders/getMyOrdersAction'
 
 const dataErrorMessage = 'Unable to load orders'
 
@@ -23,8 +23,6 @@ const OrdersPage = () => {
       return data
     },
   })
-
-  console.log({ orders })
 
   if (isPending) return <Loading />
 

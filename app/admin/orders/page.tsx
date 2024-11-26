@@ -1,18 +1,27 @@
 'use client'
 
+import {
+  Column,
+  Row,
+  Table,
+  TableBody,
+  TableHeader,
+} from 'react-aria-components'
 import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
-import Select from '@/components/common/select'
 import Loading from '@/components/common/Loading'
 import StudentCell from '@/components/StudentCell'
 import ProductCell from '@/components/ProductCell'
-import { Orders } from '@/store/slices/ordersSlice'
+// import { Orders } from '@/store/slices/ordersSlice'
+import Checkbox from '@/components/common/Checkbox'
 import DataError from '@/components/common/DataError'
+import TableCell from '@/components/common/TableCell'
+import { Select1 } from '@/components/common/Select1'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import getOrdersAction from '@/actions/orders/getOrderssAction'
-import updateOrderStatusAction from '@/actions/orders/updateOrderStatusAction'
+// import updateOrderStatusAction from '@/actions/orders/updateOrderStatusAction'
 
 const dataErrorMessage = 'Unable to load orders'
 
@@ -36,7 +45,11 @@ const orderStatusOptions = [
 ]
 
 const OrdersPage = () => {
-  const { orders, setOrders, updateOrderStatus } = useStore((state) => state)
+  const {
+    orders,
+    setOrders,
+    // updateOrderStatus
+  } = useStore((state) => state)
 
   const { isPending, error } = useQuery({
     queryKey: ['getOrders'],
@@ -48,10 +61,10 @@ const OrdersPage = () => {
     },
   })
 
-  const onOrderStatusChange = (order: Orders['orders'], status: string) => {
-    updateOrderStatus({ ...order, status })
-    updateOrderStatusAction({ id: order.id || '', status })
-  }
+  // const onOrderStatusChange = (order: Orders['orders'], status: string) => {
+  //   updateOrderStatus({ ...order, status })
+  //   updateOrderStatusAction({ id: order.id || '', status })
+  // }
 
   if (isPending) return <Loading />
 
@@ -59,61 +72,70 @@ const OrdersPage = () => {
 
   return (
     <div>
-      <table className="w-full text-sm">
-        <thead>
-          <tr>
-            <td className="border-b border-neutral-300 p-2">Student</td>
-            <td className="border-b border-neutral-300 p-2">Product</td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Order Type
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Quantity
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Placed At
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Price
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Status
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Actions
-            </td>
-          </tr>
-        </thead>
-        <tbody>
+      <Table
+        aria-label="Files"
+        selectionMode="multiple"
+        className="w-full"
+        onRowAction={(e) => {
+          console.log(e)
+        }}
+      >
+        <TableHeader>
+          <Column>
+            <Checkbox slot="selection" />
+          </Column>
+
+          <Column isRowHeader className="border-b border-neutral-300 p-2">
+            Student
+          </Column>
+          <Column className="border-b border-neutral-300 p-2">Product</Column>
+          <Column className="border-b border-neutral-300 p-2 text-center">
+            Order Type
+          </Column>
+          <Column className="border-b border-neutral-300 p-2 text-center">
+            Quantity
+          </Column>
+          <Column className="border-b border-neutral-300 p-2 text-center">
+            Placed At
+          </Column>
+          <Column className="border-b border-neutral-300 p-2 text-center">
+            Price
+          </Column>
+          <Column className="border-b border-neutral-300 p-2 text-center">
+            Status
+          </Column>
+          <Column className="border-b border-neutral-300 p-2 text-center">
+            Actions
+          </Column>
+        </TableHeader>
+        <TableBody>
           {orders.map(({ orders: order, products: product, users: user }) => (
-            <tr key={order.id}>
-              <td className="w-1 border-b border-neutral-300 p-2">
-                {user && <StudentCell student={user} />}
-              </td>
-              <td className="w-1 border-b border-neutral-300 p-2">
+            <Row key={order.id}>
+              <TableCell>
+                <Checkbox slot="selection" />
+              </TableCell>
+              <TableCell>{user && <StudentCell student={user} />}</TableCell>
+              <TableCell>
                 {product && <ProductCell product={product} />}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
-                {order.type}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
-                {order.quantity}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+              </TableCell>
+              <TableCell>{order.type}</TableCell>
+              <TableCell>{order.quantity}</TableCell>
+              <TableCell>
                 {new Date(order.createdAt || '').toLocaleDateString()}{' '}
                 {new Date(order.createdAt || '').toLocaleTimeString()}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+              </TableCell>
+              <TableCell>
                 <span className="rounded-lg bg-primary-light p-2 text-primary">
                   €{(parseFloat(order.unitPrice) * order.quantity).toFixed(2)}
                 </span>
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
-                <span className="flex items-center gap-1">
-                  {/* <AiOutlineFieldTime />
-                  <BiDish />
-                <AiOutlineCheck />
-                <AiOutlineClose /> */}
+              </TableCell>
+              <TableCell>
+                <Select1
+                  items={orderStatusOptions}
+                  placeholder="Order Status"
+                  selectedKey={order.status || orderStatusOptions[0].id}
+                />
+                {/* <span className="flex items-center gap-1">
                   <Select
                     id="categoryId"
                     value={order.status || 'pending'}
@@ -125,20 +147,20 @@ const OrdersPage = () => {
                       value: id || '',
                     }))}
                   />
-                </span>
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+                </span> */}
+              </TableCell>
+              <TableCell>
                 <button
                   onClick={() => {}}
                   className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
                 >
                   <AiOutlineEdit />
                 </button>
-              </td>
-            </tr>
+              </TableCell>
+            </Row>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }

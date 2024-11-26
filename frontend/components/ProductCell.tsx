@@ -9,7 +9,7 @@ interface ProductCellProps {
 
 const ProductCell = ({ product }: ProductCellProps) => {
   return (
-    <div className="w-max max-w-80 rounded-lg bg-primary-light px-4 py-2">
+    <div className="w-max min-w-full max-w-80 rounded-lg bg-primary-light px-4 py-2">
       <div className="flex gap-4">
         <Image
           alt={product.name}

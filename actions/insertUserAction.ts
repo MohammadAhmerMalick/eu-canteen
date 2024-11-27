@@ -11,15 +11,7 @@ const insertUserAction = async (formData: FormData) => {
   const whatsapp = formData.get('whatsapp') as string
   const matricola = formData.get('matricola') as string
 
-  if (
-    !name ||
-    !email ||
-    !whatsapp ||
-    !matricola
-    // ||
-    // !idCardBackImageFile ||
-    // !idCardFrontImageFile
-  )
+  if (!name || !email || !whatsapp || !matricola)
     return {
       data: [],
       success: false,

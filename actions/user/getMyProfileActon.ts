@@ -32,8 +32,6 @@ const getMyProfileAction = async (): Return => {
           role: user.roleName,
           whatsapp: user.whatsapp,
           matricola: user.matricola,
-          idCardBackImage: user.idCardBackImage,
-          idCardFrontImage: user.idCardFrontImage,
           credit: parseFloat(user.credit).toFixed(2),
         },
       }

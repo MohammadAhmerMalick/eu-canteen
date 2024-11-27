@@ -73,12 +73,12 @@ const EditCategoryModal = ({ onClose, category }: EditCategoryModalProp) => {
           <div>
             <p>Image</p>
             <label
-              htmlFor="idCardFront"
+              htmlFor="profileImage"
               className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
             >
               <input
                 type="file"
-                id="idCardFront"
+                id="profileImage"
                 accept="image/*"
                 className="absolute left-10 w-1 opacity-0"
                 onChange={({ target }) => setImage(target.files?.[0] || '')}

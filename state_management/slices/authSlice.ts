@@ -10,8 +10,6 @@ export interface Auth {
   whatsapp: string
   matricola: string
   image: string | null
-  idCardFrontImage: string | null
-  idCardBackImage: string | null
   credit: string
   role: string
 }
@@ -39,8 +37,6 @@ export const initialAuthState: AuthState = {
     credit: '',
     whatsapp: '',
     matricola: '',
-    idCardBackImage: '',
-    idCardFrontImage: '',
   },
   authStatus: 'unauthenticated',
 }

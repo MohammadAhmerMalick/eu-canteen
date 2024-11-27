@@ -22,8 +22,6 @@ const usersTable = pgTable('users', {
   whatsapp: varchar({ length: 20 }).notNull(),
   matricola: varchar({ length: 20 }).notNull().unique(),
   image: varchar({ length: 255 }),
-  idCardFrontImage: varchar({ length: 255 }),
-  idCardBackImage: varchar({ length: 255 }),
   approved: boolean().default(false).notNull(),
   password: varchar({ length: 255 }),
   credit: numeric({ precision: 10, scale: 4 }).default('0').notNull(),

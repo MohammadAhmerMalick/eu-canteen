@@ -119,22 +119,6 @@ const StudentsPage = () => {
                 )}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
-                <Image
-                  alt="name"
-                  width={40}
-                  height={40}
-                  src={`/images/students/id-cards/${user.idCardFrontImage}`}
-                  className="mx-1 inline"
-                />
-                <Image
-                  alt="name"
-                  width={40}
-                  height={40}
-                  src={`/images/students/id-cards/${user.idCardBackImage}`}
-                  className="mx-1 inline"
-                />
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
                 <button
                   onClick={() => setEditModalData(user)}
                   className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"

@@ -8,17 +8,14 @@ import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
-import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import notificationsTable from '@/database/schema/notificationsSchema'
 import getNotificationsAction from '@/actions/notification/getNotificationsAction'
 import ViewNotificationModal from '@/components/modals/notification/ViewNotificationModal'
-import softDeleteNotificationAction from '@/actions/notification/softDeleteNotificationAction'
 
 const dataErrorMessage = 'Unable to load notifications'
 
 const NotificationsPage = () => {
-  const { notifications, auth, deleteNotification, setNotifications } =
-    useStore((state) => state)
+  const { notifications, auth, setNotifications } = useStore((state) => state)
 
   const [viewModalDate, setViewModalData] = useState<
     typeof notificationsTable.$inferInsert | null
@@ -33,18 +30,6 @@ const NotificationsPage = () => {
       return data
     },
   })
-
-  const onDelete = async (id: string) => {
-    const formData = new FormData()
-    formData.append('id', id)
-
-    const { success } = await softDeleteNotificationAction(formData)
-    if (success) {
-      deleteNotification(id)
-      toast.success('Notification Deleted')
-    } else
-      toast.error('Unable to handle request right now, please contact to admin')
-  }
 
   if (isPending) return <Loading />
 
@@ -64,10 +49,10 @@ const NotificationsPage = () => {
           <tr>
             <td className="border-b border-neutral-300 p-2">Name</td>
             <td className="border-b border-neutral-300 p-2 text-center">
-              Date & Time
+              Type
             </td>
             <td className="border-b border-neutral-300 p-2 text-center">
-              Type
+              Date & Time
             </td>
             <td className="border-b border-neutral-300 p-2 text-center">
               Status
@@ -87,8 +72,8 @@ const NotificationsPage = () => {
                 {auth?.id === notification.to?.[0] ? 'Private' : 'Public'}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
-                {new Date(notification.createdAt || '').toLocaleDateString()}{' '}
-                {new Date(notification.createdAt || '').toLocaleTimeString()}
+                {new Date(notification.createdAt || '').toLocaleTimeString()}{' '}
+                {new Date(notification.createdAt || '').toLocaleDateString()}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center font-semibold">
                 {notification.isRead ? (
@@ -103,12 +88,6 @@ const NotificationsPage = () => {
                   className="mx-1 rounded-lg bg-green-200 p-2 text-lg text-green-600 shadow"
                 >
                   <AiOutlineEye />
-                </button>
-                <button
-                  onClick={() => onDelete(notification.id || '')}
-                  className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
-                >
-                  <AiOutlineDelete />
                 </button>
               </td>
             </tr>

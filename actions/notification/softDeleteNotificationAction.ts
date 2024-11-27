@@ -1,10 +1,20 @@
 'use server'
 
+import { auth } from '@/auth'
 import NotificationModel from '@/models/NotificationModel'
 
 const softDeleteNotificationAction = async (formData: FormData) => {
   try {
     const id = formData.get('id') as string
+
+    const session = await auth()
+    if (session?.user.rold !== 'admin')
+      return {
+        success: false,
+        data: {},
+        message: 'Unauthorized',
+        codeMessage: 'unauthorized',
+      }
 
     const res = await NotificationModel.softDeleteNotification(id)
 

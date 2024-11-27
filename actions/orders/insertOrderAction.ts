@@ -23,7 +23,7 @@ const insertOrderAction = async ({
   const unitPrice = product.price
 
   const date = new Date()
-  const dateTime = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
+  const dateTime = `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`
 
   const amount = quantity * parseFloat(unitPrice)
   const [transaction] = await TransactionModel.createTransaction({

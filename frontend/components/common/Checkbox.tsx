@@ -3,14 +3,15 @@ import { Checkbox as AriaCheckbox, CheckboxProps } from 'react-aria-components'
 import { classnames } from '@/utils'
 import FaCheck from '@/icons/FaCheck'
 
-const Checkbox = ({ children, ...props }: CheckboxProps) => {
+const Checkbox = ({ children, className, ...props }: CheckboxProps) => {
   return (
     <AriaCheckbox {...props}>
       {({ isSelected }) => (
         <>
           <div
             className={classnames(
-              'flex size-6 items-center justify-center rounded-lg border-2 border-primary text-xs text-primary'
+              'flex size-6 items-center justify-center rounded-lg border-2 border-primary text-xs text-primary',
+              className
             )}
           >
             {isSelected ? <FaCheck /> : <polyline points="1 9 7 14 15 4" />}

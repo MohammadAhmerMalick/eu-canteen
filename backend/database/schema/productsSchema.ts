@@ -1,6 +1,5 @@
 import {
   boolean,
-  integer,
   numeric,
   pgTable,
   text,
@@ -22,7 +21,6 @@ const productsTable = pgTable('products', {
   name: varchar({ length: 20 }).notNull(),
   image: varchar({ length: 255 }).notNull(),
   description: text().notNull(),
-  stock: integer().notNull(),
   price: numeric({ precision: 10, scale: 4 }).notNull(),
 
   categoryId: uuid('categoryId')

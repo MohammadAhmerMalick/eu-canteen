@@ -56,8 +56,8 @@ const CreditsPage = () => {
                   {transaction.type.toUpperCase()}
                 </td>
                 <td className="border-b border-neutral-300 p-2">
-                  {new Date(transaction.createdAt || '').toLocaleDateString()}{' '}
-                  {new Date(transaction.createdAt || '').toLocaleTimeString()}
+                  {new Date(transaction.createdAt || '').toLocaleTimeString()}{' '}
+                  {new Date(transaction.createdAt || '').toLocaleDateString()}
                 </td>
                 <td className="w-1 border-b border-neutral-300 p-2">
                   {product && <ProductCell product={product} />}

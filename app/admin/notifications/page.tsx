@@ -95,8 +95,8 @@ const NotificationsPage = () => {
               </td>
 
               <td className="border-b border-neutral-300 p-2 text-center">
-                {new Date(notification.createdAt || '').toLocaleDateString()}{' '}
-                {new Date(notification.createdAt || '').toLocaleTimeString()}
+                {new Date(notification.createdAt || '').toLocaleTimeString()}{' '}
+                {new Date(notification.createdAt || '').toLocaleDateString()}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center font-semibold">
                 {notification.isRead ? (

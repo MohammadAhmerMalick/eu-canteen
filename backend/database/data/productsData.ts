@@ -6,7 +6,6 @@ const productsData = (ids: { id: string }[]) =>
       image: 'p-1.png',
       description:
         'Lorem ipsum dolor sit amet consectetur. Nisl ipsum sit erat auctor mi tristique .',
-      stock: 13,
       price: '12.00',
       categoryId: ids[0].id,
     }))

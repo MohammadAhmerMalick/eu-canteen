@@ -9,7 +9,7 @@ interface StudentCellProps {
 
 const StudentCell = ({ student }: StudentCellProps) => {
   return (
-    <div className="w-max rounded-lg bg-primary-light px-4 py-2">
+    <div className="w-max min-w-full rounded-lg bg-primary-light px-4 py-2">
       <div className="flex gap-4">
         <Image
           alt={student.name}

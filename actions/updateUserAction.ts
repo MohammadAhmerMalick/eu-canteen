@@ -14,8 +14,6 @@ const updateUserAction = async (formData: FormData) => {
     const approved = formData.get('approved') as string
     const whatsapp = formData.get('whatsapp') as string
     const matricola = formData.get('matricola') as string
-    // const idCardFrontImageFile = formData.get('idCardFrontImage') as File
-    // const idCardBackImageFile = formData.get('idCardBackImage') as File
 
     // is email valid
     if (!/@campus.unimib.it\s*$/.test(email))

@@ -80,9 +80,6 @@ const ProductsPage = () => {
             <td className="border-b border-neutral-300 p-2">Name</td>
             <td className="border-b border-neutral-300 p-2">Description</td>
             <td className="border-b border-neutral-300 p-2 text-center">
-              Stock
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
               Price
             </td>
             <td className="border-b border-neutral-300 p-2 text-center">
@@ -120,9 +117,6 @@ const ProductsPage = () => {
               </td>
               <td className="border-b border-neutral-300 p-2">
                 {product.description}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
-                {product.stock}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 {product.price}

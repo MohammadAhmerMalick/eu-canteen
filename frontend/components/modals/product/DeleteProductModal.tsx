@@ -64,9 +64,6 @@ const DeleteProductModal = ({ onClose, product }: DeleteProductModalProp) => {
               <span className="text-primary">Name:</span> {product.name}
             </p>
             <p>
-              <span className="text-primary">Stock:</span> {product.stock}
-            </p>
-            <p>
               <span className="text-primary">Price:</span> {product.price}
             </p>
             <p>

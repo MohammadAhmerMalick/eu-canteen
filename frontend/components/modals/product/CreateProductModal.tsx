@@ -24,7 +24,6 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
   ) => e.currentTarget === e.target && onClose()
 
   const [name, setName] = useState('')
-  const [stock, setStock] = useState('')
   const [price, setPrice] = useState('')
   const [categoryId, setCategory] = useState('')
   const [image, setImage] = useState<File | ''>('')
@@ -36,7 +35,6 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
     const formData = new FormData()
     formData.append('name', name)
     formData.append('image', image)
-    formData.append('stock', stock)
     formData.append('categoryId', categoryId)
     formData.append('description', description)
 
@@ -79,16 +77,6 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
             onChange={({ value }) => setName(value)}
             labelClassName="text-sm"
             placeholder="BBQ"
-          />
-          <Input
-            isRequired
-            id="stock"
-            onlyNumber
-            value={stock}
-            labelText="Stock"
-            onChange={({ value }) => setStock(value)}
-            labelClassName="text-sm"
-            placeholder="10"
           />
           <Input
             isRequired

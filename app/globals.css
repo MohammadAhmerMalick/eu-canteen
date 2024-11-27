@@ -146,6 +146,10 @@
   }
 } */
 
+html {
+  padding-right: 0px !important;
+}
+
 body {
   /* color: var(--foreground); */
   /* background: var(--background); */

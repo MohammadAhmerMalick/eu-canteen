@@ -28,7 +28,6 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
   const [name, setName] = useState(product.name)
   const [categoryId, setCategory] = useState(product.categoryId)
   const [image, setImage] = useState<File | ''>('')
-  const [stock, setStock] = useState(product.stock.toString())
   const [price, setPrice] = useState(product.price.toString())
   const [published, setPublished] = useState(!!product.published)
   const [description, setDescription] = useState(product.description)
@@ -40,7 +39,6 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
     formData.append('id', product.id || '')
     formData.append('name', name)
     formData.append('image', image)
-    formData.append('stock', stock)
     formData.append('price', price)
     formData.append('categoryId', categoryId)
     formData.append('description', description)
@@ -82,16 +80,6 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
           />
           <Input
             isRequired
-            id="stock"
-            onlyNumber
-            value={stock}
-            labelText="Stock"
-            onChange={({ value }) => setStock(value)}
-            labelClassName="text-sm"
-            placeholder="10"
-          />
-          <Input
-            isRequired
             id="price"
             onlyNumber
             value={price}
@@ -116,12 +104,12 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
           <div>
             <p>Image</p>
             <label
-              htmlFor="idCardFront"
+              htmlFor="profileImage"
               className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
             >
               <input
                 type="file"
-                id="idCardFront"
+                id="profileImage"
                 accept="image/*"
                 className="absolute left-10 w-1 opacity-0"
                 onChange={({ target }) => setImage(target.files?.[0] || '')}

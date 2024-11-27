@@ -64,8 +64,8 @@ const OrdersPage = () => {
                 {order.quantity}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
-                {new Date(order.createdAt || '').toLocaleDateString()}{' '}
-                {new Date(order.createdAt || '').toLocaleTimeString()}
+                {new Date(order.createdAt || '').toLocaleTimeString()}{' '}
+                {new Date(order.createdAt || '').toLocaleDateString()}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 <span className="rounded-lg bg-primary-light p-2 text-primary">

@@ -10,8 +10,6 @@ const updateMyProfileAction = async (formData: FormData) => {
     const id = formData.get('id') as string
     const name = formData.get('name') as string
     const whatsapp = formData.get('whatsapp') as string
-    // const idCardFrontImageFile = formData.get('idCardFrontImage') as File
-    // const idCardBackImageFile = formData.get('idCardBackImage') as File
 
     const session = await auth()
     const [user] = await UserModel.getUserById(session?.user.id)

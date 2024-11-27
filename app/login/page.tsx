@@ -35,10 +35,10 @@ const LoginPage = () => {
   }, [authStatus, auth])
 
   return (
-    <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
+    <main className="flex min-h-dscreen items-center justify-center bg-[url('/images/backgrounds/auth-bg.jpg')] p-2">
       <form
         onSubmit={onSubmit}
-        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
+        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10 md:pb-6"
       >
         <Link href="/">
           <Image
@@ -49,16 +49,16 @@ const LoginPage = () => {
             className="mx-auto w-20"
           />
         </Link>
-        <h1 className="text-lg font-semibold">Login</h1>
+        <h1 className="mb-4 text-xl font-semibold">Login</h1>
         <Input
           isRequired
           id="email"
           type="email"
           value={email}
-          labelText="Email"
+          labelText="University Email"
           onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
-          placeholder="email@compas.unimib.it"
+          placeholder="student@campus.unimib.it"
         />
         <Input
           isRequired
@@ -80,10 +80,10 @@ const LoginPage = () => {
         >
           Login
         </Button>
-        <p className="text-center text-sm font-light">
+        <p className="mt-2 text-center text-sm font-normal text-neutral-500">
           Don&apos;t have and account yet?{' '}
-          <Link href="register" className="font-semibold">
-            Register for free
+          <Link href="register" className="font-semibold text-black">
+            Register for Free
           </Link>
         </p>
       </form>

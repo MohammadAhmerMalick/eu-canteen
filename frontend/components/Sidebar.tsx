@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 
+import FaPlus from '@/icons/FaPlus'
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
 import LinkButton from '@/components/common/LinkButton'
@@ -54,21 +55,21 @@ const Sidebar = ({ links }: SidebarProps) => {
         ))}
       </div>
 
-      <div className="mt-auto flex gap-4 rounded-lg bg-primary p-4">
-        <div className="flex-2 grid gap-3">
-          <p className="text-sm font-light text-white">
-            Please, organize your menus through button bellow! +Add Menus
+      <div className="mt-auto flex items-center gap-4 rounded-lg bg-primary p-4">
+        <div className="flex-2 grid gap-2">
+          <p className="font text-lg text-white">
+            Organize <br /> Your Menu
           </p>
-          <Button className="rounded-lg bg-white text-sm !text-black">
-            Add Meny
+          <Button className="flex items-center gap-1 rounded-lg bg-white text-sm !text-black">
+            <FaPlus /> Add Product
           </Button>
         </div>
         <Image
-          width={76}
-          height={90}
+          width={200}
+          height={200}
           alt='"Cheff'
-          className="flex-1"
-          src="/images/extras/chef.svg"
+          className="size-20 flex-1 rounded-lg bg-primary-light/30 p-1"
+          src="/images/extras/plate.png"
         />
       </div>
     </aside>

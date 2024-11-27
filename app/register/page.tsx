@@ -57,10 +57,10 @@ const SignupPage = () => {
   })
 
   return (
-    <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
+    <main className="flex min-h-dscreen items-center justify-center bg-[url('/images/backgrounds/auth-bg.jpg')] p-2">
       <form
         onSubmit={mutate}
-        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
+        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10 md:pb-6"
       >
         <Link href="/">
           <Image
@@ -71,49 +71,49 @@ const SignupPage = () => {
             className="mx-auto w-20"
           />
         </Link>
-        <h1 className="text-lg font-semibold">Registration</h1>
+        <h1 className="mb-4 text-xl font-semibold">Student Registration</h1>
         <Input
           isRequired
           id="name"
           value={name}
           labelText="Full Name"
-          onChange={({ value }) => setName(value)}
-          labelClassName="text-sm"
           placeholder="Asad Khan"
+          labelClassName="text-sm"
+          onChange={({ value }) => setName(value)}
         />
         <Input
           isRequired
           id="email"
           type="email"
           value={email}
-          labelText="Email"
-          onChange={({ value }) => setEmail(value)}
+          labelText="Student Email"
           labelClassName="text-sm"
-          placeholder="email@campus.unimib.it"
+          placeholder="student@campus.unimib.it"
+          onChange={({ value }) => setEmail(value)}
         />
         <Input
           isRequired
           onlyNumber
           id="whatsapp"
           value={whatsapp}
-          onChange={({ value }) => setWhatsapp(value)}
-          labelText="WhatsApp Number"
-          placeholder="39000000000"
           labelClassName="text-sm"
+          placeholder="393445474757"
+          labelText="WhatsApp Number"
+          onChange={({ value }) => setWhatsapp(value)}
         />
         <Input
           isRequired
           onlyNumber
           id="matricola"
           value={matricola}
-          onChange={({ value }) => setMatricola(value)}
-          labelText="Matricola Number"
-          placeholder="✳✳✳✳✳✳✳✳✳✳"
           labelClassName="text-sm"
+          labelText="Matricola Number"
+          placeholder="Enter Your Matricola ID"
+          onChange={({ value }) => setMatricola(value)}
         />
 
         <div>
-          <p>Attach You Profile Picture</p>
+          <p>Attach You Profile Image (Optional)</p>
           <label
             htmlFor="image"
             className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
@@ -140,7 +140,7 @@ const SignupPage = () => {
         </div>
 
         <div>
-          <p>Consents and Terms of Use:</p>
+          <p className="text-sm font-semibold">Consents and Terms of Use:</p>
           <p className="text-xs text-neutral-500">
             <Link className="text-primary underline" href="privacy-policy">
               Privacy Policy
@@ -167,9 +167,9 @@ const SignupPage = () => {
         <Button className="mt-4" disabled={isPending}>
           Request For Register
         </Button>
-        <p className="text-center text-sm font-light">
+        <p className="mt-2 text-center text-sm font-normal text-neutral-500">
           Alredy have an account?{' '}
-          <Link href="login" className="font-semibold">
+          <Link href="login" className="font-semibold text-black">
             Login
           </Link>
         </p>

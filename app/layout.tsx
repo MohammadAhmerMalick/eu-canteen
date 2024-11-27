@@ -21,7 +21,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="overflow-x-hidden antialiased">
+      <body className="antialiased">
         <AppStoreProvider>{children}</AppStoreProvider>
         <Toast />
       </body>

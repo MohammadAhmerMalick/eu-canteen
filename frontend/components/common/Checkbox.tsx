@@ -14,7 +14,7 @@ const Checkbox = ({ children, className, ...props }: CheckboxProps) => {
               className
             )}
           >
-            {isSelected ? <FaCheck /> : <polyline points="1 9 7 14 15 4" />}
+            {isSelected ? <FaCheck /> : <span />}
           </div>
           {children}
         </>

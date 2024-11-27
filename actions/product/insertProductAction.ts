@@ -6,7 +6,6 @@ import ProductModel from '@/models/ProductModel'
 const insertProductAction = async (formData: FormData) => {
   const image = formData.get('image') as File
   const name = formData.get('name') as string
-  const stock = formData.get('stock') as string
   const price = formData.get('price') as string
   const categoryId = formData.get('categoryId') as string
   const description = formData.get('description') as string
@@ -27,7 +26,6 @@ const insertProductAction = async (formData: FormData) => {
     categoryId,
     description,
     image: image.name,
-    stock: Number(stock),
   })
 
   return {

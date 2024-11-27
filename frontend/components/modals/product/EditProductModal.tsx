@@ -28,7 +28,6 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
   const [name, setName] = useState(product.name)
   const [categoryId, setCategory] = useState(product.categoryId)
   const [image, setImage] = useState<File | ''>('')
-  const [stock, setStock] = useState(product.stock.toString())
   const [price, setPrice] = useState(product.price.toString())
   const [published, setPublished] = useState(!!product.published)
   const [description, setDescription] = useState(product.description)
@@ -40,7 +39,6 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
     formData.append('id', product.id || '')
     formData.append('name', name)
     formData.append('image', image)
-    formData.append('stock', stock)
     formData.append('price', price)
     formData.append('categoryId', categoryId)
     formData.append('description', description)
@@ -79,16 +77,6 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
             onChange={({ value }) => setName(value)}
             labelClassName="text-sm"
             placeholder="Zinger Burger"
-          />
-          <Input
-            isRequired
-            id="stock"
-            onlyNumber
-            value={stock}
-            labelText="Stock"
-            onChange={({ value }) => setStock(value)}
-            labelClassName="text-sm"
-            placeholder="10"
           />
           <Input
             isRequired

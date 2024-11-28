@@ -3,7 +3,6 @@
 import {
   Row,
   Table,
-  Column,
   TableBody,
   TableHeader,
   type Selection,
@@ -21,6 +20,7 @@ import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
 import { Select1 } from '@/components/common/Select1'
 import { type Orders } from '@/store/slices/ordersSlice'
+import TableColumn from '@/components/common/TableColumn'
 import getOrdersAction from '@/actions/orders/getOrderssAction'
 import updateOrderStatusAction from '@/actions/orders/updateOrderStatusAction'
 
@@ -62,18 +62,29 @@ const OrdersPage = () => {
 
   const onOrderStatusChange = (order: Orders['orders'], status: string) => {
     updateOrderStatus({ ...order, id: order.id || '', status })
-    updateOrderStatusAction({ id: order.id || '', status })
+    updateOrderStatusAction({ ids: [order.id || ''], status })
   }
 
   const bulkAction = (status: string) => {
     setBulkOptionId(status)
 
-    orders
-      .filter(
-        ({ orders: order }) =>
-          [...selectedKeys].includes(order.id || '') || selectedKeys === 'all'
-      )
-      .map(({ orders: order }) => onOrderStatusChange(order, status))
+    const updatedOrders = orders.filter(
+      ({ orders: order }) =>
+        [...selectedKeys].includes(order.id || '') || selectedKeys === 'all'
+    )
+
+    updatedOrders.map(({ orders: order }) =>
+      updateOrderStatus({ ...order, id: order.id || '', status })
+    )
+
+    const updatedOrdersIds = updatedOrders
+      .map((o) => o.orders.id || '')
+      .filter((x) => x)
+
+    updateOrderStatusAction({
+      ids: updatedOrdersIds,
+      status,
+    })
 
     setSelectedKeys(new Set())
   }
@@ -85,7 +96,7 @@ const OrdersPage = () => {
   return (
     <div>
       <Table
-        aria-label="Files"
+        aria-label="Orders"
         selectionMode="multiple"
         className="w-full"
         onRowAction={(e) => console.log(e)}
@@ -93,29 +104,24 @@ const OrdersPage = () => {
         onSelectionChange={setSelectedKeys}
       >
         <TableHeader>
-          <Column className="text-center">
+          <TableColumn className="text-left">
             <Checkbox slot="selection" className="mx-auto" />
-          </Column>
-
-          <Column isRowHeader className="border-b border-neutral-300 p-2">
+          </TableColumn>
+          <TableColumn isRowHeader className="flex items-center gap-2">
+            <Select1
+              items={orderStatusOptions}
+              placeholder="Order Status"
+              selectedKey={bulkOptionId}
+              onSelectionChange={(value) => bulkAction(value as string)}
+            />
             Student
-          </Column>
-          <Column className="border-b border-neutral-300 p-2">Product</Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Order Type
-          </Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Quantity
-          </Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Placed At
-          </Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Price
-          </Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Status
-          </Column>
+          </TableColumn>
+          <TableColumn className="text-left">Product</TableColumn>
+          <TableColumn>Order Type</TableColumn>
+          <TableColumn>Quantity</TableColumn>
+          <TableColumn>Placed At</TableColumn>
+          <TableColumn>Price</TableColumn>
+          <TableColumn>Status</TableColumn>
         </TableHeader>
         <TableBody>
           {orders.map(({ orders: order, products: product, users: user }) => (
@@ -147,31 +153,11 @@ const OrdersPage = () => {
                     onOrderStatusChange(order, value as string)
                   }
                 />
-                {/* <span className="flex items-center gap-1">
-                  <Select
-                    id="categoryId"
-                    value={order.status || 'pending'}
-                    labelClassName="mx-auto"
-                    onChange={({ value }) => onOrderStatusChange(order, value)}
-                    options={orderStatusOptions.map(({ id, name }) => ({
-                      text: name,
-                      key: id || '',
-                      value: id || '',
-                    }))}
-                  />
-                </span> */}
               </TableCell>
             </Row>
           ))}
         </TableBody>
       </Table>
-
-      <Select1
-        items={orderStatusOptions}
-        placeholder="Order Status"
-        selectedKey={bulkOptionId}
-        onSelectionChange={(value) => bulkAction(value as string)}
-      />
     </div>
   )
 }

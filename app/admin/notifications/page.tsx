@@ -80,7 +80,7 @@ const NotificationsPage = () => {
             <td>
               <Button
                 className="mx-auto flex items-center gap-1 rounded-lg"
-                onClick={() => setIsAddModalVisible(true)}
+                onPress={() => setIsAddModalVisible(true)}
               >
                 <FaPlus /> Send Notification
               </Button>

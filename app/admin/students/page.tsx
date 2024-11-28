@@ -67,19 +67,16 @@ const StudentsPage = () => {
         <thead>
           <tr>
             <td className="border-b border-neutral-300 p-2">Name</td>
-            <td className="border-b border-neutral-300 p-2">Mail</td>
+            <td className="border-b border-neutral-300 p-2">Email</td>
             <td className="border-b border-neutral-300 p-2">Contact</td>
             <td className="border-b border-neutral-300 p-2">Matricola</td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Student ID
-            </td>
             <td className="border-b border-neutral-300 p-2 text-center">
               Status
             </td>
             <td className="border-b border-neutral-300 p-2 text-center">
               <Button
                 className="mx-auto flex items-center gap-1 rounded-lg"
-                onClick={() => setIsAddUserModalVisible(true)}
+                onPress={() => setIsAddUserModalVisible(true)}
               >
                 <FaPlus /> Add Student
               </Button>

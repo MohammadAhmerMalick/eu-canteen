@@ -1,5 +1,12 @@
 'use client'
 
+import {
+  Row,
+  Table,
+  TableBody,
+  TableHeader,
+  Button as AriaButton,
+} from 'react-aria-components'
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
@@ -10,7 +17,9 @@ import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
+import TableCell from '@/components/common/TableCell'
 import DataError from '@/components/common/DataError'
+import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import categoriesTable from '@/database/schema/categoriesSchema'
@@ -64,27 +73,29 @@ const CategoriesPage = () => {
         <CreateCategoryModal onClose={() => setIsAddModalVisible(false)} />
       )}
 
-      <table className="w-full text-sm">
-        <thead>
-          <tr>
-            <td className="border-b border-neutral-300 p-2">Name</td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Status
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              <Button
-                className="mx-auto flex items-center gap-1 rounded-lg"
-                onClick={() => setIsAddModalVisible(true)}
-              >
-                <FaPlus /> Add Category
-              </Button>
-            </td>
-          </tr>
-        </thead>
-        <tbody>
+      <Table
+        aria-label="Categories"
+        selectionMode="multiple"
+        className="w-full"
+      >
+        <TableHeader>
+          <TableColumn isRowHeader className="text-left">
+            Name
+          </TableColumn>
+          <TableColumn>Status</TableColumn>
+          <TableColumn className="text-right">
+            <Button
+              className="ml-auto flex items-center gap-1 rounded-lg"
+              onPress={() => setIsAddModalVisible(true)}
+            >
+              <FaPlus /> Category
+            </Button>
+          </TableColumn>
+        </TableHeader>
+        <TableBody>
           {categories.map((category) => (
-            <tr key={category.id}>
-              <td className="border-b border-neutral-300 p-2">
+            <Row key={category.id} id={category.id}>
+              <TableCell className="border-b border-neutral-300 p-2">
                 <div className="grid grid-cols-[40px_auto] items-center gap-2">
                   <Image
                     alt={category.name}
@@ -100,33 +111,33 @@ const CategoriesPage = () => {
                   />
                   {category.name}
                 </div>
-              </td>
+              </TableCell>
 
-              <td className="border-b border-neutral-300 p-2 text-center font-semibold">
+              <TableCell className="border-b border-neutral-300 p-2 text-center font-semibold">
                 {category.published ? (
                   <p className="text-green-700">Active</p>
                 ) : (
                   <p className="text-red-700">Inactive</p>
                 )}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
-                <button
-                  onClick={() => setEditModalData(category)}
+              </TableCell>
+              <TableCell className="border-b border-neutral-300 p-2 text-right">
+                <AriaButton
+                  onPress={() => setEditModalData(category)}
                   className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
                 >
                   <AiOutlineEdit />
-                </button>
-                <button
-                  onClick={() => setDeleteModalData(category)}
+                </AriaButton>
+                <AriaButton
+                  onPress={() => setDeleteModalData(category)}
                   className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
                 >
                   <AiOutlineDelete />
-                </button>
-              </td>
-            </tr>
+                </AriaButton>
+              </TableCell>
+            </Row>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }

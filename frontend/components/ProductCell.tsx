@@ -26,6 +26,9 @@ const ProductCell = ({ product }: ProductCellProps) => {
           <p>
             Price: <span className="font-semibold">€{product.price}</span>
           </p>
+          <p className="line-clamp-1">
+            <span className="font-semibold">{product.description}</span>
+          </p>
         </div>
       </div>
     </div>

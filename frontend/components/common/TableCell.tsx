@@ -1,5 +1,6 @@
+import { Cell, type CellProps } from 'react-aria-components'
+
 import { classnames } from '@/utils'
-import { Cell, CellProps } from 'react-aria-components'
 
 const TableCell = ({
   children,
@@ -9,7 +10,7 @@ const TableCell = ({
   return (
     <Cell
       {...props}
-      className={classnames('w-1 border-b border-neutral-300 p-2', className)}
+      className={classnames('border-b border-neutral-300 p-2', className)}
     >
       {children}
     </Cell>

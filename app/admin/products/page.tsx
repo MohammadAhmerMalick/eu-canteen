@@ -88,7 +88,7 @@ const ProductsPage = () => {
             <td className="border-b border-neutral-300 p-2 text-center">
               <Button
                 className="mx-auto flex items-center gap-1 rounded-lg"
-                onClick={() => setIsAddModalVisible(true)}
+                onPress={() => setIsAddModalVisible(true)}
               >
                 <FaPlus /> Add Product
               </Button>

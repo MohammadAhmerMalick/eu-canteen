@@ -74,7 +74,7 @@ const PanelHeader = () => {
               <p className="text-neutral-400">Settings</p>
               <p className="text-neutral-400">Orders</p>
               <p className="text-neutral-400">Profile</p>
-              <Button onClick={logout} className="w-full min-w-max">
+              <Button onPress={logout} className="w-full min-w-max">
                 Log out
               </Button>
             </div>

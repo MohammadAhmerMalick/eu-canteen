@@ -13,16 +13,8 @@ import Sidebar, { type SidebarLink } from '@/components/Sidebar'
 // import VscGraph from '@/icons/VscGraph'
 
 const links: SidebarLink[] = [
-  {
-    link: '/admin',
-    label: 'Dashboard',
-    icon: <AiOutlineHome />,
-  },
-  {
-    link: '/admin/orders',
-    label: 'Orders',
-    icon: <AiOutlineFile />,
-  },
+  { link: '/admin', label: 'Dashboard', icon: <AiOutlineHome /> },
+  { link: '/admin/orders', label: 'Orders', icon: <AiOutlineFile /> },
   { link: '/admin/students', label: 'Students', icon: <FiUsers /> },
   // {
   //   link: '/admin/analytics',
@@ -31,15 +23,11 @@ const links: SidebarLink[] = [
   //   icon: VscGraph,
   // },
   { link: '/admin/products', label: 'Products', icon: <BiDish /> },
+  { link: '/admin/categories', label: 'Categories', icon: <BiBasket /> },
   {
     link: '/admin/notifications',
     label: 'Notifications',
     icon: <AiOutlineBell />,
-  },
-  {
-    link: '/admin/categories',
-    label: 'Categories',
-    icon: <BiBasket />,
   },
 ]
 

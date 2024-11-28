@@ -75,8 +75,8 @@ const LoginPage = () => {
         </p>
         <Button
           className="mt-4"
-          disabled={authStatus === 'loading'}
-          onClick={() => localStorage.setItem('isLoggedIn', 'true')}
+          isDisabled={authStatus === 'loading'}
+          onPress={() => localStorage.setItem('isLoggedIn', 'true')}
         >
           Login
         </Button>

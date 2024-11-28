@@ -4,7 +4,7 @@ import { auth } from '@/auth'
 import OrderModel from '@/models/OrderModel'
 
 interface Props {
-  id: string
+  ids: string[]
   status: string
 }
 type Return = Promise<
@@ -18,7 +18,7 @@ type Return = Promise<
     }
 >
 
-const updateOrderStatusAction = async ({ id, status }: Props): Return => {
+const updateOrderStatusAction = async ({ ids, status }: Props): Return => {
   try {
     const session = await auth()
 
@@ -28,7 +28,13 @@ const updateOrderStatusAction = async ({ id, status }: Props): Return => {
         data: null,
       }
 
-    const [updatedUser] = await OrderModel.updateOrderStatus(id, status)
+    if (!ids.length)
+      return {
+        data: null,
+        success: false,
+      }
+
+    const [updatedUser] = await OrderModel.updateOrderStatus(ids, status)
 
     console.log({ updateOrderStatusAction: 'success' })
 

@@ -12,7 +12,7 @@ import VideoBannerSection from '@/sections/VideoBannerSection'
 
 const HomePage = async () => {
   return (
-    <div className="w-screen overflow-hidden bg-primary-light">
+    <div className="overflow-hidden bg-primary-light">
       <Header />
       <main className="mx-auto max-w-7xl px-4">
         <section className="my-10 grid grid-cols-1 gap-4 gap-y-12 md:mt-20 md:grid-cols-[500px_2000px]">

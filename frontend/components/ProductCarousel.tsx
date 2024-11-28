@@ -64,38 +64,26 @@ const products = [
 ]
 
 const responsive: ResponsiveType = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
-    items: 6,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 6,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 6,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
+  superLargeDesktop: { items: 6, breakpoint: { max: 4000, min: 3000 } },
+  desktop: { items: 6, breakpoint: { max: 3000, min: 1024 } },
+  tablet: { items: 6, breakpoint: { max: 1024, min: 464 } },
+  mobile: { items: 1, breakpoint: { max: 464, min: 0 } },
 }
 
 const ProductCarousel = () => {
   return (
     <Carousel
       ssr
-      responsive={responsive}
       infinite
       autoPlay
       arrows={false}
       autoPlaySpeed={3000}
+      responsive={responsive}
     >
       {products.map(({ id, image, title, details }) => (
         <div
           key={id}
-          className="relative mx-3 mb-2 mt-28 rounded-3xl bg-white p-6 pt-32 shadow-lg md:min-w-72"
+          className="relative mx-3 mb-6 mt-28 rounded-3xl bg-white p-6 pt-32 shadow-lg md:min-w-72"
         >
           <Image
             height={230}

@@ -12,9 +12,11 @@ import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
+import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import StudentCell from '@/components/StudentCell'
 import ProductCell from '@/components/ProductCell'
+import MenuItem from '@/components/common/MenuItem'
 import Checkbox from '@/components/common/Checkbox'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
@@ -48,7 +50,6 @@ const orderStatusOptions = [
 const OrdersPage = () => {
   const { orders, setOrders, updateOrdersStatus } = useStore((state) => state)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
-  const [bulkOptionId, setBulkOptionId] = useState(orderStatusOptions[0].id)
 
   const { isPending, error } = useQuery({
     queryKey: ['getOrders'],
@@ -66,8 +67,6 @@ const OrdersPage = () => {
   }
 
   const bulkAction = (status: string) => {
-    setBulkOptionId(status)
-
     const updatedOrders = orders.filter(
       ({ orders: order }) =>
         [...selectedKeys].includes(order.id || '') || selectedKeys === 'all'
@@ -99,22 +98,29 @@ const OrdersPage = () => {
         aria-label="Orders"
         selectionMode="multiple"
         className="w-full"
-        onRowAction={(e) => console.log(e)}
+        onRowAction={() => {}}
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
       >
         <TableHeader>
-          <TableColumn className="text-left">
-            <Checkbox slot="selection" className="mx-auto" />
+          <TableColumn>
+            <Checkbox slot="selection" />
           </TableColumn>
-          <TableColumn isRowHeader className="flex items-center gap-2">
-            <Select1
-              items={orderStatusOptions}
-              placeholder="Order Status"
-              selectedKey={bulkOptionId}
-              onSelectionChange={(value) => bulkAction(value as string)}
-            />
-            Student
+          <TableColumn isRowHeader className="">
+            <div className="flex items-center gap-4">
+              {[...selectedKeys].length ? (
+                <MenuPopup>
+                  {orderStatusOptions.map(({ id, name }) => (
+                    <MenuItem key={id} onAction={() => bulkAction(id)}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </MenuPopup>
+              ) : (
+                ''
+              )}
+              Student
+            </div>
           </TableColumn>
           <TableColumn className="text-left">Product</TableColumn>
           <TableColumn>Order Type</TableColumn>
@@ -133,13 +139,15 @@ const OrdersPage = () => {
               <TableCell>
                 {product && <ProductCell product={product} />}
               </TableCell>
-              <TableCell>{order.type}</TableCell>
-              <TableCell>{order.quantity}</TableCell>
-              <TableCell>
+              <TableCell className="text-center capitalize">
+                {order.type.replaceAll(' ', '-')}
+              </TableCell>
+              <TableCell className="text-center">{order.quantity}</TableCell>
+              <TableCell className="text-center">
                 {new Date(order.createdAt || '').toLocaleTimeString()}{' '}
                 {new Date(order.createdAt || '').toLocaleDateString()}
               </TableCell>
-              <TableCell>
+              <TableCell className="text-center">
                 <span className="rounded-lg bg-primary-light p-2 text-primary">
                   €{(parseFloat(order.unitPrice) * order.quantity).toFixed(2)}
                 </span>

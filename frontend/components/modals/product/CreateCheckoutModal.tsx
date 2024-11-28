@@ -121,7 +121,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
               defaultValue={type}
             >
               <option value="takeaway">Takeaway</option>
-              <option value="dining">Dining</option>
+              <option value="dine in">Dine-In</option>
             </select>
           </div>
 

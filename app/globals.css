@@ -12,6 +12,8 @@
   font-style: inherit;
   font-weight: inherit;
   font-family: inherit;
+
+  outline: 0;
 }
 
 .poppins-thin {

@@ -16,17 +16,17 @@ const MenuPopup = ({ children }: MenuItemProps) => {
     <MenuTrigger>
       <Button
         aria-label="Menu"
-        className={({ isPressed, isFocusVisible }) =>
+        className={({ isPressed }) =>
           classnames(
-            'flex size-8 items-center justify-center rounded-lg border border-primary-light bg-primary-light p-2 text-lg text-primary shadow',
-            isPressed && 'border border-primary'
+            'flex size-8 items-center justify-center rounded-lg border bg-primary-light p-2 text-lg text-primary shadow',
+            isPressed ? 'border-primary' : 'border-primary-light'
           )
         }
       >
         <AiOutlineMenu />
       </Button>
-      <Popover className="rounded-lg bg-white/30 p-1 shadow-lg ring-neutral-300 backdrop-blur">
-        <Menu className="outline-0">{children}</Menu>
+      <Popover className="rounded-lg bg-white/70 p-1 shadow-lg ring-[1px] ring-neutral-300 backdrop-blur">
+        <Menu>{children}</Menu>
       </Popover>
     </MenuTrigger>
   )

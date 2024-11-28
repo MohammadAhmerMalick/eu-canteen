@@ -27,7 +27,7 @@ export function MyItem({ children, ...props }: ListBoxItemProps) {
         classnames(
           'cursor-pointer rounded-lg px-2 py-1 font-normal outline-none duration-100',
           isHovered ? 'bg-primary-light' : '',
-          isSelected ? '!bg-primary' : ''
+          isSelected ? '!bg-primary text-white' : ''
         )
       }
     >
@@ -45,10 +45,10 @@ export function Select1<T extends object>({
     <AriaSelect {...props}>
       <Label>{label}</Label>
       <Button
-        className={({ isFocused }) =>
+        className={({ isPressed }) =>
           classnames(
             'flex w-full items-center justify-between rounded-md border border-neutral-300 bg-white p-2 text-neutral-900',
-            isFocused && 'border-primary outline-none ring-1 ring-orange-300'
+            isPressed && 'border-primary ring-1 ring-orange-300'
           )
         }
       >
@@ -58,7 +58,7 @@ export function Select1<T extends object>({
       <Popover>
         <ListBox
           items={items}
-          className="rounded-lg p-1 shadow-lg ring-[1px] ring-neutral-300 backdrop-blur"
+          className="rounded-lg bg-white/70 p-1 shadow-lg ring-[1px] ring-neutral-300 backdrop-blur"
         >
           {(item) => <MyItem>{item.name}</MyItem>}
         </ListBox>

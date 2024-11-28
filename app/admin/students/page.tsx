@@ -1,5 +1,13 @@
 'use client'
 
+import {
+  Row,
+  Table,
+  TableBody,
+  TableHeader,
+  type Selection,
+  Button as AriaButton,
+} from 'react-aria-components'
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
@@ -10,19 +18,35 @@ import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
+import Checkbox from '@/components/common/Checkbox'
+import { Select1 } from '@/components/common/Select1'
 import DataError from '@/components/common/DataError'
+import TableCell from '@/components/common/TableCell'
 import usersTable from '@/database/schema/usersSchema'
+import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import getStudentsAction from '@/actions/getStudentsAction'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import EditUserModal from '@/components/modals/user/EditUserModal'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
+import updateUsersApprovedStateAction from '@/actions/user/updateUsersApprovedStateAction'
 
 const dataErrorMessage = 'Unable to load users'
 
+const orderStatusOptions = [
+  {
+    id: 'approved',
+    name: 'Approved',
+  },
+  {
+    id: 'pending',
+    name: 'Pending',
+  },
+]
+
 const StudentsPage = () => {
-  const { users, setUsers } = useStore((state) => state)
+  const { users, setUsers, updateUser } = useStore((state) => state)
 
   const [editModalData, setEditModalData] = useState<
     typeof usersTable.$inferInsert | null
@@ -31,6 +55,8 @@ const StudentsPage = () => {
     typeof usersTable.$inferInsert | null
   >(null)
   const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
+  const [bulkOptionId, setBulkOptionId] = useState(orderStatusOptions[0].id)
 
   const { isPending, error } = useQuery({
     queryKey: ['getStudents'],
@@ -41,6 +67,27 @@ const StudentsPage = () => {
       return data
     },
   })
+
+  const bulkAction = (isApproved: string) => {
+    setBulkOptionId(isApproved)
+    const approved = isApproved === 'approved'
+
+    const updatedUsers = users.filter(
+      ({ id }) => [...selectedKeys].includes(id || '') || selectedKeys === 'all'
+    )
+
+    const updatedUserIds = updatedUsers.map((u) => {
+      updateUser({ ...u, approved })
+      return u.id || ''
+    })
+
+    updateUsersApprovedStateAction({
+      ids: updatedUserIds,
+      approved,
+    })
+
+    setSelectedKeys(new Set())
+  }
 
   if (isPending) return <Loading />
 
@@ -63,30 +110,49 @@ const StudentsPage = () => {
       {isAddUserModalVisible && (
         <CreateUserModal onClose={() => setIsAddUserModalVisible(false)} />
       )}
-      <table className="w-full text-sm">
-        <thead>
-          <tr>
-            <td className="border-b border-neutral-300 p-2">Name</td>
-            <td className="border-b border-neutral-300 p-2">Email</td>
-            <td className="border-b border-neutral-300 p-2">Contact</td>
-            <td className="border-b border-neutral-300 p-2">Matricola</td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Status
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              <Button
-                className="mx-auto flex items-center gap-1 rounded-lg"
-                onPress={() => setIsAddUserModalVisible(true)}
-              >
-                <FaPlus /> Add Student
-              </Button>
-            </td>
-          </tr>
-        </thead>
-        <tbody>
+
+      <Table
+        aria-label="Orders"
+        selectionMode="multiple"
+        className="w-full"
+        onRowAction={(e) => console.log(e)}
+        selectedKeys={selectedKeys}
+        onSelectionChange={setSelectedKeys}
+      >
+        <TableHeader>
+          <TableColumn className="text-left">
+            <Checkbox slot="selection" className="mx-auto" />
+          </TableColumn>
+          <TableColumn isRowHeader className="flex items-center gap-2">
+            <Select1
+              items={orderStatusOptions}
+              placeholder="Order Status"
+              selectedKey={bulkOptionId}
+              onSelectionChange={(value) => bulkAction(value as string)}
+            />
+            Name
+          </TableColumn>
+          <TableColumn className="text-left">Email</TableColumn>
+          <TableColumn className="text-left">Contact</TableColumn>
+          <TableColumn>Matricola</TableColumn>
+          <TableColumn>Status</TableColumn>
+          <TableColumn>
+            <Button
+              className="ml-auto flex items-center gap-1 rounded-lg"
+              onPress={() => setIsAddUserModalVisible(true)}
+            >
+              <FaPlus /> Student
+            </Button>
+          </TableColumn>
+        </TableHeader>
+        <TableBody>
           {users.map((user) => (
-            <tr key={user.id}>
-              <td className="border-b border-neutral-300 p-2">
+            <Row key={user.id} id={user.id}>
+              <TableCell className="text-center">
+                <Checkbox slot="selection" />
+              </TableCell>
+              <TableCell>
+                {' '}
                 <div className="grid grid-cols-[40px_auto] items-center gap-2">
                   <Image
                     alt={user.name}
@@ -100,39 +166,36 @@ const StudentsPage = () => {
                   />
                   {user.name}
                 </div>
-              </td>
-              <td className="border-b border-neutral-300 p-2">{user.email}</td>
-              <td className="border-b border-neutral-300 p-2">
-                {user.whatsapp}
-              </td>
-              <td className="border-b border-neutral-300 p-2">
-                {user.matricola}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center font-semibold">
+              </TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell> {user.whatsapp}</TableCell>
+              <TableCell className="text-center"> {user.matricola}</TableCell>
+              <TableCell className="text-center">
+                {' '}
                 {user.approved ? (
                   <p className="text-green-700">Active</p>
                 ) : (
                   <p className="text-red-700">Inactive</p>
                 )}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
-                <button
-                  onClick={() => setEditModalData(user)}
+              </TableCell>
+              <TableCell className="text-right">
+                <AriaButton
+                  onPress={() => setEditModalData(user)}
                   className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
                 >
                   <AiOutlineEdit />
-                </button>
-                <button
-                  onClick={() => setDeleteModalData(user)}
+                </AriaButton>
+                <AriaButton
+                  onPress={() => setDeleteModalData(user)}
                   className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
                 >
                   <AiOutlineDelete />
-                </button>
-              </td>
-            </tr>
+                </AriaButton>
+              </TableCell>
+            </Row>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }

@@ -22,7 +22,7 @@ import { Select1 } from '@/components/common/Select1'
 import { type Orders } from '@/store/slices/ordersSlice'
 import TableColumn from '@/components/common/TableColumn'
 import getOrdersAction from '@/actions/orders/getOrderssAction'
-import updateOrderStatusAction from '@/actions/orders/updateOrderStatusAction'
+import updateOrdersStatusAction from '@/actions/orders/updateOrdersStatusAction'
 
 const dataErrorMessage = 'Unable to load orders'
 
@@ -46,7 +46,7 @@ const orderStatusOptions = [
 ]
 
 const OrdersPage = () => {
-  const { orders, setOrders, updateOrderStatus } = useStore((state) => state)
+  const { orders, setOrders, updateOrdersStatus } = useStore((state) => state)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
   const [bulkOptionId, setBulkOptionId] = useState(orderStatusOptions[0].id)
 
@@ -61,8 +61,8 @@ const OrdersPage = () => {
   })
 
   const onOrderStatusChange = (order: Orders['orders'], status: string) => {
-    updateOrderStatus({ ...order, id: order.id || '', status })
-    updateOrderStatusAction({ ids: [order.id || ''], status })
+    updateOrdersStatus({ ...order, id: order.id || '', status })
+    updateOrdersStatusAction({ ids: [order.id || ''], status })
   }
 
   const bulkAction = (status: string) => {
@@ -74,14 +74,14 @@ const OrdersPage = () => {
     )
 
     updatedOrders.map(({ orders: order }) =>
-      updateOrderStatus({ ...order, id: order.id || '', status })
+      updateOrdersStatus({ ...order, id: order.id || '', status })
     )
 
     const updatedOrdersIds = updatedOrders
       .map((o) => o.orders.id || '')
       .filter((x) => x)
 
-    updateOrderStatusAction({
+    updateOrdersStatusAction({
       ids: updatedOrdersIds,
       status,
     })

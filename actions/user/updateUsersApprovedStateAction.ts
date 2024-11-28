@@ -1,15 +1,15 @@
 'use server'
 
 import { auth } from '@/auth'
-import OrderModel from '@/models/OrderModel'
+import UserModel from '@/models/UserModel'
 
 interface Props {
   ids: string[]
-  status: string
+  approved: boolean
 }
 type Return = Promise<
   | {
-      data: { id: string }
+      data: { id: string }[]
       success: true
     }
   | {
@@ -18,7 +18,10 @@ type Return = Promise<
     }
 >
 
-const updateOrderStatusAction = async ({ ids, status }: Props): Return => {
+const updateUsersApprovedStateAction = async ({
+  ids,
+  approved,
+}: Props): Return => {
   try {
     const session = await auth()
 
@@ -34,16 +37,16 @@ const updateOrderStatusAction = async ({ ids, status }: Props): Return => {
         success: false,
       }
 
-    const [updatedUser] = await OrderModel.updateOrderStatus(ids, status)
+    const updatedUser = await UserModel.updateUsersApprovedState(ids, approved)
 
-    console.log({ updateOrderStatusAction: 'success' })
+    console.log({ updateUsersApprovedStateAction: 'success' })
 
     return {
       data: updatedUser,
       success: true,
     }
   } catch (error) {
-    console.log({ updateOrderStatusAction: error })
+    console.log({ updateUsersApprovedStateAction: error })
 
     return {
       data: null,
@@ -52,4 +55,4 @@ const updateOrderStatusAction = async ({ ids, status }: Props): Return => {
   }
 }
 
-export default updateOrderStatusAction
+export default updateUsersApprovedStateAction

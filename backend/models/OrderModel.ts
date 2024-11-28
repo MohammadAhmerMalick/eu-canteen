@@ -50,7 +50,7 @@ class OrderModel {
   static createOrder = (order: typeof ordersTable.$inferInsert) =>
     db.insert(ordersTable).values(order).returning({ id: ordersTable.id })
 
-  static updateOrderStatus = (
+  static updateOrdersStatus = (
     ids: string[],
     status: (typeof ordersTable.$inferInsert)['status']
   ) =>

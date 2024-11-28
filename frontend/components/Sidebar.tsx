@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 
 import FaPlus from '@/icons/FaPlus'
 import { classnames } from '@/utils'
-import Button from '@/components/common/Button'
 import LinkButton from '@/components/common/LinkButton'
 
 export interface SidebarLink {
@@ -60,9 +59,12 @@ const Sidebar = ({ links }: SidebarProps) => {
           <p className="font text-lg text-white">
             Organize <br /> Your Menu
           </p>
-          <Button className="flex items-center gap-1 rounded-lg bg-white text-sm !text-black">
+          <LinkButton
+            href="/admin/products"
+            className="flex items-center gap-1 rounded-lg bg-white text-sm !text-black"
+          >
             <FaPlus /> Add Product
-          </Button>
+          </LinkButton>
         </div>
         <Image
           width={200}

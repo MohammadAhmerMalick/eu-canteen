@@ -16,6 +16,7 @@ import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import StudentCell from '@/components/StudentCell'
 import ProductCell from '@/components/ProductCell'
+import EuroChip from '@/components/common/EuroChip'
 import MenuItem from '@/components/common/MenuItem'
 import Checkbox from '@/components/common/Checkbox'
 import DataError from '@/components/common/DataError'
@@ -148,9 +149,11 @@ const OrdersPage = () => {
                 {new Date(order.createdAt || '').toLocaleDateString()}
               </TableCell>
               <TableCell className="text-center">
-                <span className="rounded-lg bg-primary-light p-2 text-primary">
-                  €{(parseFloat(order.unitPrice) * order.quantity).toFixed(2)}
-                </span>
+                <EuroChip
+                  amount={(
+                    parseFloat(order.unitPrice) * order.quantity
+                  ).toString()}
+                />
               </TableCell>
               <TableCell>
                 <Select1

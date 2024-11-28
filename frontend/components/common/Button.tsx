@@ -8,11 +8,13 @@ import { classnames } from '@/utils'
 const Button = ({
   children,
   className,
+  type = 'submit',
   ...props
 }: ButtonProps & RefAttributes<HTMLButtonElement>) => {
   return (
     <AriaButton
       {...props}
+      type={type}
       className={({ isDisabled }) =>
         classnames(
           'rounded-3xl px-4 py-2 text-white',

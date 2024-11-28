@@ -77,7 +77,7 @@ const NotificationsPage = () => {
             <td className="border-b border-neutral-300 p-2 text-center">
               Status
             </td>
-            <td>
+            <td className="border-b border-neutral-300 p-2 text-center">
               <Button
                 className="mx-auto flex items-center gap-1 rounded-lg"
                 onPress={() => setIsAddModalVisible(true)}

@@ -17,9 +17,10 @@ import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
+import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import Checkbox from '@/components/common/Checkbox'
-import { Select1 } from '@/components/common/Select1'
+import MenuItem from '@/components/common/MenuItem'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
 import usersTable from '@/database/schema/usersSchema'
@@ -31,6 +32,7 @@ import EditUserModal from '@/components/modals/user/EditUserModal'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
 import updateUsersApprovedStateAction from '@/actions/user/updateUsersApprovedStateAction'
+import EuroChip from '@/components/common/EuroChip'
 
 const dataErrorMessage = 'Unable to load users'
 
@@ -56,7 +58,6 @@ const StudentsPage = () => {
   >(null)
   const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
-  const [bulkOptionId, setBulkOptionId] = useState(orderStatusOptions[0].id)
 
   const { isPending, error } = useQuery({
     queryKey: ['getStudents'],
@@ -69,7 +70,6 @@ const StudentsPage = () => {
   })
 
   const bulkAction = (isApproved: string) => {
-    setBulkOptionId(isApproved)
     const approved = isApproved === 'approved'
 
     const updatedUsers = users.filter(
@@ -120,21 +120,29 @@ const StudentsPage = () => {
         onSelectionChange={setSelectedKeys}
       >
         <TableHeader>
-          <TableColumn className="text-left">
-            <Checkbox slot="selection" className="mx-auto" />
+          <TableColumn>
+            <Checkbox slot="selection" />
           </TableColumn>
-          <TableColumn isRowHeader className="flex items-center gap-2">
-            <Select1
-              items={orderStatusOptions}
-              placeholder="Order Status"
-              selectedKey={bulkOptionId}
-              onSelectionChange={(value) => bulkAction(value as string)}
-            />
-            Name
+          <TableColumn isRowHeader>
+            <div className="flex items-center gap-4">
+              {[...selectedKeys].length ? (
+                <MenuPopup>
+                  {orderStatusOptions.map(({ id, name }) => (
+                    <MenuItem key={id} onAction={() => bulkAction(id)}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </MenuPopup>
+              ) : (
+                ''
+              )}
+              Name
+            </div>
           </TableColumn>
           <TableColumn className="text-left">Email</TableColumn>
           <TableColumn className="text-left">Contact</TableColumn>
           <TableColumn>Matricola</TableColumn>
+          <TableColumn>Credit</TableColumn>
           <TableColumn>Status</TableColumn>
           <TableColumn>
             <Button
@@ -152,7 +160,6 @@ const StudentsPage = () => {
                 <Checkbox slot="selection" />
               </TableCell>
               <TableCell>
-                {' '}
                 <div className="grid grid-cols-[40px_auto] items-center gap-2">
                   <Image
                     alt={user.name}
@@ -169,9 +176,11 @@ const StudentsPage = () => {
               </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell> {user.whatsapp}</TableCell>
-              <TableCell className="text-center"> {user.matricola}</TableCell>
+              <TableCell className="text-center">{user.matricola}</TableCell>
               <TableCell className="text-center">
-                {' '}
+                <EuroChip amount={user.credit} />
+              </TableCell>
+              <TableCell className="text-center">
                 {user.approved ? (
                   <p className="text-green-700">Active</p>
                 ) : (

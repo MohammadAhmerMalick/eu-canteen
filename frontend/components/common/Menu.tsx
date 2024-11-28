@@ -25,7 +25,7 @@ const MenuPopup = ({ children }: MenuItemProps) => {
       >
         <AiOutlineMenu />
       </Button>
-      <Popover className="rounded-lg bg-white/70 p-1 shadow-lg ring-[1px] ring-neutral-300 backdrop-blur">
+      <Popover className="rounded-lg bg-white/70 p-2 shadow-lg ring-[1px] ring-neutral-300 backdrop-blur">
         <Menu>{children}</Menu>
       </Popover>
     </MenuTrigger>

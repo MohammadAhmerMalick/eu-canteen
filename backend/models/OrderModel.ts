@@ -1,4 +1,4 @@
-import { and, eq } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 
 import db from '@/database/index'
 import ordersTable from '@/database/schema/ordersSchema'
@@ -50,8 +50,8 @@ class OrderModel {
   static createOrder = (order: typeof ordersTable.$inferInsert) =>
     db.insert(ordersTable).values(order).returning({ id: ordersTable.id })
 
-  static updateOrderStatus = (
-    id: string,
+  static updateOrdersStatus = (
+    ids: string[],
     status: (typeof ordersTable.$inferInsert)['status']
   ) =>
     db
@@ -62,7 +62,7 @@ class OrderModel {
       .returning({
         id: ordersTable.id,
       })
-      .where(eq(ordersTable.id, id))
+      .where(inArray(ordersTable.id, ids))
 }
 
 export default OrderModel

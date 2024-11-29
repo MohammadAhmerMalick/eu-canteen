@@ -3,7 +3,6 @@
 import {
   Row,
   Table,
-  Column,
   TableBody,
   TableHeader,
   type Selection,
@@ -13,16 +12,20 @@ import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
+import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import StudentCell from '@/components/StudentCell'
 import ProductCell from '@/components/ProductCell'
+import EuroChip from '@/components/common/EuroChip'
+import MenuItem from '@/components/common/MenuItem'
 import Checkbox from '@/components/common/Checkbox'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
 import { Select1 } from '@/components/common/Select1'
 import { type Orders } from '@/store/slices/ordersSlice'
+import TableColumn from '@/components/common/TableColumn'
 import getOrdersAction from '@/actions/orders/getOrderssAction'
-import updateOrderStatusAction from '@/actions/orders/updateOrderStatusAction'
+import updateOrdersStatusAction from '@/actions/orders/updateOrdersStatusAction'
 
 const dataErrorMessage = 'Unable to load orders'
 
@@ -46,9 +49,8 @@ const orderStatusOptions = [
 ]
 
 const OrdersPage = () => {
-  const { orders, setOrders, updateOrderStatus } = useStore((state) => state)
+  const { orders, setOrders, updateOrdersStatus } = useStore((state) => state)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
-  const [bulkOptionId, setBulkOptionId] = useState(orderStatusOptions[0].id)
 
   const { isPending, error } = useQuery({
     queryKey: ['getOrders'],
@@ -61,19 +63,28 @@ const OrdersPage = () => {
   })
 
   const onOrderStatusChange = (order: Orders['orders'], status: string) => {
-    updateOrderStatus({ ...order, id: order.id || '', status })
-    updateOrderStatusAction({ id: order.id || '', status })
+    updateOrdersStatus({ ...order, id: order.id || '', status })
+    updateOrdersStatusAction({ ids: [order.id || ''], status })
   }
 
   const bulkAction = (status: string) => {
-    setBulkOptionId(status)
+    const updatedOrders = orders.filter(
+      ({ orders: order }) =>
+        [...selectedKeys].includes(order.id || '') || selectedKeys === 'all'
+    )
 
-    orders
-      .filter(
-        ({ orders: order }) =>
-          [...selectedKeys].includes(order.id || '') || selectedKeys === 'all'
-      )
-      .map(({ orders: order }) => onOrderStatusChange(order, status))
+    updatedOrders.map(({ orders: order }) =>
+      updateOrdersStatus({ ...order, id: order.id || '', status })
+    )
+
+    const updatedOrdersIds = updatedOrders
+      .map((o) => o.orders.id || '')
+      .filter((x) => x)
+
+    updateOrdersStatusAction({
+      ids: updatedOrdersIds,
+      status,
+    })
 
     setSelectedKeys(new Set())
   }
@@ -85,37 +96,39 @@ const OrdersPage = () => {
   return (
     <div>
       <Table
-        aria-label="Files"
+        aria-label="Orders"
         selectionMode="multiple"
         className="w-full"
-        onRowAction={(e) => console.log(e)}
+        onRowAction={() => {}}
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
       >
         <TableHeader>
-          <Column className="text-center">
-            <Checkbox slot="selection" className="mx-auto" />
-          </Column>
-
-          <Column isRowHeader className="border-b border-neutral-300 p-2">
-            Student
-          </Column>
-          <Column className="border-b border-neutral-300 p-2">Product</Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Order Type
-          </Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Quantity
-          </Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Placed At
-          </Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Price
-          </Column>
-          <Column className="border-b border-neutral-300 p-2 text-center">
-            Status
-          </Column>
+          <TableColumn>
+            <Checkbox slot="selection" />
+          </TableColumn>
+          <TableColumn isRowHeader className="">
+            <div className="flex items-center gap-4">
+              {[...selectedKeys].length ? (
+                <MenuPopup>
+                  {orderStatusOptions.map(({ id, name }) => (
+                    <MenuItem key={id} onAction={() => bulkAction(id)}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </MenuPopup>
+              ) : (
+                ''
+              )}
+              Student
+            </div>
+          </TableColumn>
+          <TableColumn className="text-left">Product</TableColumn>
+          <TableColumn>Order Type</TableColumn>
+          <TableColumn>Quantity</TableColumn>
+          <TableColumn>Placed At</TableColumn>
+          <TableColumn>Price</TableColumn>
+          <TableColumn>Status</TableColumn>
         </TableHeader>
         <TableBody>
           {orders.map(({ orders: order, products: product, users: user }) => (
@@ -127,16 +140,20 @@ const OrdersPage = () => {
               <TableCell>
                 {product && <ProductCell product={product} />}
               </TableCell>
-              <TableCell>{order.type}</TableCell>
-              <TableCell>{order.quantity}</TableCell>
-              <TableCell>
+              <TableCell className="text-center capitalize">
+                {order.type.replaceAll(' ', '-')}
+              </TableCell>
+              <TableCell className="text-center">{order.quantity}</TableCell>
+              <TableCell className="text-center">
                 {new Date(order.createdAt || '').toLocaleTimeString()}{' '}
                 {new Date(order.createdAt || '').toLocaleDateString()}
               </TableCell>
-              <TableCell>
-                <span className="rounded-lg bg-primary-light p-2 text-primary">
-                  €{(parseFloat(order.unitPrice) * order.quantity).toFixed(2)}
-                </span>
+              <TableCell className="text-center">
+                <EuroChip
+                  amount={(
+                    parseFloat(order.unitPrice) * order.quantity
+                  ).toString()}
+                />
               </TableCell>
               <TableCell>
                 <Select1
@@ -147,31 +164,11 @@ const OrdersPage = () => {
                     onOrderStatusChange(order, value as string)
                   }
                 />
-                {/* <span className="flex items-center gap-1">
-                  <Select
-                    id="categoryId"
-                    value={order.status || 'pending'}
-                    labelClassName="mx-auto"
-                    onChange={({ value }) => onOrderStatusChange(order, value)}
-                    options={orderStatusOptions.map(({ id, name }) => ({
-                      text: name,
-                      key: id || '',
-                      value: id || '',
-                    }))}
-                  />
-                </span> */}
               </TableCell>
             </Row>
           ))}
         </TableBody>
       </Table>
-
-      <Select1
-        items={orderStatusOptions}
-        placeholder="Order Status"
-        selectedKey={bulkOptionId}
-        onSelectionChange={(value) => bulkAction(value as string)}
-      />
     </div>
   )
 }

@@ -44,7 +44,7 @@ const ViewNotificationModal = ({
         <h1 className="text-lg font-semibold">Notification</h1>
         <p className="text-sm">{notification.message}</p>
 
-        <Button className="ml-auto w-max !py-1" onClick={() => onClose()}>
+        <Button className="ml-auto w-max !py-1" onPress={() => onClose()}>
           Close
         </Button>
       </div>

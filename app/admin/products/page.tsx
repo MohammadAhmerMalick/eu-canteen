@@ -10,6 +10,7 @@ import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
+import EuroChip from '@/components/common/EuroChip'
 import DataError from '@/components/common/DataError'
 import productsTable from '@/database/schema/productsSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
@@ -88,7 +89,7 @@ const ProductsPage = () => {
             <td className="border-b border-neutral-300 p-2 text-center">
               <Button
                 className="mx-auto flex items-center gap-1 rounded-lg"
-                onClick={() => setIsAddModalVisible(true)}
+                onPress={() => setIsAddModalVisible(true)}
               >
                 <FaPlus /> Add Product
               </Button>
@@ -119,7 +120,7 @@ const ProductsPage = () => {
                 {product.description}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
-                {product.price}
+                <EuroChip amount={product.price} />
               </td>
               <td className="border-b border-neutral-300 p-2 text-center font-semibold">
                 {product.published ? (

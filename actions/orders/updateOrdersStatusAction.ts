@@ -4,12 +4,12 @@ import { auth } from '@/auth'
 import OrderModel from '@/models/OrderModel'
 
 interface Props {
-  id: string
+  ids: string[]
   status: string
 }
 type Return = Promise<
   | {
-      data: { id: string }
+      data: { id: string }[]
       success: true
     }
   | {
@@ -18,7 +18,7 @@ type Return = Promise<
     }
 >
 
-const updateOrderStatusAction = async ({ id, status }: Props): Return => {
+const updateOrdersStatusAction = async ({ ids, status }: Props): Return => {
   try {
     const session = await auth()
 
@@ -28,16 +28,22 @@ const updateOrderStatusAction = async ({ id, status }: Props): Return => {
         data: null,
       }
 
-    const [updatedUser] = await OrderModel.updateOrderStatus(id, status)
+    if (!ids.length)
+      return {
+        data: null,
+        success: false,
+      }
 
-    console.log({ updateOrderStatusAction: 'success' })
+    const updatedUser = await OrderModel.updateOrdersStatus(ids, status)
+
+    console.log({ updateOrdersStatusAction: 'success' })
 
     return {
       data: updatedUser,
       success: true,
     }
   } catch (error) {
-    console.log({ updateOrderStatusAction: error })
+    console.log({ updateOrdersStatusAction: error })
 
     return {
       data: null,
@@ -46,4 +52,4 @@ const updateOrderStatusAction = async ({ id, status }: Props): Return => {
   }
 }
 
-export default updateOrderStatusAction
+export default updateOrdersStatusAction

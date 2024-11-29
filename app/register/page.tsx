@@ -164,7 +164,7 @@ const SignupPage = () => {
           </label>
         </div>
 
-        <Button className="mt-4" disabled={isPending}>
+        <Button className="mt-4" isDisabled={isPending}>
           Request For Register
         </Button>
         <p className="mt-2 text-center text-sm font-normal text-neutral-500">

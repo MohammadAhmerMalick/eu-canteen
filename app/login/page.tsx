@@ -73,11 +73,7 @@ const LoginPage = () => {
         <p className="ml-auto w-max cursor-pointer text-sm text-neutral-500">
           Forgot Password?
         </p>
-        <Button
-          className="mt-4"
-          disabled={authStatus === 'loading'}
-          onClick={() => localStorage.setItem('isLoggedIn', 'true')}
-        >
+        <Button className="mt-4" isDisabled={authStatus === 'loading'}>
           Login
         </Button>
         <p className="mt-2 text-center text-sm font-normal text-neutral-500">

@@ -1,4 +1,4 @@
-import { eq, getTableColumns } from 'drizzle-orm'
+import { eq, getTableColumns, inArray } from 'drizzle-orm'
 
 import db from '@/database/index'
 import usersTable from '@/database/schema/usersSchema'
@@ -40,6 +40,20 @@ class UserModel {
       .delete(usersTable)
       .where(eq(usersTable.id, id))
       .returning({ id: usersTable.id })
+
+  static updateUsersApprovedState = (
+    ids: string[],
+    approved: (typeof usersTable.$inferInsert)['approved']
+  ) =>
+    db
+      .update(usersTable)
+      .set({
+        approved,
+      })
+      .returning({
+        id: usersTable.id,
+      })
+      .where(inArray(usersTable.id, ids))
 }
 
 export default UserModel

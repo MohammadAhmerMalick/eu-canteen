@@ -137,7 +137,7 @@ const ProductPage = () => {
                   </div>
                   <Button
                     className="mx-2 mb-2 rounded-b-3xl rounded-t-md"
-                    onClick={() => setCheckoutModalData(product)}
+                    onPress={() => setCheckoutModalData(product)}
                   >
                     Buy Now
                   </Button>

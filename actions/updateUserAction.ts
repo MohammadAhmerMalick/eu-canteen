@@ -4,19 +4,35 @@ import fs from 'fs'
 import path from 'path'
 
 const updateUserAction = async (formData: FormData) => {
-  const usersPath = path.join(process.cwd(), 'tmp/users.json')
   const data = { x: 'x' }
 
-  console.log({ data, usersPath })
-  // const file =
-  // if (!fs.existsSync(usersPath)) fs.mkdirSync(usersPath, { recursive: true })
+  // console.log({ data, usersPath, USERS_FILE_PATH })
+  // fs.writeFileSync(USERS_FILE_PATH, JSON.stringify(data))
 
-  // let jsonDirectory = path.join(process.cwd(), 'data') + '/data.json'
-  // if (fs.existsSync('/tmp/data.json')) {
-  //   jsonDirectory = '/tmp/data.json'
-  // }
+  try {
+    const USERS_FILE_PATH = path.join('/tmp', 'data.json')
+    console.log({ USERS_FILE_PATH })
+    fs.writeFileSync(USERS_FILE_PATH, JSON.stringify(data))
+  } catch (error) {
+    console.log({ 1: error })
+  }
 
-  fs.writeFileSync(usersPath, JSON.stringify(data))
+  try {
+    const USERS_FILE_PATH = path.join('/tmp', 'data1.json')
+    fs.writeFileSync(USERS_FILE_PATH, JSON.stringify(data))
+  } catch (error) {
+    console.log({ 2: error })
+  }
+
+  try {
+    const usersPath = path.join(process.cwd(), 'tmp/users.json')
+    console.log({ usersPath })
+    fs.writeFileSync(usersPath, JSON.stringify(data))
+  } catch (error) {
+    console.log({ 3: error })
+  }
+
+  // fs.writeFileSync(usersPath, JSON.stringify(data))
   // const x = new Response(file)
   // console.log({ x })
 

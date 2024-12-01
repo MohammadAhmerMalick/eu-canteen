@@ -37,10 +37,7 @@ const updateUserAction = async (formData: FormData) => {
 
     // store file locally
     if (image) {
-      const { destinationFileName } = await storeFileLocally(
-        image,
-        'students/id-cards/'
-      )
+      const { destinationFileName } = await storeFileLocally(image, '')
       payload.image = destinationFileName
     }
     // if (idCardFrontImageFile) {

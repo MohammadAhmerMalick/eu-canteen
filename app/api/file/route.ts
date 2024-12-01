@@ -14,4 +14,6 @@ export const GET = () => {
 
   return Response.json({ x: 'x' })
 }
-export const Post = () => {}
+export const Post = () => {
+  return Response.json({ x: 'x' })
+}

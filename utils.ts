@@ -36,7 +36,7 @@ export const storeFileLocally = async (
   // set unique name for file to upload to prevent file name conflict
   const destinationFileName = `${randomUUID()}_${file.name}`
 
-  const directory = `temp/${directoryFolder}`
+  const directory = `tmp/${directoryFolder}`
   
   console.log({ directory })
   // create directory if it does not exist

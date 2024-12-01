@@ -1,4 +1,4 @@
-// import fs from 'fs'
+import fs from 'fs'
 import path from 'path'
 import { FormEvent } from 'react'
 import { randomUUID } from 'crypto'
@@ -36,10 +36,10 @@ export const storeFileLocally = async (
   // set unique name for file to upload to prevent file name conflict
   const destinationFileName = `${randomUUID()}_${file.name}`
 
-  const directory = `public/images/${directoryFolder}`
+  const directory = `temp/${directoryFolder}`
 
-  // // create directory if it does not exist
-  // if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
+  // create directory if it does not exist
+  if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
 
   const fileLocalPath = path.join(
     process.cwd(),

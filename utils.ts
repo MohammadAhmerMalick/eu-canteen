@@ -37,11 +37,11 @@ export const storeFileLocally = async (
   const destinationFileName = `${randomUUID()}_${file.name}`
 
   const directory = `tmp/${directoryFolder}`
-  
+
   console.log({ directory })
   // create directory if it does not exist
-  // if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
-  
+  if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
+
   const fileLocalPath = path.join(
     process.cwd(),
     `${directory}${destinationFileName}`

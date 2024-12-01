@@ -1,9 +1,25 @@
 'use server'
 
+// import fs from 'fs'
+
+import { writeFile } from 'fs/promises'
+
 import UserModel from '@/models/UserModel'
-import { storeFileLocally } from '@/utils'
+// import { storeFileLocally } from '@/utils'
 import { hashPassword } from '@/libs/bcrypt'
 import usersTable from '@/database/schema/usersSchema'
+
+// store file locally
+export const storeFileLocally = async (file: File) => {
+  const fileLocalPath = `${process.cwd()}/tmp/${file.name}`
+
+  console.log({ fileLocalPath })
+
+  const buffer = Buffer.from(await file.arrayBuffer())
+  await writeFile(fileLocalPath, buffer)
+
+  // return { fileLocalPath, destinationFileName }
+}
 
 const updateUserAction = async (formData: FormData) => {
   try {
@@ -36,10 +52,8 @@ const updateUserAction = async (formData: FormData) => {
     if (password) payload = { ...payload, password: hashPassword(password) }
 
     // store file locally
-    if (image) {
-      const { destinationFileName } = await storeFileLocally(image, '')
-      payload.image = destinationFileName
-    }
+    if (image) await storeFileLocally(image)
+
     // if (idCardFrontImageFile) {
     //   const { destinationFileName } = await storeFileLocally(
     //     idCardFrontImageFile,

@@ -9,7 +9,7 @@ interface AuthLayoutSectionProps {
 
 const AuthLayoutSection = ({ children, title }: AuthLayoutSectionProps) => {
   return (
-    <main className="flex min-h-dscreen items-center justify-center bg-[url('/images/backgrounds/auth-bg.jpg')] p-2">
+    <main className="relative flex min-h-dscreen items-center justify-center bg-[url('/images/backgrounds/auth-bg.jpg')] p-4 pb-20">
       <div className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10 md:pb-6">
         <Link href="/">
           <Image

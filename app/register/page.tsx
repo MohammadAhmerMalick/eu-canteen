@@ -100,7 +100,7 @@ const SignupPage = () => {
         />
 
         <div>
-          <p>Attach You Profile Image (Optional)</p>
+          <p>Attach Your Profile Image (Optional)</p>
           <label
             htmlFor="image"
             className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
@@ -147,7 +147,7 @@ const SignupPage = () => {
             className="mt-1 flex items-center gap-2 text-xs text-neutral-500"
           >
             <input id="linkCheckbox" type="checkbox" required />
-            <span>I consent to the processing of above data</span>
+            <span>I consent to the processing of the above data</span>
           </label>
         </div>
 
@@ -155,7 +155,7 @@ const SignupPage = () => {
           Request For Register
         </Button>
         <p className="mt-2 text-center text-sm font-normal text-neutral-500">
-          Alredy have an account?{' '}
+          Already have an account?{' '}
           <Link href="login" className="font-semibold text-black">
             Login
           </Link>

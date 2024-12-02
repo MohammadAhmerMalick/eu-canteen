@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import Image from 'next/image'
 import { type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
@@ -23,13 +24,15 @@ const Sidebar = ({ links, isAdmin }: SidebarProps) => {
 
   return (
     <aside className="flex min-h-screen max-w-80 flex-col gap-4 p-4">
-      <Image
-        height={100}
-        width={80}
-        alt="Poolaster"
-        src="/images/logo.svg"
-        className="mx-5 mb-4 w-14 duration-300 md:w-20"
-      />
+      <Link href="/">
+        <Image
+          height={100}
+          width={80}
+          alt="Poolaster"
+          src="/images/logo.svg"
+          className="mx-5 mb-4 w-14 duration-300 md:w-20"
+        />
+      </Link>
 
       <div className="grid">
         {links.map(({ link, label, icon }) => (

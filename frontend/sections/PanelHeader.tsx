@@ -10,6 +10,7 @@ import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import VscGear from '@/components/icons/VscGear'
 import FiSearch from '@/components/icons/FiSearch'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
 import { adminMenuOptions, studentMenuOptions } from '@/sections/Header'
 
@@ -59,8 +60,12 @@ const PanelHeader = () => {
             width={40}
             height={40}
             alt="Agent"
-            src="/images/agents/agent-1.png"
             className="h-10 w-10 rounded-full border border-primary bg-primary"
+            src={
+              auth.image
+                ? `${assetsBaseUrl}${auth.image}`
+                : '/images/students/s-1.png'
+            }
           />
 
           <div

@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 
 export const adminMenuOptions = [
   { link: '/admin/dashboard', name: 'Dashboard' },
@@ -54,7 +55,11 @@ const Header = () => {
                   width={40}
                   height={40}
                   alt="Agent"
-                  src="/images/students/s-1.png"
+                  src={
+                    auth.image
+                      ? `${assetsBaseUrl}${auth.image}`
+                      : '/images/students/s-1.png'
+                  }
                   className="h-10 w-10 rounded-full border border-primary bg-primary"
                 />
                 <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">

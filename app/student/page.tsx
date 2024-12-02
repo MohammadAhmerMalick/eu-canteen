@@ -1,8 +1,7 @@
 'use client'
 
 import { toast } from 'react-toastify'
-import { redirect } from 'next/navigation'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
@@ -13,9 +12,7 @@ import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
 import updateMyProfileAction from '@/actions/updateMyProfileAction'
 
 const ProfilePage = () => {
-  const { auth, updateUser } = useStore((state) => state)
-
-  if (!auth) redirect('/')
+  const { auth, setAuth } = useStore((state) => state)
 
   const [name, setName] = useState(auth.name)
   const [image, setImage] = useState<File | ''>('')
@@ -31,15 +28,26 @@ const ProfilePage = () => {
     formData.append('image', image)
     formData.append('whatsapp', whatsapp)
 
-    const { success, message, codeMessage, data } =
-      await updateMyProfileAction(formData)
+    const { success, data } = await updateMyProfileAction(formData)
+
     if (success) {
-      updateUser(data[0])
+      setAuth({
+        ...auth,
+        name: data.name,
+        image: data.image || '',
+        whatsapp: data.whatsapp,
+      })
       toast.success('Student updated')
-    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
+    } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
+
+  useEffect(() => {
+    setName(auth.name)
+    setEmail(auth.email)
+    setWhatsapp(auth.whatsapp)
+    setMatricola(auth.matricola)
+  }, [auth])
 
   return (
     <form

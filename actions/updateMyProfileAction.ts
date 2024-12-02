@@ -1,60 +1,61 @@
 'use server'
 
-import UserModel from '@/models/UserModel'
-// import { storeFileLocally } from '@/utils'
-import usersTable from '@/database/schema/usersSchema'
 import { auth } from '@/auth'
+import { uploadFile } from '@/utils'
+import UserModel from '@/models/UserModel'
+import usersTable from '@/database/schema/usersSchema'
 
-const updateMyProfileAction = async (formData: FormData) => {
+type Return = Promise<
+  | {
+      data: typeof usersTable.$inferInsert
+      success: true
+    }
+  | {
+      data: null
+      success: false
+    }
+>
+
+const updateMyProfileAction = async (formData: FormData): Return => {
   try {
-    const id = formData.get('id') as string
-    const name = formData.get('name') as string
-    const whatsapp = formData.get('whatsapp') as string
-
     const session = await auth()
-    const [user] = await UserModel.getUserById(session?.user.id)
+
+    const name = formData.get('name') as string
+    const image = formData.get('image') as File
+    const whatsapp = formData.get('whatsapp') as string
+    const userId = session?.user.id
+
+    const [user] = await UserModel.getUserById(userId)
 
     const payload: typeof usersTable.$inferInsert = {
       name,
-      email: user.email,
       whatsapp,
+      email: user.email,
       matricola: user.matricola,
     }
 
     // store file locally
-    // if (idCardBackImageFile) {
-    //   const { destinationFileName } = await storeFileLocally(
-    //     idCardBackImageFile,
-    //     'students/id-cards/'
-    //   )
-    //   payload.idCardBackImage = destinationFileName
-    // }
-    // if (idCardFrontImageFile) {
-    //   const { destinationFileName } = await storeFileLocally(
-    //     idCardFrontImageFile,
-    //     'students/id-cards/'
-    //   )
-    //   payload.idCardFrontImage = destinationFileName
-    // }
+    if (image) {
+      const uploadedImage = await uploadFile(image, 'students/')
 
-    const updatedUser = await UserModel.updateUser(payload, id)
+      if (uploadedImage)
+        payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
+    }
+
+    const [updatedUser] = await UserModel.updateUser(payload, userId)
 
     console.log({ updateMyProfileAction: 'success' })
 
     return {
       data: updatedUser,
       success: true,
-      message: 'User updated',
-      codeMessage: 'user_updated',
     }
   } catch (error) {
     console.log({ updateMyProfileAction: error })
 
     return {
-      data: [],
+      data: null,
       success: false,
-      message: 'Unable to update user',
-      codeMessage: 'server_error',
     }
   }
 }

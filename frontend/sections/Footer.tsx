@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 
 const Footer = () => {
@@ -29,26 +30,41 @@ const Footer = () => {
         </div>
         <div className="relative">
           <div className="relative z-10 mx-auto flex h-32 w-32 items-center justify-center rounded-full border-8 border-black bg-white">
-            <Image
-              height={120}
-              width={80}
-              src="/images/logo.svg"
-              alt="Poolaster"
-              className="w-16"
-            />
+            <Link href="/">
+              <Image
+                width={80}
+                height={120}
+                alt="Poolaster"
+                className="w-16"
+                src="/images/logo.svg"
+              />
+            </Link>
           </div>
           <div className="absolute bottom-0 top-0 my-auto h-px w-full bg-gradient-to-r from-orange-950 via-primary to-orange-950" />
         </div>
         <div className="flex flex-wrap justify-center gap-2 text-sm md:-mt-12 md:justify-between">
-          <p className="flex gap-3">
-            <span className="uppercase">Pinterest</span>
-            <span className="w-px bg-primary" />
-            <span className="uppercase">Facebook</span>
-            <span className="w-px bg-primary" />
-            <span className="uppercase">Instagram</span>
-          </p>
-
-          <p>© 2024 Poolaster, ALL RIGHTS RESERVED</p>
+          <div>
+            <p className="flex gap-3">
+              <span className="uppercase">Pinterest</span>
+              <span className="w-px bg-primary" />
+              <span className="uppercase">Facebook</span>
+              <span className="w-px bg-primary" />
+              <span className="uppercase">Instagram</span>
+            </p>
+            <Image
+              height={40}
+              width={288}
+              alt="Poolaster"
+              className="w-72"
+              src="/images/extras/payments-methods.png"
+            />
+          </div>
+          <div className="md:text-right">
+            <p>
+              Made with 💝 | A Product of Asmeron (Pvt.) Ltd & OS Tech Hub LLC
+            </p>
+            <p>© 2024 Poolaster, ALL RIGHTS RESERVED</p>
+          </div>
         </div>
       </div>
     </footer>

@@ -29,7 +29,8 @@
       "@/database/*": ["./backend/database/*"],
       "@/sections/*": ["./frontend/sections/*"],
       "@/components/*": ["./frontend/components/*"],
-      "@/icons/*": ["./frontend/components/icons/*"]
+      "@/icons/*": ["./frontend/components/icons/*"],
+      "@/widgets/*": ["./frontend/components/widgets/*"]
     }
   },
   "include": [

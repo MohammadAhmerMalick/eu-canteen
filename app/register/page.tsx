@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
@@ -11,6 +10,7 @@ import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import insertUserAction from '@/actions/insertUserAction'
 import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
+import AuthLayoutSection from '@/sections/AuthLayoutSection'
 import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
 const SignupPage = () => {
@@ -57,21 +57,8 @@ const SignupPage = () => {
   })
 
   return (
-    <main className="flex min-h-dscreen items-center justify-center bg-[url('/images/backgrounds/auth-bg.jpg')] p-2">
-      <form
-        onSubmit={mutate}
-        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10 md:pb-6"
-      >
-        <Link href="/">
-          <Image
-            height={90}
-            width={90}
-            src="/images/logo.svg"
-            alt="Poolaster"
-            className="mx-auto w-20"
-          />
-        </Link>
-        <h1 className="mb-4 text-xl font-semibold">Student Registration</h1>
+    <AuthLayoutSection title="Student Registration">
+      <form onSubmit={mutate} className="grid gap-3">
         <Input
           isRequired
           id="name"
@@ -113,7 +100,7 @@ const SignupPage = () => {
         />
 
         <div>
-          <p>Attach You Profile Image (Optional)</p>
+          <p>Attach Your Profile Image (Optional)</p>
           <label
             htmlFor="image"
             className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
@@ -160,7 +147,7 @@ const SignupPage = () => {
             className="mt-1 flex items-center gap-2 text-xs text-neutral-500"
           >
             <input id="linkCheckbox" type="checkbox" required />
-            <span>I consent to the processing of above data</span>
+            <span>I consent to the processing of the above data</span>
           </label>
         </div>
 
@@ -168,13 +155,13 @@ const SignupPage = () => {
           Request For Register
         </Button>
         <p className="mt-2 text-center text-sm font-normal text-neutral-500">
-          Alredy have an account?{' '}
+          Already have an account?{' '}
           <Link href="login" className="font-semibold text-black">
             Login
           </Link>
         </p>
       </form>
-    </main>
+    </AuthLayoutSection>
   )
 }
 

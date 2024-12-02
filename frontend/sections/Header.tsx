@@ -7,6 +7,17 @@ import { useState } from 'react'
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
+
+export const adminMenuOptions = [
+  { link: '/admin/dashboard', name: 'Dashboard' },
+  { link: '/admin/orders', name: 'Orders' },
+]
+
+export const studentMenuOptions = [
+  { link: '/student/menu', name: 'Menu' },
+  { link: '/student/orders', name: 'Orders' },
+]
 
 const Header = () => {
   const { auth, authStatus, logout } = useStore((state) => state)
@@ -44,7 +55,11 @@ const Header = () => {
                   width={40}
                   height={40}
                   alt="Agent"
-                  src="/images/students/s-1.png"
+                  src={
+                    auth.image
+                      ? `${assetsBaseUrl}${auth.image}`
+                      : '/images/students/s-1.png'
+                  }
                   className="h-10 w-10 rounded-full border border-primary bg-primary"
                 />
                 <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
@@ -59,12 +74,18 @@ const Header = () => {
                 )}
               >
                 <div className="grid gap-1 text-right text-sm md:text-left">
-                  <Link href="/">Home</Link>
-                  <Link href={`/${auth.role}`}>Dashboard</Link>
-                  <p className="text-neutral-400">Settings</p>
-                  <p className="text-neutral-400">Orders</p>
-                  <p className="text-neutral-400">Profile</p>
-                  <Button onPress={logout} className="w-full min-w-max">
+                  {auth.role === 'admin'
+                    ? adminMenuOptions.map(({ link, name }) => (
+                        <Link key={name} href={link}>
+                          {name}
+                        </Link>
+                      ))
+                    : studentMenuOptions.map(({ link, name }) => (
+                        <Link key={name} href={link}>
+                          {name}
+                        </Link>
+                      ))}
+                  <Button onPress={logout} className="mt-2 w-full min-w-max">
                     Log out
                   </Button>
                 </div>
@@ -73,9 +94,9 @@ const Header = () => {
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <p className="rounded-3xl bg-white px-4 py-2 text-sm shadow-lg">
+            {/* <p className="rounded-3xl bg-white px-4 py-2 text-sm shadow-lg">
               ENG
-            </p>
+            </p> */}
             <div className="flex items-center gap-1 rounded-full bg-black p-1 text-sm md:text-base">
               <Link href="/register" className="db pr-2 ps-3 text-white">
                 Register Here

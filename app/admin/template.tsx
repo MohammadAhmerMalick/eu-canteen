@@ -49,7 +49,7 @@ const Template = async ({ children }: TemplateProps) => {
   return (
     <div className="grid" style={styles}>
       <div style={{ gridArea: 'adminSideBar' }}>
-        <Sidebar links={links} />
+        <Sidebar links={links} isAdmin />
       </div>
       <div style={{ gridArea: 'adminHeader' }}>
         <PanelHeader />

@@ -10,7 +10,9 @@ import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import VscGear from '@/components/icons/VscGear'
 import FiSearch from '@/components/icons/FiSearch'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
+import { adminMenuOptions, studentMenuOptions } from '@/sections/Header'
 
 const PanelHeader = () => {
   const { auth, logout } = useStore((state) => state)
@@ -58,8 +60,12 @@ const PanelHeader = () => {
             width={40}
             height={40}
             alt="Agent"
-            src="/images/agents/agent-1.png"
             className="h-10 w-10 rounded-full border border-primary bg-primary"
+            src={
+              auth.image
+                ? `${assetsBaseUrl}${auth.image}`
+                : '/images/students/s-1.png'
+            }
           />
 
           <div
@@ -69,11 +75,17 @@ const PanelHeader = () => {
             )}
           >
             <div className="grid gap-1 text-right text-sm md:text-left">
-              <Link href="/">Home</Link>
-              <Link href={`/${auth?.role || ''}`}>Dashboard</Link>
-              <p className="text-neutral-400">Settings</p>
-              <p className="text-neutral-400">Orders</p>
-              <p className="text-neutral-400">Profile</p>
+              {auth.role === 'admin'
+                ? adminMenuOptions.map(({ link, name }) => (
+                    <Link key={name} href={link}>
+                      {name}
+                    </Link>
+                  ))
+                : studentMenuOptions.map(({ link, name }) => (
+                    <Link key={name} href={link}>
+                      {name}
+                    </Link>
+                  ))}
               <Button onPress={logout} className="w-full min-w-max">
                 Log out
               </Button>

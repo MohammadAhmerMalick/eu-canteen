@@ -21,9 +21,11 @@ import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import Checkbox from '@/components/common/Checkbox'
 import MenuItem from '@/components/common/MenuItem'
+import EuroChip from '@/components/common/EuroChip'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
 import usersTable from '@/database/schema/usersSchema'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import getStudentsAction from '@/actions/getStudentsAction'
@@ -32,7 +34,6 @@ import EditUserModal from '@/components/modals/user/EditUserModal'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
 import updateUsersApprovedStateAction from '@/actions/user/updateUsersApprovedStateAction'
-import EuroChip from '@/components/common/EuroChip'
 
 const dataErrorMessage = 'Unable to load users'
 
@@ -165,7 +166,11 @@ const StudentsPage = () => {
                     alt={user.name}
                     width={40}
                     height={40}
-                    src="/images/students/s-1.png"
+                    src={
+                      user.image
+                        ? `${assetsBaseUrl}${user.image}`
+                        : '/images/students/s-1.png'
+                    }
                     className={classnames(
                       'rounded-full border-2',
                       user.approved ? 'border-primary' : 'border-neutral-400'

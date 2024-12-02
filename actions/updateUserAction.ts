@@ -1,7 +1,7 @@
 'use server'
 
+import { uploadFile } from '@/utils'
 import UserModel from '@/models/UserModel'
-// import { storeFileLocally } from '@/utils'
 import { hashPassword } from '@/libs/bcrypt'
 import usersTable from '@/database/schema/usersSchema'
 
@@ -9,6 +9,7 @@ const updateUserAction = async (formData: FormData) => {
   try {
     const id = formData.get('id') as string
     const name = formData.get('name') as string
+    const image = formData.get('image') as File
     const email = formData.get('email') as string
     const password = formData.get('password') as string
     const approved = formData.get('approved') as string
@@ -35,20 +36,12 @@ const updateUserAction = async (formData: FormData) => {
     if (password) payload = { ...payload, password: hashPassword(password) }
 
     // store file locally
-    // if (idCardBackImageFile) {
-    //   const { destinationFileName } = await storeFileLocally(
-    //     idCardBackImageFile,
-    //     'students/id-cards/'
-    //   )
-    //   payload.idCardBackImage = destinationFileName
-    // }
-    // if (idCardFrontImageFile) {
-    //   const { destinationFileName } = await storeFileLocally(
-    //     idCardFrontImageFile,
-    //     'students/id-cards/'
-    //   )
-    //   payload.idCardFrontImage = destinationFileName
-    // }
+    if (image) {
+      const uploadedImage = await uploadFile(image, 'students/')
+
+      if (uploadedImage)
+        payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
+    }
 
     const user = await UserModel.updateUser(payload, id)
 

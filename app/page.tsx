@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Header from '@/sections/Header'
 import Footer from '@/sections/Footer'
 import Button from '@/components/common/Button'
+import SevicesSecion from '@/sections/SevicesSecion'
 import OurMenuSection from '@/sections/OurMenuSection'
 import LinkButton from '@/components/common/LinkButton'
 import SectionHeading from '@/components/SectionHeading'
@@ -35,22 +36,14 @@ const HomePage = async () => {
           <ProductCarousel />
         </section>
         <AgentAssistance className="ml-auto mt-4" expended />
-        <section className="my-10 md:my-20">
-          <Image
-            width={1280}
-            height={600}
-            alt="banner"
-            src="/images/banners/banner-1.png"
-            className="mx-auto"
-          />
-        </section>
+        <SevicesSecion />
         <section className="my-10 grid justify-center gap-8 text-center md:my-20">
           <Image
             width={178}
             height={63}
-            alt="For the best memories"
-            src="/images/extras/h1-icon-img.png.png"
             className="mx-auto"
+            alt="For the best memories"
+            src="/images/extras/h1-icon-img.png"
           />
           <SectionHeading>
             Poolaster is for everyone who collects beautiful moments

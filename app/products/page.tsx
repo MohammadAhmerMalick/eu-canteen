@@ -29,7 +29,7 @@ const ProductPage = () => {
   >(null)
   const [checkoutModalData, setCheckoutModalData] = useState<
     typeof productsTable.$inferInsert | null
-  >(products[0])
+  >(null)
 
   const { isPending, error } = useQuery({
     queryKey: ['getProducts'],

@@ -5,12 +5,24 @@ import UserModel from '@/models/UserModel'
 import { hashPassword } from '@/libs/bcrypt'
 import usersTable from '@/database/schema/usersSchema'
 
-const updateUserAction = async (formData: FormData) => {
+type Return = Promise<
+  | {
+      data: typeof usersTable.$inferInsert
+      success: true
+    }
+  | {
+      data: null
+      success: false
+    }
+>
+
+const updateUserAction = async (formData: FormData): Return => {
   try {
     const id = formData.get('id') as string
     const name = formData.get('name') as string
     const image = formData.get('image') as File
     const email = formData.get('email') as string
+    const credit = formData.get('credit') as string
     const password = formData.get('password') as string
     const approved = formData.get('approved') as string
     const whatsapp = formData.get('whatsapp') as string
@@ -19,15 +31,14 @@ const updateUserAction = async (formData: FormData) => {
     // is email valid
     if (!/@campus.unimib.it\s*$/.test(email))
       return {
-        data: [],
+        data: null,
         success: false,
-        codeMessage: 'must_be_unimib_email',
-        message: 'Kindly use an authorized email',
       }
 
     let payload: typeof usersTable.$inferInsert = {
       name,
       email,
+      credit,
       whatsapp,
       matricola,
       approved: !!approved,
@@ -43,24 +54,20 @@ const updateUserAction = async (formData: FormData) => {
         payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
     }
 
-    const user = await UserModel.updateUser(payload, id)
+    const [user] = await UserModel.updateUser(payload, id)
 
     console.log({ updateUserAction: 'success' })
 
     return {
       data: user,
       success: true,
-      message: 'User updated',
-      codeMessage: 'user_updated',
     }
   } catch (error) {
     console.log({ updateUserAction: error })
 
     return {
-      data: [],
+      data: null,
       success: false,
-      message: 'Unable to update user',
-      codeMessage: 'server_error',
     }
   }
 }

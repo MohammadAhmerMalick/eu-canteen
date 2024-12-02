@@ -26,6 +26,7 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
   const [name, setName] = useState(student.name)
   const [image, setImage] = useState<File | ''>('')
   const [email, setEmail] = useState(student.email)
+  const [credit, setCredit] = useState(student.credit || '')
   const [whatsapp, setWhatsapp] = useState(student.whatsapp)
   const [matricola, setMatricola] = useState(student.matricola)
   const [approved, setApproved] = useState(!!student.approved)
@@ -38,19 +39,18 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
     formData.append('name', name)
     formData.append('email', email)
     formData.append('image', image)
+    formData.append('credit', credit)
     formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
     formData.append('approved', approved ? 'approved' : '')
 
-    const { success, message, codeMessage, data } =
-      await updateUserAction(formData)
+    const { success, data } = await updateUserAction(formData)
     if (success) {
-      updateUser(data[0])
+      updateUser(data)
       toast.success('Student updated')
       onClose()
-    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
+    } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
@@ -86,6 +86,15 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
             onChange={({ value }) => setEmail(value)}
             labelClassName="text-sm"
             placeholder="email@campus.unimib.it"
+          />
+          <Input
+            onlyNumber
+            id="credit"
+            value={credit}
+            placeholder="123"
+            labelText="Credit"
+            labelClassName="text-sm"
+            onChange={({ value }) => setCredit(value)}
           />
           <Input
             isRequired

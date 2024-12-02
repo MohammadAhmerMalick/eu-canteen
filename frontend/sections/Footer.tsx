@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 
 const Footer = () => {
@@ -29,13 +30,15 @@ const Footer = () => {
         </div>
         <div className="relative">
           <div className="relative z-10 mx-auto flex h-32 w-32 items-center justify-center rounded-full border-8 border-black bg-white">
-            <Image
-              height={120}
-              width={80}
-              src="/images/logo.svg"
-              alt="Poolaster"
-              className="w-16"
-            />
+            <Link href="/">
+              <Image
+                width={80}
+                height={120}
+                alt="Poolaster"
+                className="w-16"
+                src="/images/logo.svg"
+              />
+            </Link>
           </div>
           <div className="absolute bottom-0 top-0 my-auto h-px w-full bg-gradient-to-r from-orange-950 via-primary to-orange-950" />
         </div>

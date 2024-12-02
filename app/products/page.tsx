@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
 import Header from '@/sections/Header'
+import Footer from '@/sections/Footer'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
@@ -146,6 +147,7 @@ const ProductPage = () => {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   )
 }

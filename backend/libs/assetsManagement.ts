@@ -51,8 +51,6 @@ export const storeFileLocally = async (file: File) => {
       ? join('/tmp', name)
       : join(process.cwd(), '/tmp', name)
 
-  console.log({ e: process.env.NODE_ENV })
-
   // upload file to local
   const buffer = Buffer.from(await file.arrayBuffer())
   await writeFile(imagePath, buffer)

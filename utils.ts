@@ -25,7 +25,12 @@ export const getCookie = (name: string): string => {
   return ''
 }
 
-// store file locally
+/**
+ * store file locally
+ * @param file
+ * @param folder should end with /
+ * @returns
+ */
 export const uploadFile = async (file: File, folder?: string) => {
   const { name, imagePath } = await storeFileLocally(file)
   return uploadToCloudinay({ name, imagePath, folder })

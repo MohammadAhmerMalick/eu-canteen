@@ -37,17 +37,11 @@ const updateUserAction = async (formData: FormData) => {
 
     // store file locally
     if (image) {
-      const x = await uploadFile(image)
-      console.log({ x })
-      // payload.image = destinationFileName
+      const uploadedImage = await uploadFile(image, 'students/')
+
+      if (uploadedImage)
+        payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
     }
-    // if (idCardFrontImageFile) {
-    //   const { destinationFileName } = await storeFileLocally(
-    //     idCardFrontImageFile,
-    //     'students/id-cards/'
-    //   )
-    //   payload.idCardFrontImage = destinationFileName
-    // }
 
     const user = await UserModel.updateUser(payload, id)
 

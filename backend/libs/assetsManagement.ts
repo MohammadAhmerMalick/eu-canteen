@@ -3,6 +3,9 @@ import { randomUUID } from 'crypto'
 import { writeFile } from 'fs/promises'
 import { v2 as cloudinary, UploadApiResponse } from 'cloudinary'
 
+export const assetsBaseUrl =
+  'https://res.cloudinary.com/dnu2o9j8f/image/upload/v1733138863/'
+
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,

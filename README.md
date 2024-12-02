@@ -36,3 +36,16 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 [figma working file ](https://www.figma.com/design/959XeBxti4P0azOmJPiE2l/POS?node-id=180-51&t=QrxwCL7Vu3pArpFM-1)
+
+## Environment Variables
+
+### .env.local
+
+AUTH_SECRET=""
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=""
+CLOUDINARY_API_KEY=""
+CLOUDINARY_API_SECRET=""
+
+### .env
+
+DATABASE_URL=""

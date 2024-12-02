@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { useEffect, useState, type FormEvent } from 'react'
 
@@ -9,6 +8,7 @@ import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import loginAction from '@/actions/loginAction'
+import AuthLayoutSection from '@/sections/AuthLayoutSection'
 
 const LoginPage = () => {
   const { auth, authStatus, setAuthStatus } = useStore((state) => state)
@@ -35,21 +35,8 @@ const LoginPage = () => {
   }, [authStatus, auth])
 
   return (
-    <main className="flex min-h-dscreen items-center justify-center bg-[url('/images/backgrounds/auth-bg.jpg')] p-2">
-      <form
-        onSubmit={onSubmit}
-        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10 md:pb-6"
-      >
-        <Link href="/">
-          <Image
-            height={90}
-            width={90}
-            src="/images/logo.svg"
-            alt="Poolaster"
-            className="mx-auto w-20"
-          />
-        </Link>
-        <h1 className="mb-4 text-xl font-semibold">Login</h1>
+    <AuthLayoutSection title="Login">
+      <form onSubmit={onSubmit} className="grid gap-3">
         <Input
           isRequired
           id="email"
@@ -83,7 +70,7 @@ const LoginPage = () => {
           </Link>
         </p>
       </form>
-    </main>
+    </AuthLayoutSection>
   )
 }
 

@@ -24,6 +24,7 @@ const productsTable = pgTable('products', {
   price: numeric({ precision: 10, scale: 4 }).notNull(),
 
   categoryId: uuid('categoryId')
+    .array()
     .notNull()
     .references(() => categoriesTable.id, {
       onDelete: 'cascade',

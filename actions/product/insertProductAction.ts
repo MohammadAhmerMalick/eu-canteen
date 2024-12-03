@@ -1,7 +1,8 @@
 'use server'
 
-// import { storeFileLocally } from '@/utils'
+import { uploadFile } from '@/utils'
 import ProductModel from '@/models/ProductModel'
+import productsTable from '@/database/schema/productsSchema'
 
 const insertProductAction = async (formData: FormData) => {
   const image = formData.get('image') as File
@@ -18,15 +19,23 @@ const insertProductAction = async (formData: FormData) => {
       codeMessage: 'fields_are_missing',
     }
 
-  // const { destinationFileName } = await storeFileLocally(image, 'products/')
-
-  const newProduct = await ProductModel.createProduct({
+  const payload: typeof productsTable.$inferInsert = {
     name,
     price,
     categoryId,
     description,
     image: image.name,
-  })
+  }
+
+  // store file locally
+  if (image) {
+    const uploadedImage = await uploadFile(image, 'products/')
+
+    if (uploadedImage)
+      payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
+  }
+
+  const newProduct = await ProductModel.createProduct(payload)
 
   return {
     success: true,

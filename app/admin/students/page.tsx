@@ -40,11 +40,11 @@ const dataErrorMessage = 'Unable to load users'
 const orderStatusOptions = [
   {
     id: 'approved',
-    name: 'Approved',
+    name: 'Active',
   },
   {
     id: 'pending',
-    name: 'Pending',
+    name: 'Inactive',
   },
 ]
 

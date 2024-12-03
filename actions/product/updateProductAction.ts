@@ -1,7 +1,7 @@
 'use server'
 
+import { uploadFile } from '@/utils'
 import ProductModel from '@/models/ProductModel'
-// import { storeFileLocally } from '@/utils'
 import productsTable from '@/database/schema/productsSchema'
 
 const updateProductAction = async (formData: FormData) => {
@@ -25,13 +25,12 @@ const updateProductAction = async (formData: FormData) => {
     }
 
     // store file locally
-    // if (image) {
-    //   const { destinationFileName } = await storeFileLocally(
-    //     image,
-    //     'products/'
-    //   )
-    //   payload.image = destinationFileName
-    // }
+    if (image) {
+      const uploadedImage = await uploadFile(image, 'products/')
+
+      if (uploadedImage)
+        payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
+    }
 
     const product = await ProductModel.updateProduct(payload)
 

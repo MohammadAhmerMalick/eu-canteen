@@ -12,6 +12,7 @@ import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import EuroChip from '@/components/common/EuroChip'
 import DataError from '@/components/common/DataError'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import productsTable from '@/database/schema/productsSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
@@ -105,7 +106,11 @@ const ProductsPage = () => {
                     alt={product.name}
                     width={40}
                     height={40}
-                    src="/images/products/p-1.png"
+                    src={
+                      product.image
+                        ? `${assetsBaseUrl}${product.image}`
+                        : '/images/products/p-1.png'
+                    }
                     className={classnames(
                       'rounded-full border-2',
                       product.published

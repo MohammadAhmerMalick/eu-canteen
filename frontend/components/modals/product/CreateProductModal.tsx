@@ -35,6 +35,7 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
     const formData = new FormData()
     formData.append('name', name)
     formData.append('image', image)
+    formData.append('price', price)
     formData.append('categoryId', categoryId)
     formData.append('description', description)
 

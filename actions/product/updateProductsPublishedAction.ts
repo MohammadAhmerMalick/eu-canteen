@@ -18,7 +18,7 @@ type Return = Promise<
     }
 >
 
-const updateProductsPublishedStateAction = async ({
+const updateProductsPublishedAction = async ({
   ids,
   published,
 }: Props): Return => {
@@ -37,19 +37,19 @@ const updateProductsPublishedStateAction = async ({
         success: false,
       }
 
-    const updatedProduct = await ProductModel.updateProductsPublishedState(
+    const updatedProduct = await ProductModel.updateProductsPublished(
       ids,
       published
     )
 
-    console.log({ updateProductsPublishedStateAction: 'success' })
+    console.log({ updateProductsPublishedAction: 'success' })
 
     return {
       data: updatedProduct,
       success: true,
     }
   } catch (error) {
-    console.log({ updateProductsPublishedStateAction: error })
+    console.log({ updateProductsPublishedAction: error })
 
     return {
       data: null,
@@ -58,4 +58,4 @@ const updateProductsPublishedStateAction = async ({
   }
 }
 
-export default updateProductsPublishedStateAction
+export default updateProductsPublishedAction

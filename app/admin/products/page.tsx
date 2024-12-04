@@ -1,9 +1,9 @@
 'use client'
 
 import Image from 'next/image'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
-import { useCallback, useEffect, useState } from 'react'
 
 import {
   Row,
@@ -26,19 +26,18 @@ import TableCell from '@/components/common/TableCell'
 import DataError from '@/components/common/DataError'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 import TableColumn from '@/components/common/TableColumn'
-import productsTable from '@/database/schema/productsSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
+import type { Product } from '@/database/schema/productsSchema'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import getAllProductsAction from '@/actions/product/getAllProductsAction'
 import EditProductModal from '@/components/modals/product/EditProductModal'
-import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import DeleteProductModal from '@/components/modals/product/DeleteProductModal'
 import CreateProductModal from '@/components/modals/product/CreateProductModal'
-import updateProductsPublishedStateAction from '@/actions/product/updateProductsPublishedStateAction'
+import updateProductsPublishedAction from '@/actions/product/updateProductsPublishedAction'
 
 const dataErrorMessage = 'Unable to load products'
 
-const orderStatusOptions = [
+const orderPublishedOptions = [
   {
     id: 'active',
     name: 'Active',
@@ -50,19 +49,17 @@ const orderStatusOptions = [
 ]
 
 const ProductsPage = () => {
-  const { products, setProducts, updateProduct } = useStore((state) => state)
-  const { categories, setCategories } = useStore((state) => state)
-  const [editModalData, setEditModalData] = useState<
-    typeof productsTable.$inferInsert | null
-  >(null)
-  const [deleteModalData, setDeleteModalData] = useState<
-    typeof productsTable.$inferInsert | null
-  >(null)
+  const { products, setProducts, updateProductsPublished } = useStore(
+    (state) => state
+  )
+
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
+  const [editModalData, setEditModalData] = useState<Product | null>(null)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
+  const [deleteModalData, setDeleteModalData] = useState<Product | null>(null)
 
   const { isPending, error } = useQuery({
-    queryKey: ['getProducts'],
+    queryKey: ['getAllProducts'],
     queryFn: async () => {
       const { data, success } = await getAllProductsAction()
       if (success) setProducts(data)
@@ -71,30 +68,28 @@ const ProductsPage = () => {
     },
   })
 
-  const getCategories = useCallback(async () => {
-    const { data } = await getAllCategoriesAction()
-    setCategories(data)
-  }, [setCategories])
-
-  const bulkAction = (activeState: string) => {
-    const published = activeState === 'active'
+  const bulkAction = (publishedKey: string) => {
+    const published = publishedKey === 'active'
     const updatedProducts = products.filter(
-      ({ id }) => [...selectedKeys].includes(id || '') || selectedKeys === 'all'
+      ({ products: product }) =>
+        [...selectedKeys].includes(product.id || '') || selectedKeys === 'all'
     )
-    const updatedProductIds = updatedProducts.map((p) => {
-      updateProduct({ ...p, published })
-      return p.id || ''
-    })
-    updateProductsPublishedStateAction({
-      ids: updatedProductIds,
+
+    updatedProducts.map(({ products: product }) =>
+      updateProductsPublished({ ...product, id: product.id || '', published })
+    )
+
+    const updatedProductsIds = updatedProducts
+      .map((o) => o.products.id || '')
+      .filter((x) => x)
+
+    updateProductsPublishedAction({
+      ids: updatedProductsIds,
       published,
     })
+
     setSelectedKeys(new Set())
   }
-
-  useEffect(() => {
-    if (!categories.length) getCategories()
-  }, [getCategories, categories.length])
 
   if (isPending) return <Loading />
 
@@ -134,7 +129,7 @@ const ProductsPage = () => {
             <div className="flex items-center gap-4">
               {[...selectedKeys].length ? (
                 <MenuPopup>
-                  {orderStatusOptions.map(({ id, name }) => (
+                  {orderPublishedOptions.map(({ id, name }) => (
                     <MenuItem key={id} onAction={() => bulkAction(id)}>
                       {name}
                     </MenuItem>
@@ -148,6 +143,7 @@ const ProductsPage = () => {
           </TableColumn>
           <TableColumn className="text-left">Description</TableColumn>
           <TableColumn className="text-left">Price</TableColumn>
+          <TableColumn className="text-left">Category</TableColumn>
           <TableColumn>Status</TableColumn>
           <TableColumn>
             <Button
@@ -159,7 +155,7 @@ const ProductsPage = () => {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {products.map((product) => (
+          {products.map(({ products: product, categories: category }) => (
             <Row key={product.id} id={product.id}>
               <TableCell className="text-center">
                 <Checkbox slot="selection" />
@@ -188,6 +184,34 @@ const ProductsPage = () => {
               <TableCell>{product.description}</TableCell>
               <TableCell className="text-center">
                 <EuroChip amount={product.price} />
+              </TableCell>
+              <TableCell>
+                {category ? (
+                  <div
+                    key={category.id}
+                    className="grid grid-cols-[40px_auto] items-center gap-2"
+                  >
+                    <Image
+                      alt={category.name}
+                      width={40}
+                      height={40}
+                      src={
+                        category.image
+                          ? `${assetsBaseUrl}${category.image}`
+                          : '/images/products/p-1.png'
+                      }
+                      className={classnames(
+                        'rounded-full border-2',
+                        category.published
+                          ? 'border-primary'
+                          : 'border-neutral-400'
+                      )}
+                    />
+                    {category.name}
+                  </div>
+                ) : (
+                  <div />
+                )}
               </TableCell>
               <TableCell className="text-center">
                 {product.published ? (

@@ -111,8 +111,11 @@ const ProductPage = () => {
         <section className="mx-auto max-w-7xl py-4">
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {products
-              .filter(({ categoryId }) => categoryId === activeCategory?.id)
-              .map((product) => (
+              .filter(
+                ({ categories: category }) =>
+                  category?.id === activeCategory?.id
+              )
+              .map(({ products: product }) => (
                 <div
                   key={product.id}
                   className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-sm duration-300 hover:shadow-lg"

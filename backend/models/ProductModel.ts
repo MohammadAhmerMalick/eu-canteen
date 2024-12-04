@@ -1,24 +1,51 @@
-import { eq, getTableColumns, inArray } from 'drizzle-orm'
+import { and, eq, getTableColumns, inArray } from 'drizzle-orm'
 
 import db from '@/database/index'
-import productsTable from '@/database/schema/productsSchema'
+import productsTable, { type Product } from '@/database/schema/productsSchema'
+import categoriesTable from '@/database/schema/categoriesSchema'
 
 class ProductModel {
   static getProducts = () =>
-    db.select().from(productsTable).where(eq(productsTable.published, true))
+    db
+      .select()
+      .from(productsTable)
+      .leftJoin(
+        categoriesTable,
+        eq(categoriesTable.id, productsTable.categoryId)
+      )
+      .where(
+        and(
+          eq(productsTable.published, true),
+          eq(categoriesTable.published, true)
+        )
+      )
 
-  static getAllProducts = () => db.select().from(productsTable)
+  static getAllProducts = () =>
+    db
+      .select()
+      .from(productsTable)
+      .leftJoin(
+        categoriesTable,
+        eq(categoriesTable.id, productsTable.categoryId)
+      )
 
   static getProduct = (id: string) =>
-    db.select().from(productsTable).where(eq(productsTable.id, id))
+    db
+      .select()
+      .from(productsTable)
+      .leftJoin(
+        categoriesTable,
+        eq(categoriesTable.id, productsTable.categoryId)
+      )
+      .where(eq(productsTable.id, id))
 
-  static createProduct = (product: typeof productsTable.$inferInsert) =>
+  static createProduct = (product: Product) =>
     db
       .insert(productsTable)
       .values(product)
       .returning(getTableColumns(productsTable))
 
-  static updateProduct = (product: typeof productsTable.$inferInsert) =>
+  static updateProduct = (product: Product) =>
     db
       .update(productsTable)
       .set(product)
@@ -31,9 +58,9 @@ class ProductModel {
       .where(eq(productsTable.id, id))
       .returning({ id: productsTable.id })
 
-  static updateProductsPublishedState = (
+  static updateProductsPublished = (
     ids: string[],
-    published: (typeof productsTable.$inferInsert)['published']
+    published: Product['published']
   ) =>
     db
       .update(productsTable)

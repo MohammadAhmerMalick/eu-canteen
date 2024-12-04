@@ -10,9 +10,9 @@ import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
-import productsTable from '@/database/schema/productsSchema'
-import categoriesTable from '@/database/schema/categoriesSchema'
-import getAllProductsAction from '@/actions/product/getAllProductsAction'
+import type { Product } from '@/database/schema/productsSchema'
+import type { Category } from '@/database/schema/categoriesSchema'
+import getProductsAction from '@/actions/product/getProductsAction'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import CreateCheckoutModal from '@/components/modals/product/CreateCheckoutModal'
 
@@ -22,17 +22,15 @@ const MenuPage = () => {
   const { products, setProducts } = useStore((state) => state)
   const { categories, setCategories } = useStore((state) => state)
 
-  const [activeCategory, setActiveCategory] = useState<
-    typeof categoriesTable.$inferInsert | null
-  >(null)
-  const [checkoutModalData, setCheckoutModalData] = useState<
-    typeof productsTable.$inferInsert | null
-  >(null)
+  const [activeCategory, setActiveCategory] = useState<Category | null>(null)
+  const [checkoutModalData, setCheckoutModalData] = useState<Product | null>(
+    null
+  )
 
   const { isPending, error } = useQuery({
     queryKey: ['getProducts'],
     queryFn: async () => {
-      const { data, success } = await getAllProductsAction()
+      const { data, success } = await getProductsAction()
       if (success) setProducts(data)
       else toast.error(dataErrorMessage)
       return data
@@ -88,8 +86,11 @@ const MenuPage = () => {
       <section className="mx-auto max-w-7xl py-4">
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {products
-            .filter(({ categoryId }) => categoryId === activeCategory?.id)
-            .map((product) => (
+            .filter(
+              ({ products: product }) =>
+                product.categoryId === activeCategory?.id
+            )
+            .map(({ products: product }) => (
               <div
                 key={product.id}
                 className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-lg duration-300"

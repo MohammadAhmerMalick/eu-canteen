@@ -19,7 +19,7 @@ const insertOrderAction = async ({
   const session = await auth()
   const userId = session?.user.id
 
-  const [product] = await ProductModel.getProduct(productId)
+  const [{ products: product }] = await ProductModel.getProduct(productId)
   const unitPrice = product.price
 
   const date = new Date()

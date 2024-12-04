@@ -1,4 +1,4 @@
-import { eq, getTableColumns } from 'drizzle-orm'
+import { eq, getTableColumns, inArray } from 'drizzle-orm'
 
 import db from '@/database/index'
 import productsTable from '@/database/schema/productsSchema'
@@ -30,6 +30,20 @@ class ProductModel {
       .delete(productsTable)
       .where(eq(productsTable.id, id))
       .returning({ id: productsTable.id })
+
+  static updateProductsPublishedState = (
+    ids: string[],
+    published: (typeof productsTable.$inferInsert)['published']
+  ) =>
+    db
+      .update(productsTable)
+      .set({
+        published,
+      })
+      .returning({
+        id: productsTable.id,
+      })
+      .where(inArray(productsTable.id, ids))
 }
 
 export default ProductModel

@@ -5,14 +5,27 @@ import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
+import {
+  Row,
+  Table,
+  MenuItem,
+  TableBody,
+  TableHeader,
+  Button as AriaButton,
+  type Selection,
+} from 'react-aria-components'
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
+import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import EuroChip from '@/components/common/EuroChip'
+import Checkbox from '@/components/common/Checkbox'
+import TableCell from '@/components/common/TableCell'
 import DataError from '@/components/common/DataError'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
+import TableColumn from '@/components/common/TableColumn'
 import productsTable from '@/database/schema/productsSchema'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
@@ -21,11 +34,23 @@ import EditProductModal from '@/components/modals/product/EditProductModal'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import DeleteProductModal from '@/components/modals/product/DeleteProductModal'
 import CreateProductModal from '@/components/modals/product/CreateProductModal'
+import updateProductsPublishedStateAction from '@/actions/product/updateProductsPublishedStateAction'
 
 const dataErrorMessage = 'Unable to load products'
 
+const orderStatusOptions = [
+  {
+    id: 'active',
+    name: 'Active',
+  },
+  {
+    id: 'inactive',
+    name: 'Inactive',
+  },
+]
+
 const ProductsPage = () => {
-  const { products, setProducts } = useStore((state) => state)
+  const { products, setProducts, updateProduct } = useStore((state) => state)
   const { categories, setCategories } = useStore((state) => state)
   const [editModalData, setEditModalData] = useState<
     typeof productsTable.$inferInsert | null
@@ -34,6 +59,7 @@ const ProductsPage = () => {
     typeof productsTable.$inferInsert | null
   >(null)
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
 
   const { isPending, error } = useQuery({
     queryKey: ['getProducts'],
@@ -49,6 +75,22 @@ const ProductsPage = () => {
     const { data } = await getAllCategoriesAction()
     setCategories(data)
   }, [setCategories])
+
+  const bulkAction = (activeState: string) => {
+    const published = activeState === 'active'
+    const updatedProducts = products.filter(
+      ({ id }) => [...selectedKeys].includes(id || '') || selectedKeys === 'all'
+    )
+    const updatedProductIds = updatedProducts.map((p) => {
+      updateProduct({ ...p, published })
+      return p.id || ''
+    })
+    updateProductsPublishedStateAction({
+      ids: updatedProductIds,
+      published,
+    })
+    setSelectedKeys(new Set())
+  }
 
   useEffect(() => {
     if (!categories.length) getCategories()
@@ -76,31 +118,53 @@ const ProductsPage = () => {
         <CreateProductModal onClose={() => setIsAddModalVisible(false)} />
       )}
 
-      <table className="w-full text-sm">
-        <thead>
-          <tr>
-            <td className="border-b border-neutral-300 p-2">Name</td>
-            <td className="border-b border-neutral-300 p-2">Description</td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Price
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Status
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              <Button
-                className="mx-auto flex items-center gap-1 rounded-lg"
-                onPress={() => setIsAddModalVisible(true)}
-              >
-                <FaPlus /> Add Product
-              </Button>
-            </td>
-          </tr>
-        </thead>
-        <tbody>
+      <Table
+        aria-label="Orders"
+        selectionMode="multiple"
+        className="w-full"
+        onRowAction={(e) => console.log(e)}
+        selectedKeys={selectedKeys}
+        onSelectionChange={setSelectedKeys}
+      >
+        <TableHeader>
+          <TableColumn>
+            <Checkbox slot="selection" />
+          </TableColumn>
+          <TableColumn isRowHeader>
+            <div className="flex items-center gap-4">
+              {[...selectedKeys].length ? (
+                <MenuPopup>
+                  {orderStatusOptions.map(({ id, name }) => (
+                    <MenuItem key={id} onAction={() => bulkAction(id)}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </MenuPopup>
+              ) : (
+                ''
+              )}
+              Name
+            </div>
+          </TableColumn>
+          <TableColumn className="text-left">Description</TableColumn>
+          <TableColumn className="text-left">Price</TableColumn>
+          <TableColumn>Status</TableColumn>
+          <TableColumn>
+            <Button
+              className="ml-auto flex items-center gap-1 rounded-lg"
+              onPress={() => setIsAddModalVisible(true)}
+            >
+              <FaPlus /> Product
+            </Button>
+          </TableColumn>
+        </TableHeader>
+        <TableBody>
           {products.map((product) => (
-            <tr key={product.id}>
-              <td className="border-b border-neutral-300 p-2">
+            <Row key={product.id} id={product.id}>
+              <TableCell className="text-center">
+                <Checkbox slot="selection" />
+              </TableCell>
+              <TableCell>
                 <div className="grid grid-cols-[40px_auto] items-center gap-2">
                   <Image
                     alt={product.name}
@@ -120,38 +184,36 @@ const ProductsPage = () => {
                   />
                   {product.name}
                 </div>
-              </td>
-              <td className="border-b border-neutral-300 p-2">
-                {product.description}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+              </TableCell>
+              <TableCell>{product.description}</TableCell>
+              <TableCell className="text-center">
                 <EuroChip amount={product.price} />
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center font-semibold">
+              </TableCell>
+              <TableCell className="text-center">
                 {product.published ? (
                   <p className="text-green-700">Active</p>
                 ) : (
                   <p className="text-red-700">Inactive</p>
                 )}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
-                <button
-                  onClick={() => setEditModalData(product)}
+              </TableCell>
+              <TableCell className="text-right">
+                <AriaButton
+                  onPress={() => setEditModalData(product)}
                   className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
                 >
                   <AiOutlineEdit />
-                </button>
-                <button
-                  onClick={() => setDeleteModalData(product)}
+                </AriaButton>
+                <AriaButton
+                  onPress={() => setDeleteModalData(product)}
                   className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
                 >
                   <AiOutlineDelete />
-                </button>
-              </td>
-            </tr>
+                </AriaButton>
+              </TableCell>
+            </Row>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }

@@ -39,6 +39,12 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (quantity * parseFloat(product.price) > parseFloat(auth.credit)) {
+      toast.warn('Low balance')
+      return
+    }
+
     if (!product.id) return
 
     const { success, message, codeMessage, data } = await insertOrderAction({

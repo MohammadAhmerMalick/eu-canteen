@@ -8,8 +8,8 @@ import Select from '@/components/common/select'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import Textarea from '@/components/common/Textarea'
-import productsTable from '@/database/schema/productsSchema'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import productsTable from '@/database/schema/productsSchema'
 import updateProductAction from '@/actions/product/updateProductAction'
 
 interface EditProductModalProp {
@@ -18,8 +18,7 @@ interface EditProductModalProp {
 }
 
 const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
-  const { categories } = useStore((state) => state)
-  const { updateProduct } = useStore((state) => state)
+  const { categories, updateProduct } = useStore((state) => state)
 
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -44,15 +43,12 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
     formData.append('description', description)
     formData.append('published', published ? 'published' : '')
 
-    const { success, message, codeMessage, data } =
-      await updateProductAction(formData)
+    const { success, data } = await updateProductAction(formData)
     if (success) {
-      updateProduct(data[0])
+      updateProduct(data)
       toast.success('Product updated')
       onClose()
-    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
-      toast.error('Unable to handle request right now, please contact to admin')
+    } else toast.error('Unable to handle request right now')
   }
 
   return (

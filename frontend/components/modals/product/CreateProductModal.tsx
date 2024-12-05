@@ -39,21 +39,13 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
     formData.append('categoryId', categoryId)
     formData.append('description', description)
 
-    const { success, message, codeMessage, data } =
-      await insertProductAction(formData)
+    const { success, data } = await insertProductAction(formData)
 
     if (success) {
-      insertProduct(data[0])
+      insertProduct(data)
       toast.success('Product created successfully')
       onClose()
-    } else if (codeMessage === 'product_already_exist')
-      toast.warn(
-        'Your request is aready in pending state, contact admin for further information'
-      )
-    else if (codeMessage === 'fields_are_missing') toast.warn(message)
-    else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
-      toast.error('Unable to handle request right now, please contact to admin')
+    } else toast.error('Unable to handle request right now')
   }
 
   return (

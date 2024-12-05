@@ -1,4 +1,4 @@
-import { and, eq, getTableColumns, inArray } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 
 import db from '@/database/index'
 import productsTable, { type Product } from '@/database/schema/productsSchema'
@@ -40,17 +40,14 @@ class ProductModel {
       .where(eq(productsTable.id, id))
 
   static createProduct = (product: Product) =>
-    db
-      .insert(productsTable)
-      .values(product)
-      .returning(getTableColumns(productsTable))
+    db.insert(productsTable).values(product).returning({ id: productsTable.id })
 
   static updateProduct = (product: Product) =>
     db
       .update(productsTable)
       .set(product)
       .where(eq(productsTable.id, product.id || ''))
-      .returning(getTableColumns(productsTable))
+      .returning({ id: productsTable.id })
 
   static deleteProduct = (id: string) =>
     db

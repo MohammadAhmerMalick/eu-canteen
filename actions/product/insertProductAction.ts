@@ -3,45 +3,65 @@
 import { uploadFile } from '@/utils'
 import ProductModel from '@/models/ProductModel'
 import productsTable from '@/database/schema/productsSchema'
+import { type Products } from '@/store/slices/productsSlice'
 
-const insertProductAction = async (formData: FormData) => {
-  const image = formData.get('image') as File
-  const name = formData.get('name') as string
-  const price = formData.get('price') as string
-  const categoryId = formData.get('categoryId') as string
-  const description = formData.get('description') as string
+type Return = Promise<
+  | {
+      data: Products
+      success: true
+    }
+  | {
+      data: null
+      success: false
+    }
+>
 
-  if (!name || !image)
-    return {
-      data: [],
-      success: false,
-      message: 'All fields are required',
-      codeMessage: 'fields_are_missing',
+const insertProductAction = async (formData: FormData): Return => {
+  try {
+    const image = formData.get('image') as File
+    const name = formData.get('name') as string
+    const price = formData.get('price') as string
+    const categoryId = formData.get('categoryId') as string
+    const description = formData.get('description') as string
+
+    if (!name || !image || price)
+      return {
+        data: null,
+        success: false,
+      }
+
+    const payload: typeof productsTable.$inferInsert = {
+      name,
+      price,
+      categoryId,
+      description,
+      image: image.name,
     }
 
-  const payload: typeof productsTable.$inferInsert = {
-    name,
-    price,
-    categoryId,
-    description,
-    image: image.name,
-  }
+    // store file locally
+    if (image) {
+      const uploadedImage = await uploadFile(image, 'products/')
 
-  // store file locally
-  if (image) {
-    const uploadedImage = await uploadFile(image, 'products/')
+      if (uploadedImage)
+        payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
+    }
 
-    if (uploadedImage)
-      payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
-  }
+    const [{ id }] = await ProductModel.createProduct(payload)
+    const [newProduct] = await ProductModel.getProduct(id)
 
-  const newProduct = await ProductModel.createProduct(payload)
+    console.log({ insertProductAction: 'success' })
 
-  return {
-    success: true,
-    data: newProduct,
-    message: 'Product created',
-    codeMessage: 'product_created',
+    return {
+      success: true,
+      data: newProduct,
+    }
+  } catch (error) {
+    console.log({ insertProductAction: error })
+
+    return {
+      data: null,
+      success: false,
+    }
   }
 }
 

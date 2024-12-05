@@ -3,8 +3,20 @@
 import { uploadFile } from '@/utils'
 import ProductModel from '@/models/ProductModel'
 import productsTable from '@/database/schema/productsSchema'
+import { type Products } from '@/store/slices/productsSlice'
 
-const updateProductAction = async (formData: FormData) => {
+type Return = Promise<
+  | {
+      data: Products
+      success: true
+    }
+  | {
+      data: null
+      success: false
+    }
+>
+
+const updateProductAction = async (formData: FormData): Return => {
   try {
     const id = formData.get('id') as string
     const image = formData.get('image') as File
@@ -32,24 +44,21 @@ const updateProductAction = async (formData: FormData) => {
         payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
     }
 
-    const product = await ProductModel.updateProduct(payload)
+    await ProductModel.updateProduct(payload)
+    const [updatedProduct] = await ProductModel.getProduct(id)
 
     console.log({ updateProductAction: 'success' })
 
     return {
       success: true,
-      data: product,
-      message: 'Product updated',
-      codeMessage: 'product_updated',
+      data: updatedProduct,
     }
   } catch (error) {
     console.log({ updateProductAction: error })
 
     return {
+      data: null,
       success: false,
-      data: [],
-      message: 'Unable to update product',
-      codeMessage: 'server_error',
     }
   }
 }

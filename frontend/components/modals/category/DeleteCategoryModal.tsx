@@ -1,27 +1,27 @@
 import Image from 'next/image'
+import { FormEvent } from 'react'
 import { toast } from 'react-toastify'
-import { FormEvent, type MouseEvent } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
-import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
-import categoriesTable from '@/database/schema/categoriesSchema'
+import ModalContainer from '@/components/common/ModalContainer'
+import { type Category } from '@/database/schema/categoriesSchema'
 import deleteCategoryAction from '@/actions/category/deleteCategoryAction'
 
 interface DeleteCategoryModalProp {
-  onClose(): any
-  category: typeof categoriesTable.$inferInsert
+  isOpen: boolean
+  category: Category
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const DeleteCategoryModal = ({
-  onClose,
+  isOpen,
+  setOpen,
   category,
 }: DeleteCategoryModalProp) => {
-  const { deleteCategory } = useStore((state) => state)
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
+  const queryClient = useQueryClient()
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -29,21 +29,17 @@ const DeleteCategoryModal = ({
     const formData = new FormData(e.currentTarget)
     formData.append('id', category.id?.toString() || '')
 
-    const { success, data } = await deleteCategoryAction(formData)
+    const { success } = await deleteCategoryAction(formData)
     if (success) {
-      deleteCategory(data[0].id)
+      queryClient.invalidateQueries({ queryKey: ['getAllCategories'] })
       toast.success('Student Deleted')
-      onClose()
+      setOpen(false)
     } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
       <form
         onSubmit={onSubmit}
         className={classnames(
@@ -53,9 +49,9 @@ const DeleteCategoryModal = ({
         <h1 className="text-lg font-semibold">Delete Category</h1>
         <div className="grid grid-cols-2 gap-2">
           <Image
-            alt={category.name}
             width={200}
             height={200}
+            alt={category.name}
             src={`/images/categories/${category.image}`}
             className={classnames(
               'rounded-full border-2',
@@ -64,7 +60,6 @@ const DeleteCategoryModal = ({
           />
           <div className="grid h-min gap-2">
             <p>
-              {' '}
               <span className="text-primary">Name:</span> {category.name}
             </p>
             <p>
@@ -79,7 +74,7 @@ const DeleteCategoryModal = ({
         </div>
         <Button className="ml-auto w-max !py-1">Delete Category</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

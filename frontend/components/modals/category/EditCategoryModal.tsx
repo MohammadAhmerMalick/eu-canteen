@@ -1,26 +1,29 @@
 import { toast } from 'react-toastify'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
-import categoriesTable from '@/database/schema/categoriesSchema'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import ModalContainer from '@/components/common/ModalContainer'
+import { type Category } from '@/database/schema/categoriesSchema'
 import updateCategoryAction from '@/actions/category/updateCategoryAction'
 
 interface EditCategoryModalProp {
-  onClose(): any
-  category: typeof categoriesTable.$inferInsert
+  isOpen: boolean
+  category: Category
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EditCategoryModal = ({ onClose, category }: EditCategoryModalProp) => {
+const EditCategoryModal = ({
+  isOpen,
+  setOpen,
+  category,
+}: EditCategoryModalProp) => {
   const queryClient = useQueryClient()
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
 
   const [name, setName] = useState(category.name)
   const [published, setPublished] = useState(!!category.published)
@@ -40,18 +43,14 @@ const EditCategoryModal = ({ onClose, category }: EditCategoryModalProp) => {
     if (success) {
       queryClient.invalidateQueries({ queryKey: ['getAllCategories'] })
       toast.success('Category updated')
-      onClose()
+      setOpen(false)
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
     else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
       <form
         onSubmit={onSubmit}
         className={classnames(
@@ -129,7 +128,7 @@ const EditCategoryModal = ({ onClose, category }: EditCategoryModalProp) => {
         </div>
         <Button className="ml-auto w-max !py-1">Update Category</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

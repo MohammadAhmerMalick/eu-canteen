@@ -1,7 +1,9 @@
 import { eq, getTableColumns } from 'drizzle-orm'
 
 import db from '@/database/index'
-import categoriesTable from '@/database/schema/categoriesSchema'
+import categoriesTable, {
+  type Category,
+} from '@/database/schema/categoriesSchema'
 
 class CategoryModel {
   static getCategories = () =>
@@ -15,13 +17,13 @@ class CategoryModel {
   static getCategoryByName = (name: string) =>
     db.select().from(categoriesTable).where(eq(categoriesTable.name, name))
 
-  static createCategory = (category: typeof categoriesTable.$inferInsert) =>
+  static createCategory = (category: Category) =>
     db
       .insert(categoriesTable)
       .values(category)
       .returning(getTableColumns(categoriesTable))
 
-  static updateCategory = (category: typeof categoriesTable.$inferInsert) =>
+  static updateCategory = (category: Category) =>
     db
       .update(categoriesTable)
       .set(category)

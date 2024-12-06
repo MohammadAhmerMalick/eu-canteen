@@ -23,7 +23,7 @@ import { assetsBaseUrl } from '@/libs/assetsManagement'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
-import categoriesTable from '@/database/schema/categoriesSchema'
+import { type Category } from '@/database/schema/categoriesSchema'
 import EditCategoryModal from '@/components/modals/category/EditCategoryModal'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import DeleteCategoryModal from '@/components/modals/category/DeleteCategoryModal'
@@ -34,12 +34,8 @@ const dataErrorMessage = 'Unable to load categories'
 const CategoriesPage = () => {
   const { categories, setCategories } = useStore((state) => state)
 
-  const [editModalData, setEditModalData] = useState<
-    typeof categoriesTable.$inferInsert | null
-  >(null)
-  const [deleteModalData, setDeleteModalData] = useState<
-    typeof categoriesTable.$inferInsert | null
-  >(null)
+  const [editModalData, setEditModalData] = useState<Category | null>(null)
+  const [deleteModalData, setDeleteModalData] = useState<Category | null>(null)
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
 
   const { isPending, error } = useQuery({

@@ -13,7 +13,7 @@ import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
 import productsTable from '@/database/schema/productsSchema'
-import categoriesTable from '@/database/schema/categoriesSchema'
+import { type Category } from '@/database/schema/categoriesSchema'
 import getAllProductsAction from '@/actions/product/getAllProductsAction'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import CreateCheckoutModal from '@/components/modals/product/CreateCheckoutModal'
@@ -24,9 +24,7 @@ const ProductPage = () => {
   const { products, setProducts } = useStore((state) => state)
   const { categories, setCategories } = useStore((state) => state)
 
-  const [activeCategory, setActiveCategory] = useState<
-    typeof categoriesTable.$inferInsert | null
-  >(null)
+  const [activeCategory, setActiveCategory] = useState<Category | null>(null)
   const [checkoutModalData, setCheckoutModalData] = useState<
     typeof productsTable.$inferInsert | null
   >(null)

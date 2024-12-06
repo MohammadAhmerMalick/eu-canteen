@@ -2,16 +2,16 @@
 
 import { uploadFile } from '@/utils'
 import CategoryModel from '@/models/CategoryModel'
-import categoriesTable from '@/database/schema/categoriesSchema'
+import { type Category } from '@/database/schema/categoriesSchema'
 
 const updateCategoryAction = async (formData: FormData) => {
   try {
     const id = formData.get('id') as string
     const name = formData.get('name') as string
-    const published = formData.get('published') as string
     const image = formData.get('image') as File
+    const published = formData.get('published') as string
 
-    const payload: typeof categoriesTable.$inferInsert = {
+    const payload: Category = {
       id,
       name,
       image: image.name,

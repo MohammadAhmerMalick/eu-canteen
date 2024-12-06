@@ -8,8 +8,8 @@ import {
   Button as AriaButton,
 } from 'react-aria-components'
 import Image from 'next/image'
-import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
@@ -38,7 +38,7 @@ const CategoriesPage = () => {
   const [deleteModalData, setDeleteModalData] = useState<Category | null>(null)
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
 
-  const { isPending, error } = useQuery({
+  const { isPending, error, refetch } = useQuery({
     queryKey: ['getAllCategories'],
     queryFn: async () => {
       const { data, success } = await getAllCategoriesAction()
@@ -47,6 +47,10 @@ const CategoriesPage = () => {
       return data
     },
   })
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   if (isPending) return <Loading />
 
@@ -57,23 +61,26 @@ const CategoriesPage = () => {
       {editModalData && (
         <EditCategoryModal
           category={editModalData}
-          onClose={() => setEditModalData(null)}
+          isOpen={!!editModalData}
+          setOpen={() => setEditModalData(null)}
         />
       )}
       {deleteModalData && (
         <DeleteCategoryModal
           category={deleteModalData}
-          onClose={() => setDeleteModalData(null)}
+          isOpen={!!deleteModalData}
+          setOpen={() => setDeleteModalData(null)}
         />
       )}
-      {isAddModalVisible && (
-        <CreateCategoryModal onClose={() => setIsAddModalVisible(false)} />
-      )}
+      <CreateCategoryModal
+        isOpen={isAddModalVisible}
+        setOpen={setIsAddModalVisible}
+      />
 
       <Table
+        className="w-full"
         aria-label="Categories"
         selectionMode="multiple"
-        className="w-full"
       >
         <TableHeader>
           <TableColumn isRowHeader className="text-left">
@@ -98,7 +105,11 @@ const CategoriesPage = () => {
                     alt={category.name}
                     width={40}
                     height={40}
-                    src={`${assetsBaseUrl}${category.image}`}
+                    src={
+                      category.image
+                        ? `${assetsBaseUrl}${category.image}`
+                        : '/images/product/p-1.png'
+                    }
                     className={classnames(
                       'rounded-full border-2',
                       category.published

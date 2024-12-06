@@ -1,9 +1,9 @@
 import { toast } from 'react-toastify'
 import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
-import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
@@ -19,7 +19,7 @@ interface EditUserModalProp {
 }
 
 const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
-  const { updateUser } = useStore((state) => state)
+  const queryClient = useQueryClient()
 
   const [password, setPassword] = useState('')
   const [name, setName] = useState(student.name)
@@ -44,9 +44,9 @@ const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
     formData.append('matricola', matricola)
     formData.append('approved', approved ? 'approved' : '')
 
-    const { success, data } = await updateUserAction(formData)
+    const { success } = await updateUserAction(formData)
     if (success) {
-      updateUser(data)
+      queryClient.invalidateQueries({ queryKey: ['getAllStudents'] })
       toast.success('Student updated')
       setOpen(false)
     } else
@@ -55,12 +55,7 @@ const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
 
   return (
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+      <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
         <h1 className="text-lg font-semibold">Update User</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input

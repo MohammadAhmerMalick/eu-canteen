@@ -2,10 +2,12 @@ import Image from 'next/image'
 import { FormEvent } from 'react'
 import { toast } from 'react-toastify'
 import type { Dispatch, SetStateAction } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
 import usersTable from '@/database/schema/usersSchema'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import deleteUserAction from '@/actions/deleteUserAction'
 import ModalContainer from '@/components/common/ModalContainer'
 
@@ -16,6 +18,8 @@ interface DeleteUserModalProp {
 }
 
 const DeleteUserModal = ({ isOpen, setOpen, student }: DeleteUserModalProp) => {
+  const queryClient = useQueryClient()
+
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -24,6 +28,7 @@ const DeleteUserModal = ({ isOpen, setOpen, student }: DeleteUserModalProp) => {
 
     const { success } = await deleteUserAction(formData)
     if (success) {
+      queryClient.invalidateQueries({ queryKey: ['getAllStudents'] })
       toast.success('Student Deleted')
       setOpen(false)
     } else
@@ -39,7 +44,11 @@ const DeleteUserModal = ({ isOpen, setOpen, student }: DeleteUserModalProp) => {
             alt={student.name}
             width={200}
             height={200}
-            src="/images/students/s-1.png"
+            src={
+              student.image
+                ? `${assetsBaseUrl}${student.image}`
+                : '/images/students/s-1.png'
+            }
             className={classnames(
               'rounded-full border-2',
               student.approved ? 'border-primary' : 'border-neutral-400'

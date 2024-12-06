@@ -57,7 +57,7 @@ const StudentsPage = () => {
   const [deleteModalData, setDeleteModalData] = useState<
     typeof usersTable.$inferInsert | null
   >(null)
-  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
 
   const { isPending, error, refetch } = useQuery({
@@ -106,7 +106,7 @@ const StudentsPage = () => {
         <EditUserModal
           student={editModalData}
           isOpen={!!editModalData}
-          setOpen={() => setDeleteModalData(null)}
+          setOpen={() => setEditModalData(null)}
         />
       )}
       {deleteModalData && (
@@ -117,8 +117,8 @@ const StudentsPage = () => {
         />
       )}
       <CreateUserModal
-        isOpen={isAddUserModalVisible}
-        setOpen={setIsAddUserModalVisible}
+        isOpen={isAddModalVisible}
+        setOpen={setIsAddModalVisible}
       />
 
       <Table
@@ -157,7 +157,7 @@ const StudentsPage = () => {
           <TableColumn>
             <Button
               className="ml-auto flex items-center gap-1 rounded-lg"
-              onPress={() => setIsAddUserModalVisible(true)}
+              onPress={() => setIsAddModalVisible(true)}
             >
               <FaPlus /> Student
             </Button>

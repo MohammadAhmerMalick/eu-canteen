@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
@@ -9,18 +10,16 @@ import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import usersTable from '@/database/schema/usersSchema'
 import updateUserAction from '@/actions/updateUserAction'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import ModalContainer from '@/components/common/ModalContainer'
 
 interface EditUserModalProp {
-  onClose(): any
+  isOpen: boolean
   student: typeof usersTable.$inferInsert
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
+const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
   const { updateUser } = useStore((state) => state)
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
 
   const [password, setPassword] = useState('')
   const [name, setName] = useState(student.name)
@@ -49,17 +48,13 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
     if (success) {
       updateUser(data)
       toast.success('Student updated')
-      onClose()
+      setOpen(false)
     } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
       <form
         onSubmit={onSubmit}
         className={classnames(
@@ -186,7 +181,7 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
         </div>
         <Button className="ml-auto w-max !py-1">Update User</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

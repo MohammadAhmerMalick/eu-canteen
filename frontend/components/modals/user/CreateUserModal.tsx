@@ -1,22 +1,21 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import insertUserAction from '@/actions/insertUserAction'
+import ModalContainer from '@/components/common/ModalContainer'
 
 interface CreateUserModalProp {
-  onClose(): any
+  isOpen: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
+const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
   const { insertUser } = useStore((state) => state)
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -38,7 +37,7 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
     if (success) {
       insertUser(data[0])
       toast.success('User created successfully')
-      onClose()
+      setOpen(false)
     } else if (codeMessage === 'user_already_exist')
       toast.warn(
         'Your request is aready in pending state, contact admin for further information'
@@ -50,17 +49,8 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
         <h1 className="text-lg font-semibold">Create User</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -105,7 +95,7 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
         </div>
         <Button className="ml-auto w-max !py-1">Create User</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

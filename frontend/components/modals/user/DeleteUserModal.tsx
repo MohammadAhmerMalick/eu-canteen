@@ -1,22 +1,21 @@
 import Image from 'next/image'
+import { FormEvent } from 'react'
 import { toast } from 'react-toastify'
-import { FormEvent, type MouseEvent } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
 import usersTable from '@/database/schema/usersSchema'
 import deleteUserAction from '@/actions/deleteUserAction'
+import ModalContainer from '@/components/common/ModalContainer'
 
 interface DeleteUserModalProp {
-  onClose(): any
+  isOpen: boolean
   student: typeof usersTable.$inferInsert
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
-
+const DeleteUserModal = ({ isOpen, setOpen, student }: DeleteUserModalProp) => {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -26,23 +25,14 @@ const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
     const { success } = await deleteUserAction(formData)
     if (success) {
       toast.success('Student Deleted')
-      onClose()
+      setOpen(false)
     } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
         <h1 className="text-lg font-semibold">Delete User</h1>
         <div className="grid grid-cols-2 gap-2">
           <Image
@@ -81,7 +71,7 @@ const DeleteUserModal = ({ onClose, student }: DeleteUserModalProp) => {
         </div>
         <Button className="ml-auto w-max !py-1">Delete User</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

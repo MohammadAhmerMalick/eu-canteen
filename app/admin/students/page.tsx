@@ -9,8 +9,8 @@ import {
   Button as AriaButton,
 } from 'react-aria-components'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
@@ -63,7 +63,6 @@ const StudentsPage = () => {
   const { isPending, error, refetch } = useQuery({
     queryKey: ['getAllStudents'],
     queryFn: async () => {
-      console.log('first')
       const { data, success } = await getAllStudentsAction()
       if (success) setUsers(data)
       else toast.error(dataErrorMessage)
@@ -104,18 +103,21 @@ const StudentsPage = () => {
       {editModalData && (
         <EditUserModal
           student={editModalData}
-          onClose={() => setEditModalData(null)}
+          isOpen={!!editModalData}
+          setOpen={() => setDeleteModalData(null)}
         />
       )}
       {deleteModalData && (
         <DeleteUserModal
           student={deleteModalData}
-          onClose={() => setDeleteModalData(null)}
+          isOpen={!!deleteModalData}
+          setOpen={() => setDeleteModalData(null)}
         />
       )}
-      {isAddUserModalVisible && (
-        <CreateUserModal onClose={() => setIsAddUserModalVisible(false)} />
-      )}
+      <CreateUserModal
+        isOpen={isAddUserModalVisible}
+        setOpen={setIsAddUserModalVisible}
+      />
 
       <Table
         aria-label="Orders"

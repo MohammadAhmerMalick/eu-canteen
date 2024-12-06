@@ -99,18 +99,21 @@ const StudentsPage = () => {
       {editModalData && (
         <EditUserModal
           student={editModalData}
-          onClose={() => setEditModalData(null)}
+          isOpen={!!editModalData}
+          setOpen={() => setDeleteModalData(null)}
         />
       )}
       {deleteModalData && (
         <DeleteUserModal
           student={deleteModalData}
-          onClose={() => setDeleteModalData(null)}
+          isOpen={!!deleteModalData}
+          setOpen={() => setDeleteModalData(null)}
         />
       )}
-      {isAddUserModalVisible && (
-        <CreateUserModal onClose={() => setIsAddUserModalVisible(false)} />
-      )}
+      <CreateUserModal
+        isOpen={isAddUserModalVisible}
+        setOpen={setIsAddUserModalVisible}
+      />
 
       <Table
         aria-label="Orders"

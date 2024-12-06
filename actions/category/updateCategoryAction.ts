@@ -1,7 +1,7 @@
 'use server'
 
+import { uploadFile } from '@/utils'
 import CategoryModel from '@/models/CategoryModel'
-// import { storeFileLocally } from '@/utils'
 import categoriesTable from '@/database/schema/categoriesSchema'
 
 const updateCategoryAction = async (formData: FormData) => {
@@ -19,13 +19,12 @@ const updateCategoryAction = async (formData: FormData) => {
     }
 
     // store file locally
-    // if (image) {
-    //   const { destinationFileName } = await storeFileLocally(
-    //     image,
-    //     'categories/'
-    //   )
-    //   payload.image = destinationFileName
-    // }
+    if (image) {
+      const uploadedImage = await uploadFile(image, 'categories/')
+
+      if (uploadedImage)
+        payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
+    }
 
     const category = await CategoryModel.updateCategory(payload)
 

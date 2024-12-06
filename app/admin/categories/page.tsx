@@ -19,6 +19,7 @@ import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import TableCell from '@/components/common/TableCell'
 import DataError from '@/components/common/DataError'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
@@ -42,7 +43,7 @@ const CategoriesPage = () => {
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
 
   const { isPending, error } = useQuery({
-    queryKey: ['getCategories'],
+    queryKey: ['getAllCategories'],
     queryFn: async () => {
       const { data, success } = await getAllCategoriesAction()
       if (success) setCategories(data)
@@ -101,7 +102,7 @@ const CategoriesPage = () => {
                     alt={category.name}
                     width={40}
                     height={40}
-                    src={`/images/categories/${category.image}`}
+                    src={`${assetsBaseUrl}${category.image}`}
                     className={classnames(
                       'rounded-full border-2',
                       category.published

@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify'
+import { useQueryClient } from '@tanstack/react-query'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
@@ -14,6 +15,7 @@ interface CreateCategoryModalProp {
 }
 
 const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
+  const queryClient = useQueryClient()
   const { insertCategory } = useStore((state) => state)
 
   const onContainerClick = (
@@ -35,6 +37,7 @@ const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
 
     if (success) {
       insertCategory(data[0])
+      queryClient.invalidateQueries({ queryKey: ['getAllCategories'] })
       toast.success('Category created successfully')
       onClose()
     } else if (codeMessage === 'category_already_exist') toast.warn(message)

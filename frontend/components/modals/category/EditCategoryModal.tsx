@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify'
+import { useQueryClient } from '@tanstack/react-query'
 import { FormEvent, useState, type MouseEvent } from 'react'
 
 import { classnames } from '@/utils'
-import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
@@ -16,7 +16,7 @@ interface EditCategoryModalProp {
 }
 
 const EditCategoryModal = ({ onClose, category }: EditCategoryModalProp) => {
-  const { updateCategory } = useStore((state) => state)
+  const queryClient = useQueryClient()
 
   const onContainerClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -35,10 +35,10 @@ const EditCategoryModal = ({ onClose, category }: EditCategoryModalProp) => {
     formData.append('image', image)
     formData.append('published', published ? 'published' : '')
 
-    const { success, message, codeMessage, data } =
+    const { success, message, codeMessage } =
       await updateCategoryAction(formData)
     if (success) {
-      updateCategory(data[0])
+      queryClient.invalidateQueries({ queryKey: ['getAllCategories'] })
       toast.success('Category updated')
       onClose()
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)

@@ -9,7 +9,7 @@ class UserModel {
   static getUserById = (id: string) =>
     db.select().from(usersTable).where(eq(usersTable.id, id))
 
-  static getStudents = () =>
+  static getAllStudents = () =>
     db.select().from(usersTable).where(eq(usersTable.roleName, 'student'))
 
   static getUserByEmail = (email: string) =>

@@ -8,7 +8,7 @@ import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
-import notificationsTable from '@/database/schema/notificationsSchema'
+import type { Notification } from '@/database/schema/notificationsSchema'
 import getNotificationsAction from '@/actions/notification/getNotificationsAction'
 import ViewNotificationModal from '@/components/modals/notification/ViewNotificationModal'
 
@@ -17,9 +17,7 @@ const dataErrorMessage = 'Unable to load notifications'
 const NotificationsPage = () => {
   const { notifications, auth, setNotifications } = useStore((state) => state)
 
-  const [viewModalDate, setViewModalData] = useState<
-    typeof notificationsTable.$inferInsert | null
-  >(null)
+  const [viewModalDate, setViewModalData] = useState<Notification | null>(null)
 
   const { isPending, error } = useQuery({
     queryKey: ['getNotifications'],
@@ -39,8 +37,9 @@ const NotificationsPage = () => {
     <div>
       {viewModalDate && (
         <ViewNotificationModal
+          isOpen={!!viewModalDate}
           notification={viewModalDate}
-          onClose={() => setViewModalData(null)}
+          setOpen={() => setViewModalData(null)}
         />
       )}
 

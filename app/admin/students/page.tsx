@@ -122,12 +122,12 @@ const StudentsPage = () => {
       />
 
       <Table
+        className="w-full"
         aria-label="Orders"
         selectionMode="multiple"
-        className="w-full"
-        onRowAction={(e) => console.log(e)}
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
+        onRowAction={(e) => console.log(e)}
       >
         <TableHeader>
           <TableColumn>

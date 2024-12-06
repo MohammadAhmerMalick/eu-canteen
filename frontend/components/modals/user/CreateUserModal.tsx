@@ -1,13 +1,15 @@
 import { toast } from 'react-toastify'
 import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
-import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import insertUserAction from '@/actions/insertUserAction'
+import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
 import ModalContainer from '@/components/common/ModalContainer'
+import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
 interface CreateUserModalProp {
   isOpen: boolean
@@ -15,12 +17,13 @@ interface CreateUserModalProp {
 }
 
 const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
-  const { insertUser } = useStore((state) => state)
+  const queryClient = useQueryClient()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [matricola, setMatricola] = useState('')
+  const [image, setImage] = useState<File | ''>('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -28,14 +31,14 @@ const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
     const formData = new FormData(e.currentTarget)
     formData.append('name', name)
     formData.append('email', email)
+    formData.append('image', image)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
 
-    const { success, message, codeMessage, data } =
-      await insertUserAction(formData)
+    const { success, message, codeMessage } = await insertUserAction(formData)
 
     if (success) {
-      insertUser(data[0])
+      queryClient.invalidateQueries({ queryKey: ['getAllStudents'] })
       toast.success('User created successfully')
       setOpen(false)
     } else if (codeMessage === 'user_already_exist')
@@ -92,6 +95,30 @@ const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
             placeholder="✳✳✳✳✳✳✳✳✳✳"
             labelClassName="text-sm"
           />
+
+          <label
+            htmlFor="image"
+            className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
+          >
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              className="absolute left-10 w-1 opacity-0"
+              onChange={({ target }) => setImage(target.files?.[0] || '')}
+            />
+            <span className="text-primary">
+              <AiOutlinePaperClip />
+            </span>
+            Upload Profile Picture
+            {image ? (
+              <span className="text-green-600">
+                <HiBadgeCheck />
+              </span>
+            ) : (
+              ''
+            )}
+          </label>
         </div>
         <Button className="ml-auto w-max !py-1">Create User</Button>
       </form>

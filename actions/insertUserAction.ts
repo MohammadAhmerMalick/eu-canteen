@@ -29,7 +29,7 @@ const insertUserAction = async (formData: FormData) => {
     }
 
   // if user exists
-  const user = await UserModel.getUserByEmail(email)
+  const user = await UserModel.getUserByEmailOrMatricola(email, matricola)
   if (user.length)
     return {
       data: [],

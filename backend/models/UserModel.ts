@@ -1,4 +1,4 @@
-import { eq, getTableColumns, inArray } from 'drizzle-orm'
+import { eq, getTableColumns, inArray, or } from 'drizzle-orm'
 
 import db from '@/database/index'
 import usersTable from '@/database/schema/usersSchema'
@@ -14,6 +14,14 @@ class UserModel {
 
   static getUserByEmail = (email: string) =>
     db.select().from(usersTable).where(eq(usersTable.email, email))
+
+  static getUserByEmailOrMatricola = (email: string, matricola: string) =>
+    db
+      .select()
+      .from(usersTable)
+      .where(
+        or(eq(usersTable.email, email), eq(usersTable.matricola, matricola))
+      )
 
   static createUser = (user: typeof usersTable.$inferInsert) =>
     db.insert(usersTable).values(user).returning(getTableColumns(usersTable))

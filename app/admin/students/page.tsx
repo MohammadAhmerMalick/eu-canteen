@@ -87,6 +87,8 @@ const StudentsPage = () => {
       approved,
     })
 
+    refetch()
+
     setSelectedKeys(new Set())
   }
 

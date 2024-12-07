@@ -56,7 +56,8 @@ const MenuPage = () => {
       {checkoutModalData && (
         <CreateCheckoutModal
           product={checkoutModalData}
-          onClose={() => setCheckoutModalData(null)}
+          isOpen={!!checkoutModalData}
+          setOpen={() => setCheckoutModalData(null)}
         />
       )}
 

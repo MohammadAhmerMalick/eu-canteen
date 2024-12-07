@@ -12,7 +12,7 @@ import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
-import productsTable from '@/database/schema/productsSchema'
+import type { Product } from '@/database/schema/productsSchema'
 import { type Category } from '@/database/schema/categoriesSchema'
 import getAllProductsAction from '@/actions/product/getAllProductsAction'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
@@ -25,9 +25,9 @@ const ProductPage = () => {
   const { categories, setCategories } = useStore((state) => state)
 
   const [activeCategory, setActiveCategory] = useState<Category | null>(null)
-  const [checkoutModalData, setCheckoutModalData] = useState<
-    typeof productsTable.$inferInsert | null
-  >(null)
+  const [checkoutModalData, setCheckoutModalData] = useState<Product | null>(
+    null
+  )
 
   const { isPending, error } = useQuery({
     queryKey: ['getProducts'],
@@ -58,7 +58,8 @@ const ProductPage = () => {
       {checkoutModalData && (
         <CreateCheckoutModal
           product={checkoutModalData}
-          onClose={() => setCheckoutModalData(null)}
+          isOpen={!!checkoutModalData}
+          setOpen={() => setCheckoutModalData(null)}
         />
       )}
       <Header />

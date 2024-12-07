@@ -2,8 +2,8 @@
 
 import { uploadFile } from '@/utils'
 import ProductModel from '@/models/ProductModel'
-import productsTable from '@/database/schema/productsSchema'
 import { type Products } from '@/store/slices/productsSlice'
+import type { Product } from '@/database/schema/productsSchema'
 
 type Return = Promise<
   | {
@@ -30,7 +30,7 @@ const insertProductAction = async (formData: FormData): Return => {
         success: false,
       }
 
-    const payload: typeof productsTable.$inferInsert = {
+    const payload: Product = {
       name,
       price,
       categoryId,

@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
@@ -10,18 +11,16 @@ import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import Textarea from '@/components/common/Textarea'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
 import insertProductAction from '@/actions/product/insertProductAction'
+import ModalContainer from '@/components/common/ModalContainer'
 
 interface CreateProductModalProp {
-  onClose(): any
+  isOpen: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
+const CreateProductModal = ({ isOpen, setOpen }: CreateProductModalProp) => {
   const { categories } = useStore((state) => state)
   const { insertProduct } = useStore((state) => state)
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
 
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
@@ -44,16 +43,12 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
     if (success) {
       insertProduct(data)
       toast.success('Product created successfully')
-      onClose()
+      setOpen(false)
     } else toast.error('Unable to handle request right now')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
       <form
         onSubmit={onSubmit}
         className={classnames(
@@ -133,7 +128,7 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
         />
         <Button className="ml-auto w-max !py-1">Create Product</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

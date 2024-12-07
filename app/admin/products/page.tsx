@@ -100,18 +100,22 @@ const ProductsPage = () => {
       {editModalData && (
         <EditProductModal
           product={editModalData}
-          onClose={() => setEditModalData(null)}
+          isOpen={!!editModalData}
+          setOpen={() => setEditModalData(null)}
         />
       )}
       {deleteModalData && (
         <DeleteProductModal
           product={deleteModalData}
-          onClose={() => setDeleteModalData(null)}
+          isOpen={!!deleteModalData}
+          setOpen={() => setDeleteModalData(null)}
         />
       )}
-      {isAddModalVisible && (
-        <CreateProductModal onClose={() => setIsAddModalVisible(false)} />
-      )}
+
+      <CreateProductModal
+        isOpen={isAddModalVisible}
+        setOpen={setIsAddModalVisible}
+      />
 
       <Table
         aria-label="Orders"

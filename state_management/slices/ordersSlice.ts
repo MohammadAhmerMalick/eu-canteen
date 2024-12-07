@@ -1,27 +1,27 @@
 import { type StateCreator } from 'zustand'
 
 import { type Store } from '@/store/store'
-import ordersTable from '@/database/schema/ordersSchema'
 import type { User } from '@/database/schema/usersSchema'
+import type { Order } from '@/database/schema/ordersSchema'
 import { type Product } from '@/database/schema/productsSchema'
 import transactionsTable from '@/database/schema/transactionsSchema'
 
-export interface Orders {
-  orders: typeof ordersTable.$inferInsert
-  users: User | null
-  products: Product | null
-  transactions: typeof transactionsTable.$inferInsert | null
+export interface OrderSlice {
+  order: Order
+  user: User | null
+  product: Product | null
+  transaction: typeof transactionsTable.$inferInsert | null
 }
 
 export interface OrdersState {
-  orders: Orders[]
+  orders: OrderSlice[]
 }
 
 export type OrdersActions = {
-  setOrders(orders: Orders[]): void
-  insertOrder(order: Orders): void
-  updateOrder(order: Orders): void
-  updateOrdersStatus(order: Orders['orders']): void
+  setOrders(orderSlices: OrderSlice[]): void
+  insertOrder(orderSlice: OrderSlice): void
+  updateOrder(orderSlice: OrderSlice): void
+  updateOrdersStatus(orderSlice: OrderSlice['order']): void
 }
 
 export type OrdersSlice = OrdersState & OrdersActions
@@ -46,7 +46,7 @@ export const createOrdersSlice: StateCreator<Store, [], [], OrdersSlice> = (
     set((state) => ({
       ...state,
       orders: state.orders.map((s) =>
-        s.orders.id === order.orders.id ? order : s
+        s.order.id === order.order.id ? order : s
       ),
     })),
   updateOrdersStatus: async (order) =>
@@ -55,9 +55,9 @@ export const createOrdersSlice: StateCreator<Store, [], [], OrdersSlice> = (
       orders: state.orders.map((s) => ({
         ...s,
         orders:
-          s.orders.id === order.id
-            ? { ...s.orders, status: order.status }
-            : s.orders,
+          s.order.id === order.id
+            ? { ...s.order, status: order.status }
+            : s.order,
       })),
     })),
 })

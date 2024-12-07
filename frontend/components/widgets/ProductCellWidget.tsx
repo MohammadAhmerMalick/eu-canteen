@@ -3,11 +3,11 @@ import Image from 'next/image'
 import { classnames } from '@/utils'
 import type { Product } from '@/database/schema/productsSchema'
 
-interface ProductCellProps {
+interface ProductCellWidgetProps {
   product: Product
 }
 
-const ProductCell = ({ product }: ProductCellProps) => {
+const ProductCellWidget = ({ product }: ProductCellWidgetProps) => {
   return (
     <div className="w-max min-w-full max-w-80 rounded-lg bg-primary-light px-4 py-2">
       <div className="flex gap-4">
@@ -35,4 +35,4 @@ const ProductCell = ({ product }: ProductCellProps) => {
   )
 }
 
-export default ProductCell
+export default ProductCellWidget

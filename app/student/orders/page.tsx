@@ -5,8 +5,8 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
-import ProductCell from '@/components/ProductCell'
 import DataError from '@/components/common/DataError'
+import ProductCell from '@/components/widgets/ProductCellWidget'
 import getMyOrdersAction from '@/actions/orders/getMyOrdersAction'
 
 const dataErrorMessage = 'Unable to load orders'
@@ -52,7 +52,7 @@ const OrdersPage = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map(({ orders: order, products: product }) => (
+          {orders.map(({ order, product }) => (
             <tr key={order.id}>
               <td className="w-1 border-b border-neutral-300 p-2">
                 {product && <ProductCell product={product} />}

@@ -14,17 +14,17 @@ import { useQuery } from '@tanstack/react-query'
 import { useStore } from '@/store/provider'
 import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
-import StudentCell from '@/components/StudentCell'
-import ProductCell from '@/components/ProductCell'
 import EuroChip from '@/components/common/EuroChip'
 import MenuItem from '@/components/common/MenuItem'
 import Checkbox from '@/components/common/Checkbox'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
 import { Select1 } from '@/components/common/Select1'
-import { type Orders } from '@/store/slices/ordersSlice'
 import TableColumn from '@/components/common/TableColumn'
+import { type OrderSlice } from '@/store/slices/ordersSlice'
 import getOrdersAction from '@/actions/orders/getOrderssAction'
+import StudentCellWidget from '@/components/widgets/StudentCellWidget'
+import ProductCellWidget from '@/components/widgets/ProductCellWidget'
 import updateOrdersStatusAction from '@/actions/orders/updateOrdersStatusAction'
 
 const dataErrorMessage = 'Unable to load orders'
@@ -62,23 +62,23 @@ const OrdersPage = () => {
     },
   })
 
-  const onOrderStatusChange = (order: Orders['orders'], status: string) => {
+  const onOrderStatusChange = (order: OrderSlice['order'], status: string) => {
     updateOrdersStatus({ ...order, id: order.id || '', status })
     updateOrdersStatusAction({ ids: [order.id || ''], status })
   }
 
   const bulkAction = (status: string) => {
     const updatedOrders = orders.filter(
-      ({ orders: order }) =>
+      ({ order }) =>
         [...selectedKeys].includes(order.id || '') || selectedKeys === 'all'
     )
 
-    updatedOrders.map(({ orders: order }) =>
+    updatedOrders.map(({ order }) =>
       updateOrdersStatus({ ...order, id: order.id || '', status })
     )
 
     const updatedOrdersIds = updatedOrders
-      .map((o) => o.orders.id || '')
+      .map((o) => o.order.id || '')
       .filter((x) => x)
 
     updateOrdersStatusAction({
@@ -96,10 +96,10 @@ const OrdersPage = () => {
   return (
     <div>
       <Table
-        aria-label="Orders"
-        selectionMode="multiple"
         className="w-full"
+        aria-label="Orders"
         onRowAction={() => {}}
+        selectionMode="multiple"
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
       >
@@ -131,14 +131,16 @@ const OrdersPage = () => {
           <TableColumn>Status</TableColumn>
         </TableHeader>
         <TableBody>
-          {orders.map(({ orders: order, products: product, users: user }) => (
+          {orders.map(({ order, product, user }) => (
             <Row key={order.id} id={order.id}>
               <TableCell className="text-center">
                 <Checkbox slot="selection" />
               </TableCell>
-              <TableCell>{user && <StudentCell student={user} />}</TableCell>
               <TableCell>
-                {product && <ProductCell product={product} />}
+                {user && <StudentCellWidget student={user} />}
+              </TableCell>
+              <TableCell>
+                {product && <ProductCellWidget product={product} />}
               </TableCell>
               <TableCell className="text-center capitalize">
                 {order.type.replaceAll(' ', '-')}

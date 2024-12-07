@@ -1,10 +1,16 @@
+import { alias } from 'drizzle-orm/pg-core'
 import { and, eq, inArray } from 'drizzle-orm'
 
 import db from '@/database/index'
-import ordersTable from '@/database/schema/ordersSchema'
-import usersTable from '@/database/schema/usersSchema'
-import productsTable from '@/database/schema/productsSchema'
-import transactionsTable from '@/database/schema/transactionsSchema'
+import usersTableSchema from '@/database/schema/usersSchema'
+import productsTableSchema from '@/database/schema/productsSchema'
+import transactionsTableSchema from '@/database/schema/transactionsSchema'
+import ordersTableSchema, { type Order } from '@/database/schema/ordersSchema'
+
+const usersTable = alias(usersTableSchema, 'user')
+const ordersTable = alias(ordersTableSchema, 'order')
+const productsTable = alias(productsTableSchema, 'product')
+const transactionsTable = alias(transactionsTableSchema, 'transaction')
 
 class OrderModel {
   static getOrders = () =>
@@ -47,13 +53,10 @@ class OrderModel {
 
   static getAllOrders = () => db.select().from(ordersTable)
 
-  static createOrder = (order: typeof ordersTable.$inferInsert) =>
+  static createOrder = (order: Order) =>
     db.insert(ordersTable).values(order).returning({ id: ordersTable.id })
 
-  static updateOrdersStatus = (
-    ids: string[],
-    status: (typeof ordersTable.$inferInsert)['status']
-  ) =>
+  static updateOrdersStatus = (ids: string[], status: Order['status']) =>
     db
       .update(ordersTable)
       .set({

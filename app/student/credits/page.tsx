@@ -5,8 +5,8 @@ import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
-import ProductCell from '@/components/ProductCell'
 import DataError from '@/components/common/DataError'
+import ProductCell from '@/components/widgets/ProductCellWidget'
 import getMyTransactionsAction from '@/actions/transaction/getMyTransactionsAction'
 
 const dataErrorMessage = 'Unable to load orders'

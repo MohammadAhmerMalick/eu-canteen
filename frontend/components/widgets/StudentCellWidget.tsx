@@ -3,11 +3,11 @@ import Image from 'next/image'
 import { classnames } from '@/utils'
 import type { User } from '@/database/schema/usersSchema'
 
-interface StudentCellProps {
+interface StudentCellWidgetProps {
   student: User
 }
 
-const StudentCell = ({ student }: StudentCellProps) => {
+const StudentCellWidget = ({ student }: StudentCellWidgetProps) => {
   return (
     <div className="w-max min-w-full rounded-lg bg-primary-light px-4 py-2">
       <div className="flex gap-4">
@@ -31,4 +31,4 @@ const StudentCell = ({ student }: StudentCellProps) => {
   )
 }
 
-export default StudentCell
+export default StudentCellWidget

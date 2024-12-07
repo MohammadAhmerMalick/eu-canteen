@@ -3,7 +3,6 @@ import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
-import { classnames } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import insertUserAction from '@/actions/insertUserAction'
@@ -53,7 +52,7 @@ const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
 
   return (
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>
-      <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Create User</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input

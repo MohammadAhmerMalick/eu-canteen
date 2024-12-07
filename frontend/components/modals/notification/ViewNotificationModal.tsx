@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import type { Notification } from '@/database/schema/notificationsSchema'
@@ -32,7 +31,7 @@ const ViewNotificationModal = ({
 
   return (
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>
-      <div className={classnames('grid gap-4')}>
+      <div className="grid gap-4">
         <h1 className="text-lg font-semibold">Notification</h1>
         <p className="text-sm">{notification.message}</p>
 

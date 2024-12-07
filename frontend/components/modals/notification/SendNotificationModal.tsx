@@ -2,7 +2,6 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import Textarea from '@/components/common/Textarea'
@@ -42,7 +41,7 @@ const SendNotificationModal = ({
 
   return (
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>
-      <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Notification</h1>
         <div className="grid gap-4">
           <Textarea

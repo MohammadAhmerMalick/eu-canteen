@@ -37,7 +37,7 @@ const DeleteUserModal = ({ isOpen, setOpen, student }: DeleteUserModalProp) => {
 
   return (
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>
-      <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Delete User</h1>
         <div className="grid grid-cols-2 gap-2">
           <Image

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { SessionProvider, useSession } from 'next-auth/react'
 
 import { useStore } from '@/store/provider'
+// import orderSeedAction from '@/actions/seeds/orderSeedAction'
 import getMyProfileAction from '@/actions/user/getMyProfileActon'
 
 const C = () => {
@@ -28,6 +29,7 @@ const C = () => {
   })
 
   useEffect(() => {
+    // orderSeedAction()
     setAuthStatus(status)
   }, [setAuthStatus, status])
   return <span className="absolute -z-50 hidden opacity-0">Poolaster</span>

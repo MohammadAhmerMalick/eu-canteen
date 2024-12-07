@@ -3,11 +3,11 @@
 import { uploadFile } from '@/utils'
 import UserModel from '@/models/UserModel'
 import { hashPassword } from '@/libs/bcrypt'
-import usersTable from '@/database/schema/usersSchema'
+import type { User } from '@/database/schema/usersSchema'
 
 type Return = Promise<
   | {
-      data: typeof usersTable.$inferInsert
+      data: User
       success: true
     }
   | {
@@ -35,7 +35,7 @@ const updateUserAction = async (formData: FormData): Return => {
         success: false,
       }
 
-    let payload: typeof usersTable.$inferInsert = {
+    let payload: User = {
       name,
       email,
       credit,

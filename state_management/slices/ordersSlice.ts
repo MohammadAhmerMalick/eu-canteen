@@ -1,14 +1,14 @@
 import { type StateCreator } from 'zustand'
 
 import { type Store } from '@/store/store'
-import usersTable from '@/database/schema/usersSchema'
 import ordersTable from '@/database/schema/ordersSchema'
+import type { User } from '@/database/schema/usersSchema'
 import { type Product } from '@/database/schema/productsSchema'
 import transactionsTable from '@/database/schema/transactionsSchema'
 
 export interface Orders {
   orders: typeof ordersTable.$inferInsert
-  users: typeof usersTable.$inferInsert | null
+  users: User | null
   products: Product | null
   transactions: typeof transactionsTable.$inferInsert | null
 }

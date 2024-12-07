@@ -7,14 +7,14 @@ import { classnames } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
-import usersTable from '@/database/schema/usersSchema'
 import updateUserAction from '@/actions/updateUserAction'
+import type { User } from '@/database/schema/usersSchema'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
 import ModalContainer from '@/components/common/ModalContainer'
 
 interface EditUserModalProp {
+  student: User
   isOpen: boolean
-  student: typeof usersTable.$inferInsert
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 

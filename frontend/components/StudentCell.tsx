@@ -1,10 +1,10 @@
 import Image from 'next/image'
 
 import { classnames } from '@/utils'
-import usersTable from '@/database/schema/usersSchema'
+import type { User } from '@/database/schema/usersSchema'
 
 interface StudentCellProps {
-  student: typeof usersTable.$inferInsert
+  student: User
 }
 
 const StudentCell = ({ student }: StudentCellProps) => {

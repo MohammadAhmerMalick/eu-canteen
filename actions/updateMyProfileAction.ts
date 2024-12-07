@@ -3,11 +3,11 @@
 import { auth } from '@/auth'
 import { uploadFile } from '@/utils'
 import UserModel from '@/models/UserModel'
-import usersTable from '@/database/schema/usersSchema'
+import type { User } from '@/database/schema/usersSchema'
 
 type Return = Promise<
   | {
-      data: typeof usersTable.$inferInsert
+      data: User
       success: true
     }
   | {
@@ -27,7 +27,7 @@ const updateMyProfileAction = async (formData: FormData): Return => {
 
     const [user] = await UserModel.getUserById(userId)
 
-    const payload: typeof usersTable.$inferInsert = {
+    const payload: User = {
       name,
       whatsapp,
       email: user.email,

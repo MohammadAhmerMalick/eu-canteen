@@ -3,7 +3,7 @@ import { compareSync } from 'bcrypt'
 import Credentials from 'next-auth/providers/credentials'
 
 import UserModel from '@/models/UserModel'
-import usersTable from '@/database/schema/usersSchema'
+import type { User } from '@/database/schema/usersSchema'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -20,7 +20,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       },
       authorize: async ({ email, password }) => {
-        let user: typeof usersTable.$inferInsert | null = null
+        let user: User | null = null
 
         try {
           const [dbUser] = await UserModel.getUserByEmail(email as string)
@@ -50,7 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   secret: process.env.AUTH_SECRET,
-  debug: process.env.NODE_ENV === 'development',
+  // debug: process.env.NODE_ENV === 'development',
   callbacks: {
     async jwt({ token, user }) {
       if (user) token = { ...token, ...user }

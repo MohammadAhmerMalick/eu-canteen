@@ -38,4 +38,6 @@ const usersTable = pgTable('users', {
   deletedAt: timestamp(),
 })
 
+export type User = typeof usersTable.$inferInsert
+
 export default usersTable

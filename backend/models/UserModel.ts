@@ -2,6 +2,7 @@ import { eq, getTableColumns, inArray, or } from 'drizzle-orm'
 
 import db from '@/database/index'
 import usersTable from '@/database/schema/usersSchema'
+import type { User } from '@/database/schema/usersSchema'
 
 class UserModel {
   static getUsers = () => db.select().from(usersTable)
@@ -23,20 +24,17 @@ class UserModel {
         or(eq(usersTable.email, email), eq(usersTable.matricola, matricola))
       )
 
-  static createUser = (user: typeof usersTable.$inferInsert) =>
+  static createUser = (user: User) =>
     db.insert(usersTable).values(user).returning(getTableColumns(usersTable))
 
-  static updateUser = (user: typeof usersTable.$inferInsert, id: string) =>
+  static updateUser = (user: User, id: string) =>
     db
       .update(usersTable)
       .set(user)
       .where(eq(usersTable.id, id))
       .returning(getTableColumns(usersTable))
 
-  static updateUserCredit = (
-    id: string,
-    credit: (typeof usersTable.$inferInsert)['credit']
-  ) =>
+  static updateUserCredit = (id: string, credit: User['credit']) =>
     db
       .update(usersTable)
       .set({ credit })
@@ -49,15 +47,19 @@ class UserModel {
       .where(eq(usersTable.id, id))
       .returning({ id: usersTable.id })
 
-  static updateUsersApprovedState = (
-    ids: string[],
-    approved: (typeof usersTable.$inferInsert)['approved']
-  ) =>
+  static updateUsersApproved = (ids: string[], approved: User['approved']) =>
     db
       .update(usersTable)
-      .set({
-        approved,
+      .set({ approved })
+      .returning({
+        id: usersTable.id,
       })
+      .where(inArray(usersTable.id, ids))
+
+  static updateUsersPublished = (ids: string[], published: User['published']) =>
+    db
+      .update(usersTable)
+      .set({ published })
       .returning({
         id: usersTable.id,
       })

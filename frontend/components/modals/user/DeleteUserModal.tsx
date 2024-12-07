@@ -6,14 +6,14 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
-import usersTable from '@/database/schema/usersSchema'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
+import type { User } from '@/database/schema/usersSchema'
 import deleteUserAction from '@/actions/deleteUserAction'
 import ModalContainer from '@/components/common/ModalContainer'
 
 interface DeleteUserModalProp {
+  student: User
   isOpen: boolean
-  student: typeof usersTable.$inferInsert
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 

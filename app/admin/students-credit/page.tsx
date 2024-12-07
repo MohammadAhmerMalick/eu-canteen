@@ -24,8 +24,8 @@ import MenuItem from '@/components/common/MenuItem'
 import EuroChip from '@/components/common/EuroChip'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
-import usersTable from '@/database/schema/usersSchema'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
+import type { User } from '@/database/schema/usersSchema'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
@@ -33,34 +33,30 @@ import getAllStudentsAction from '@/actions/getAllStudentsAction'
 import EditUserModal from '@/components/modals/user/EditUserModal'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
-import updateUsersApprovedStateAction from '@/actions/user/updateUsersApprovedStateAction'
+import updateUsersApprovedAction from '@/actions/user/updateUsersApprovedAction'
 
 const dataErrorMessage = 'Unable to load users'
 
-const orderStatusOptions = [
+const studentApprovedOptions = [
   {
     id: 'approved',
     name: 'Active',
   },
   {
-    id: 'pending',
+    id: '',
     name: 'Inactive',
   },
 ]
 
 const StudentsPage = () => {
-  const { users, setUsers, updateUser } = useStore((state) => state)
+  const { users, setUsers } = useStore((state) => state)
 
-  const [editModalData, setEditModalData] = useState<
-    typeof usersTable.$inferInsert | null
-  >(null)
-  const [deleteModalData, setDeleteModalData] = useState<
-    typeof usersTable.$inferInsert | null
-  >(null)
-  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
+  const [editModalData, setEditModalData] = useState<User | null>(null)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
+  const [deleteModalData, setDeleteModalData] = useState<User | null>(null)
+  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
 
-  const { isPending, error } = useQuery({
+  const { isPending, error, refetch } = useQuery({
     queryKey: ['getAllStudents'],
     queryFn: async () => {
       const { data, success } = await getAllStudentsAction()
@@ -71,21 +67,18 @@ const StudentsPage = () => {
   })
 
   const bulkAction = (isApproved: string) => {
-    const approved = isApproved === 'approved'
-
     const updatedUsers = users.filter(
       ({ id }) => [...selectedKeys].includes(id || '') || selectedKeys === 'all'
     )
 
-    const updatedUserIds = updatedUsers.map((u) => {
-      updateUser({ ...u, approved })
-      return u.id || ''
+    const updatedUserIds = updatedUsers.map((u) => u.id || '')
+
+    updateUsersApprovedAction({
+      ids: updatedUserIds,
+      approved: !!isApproved,
     })
 
-    updateUsersApprovedStateAction({
-      ids: updatedUserIds,
-      approved,
-    })
+    refetch()
 
     setSelectedKeys(new Set())
   }
@@ -131,7 +124,7 @@ const StudentsPage = () => {
             <div className="flex items-center gap-4">
               {[...selectedKeys].length ? (
                 <MenuPopup>
-                  {orderStatusOptions.map(({ id, name }) => (
+                  {studentApprovedOptions.map(({ id, name }) => (
                     <MenuItem key={id} onAction={() => bulkAction(id)}>
                       {name}
                     </MenuItem>

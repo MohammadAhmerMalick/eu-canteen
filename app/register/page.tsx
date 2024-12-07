@@ -8,9 +8,9 @@ import { useMutation } from '@tanstack/react-query'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
-import insertUserAction from '@/actions/insertUserAction'
 import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
 import AuthLayoutSection from '@/sections/AuthLayoutSection'
+import insertUserAction from '@/actions/user/insertUserAction'
 import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
 const SignupPage = () => {

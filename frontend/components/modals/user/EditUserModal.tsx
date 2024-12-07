@@ -6,9 +6,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
-import updateUserAction from '@/actions/updateUserAction'
 import type { User } from '@/database/schema/usersSchema'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import updateUserAction from '@/actions/user/updateUserAction'
 import ModalContainer from '@/components/common/ModalContainer'
 
 interface EditUserModalProp {

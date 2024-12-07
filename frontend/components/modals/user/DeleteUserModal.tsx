@@ -8,7 +8,7 @@ import { classnames } from '@/utils'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 import type { User } from '@/database/schema/usersSchema'
-import deleteUserAction from '@/actions/deleteUserAction'
+import deleteUserAction from '@/actions/user/deleteUserAction'
 import ModalContainer from '@/components/common/ModalContainer'
 
 interface DeleteUserModalProp {

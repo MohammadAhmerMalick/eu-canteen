@@ -9,7 +9,7 @@ import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
-import updateMyProfileAction from '@/actions/updateMyProfileAction'
+import updateMyProfileAction from '@/actions/user/updateMyProfileAction'
 
 const ProfilePage = () => {
   const { auth, setAuth } = useStore((state) => state)

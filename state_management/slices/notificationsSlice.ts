@@ -1,18 +1,16 @@
 import { type StateCreator } from 'zustand'
 
 import { type Store } from '@/store/store'
-import notificationsTable from '@/database/schema/notificationsSchema'
+import type { Notification } from '@/database/schema/notificationsSchema'
 
 export interface NotificationsState {
-  notifications: (typeof notificationsTable.$inferInsert)[]
+  notifications: Notification[]
 }
 
 export type NotificationsActions = {
   setNotifications(notifications: NotificationsState['notifications']): void
-  insertNotification(notification: typeof notificationsTable.$inferInsert): void
-  updateNotification(
-    notifications: typeof notificationsTable.$inferInsert
-  ): void
+  insertNotification(notification: Notification): void
+  updateNotification(notifications: Notification): void
   deleteNotification(id: string): void
 }
 

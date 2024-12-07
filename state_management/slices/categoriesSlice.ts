@@ -1,16 +1,16 @@
 import { type StateCreator } from 'zustand'
 
 import { type Store } from '@/store/store'
-import categoriesTable from '@/database/schema/categoriesSchema'
+import { type Category } from '@/database/schema/categoriesSchema'
 
 export interface CategoriesState {
-  categories: (typeof categoriesTable.$inferInsert)[]
+  categories: Category[]
 }
 
 export type CategoriesActions = {
   setCategories(categories: CategoriesState['categories']): void
-  insertCategory(category: typeof categoriesTable.$inferInsert): void
-  updateCategory(category: typeof categoriesTable.$inferInsert): void
+  insertCategory(category: Category): void
+  updateCategory(category: Category): void
   deleteCategory(id: string): void
 }
 

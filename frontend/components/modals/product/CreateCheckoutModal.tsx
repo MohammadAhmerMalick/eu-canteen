@@ -1,21 +1,27 @@
 import Image from 'next/image'
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
-import productsTable from '@/database/schema/productsSchema'
 import AiOutlinePlus from '@/components/icons/AiOutlinePlus'
 import AiOutlineMinus from '@/components/icons/AiOutlineMinus'
+import type { Product } from '@/database/schema/productsSchema'
+import ModalContainer from '@/components/common/ModalContainer'
 import insertOrderAction from '@/actions/orders/insertOrderAction'
 
 interface CreateCheckoutModalProp {
-  onClose(): any
-  product: typeof productsTable.$inferInsert
+  isOpen: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  product: Product
 }
 
-const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
+const CreateCheckoutModal = ({
+  isOpen,
+  setOpen,
+  product,
+}: CreateCheckoutModalProp) => {
   const { auth, setAuth, updateOrder } = useStore((state) => state)
 
   const [quantity, setQuantity] = useState(1)
@@ -33,12 +39,14 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
     } else if (operation === '-') setQuantity((s) => (s > 1 ? s - 1 : s))
   }
 
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
-
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (quantity * parseFloat(product.price) > parseFloat(auth.credit)) {
+      toast.warn('Low balance')
+      return
+    }
+
     if (!product.id) return
 
     const { success, message, codeMessage, data } = await insertOrderAction({
@@ -49,7 +57,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
     if (success) {
       updateOrder(data[0])
       toast.success('Order placed')
-      onClose()
+      setOpen(false)
       setAuth({
         ...auth,
         credit: (parseFloat(auth?.credit) - parseFloat(product.price)).toFixed(
@@ -62,17 +70,8 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'max-h-full w-full max-w-3xl space-y-4 overflow-hidden rounded-3xl bg-white p-6 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit}>
         <h1 className="text-center text-xl font-semibold">Checkout</h1>
 
         <div className="space-y-2">
@@ -133,7 +132,7 @@ const CreateCheckoutModal = ({ onClose, product }: CreateCheckoutModalProp) => {
 
         <Button className="w-full rounded-lg">Checkout</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

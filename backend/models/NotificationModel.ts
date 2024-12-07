@@ -2,6 +2,7 @@ import { and, arrayOverlaps, eq, getTableColumns } from 'drizzle-orm'
 
 import db from '@/database/index'
 import notificationsTable from '@/database/schema/notificationsSchema'
+import type { Notification } from '@/database/schema/notificationsSchema'
 
 class NotificationModel {
   static getNotifications = () =>
@@ -26,9 +27,7 @@ class NotificationModel {
   static getNotification = (id: string) =>
     db.select().from(notificationsTable).where(eq(notificationsTable.id, id))
 
-  static createNotification = (
-    notification: typeof notificationsTable.$inferInsert
-  ) =>
+  static createNotification = (notification: Notification) =>
     db
       .insert(notificationsTable)
       .values(notification)

@@ -16,6 +16,16 @@ const links: SidebarLink[] = [
   { link: '/admin', label: 'Dashboard', icon: <AiOutlineHome /> },
   { link: '/admin/orders', label: 'Orders', icon: <AiOutlineFile /> },
   { link: '/admin/students', label: 'Students', icon: <FiUsers /> },
+  {
+    link: '/admin/students-requests',
+    label: 'Students Requests',
+    icon: <FiUsers />,
+  },
+  {
+    link: '/admin/students-credit',
+    label: 'Students Credit History',
+    icon: <FiUsers />,
+  },
   // {
   //   link: '/admin/analytics',
   //   label: 'Analytics',

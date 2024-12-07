@@ -1,24 +1,24 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
 import insertCategoryAction from '@/actions/category/insertCategoryAction'
+import ModalContainer from '@/components/common/ModalContainer'
 
 interface CreateCategoryModalProp {
-  onClose(): any
+  isOpen: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
+const CreateCategoryModal = ({ isOpen, setOpen }: CreateCategoryModalProp) => {
+  const queryClient = useQueryClient()
   const { insertCategory } = useStore((state) => state)
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
 
   const [name, setName] = useState('')
   const [image, setImage] = useState<File | ''>('')
@@ -35,8 +35,9 @@ const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
 
     if (success) {
       insertCategory(data[0])
+      queryClient.invalidateQueries({ queryKey: ['getAllCategories'] })
       toast.success('Category created successfully')
-      onClose()
+      setOpen(false)
     } else if (codeMessage === 'category_already_exist') toast.warn(message)
     else if (codeMessage === 'fields_are_missing') toast.warn(message)
     else if (codeMessage === 'must_be_unimib_email') toast.error(message)
@@ -45,17 +46,8 @@ const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Create Category</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -98,7 +90,7 @@ const CreateCategoryModal = ({ onClose }: CreateCategoryModalProp) => {
         </div>
         <Button className="ml-auto w-max !py-1">Create Category</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

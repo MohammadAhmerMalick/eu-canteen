@@ -43,10 +43,10 @@ const ProfilePage = () => {
   }
 
   useEffect(() => {
-    setName(auth.name)
-    setEmail(auth.email)
-    setWhatsapp(auth.whatsapp)
-    setMatricola(auth.matricola)
+    setName(auth.name || '')
+    setEmail(auth.email || '')
+    setWhatsapp(auth.whatsapp || '')
+    setMatricola(auth.matricola || '')
   }, [auth])
 
   return (

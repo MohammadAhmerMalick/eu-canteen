@@ -15,7 +15,7 @@ export const allowOnlyNumber = (
   const target = event?.currentTarget
   const value = target?.value
 
-  target.value = value.replace(/\D/g, '')
+  target.value = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1')
 }
 
 export const getCookie = (name: string): string => {

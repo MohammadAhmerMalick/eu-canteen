@@ -1,10 +1,22 @@
 'use server'
 
+import { uploadFile } from '@/utils'
 import ProductModel from '@/models/ProductModel'
-// import { storeFileLocally } from '@/utils'
-import productsTable from '@/database/schema/productsSchema'
+import { type Products } from '@/store/slices/productsSlice'
+import type { Product } from '@/database/schema/productsSchema'
 
-const updateProductAction = async (formData: FormData) => {
+type Return = Promise<
+  | {
+      data: Products
+      success: true
+    }
+  | {
+      data: null
+      success: false
+    }
+>
+
+const updateProductAction = async (formData: FormData): Return => {
   try {
     const id = formData.get('id') as string
     const image = formData.get('image') as File
@@ -14,7 +26,7 @@ const updateProductAction = async (formData: FormData) => {
     const categoryId = formData.get('categoryId') as string
     const description = formData.get('description') as string
 
-    const payload: typeof productsTable.$inferInsert = {
+    const payload: Product = {
       id,
       name,
       price,
@@ -25,32 +37,28 @@ const updateProductAction = async (formData: FormData) => {
     }
 
     // store file locally
-    // if (image) {
-    //   const { destinationFileName } = await storeFileLocally(
-    //     image,
-    //     'products/'
-    //   )
-    //   payload.image = destinationFileName
-    // }
+    if (image) {
+      const uploadedImage = await uploadFile(image, 'products/')
 
-    const product = await ProductModel.updateProduct(payload)
+      if (uploadedImage)
+        payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
+    }
+
+    await ProductModel.updateProduct(payload)
+    const [updatedProduct] = await ProductModel.getProduct(id)
 
     console.log({ updateProductAction: 'success' })
 
     return {
       success: true,
-      data: product,
-      message: 'Product updated',
-      codeMessage: 'product_updated',
+      data: updatedProduct,
     }
   } catch (error) {
     console.log({ updateProductAction: error })
 
     return {
+      data: null,
       success: false,
-      data: [],
-      message: 'Unable to update product',
-      codeMessage: 'server_error',
     }
   }
 }

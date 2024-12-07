@@ -16,4 +16,6 @@ const categoriesTable = pgTable('categories', {
   deletedAt: timestamp(),
 })
 
+export type Category = typeof categoriesTable.$inferInsert
+
 export default categoriesTable

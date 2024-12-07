@@ -11,7 +11,7 @@ import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
-import notificationsTable from '@/database/schema/notificationsSchema'
+import type { Notification } from '@/database/schema/notificationsSchema'
 import getNotificationsAction from '@/actions/notification/getNotificationsAction'
 import ViewNotificationModal from '@/components/modals/notification/ViewNotificationModal'
 import SendNotificationModal from '@/components/modals/notification/SendNotificationModal'
@@ -24,10 +24,8 @@ const NotificationsPage = () => {
     (state) => state
   )
 
-  const [isAddModalVisible, setIsAddModalVisible] = useState(false)
-  const [viewModalDate, setViewModalData] = useState<
-    typeof notificationsTable.$inferInsert | null
-  >(null)
+  const [isSendModalVisible, setIsSendModalVisible] = useState(false)
+  const [viewModalDate, setViewModalData] = useState<Notification | null>(null)
 
   const { isPending, error } = useQuery({
     queryKey: ['getNotifications'],
@@ -40,10 +38,8 @@ const NotificationsPage = () => {
   })
 
   const onDelete = async (id: string) => {
-    const formData = new FormData()
-    formData.append('id', id)
+    const { success } = await softDeleteNotificationAction(id)
 
-    const { success } = await softDeleteNotificationAction(formData)
     if (success) {
       deleteNotification(id)
       toast.success('Notification Deleted')
@@ -59,14 +55,15 @@ const NotificationsPage = () => {
     <div>
       {viewModalDate && (
         <ViewNotificationModal
+          isOpen={!!viewModalDate}
           notification={viewModalDate}
-          onClose={() => setViewModalData(null)}
+          setOpen={() => setViewModalData(null)}
         />
       )}
-      {isAddModalVisible && (
-        <SendNotificationModal onClose={() => setIsAddModalVisible(false)} />
-      )}
-
+      <SendNotificationModal
+        isOpen={isSendModalVisible}
+        setOpen={setIsSendModalVisible}
+      />
       <table className="w-full text-sm">
         <thead>
           <tr>
@@ -80,9 +77,9 @@ const NotificationsPage = () => {
             <td className="border-b border-neutral-300 p-2 text-center">
               <Button
                 className="mx-auto flex items-center gap-1 rounded-lg"
-                onPress={() => setIsAddModalVisible(true)}
+                onPress={() => setIsSendModalVisible(true)}
               >
-                <FaPlus /> Send Notification
+                <FaPlus /> Notification
               </Button>
             </td>
           </tr>

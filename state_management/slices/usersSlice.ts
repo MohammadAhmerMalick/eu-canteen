@@ -1,16 +1,16 @@
 import { type StateCreator } from 'zustand'
 
 import { type Store } from '@/store/store'
-import usersTable from '@/database/schema/usersSchema'
+import type { User } from '@/database/schema/usersSchema'
 
 export interface UsersState {
-  users: (typeof usersTable.$inferInsert)[]
+  users: User[]
 }
 
 export type UsersActions = {
   setUsers(users: UsersState['users']): void
-  insertUser(users: typeof usersTable.$inferInsert): void
-  updateUser(users: typeof usersTable.$inferInsert): void
+  insertUser(users: User): void
+  updateUser(users: User): void
   deleteUser(id: string): void
 }
 

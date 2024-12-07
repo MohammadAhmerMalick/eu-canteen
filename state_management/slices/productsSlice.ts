@@ -1,17 +1,24 @@
 import { type StateCreator } from 'zustand'
 
 import { type Store } from '@/store/store'
-import productsTable from '@/database/schema/productsSchema'
+import { type Product } from '@/database/schema/productsSchema'
+import { type Category } from '@/database/schema/categoriesSchema'
+
+export interface Products {
+  products: Product
+  categories: Category | null
+}
 
 export interface ProductsState {
-  products: (typeof productsTable.$inferInsert)[]
+  products: Products[]
 }
 
 export type ProductsActions = {
-  setProducts(products: ProductsState['products']): void
-  insertProduct(product: typeof productsTable.$inferInsert): void
-  updateProduct(product: typeof productsTable.$inferInsert): void
+  setProducts(products: Products[]): void
+  insertProduct(product: Products): void
+  updateProduct(product: Products): void
   deleteProduct(id: string): void
+  updateProductsPublished(order: Products['products']): void
 }
 
 export type ProductsSlice = ProductsState & ProductsActions
@@ -35,11 +42,24 @@ export const createProductsSlice: StateCreator<Store, [], [], ProductsSlice> = (
   updateProduct: async (product) =>
     set((state) => ({
       ...state,
-      products: state.products.map((s) => (s.id === product.id ? product : s)),
+      products: state.products.map((s) =>
+        s.products.id === product.products.id ? product : s
+      ),
     })),
   deleteProduct: async (id) =>
     set((state) => ({
       ...state,
-      products: state.products.filter((s) => s.id !== id),
+      products: state.products.filter((s) => s.products.id !== id),
+    })),
+  updateProductsPublished: async (order) =>
+    set((state) => ({
+      ...state,
+      orders: state.orders.map((s) => ({
+        ...s,
+        orders:
+          s.orders.id === order.id
+            ? { ...s.orders, published: order.published }
+            : s.orders,
+      })),
     })),
 })

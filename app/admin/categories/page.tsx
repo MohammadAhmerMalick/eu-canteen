@@ -8,8 +8,8 @@ import {
   Button as AriaButton,
 } from 'react-aria-components'
 import Image from 'next/image'
-import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
@@ -19,10 +19,11 @@ import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import TableCell from '@/components/common/TableCell'
 import DataError from '@/components/common/DataError'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
-import categoriesTable from '@/database/schema/categoriesSchema'
+import { type Category } from '@/database/schema/categoriesSchema'
 import EditCategoryModal from '@/components/modals/category/EditCategoryModal'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import DeleteCategoryModal from '@/components/modals/category/DeleteCategoryModal'
@@ -33,16 +34,12 @@ const dataErrorMessage = 'Unable to load categories'
 const CategoriesPage = () => {
   const { categories, setCategories } = useStore((state) => state)
 
-  const [editModalData, setEditModalData] = useState<
-    typeof categoriesTable.$inferInsert | null
-  >(null)
-  const [deleteModalData, setDeleteModalData] = useState<
-    typeof categoriesTable.$inferInsert | null
-  >(null)
+  const [editModalData, setEditModalData] = useState<Category | null>(null)
+  const [deleteModalData, setDeleteModalData] = useState<Category | null>(null)
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
 
-  const { isPending, error } = useQuery({
-    queryKey: ['getCategories'],
+  const { isPending, error, refetch } = useQuery({
+    queryKey: ['getAllCategories'],
     queryFn: async () => {
       const { data, success } = await getAllCategoriesAction()
       if (success) setCategories(data)
@@ -50,6 +47,10 @@ const CategoriesPage = () => {
       return data
     },
   })
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   if (isPending) return <Loading />
 
@@ -60,23 +61,26 @@ const CategoriesPage = () => {
       {editModalData && (
         <EditCategoryModal
           category={editModalData}
-          onClose={() => setEditModalData(null)}
+          isOpen={!!editModalData}
+          setOpen={() => setEditModalData(null)}
         />
       )}
       {deleteModalData && (
         <DeleteCategoryModal
           category={deleteModalData}
-          onClose={() => setDeleteModalData(null)}
+          isOpen={!!deleteModalData}
+          setOpen={() => setDeleteModalData(null)}
         />
       )}
-      {isAddModalVisible && (
-        <CreateCategoryModal onClose={() => setIsAddModalVisible(false)} />
-      )}
+      <CreateCategoryModal
+        isOpen={isAddModalVisible}
+        setOpen={setIsAddModalVisible}
+      />
 
       <Table
+        className="w-full"
         aria-label="Categories"
         selectionMode="multiple"
-        className="w-full"
       >
         <TableHeader>
           <TableColumn isRowHeader className="text-left">
@@ -101,7 +105,11 @@ const CategoriesPage = () => {
                     alt={category.name}
                     width={40}
                     height={40}
-                    src={`/images/categories/${category.image}`}
+                    src={
+                      category.image
+                        ? `${assetsBaseUrl}${category.image}`
+                        : '/images/product/p-1.png'
+                    }
                     className={classnames(
                       'rounded-full border-2',
                       category.published

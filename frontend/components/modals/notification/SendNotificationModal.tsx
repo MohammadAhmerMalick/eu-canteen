@@ -1,22 +1,23 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import Textarea from '@/components/common/Textarea'
+import ModalContainer from '@/components/common/ModalContainer'
 import insertNotificationAction from '@/actions/notification/insertNotificationAction'
 
 interface SendNotificationModalProp {
-  onClose(): any
+  isOpen: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const SendNotificationModal = ({ onClose }: SendNotificationModalProp) => {
+const SendNotificationModal = ({
+  isOpen,
+  setOpen,
+}: SendNotificationModalProp) => {
   const { insertNotification } = useStore((state) => state)
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
 
   const [notificationMessage, setMessage] = useState('')
 
@@ -25,31 +26,22 @@ const SendNotificationModal = ({ onClose }: SendNotificationModalProp) => {
 
     const { success, message, codeMessage, data } =
       await insertNotificationAction({
-        message: notificationMessage,
         to: ['general'],
+        message: notificationMessage,
       })
 
     if (success) {
       insertNotification(data[0])
       toast.success('Notification sent successfully')
-      onClose()
+      setOpen(false)
     } else if (codeMessage === 'fields_are_missing') toast.warn(message)
     else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Notification</h1>
         <div className="grid gap-4">
           <Textarea
@@ -64,7 +56,7 @@ const SendNotificationModal = ({ onClose }: SendNotificationModalProp) => {
         </div>
         <Button className="ml-auto w-max !py-1">Send Notification</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

@@ -1,10 +1,10 @@
 import Image from 'next/image'
 
 import { classnames } from '@/utils'
-import productsTable from '@/database/schema/productsSchema'
+import type { Product } from '@/database/schema/productsSchema'
 
 interface ProductCellProps {
-  product: typeof productsTable.$inferInsert
+  product: Product
 }
 
 const ProductCell = ({ product }: ProductCellProps) => {

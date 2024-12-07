@@ -29,4 +29,6 @@ const notificationsTable = pgTable('notifications', {
   deletedAt: timestamp(),
 })
 
+export type Notification = typeof notificationsTable.$inferInsert
+
 export default notificationsTable

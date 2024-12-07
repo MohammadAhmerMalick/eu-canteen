@@ -18,14 +18,24 @@ const insertOrderAction = async ({
 }: InsertOrderActionProps) => {
   const session = await auth()
   const userId = session?.user.id
+  const [user] = await UserModel.getUserById(userId) // user data
 
-  const [product] = await ProductModel.getProduct(productId)
+  const [{ products: product }] = await ProductModel.getProduct(productId) // product data
   const unitPrice = product.price
+
+  const amount = quantity * parseFloat(unitPrice) // net amount
+
+  if (amount > parseFloat(user.credit))
+    return {
+      data: [],
+      success: false,
+      message: 'Low Balance',
+      codeMessage: 'low_balance',
+    }
 
   const date = new Date()
   const dateTime = `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`
 
-  const amount = quantity * parseFloat(unitPrice)
   const [transaction] = await TransactionModel.createTransaction({
     userId,
     productId: product.id,
@@ -33,8 +43,6 @@ const insertOrderAction = async ({
     description: `${product.name} ordered on ${dateTime}`,
     amount: amount.toFixed(4),
   })
-
-  const [user] = await UserModel.getUserById(userId)
 
   const updatedCredit = (parseFloat(user.credit) - amount).toFixed(4)
   await UserModel.updateUserCredit(userId, updatedCredit)

@@ -18,10 +18,7 @@ type Return = Promise<
     }
 >
 
-const updateUsersApprovedStateAction = async ({
-  ids,
-  approved,
-}: Props): Return => {
+const updateUsersApprovedAction = async ({ ids, approved }: Props): Return => {
   try {
     const session = await auth()
 
@@ -37,16 +34,16 @@ const updateUsersApprovedStateAction = async ({
         success: false,
       }
 
-    const updatedUser = await UserModel.updateUsersApprovedState(ids, approved)
+    const updatedUser = await UserModel.updateUsersApproved(ids, approved)
 
-    console.log({ updateUsersApprovedStateAction: 'success' })
+    console.log({ updateUsersApprovedAction: 'success' })
 
     return {
       data: updatedUser,
       success: true,
     }
   } catch (error) {
-    console.log({ updateUsersApprovedStateAction: error })
+    console.log({ updateUsersApprovedAction: error })
 
     return {
       data: null,
@@ -55,4 +52,4 @@ const updateUsersApprovedStateAction = async ({
   }
 }
 
-export default updateUsersApprovedStateAction
+export default updateUsersApprovedAction

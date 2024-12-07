@@ -1,31 +1,30 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
-import { classnames } from '@/utils'
-import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
-import usersTable from '@/database/schema/usersSchema'
 import updateUserAction from '@/actions/updateUserAction'
+import type { User } from '@/database/schema/usersSchema'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import ModalContainer from '@/components/common/ModalContainer'
 
 interface EditUserModalProp {
-  onClose(): any
-  student: typeof usersTable.$inferInsert
+  student: User
+  isOpen: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
-  const { updateUser } = useStore((state) => state)
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
+const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
+  const queryClient = useQueryClient()
 
   const [password, setPassword] = useState('')
   const [name, setName] = useState(student.name)
   const [image, setImage] = useState<File | ''>('')
   const [email, setEmail] = useState(student.email)
+  const [credit, setCredit] = useState(student.credit || '')
   const [whatsapp, setWhatsapp] = useState(student.whatsapp)
   const [matricola, setMatricola] = useState(student.matricola)
   const [approved, setApproved] = useState(!!student.approved)
@@ -38,34 +37,24 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
     formData.append('name', name)
     formData.append('email', email)
     formData.append('image', image)
+    formData.append('credit', credit)
     formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
     formData.append('approved', approved ? 'approved' : '')
 
-    const { success, message, codeMessage, data } =
-      await updateUserAction(formData)
+    const { success } = await updateUserAction(formData)
     if (success) {
-      updateUser(data[0])
+      queryClient.invalidateQueries({ queryKey: ['getAllStudents'] })
       toast.success('Student updated')
-      onClose()
-    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
+      setOpen(false)
+    } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Update User</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -86,6 +75,15 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
             onChange={({ value }) => setEmail(value)}
             labelClassName="text-sm"
             placeholder="email@campus.unimib.it"
+          />
+          <Input
+            onlyNumber
+            id="credit"
+            value={credit}
+            placeholder="123"
+            labelText="Credit"
+            labelClassName="text-sm"
+            onChange={({ value }) => setCredit(value)}
           />
           <Input
             isRequired
@@ -177,7 +175,7 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
         </div>
         <Button className="ml-auto w-max !py-1">Update User</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

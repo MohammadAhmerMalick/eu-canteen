@@ -2,7 +2,7 @@
 
 import { uploadFile } from '@/utils'
 import UserModel from '@/models/UserModel'
-import usersTable from '@/database/schema/usersSchema'
+import type { User } from '@/database/schema/usersSchema'
 
 const insertUserAction = async (formData: FormData) => {
   const name = formData.get('name') as string
@@ -29,7 +29,7 @@ const insertUserAction = async (formData: FormData) => {
     }
 
   // if user exists
-  const user = await UserModel.getUserByEmail(email)
+  const user = await UserModel.getUserByEmailOrMatricola(email, matricola)
   if (user.length)
     return {
       data: [],
@@ -38,7 +38,7 @@ const insertUserAction = async (formData: FormData) => {
       codeMessage: 'user_already_exist',
     }
 
-  const payload: typeof usersTable.$inferInsert = {
+  const payload: User = {
     name,
     email,
     whatsapp,

@@ -3,9 +3,9 @@ const productsData = (ids: { id: string }[]) =>
     .fill(0)
     .map(() => ({
       name: 'Chinese Yakisbo ',
-      image: 'p-1.png',
+      image: '',
       description:
-        'Lorem ipsum dolor sit amet consectetur. Nisl ipsum sit erat auctor mi tristique .',
+        'Lorem ipsum dolor sit amet consectetur. Nisl ipsum sit erat auctor mi tristique.',
       price: '12.00',
       categoryId: ids[0].id,
     }))

@@ -9,8 +9,8 @@ import {
   Button as AriaButton,
 } from 'react-aria-components'
 import Image from 'next/image'
-import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
@@ -24,71 +24,68 @@ import MenuItem from '@/components/common/MenuItem'
 import EuroChip from '@/components/common/EuroChip'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
-import usersTable from '@/database/schema/usersSchema'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
+import type { User } from '@/database/schema/usersSchema'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
-import getStudentsAction from '@/actions/getStudentsAction'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
+import getAllStudentsAction from '@/actions/getAllStudentsAction'
 import EditUserModal from '@/components/modals/user/EditUserModal'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
-import updateUsersApprovedStateAction from '@/actions/user/updateUsersApprovedStateAction'
+import updateUsersPublishedAction from '@/actions/user/updateUsersPublishedAction'
 
 const dataErrorMessage = 'Unable to load users'
 
-const orderStatusOptions = [
+const studentPublishOptions = [
   {
-    id: 'approved',
-    name: 'Approved',
+    id: 'published',
+    name: 'Active',
   },
   {
-    id: 'pending',
-    name: 'Pending',
+    id: '',
+    name: 'Inactive',
   },
 ]
 
 const StudentsPage = () => {
-  const { users, setUsers, updateUser } = useStore((state) => state)
+  const { users, setUsers } = useStore((state) => state)
 
-  const [editModalData, setEditModalData] = useState<
-    typeof usersTable.$inferInsert | null
-  >(null)
-  const [deleteModalData, setDeleteModalData] = useState<
-    typeof usersTable.$inferInsert | null
-  >(null)
-  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false)
+  const [editModalData, setEditModalData] = useState<User | null>(null)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
+  const [deleteModalData, setDeleteModalData] = useState<User | null>(null)
 
-  const { isPending, error } = useQuery({
-    queryKey: ['getStudents'],
+  const { isPending, error, refetch } = useQuery({
+    queryKey: ['getAllStudents'],
     queryFn: async () => {
-      const { data, success } = await getStudentsAction()
+      const { data, success } = await getAllStudentsAction()
       if (success) setUsers(data)
       else toast.error(dataErrorMessage)
       return data
     },
   })
 
-  const bulkAction = (isApproved: string) => {
-    const approved = isApproved === 'approved'
-
+  const bulkAction = (isPublished: string) => {
     const updatedUsers = users.filter(
       ({ id }) => [...selectedKeys].includes(id || '') || selectedKeys === 'all'
     )
 
-    const updatedUserIds = updatedUsers.map((u) => {
-      updateUser({ ...u, approved })
-      return u.id || ''
+    const updatedUserIds = updatedUsers.map((u) => u.id || '')
+
+    updateUsersPublishedAction({
+      ids: updatedUserIds,
+      published: !!isPublished,
     })
 
-    updateUsersApprovedStateAction({
-      ids: updatedUserIds,
-      approved,
-    })
+    refetch()
 
     setSelectedKeys(new Set())
   }
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   if (isPending) return <Loading />
 
@@ -99,26 +96,29 @@ const StudentsPage = () => {
       {editModalData && (
         <EditUserModal
           student={editModalData}
-          onClose={() => setEditModalData(null)}
+          isOpen={!!editModalData}
+          setOpen={() => setEditModalData(null)}
         />
       )}
       {deleteModalData && (
         <DeleteUserModal
           student={deleteModalData}
-          onClose={() => setDeleteModalData(null)}
+          isOpen={!!deleteModalData}
+          setOpen={() => setDeleteModalData(null)}
         />
       )}
-      {isAddUserModalVisible && (
-        <CreateUserModal onClose={() => setIsAddUserModalVisible(false)} />
-      )}
+      <CreateUserModal
+        isOpen={isAddModalVisible}
+        setOpen={setIsAddModalVisible}
+      />
 
       <Table
+        className="w-full"
         aria-label="Orders"
         selectionMode="multiple"
-        className="w-full"
-        onRowAction={(e) => console.log(e)}
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
+        onRowAction={(e) => console.log(e)}
       >
         <TableHeader>
           <TableColumn>
@@ -128,7 +128,7 @@ const StudentsPage = () => {
             <div className="flex items-center gap-4">
               {[...selectedKeys].length ? (
                 <MenuPopup>
-                  {orderStatusOptions.map(({ id, name }) => (
+                  {studentPublishOptions.map(({ id, name }) => (
                     <MenuItem key={id} onAction={() => bulkAction(id)}>
                       {name}
                     </MenuItem>
@@ -148,66 +148,68 @@ const StudentsPage = () => {
           <TableColumn>
             <Button
               className="ml-auto flex items-center gap-1 rounded-lg"
-              onPress={() => setIsAddUserModalVisible(true)}
+              onPress={() => setIsAddModalVisible(true)}
             >
               <FaPlus /> Student
             </Button>
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
-            <Row key={user.id} id={user.id}>
-              <TableCell className="text-center">
-                <Checkbox slot="selection" />
-              </TableCell>
-              <TableCell>
-                <div className="grid grid-cols-[40px_auto] items-center gap-2">
-                  <Image
-                    alt={user.name}
-                    width={40}
-                    height={40}
-                    src={
-                      user.image
-                        ? `${assetsBaseUrl}${user.image}`
-                        : '/images/students/s-1.png'
-                    }
-                    className={classnames(
-                      'rounded-full border-2',
-                      user.approved ? 'border-primary' : 'border-neutral-400'
-                    )}
-                  />
-                  {user.name}
-                </div>
-              </TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell> {user.whatsapp}</TableCell>
-              <TableCell className="text-center">{user.matricola}</TableCell>
-              <TableCell className="text-center">
-                <EuroChip amount={user.credit} />
-              </TableCell>
-              <TableCell className="text-center">
-                {user.approved ? (
-                  <p className="text-green-700">Active</p>
-                ) : (
-                  <p className="text-red-700">Inactive</p>
-                )}
-              </TableCell>
-              <TableCell className="text-right">
-                <AriaButton
-                  onPress={() => setEditModalData(user)}
-                  className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
-                >
-                  <AiOutlineEdit />
-                </AriaButton>
-                <AriaButton
-                  onPress={() => setDeleteModalData(user)}
-                  className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
-                >
-                  <AiOutlineDelete />
-                </AriaButton>
-              </TableCell>
-            </Row>
-          ))}
+          {users
+            .filter((user) => user.approved)
+            .map((user) => (
+              <Row key={user.id} id={user.id}>
+                <TableCell className="text-center">
+                  <Checkbox slot="selection" />
+                </TableCell>
+                <TableCell>
+                  <div className="grid grid-cols-[40px_auto] items-center gap-2">
+                    <Image
+                      alt={user.name}
+                      width={40}
+                      height={40}
+                      src={
+                        user.image
+                          ? `${assetsBaseUrl}${user.image}`
+                          : '/images/students/s-1.png'
+                      }
+                      className={classnames(
+                        'rounded-full border-2',
+                        user.published ? 'border-primary' : 'border-neutral-400'
+                      )}
+                    />
+                    {user.name}
+                  </div>
+                </TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell> {user.whatsapp}</TableCell>
+                <TableCell className="text-center">{user.matricola}</TableCell>
+                <TableCell className="text-center">
+                  <EuroChip amount={user.credit} />
+                </TableCell>
+                <TableCell className="text-center">
+                  {user.published ? (
+                    <p className="text-green-700">Active</p>
+                  ) : (
+                    <p className="text-red-700">Inactive</p>
+                  )}
+                </TableCell>
+                <TableCell className="text-right">
+                  <AriaButton
+                    onPress={() => setEditModalData(user)}
+                    className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
+                  >
+                    <AiOutlineEdit />
+                  </AriaButton>
+                  <AriaButton
+                    onPress={() => setDeleteModalData(user)}
+                    className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
+                  >
+                    <AiOutlineDelete />
+                  </AriaButton>
+                </TableCell>
+              </Row>
+            ))}
         </TableBody>
       </Table>
     </div>

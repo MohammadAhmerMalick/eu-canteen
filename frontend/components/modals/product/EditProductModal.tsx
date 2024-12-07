@@ -1,29 +1,30 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Select from '@/components/common/select'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import Textarea from '@/components/common/Textarea'
-import productsTable from '@/database/schema/productsSchema'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import ModalContainer from '@/components/common/ModalContainer'
+import type { Product } from '@/database/schema/productsSchema'
 import updateProductAction from '@/actions/product/updateProductAction'
 
 interface EditProductModalProp {
-  onClose(): any
-  product: typeof productsTable.$inferInsert
+  isOpen: boolean
+  product: Product
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
-  const { categories } = useStore((state) => state)
-  const { updateProduct } = useStore((state) => state)
-
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
+const EditProductModal = ({
+  isOpen,
+  setOpen,
+  product,
+}: EditProductModalProp) => {
+  const { categories, updateProduct } = useStore((state) => state)
 
   const [name, setName] = useState(product.name)
   const [categoryId, setCategory] = useState(product.categoryId)
@@ -44,29 +45,17 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
     formData.append('description', description)
     formData.append('published', published ? 'published' : '')
 
-    const { success, message, codeMessage, data } =
-      await updateProductAction(formData)
+    const { success, data } = await updateProductAction(formData)
     if (success) {
-      updateProduct(data[0])
+      updateProduct(data)
       toast.success('Product updated')
-      onClose()
-    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
-      toast.error('Unable to handle request right now, please contact to admin')
+      setOpen(false)
+    } else toast.error('Unable to handle request right now')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Update Product</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -170,7 +159,7 @@ const EditProductModal = ({ onClose, product }: EditProductModalProp) => {
 
         <Button className="ml-auto w-max !py-1">Update Product</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

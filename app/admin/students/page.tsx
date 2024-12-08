@@ -113,9 +113,9 @@ const StudentsPage = () => {
       />
 
       <Table
-        className="w-full"
         aria-label="Orders"
         selectionMode="multiple"
+        className="w-full text-sm"
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
         onRowAction={(e) => console.log(e)}

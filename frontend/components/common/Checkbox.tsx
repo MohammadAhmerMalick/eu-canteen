@@ -10,7 +10,7 @@ const Checkbox = ({ children, className, ...props }: CheckboxProps) => {
         <>
           <div
             className={classnames(
-              'flex size-6 items-center justify-center rounded-lg border-2 border-primary text-xs text-primary',
+              'flex size-5 items-center justify-center rounded-lg border-2 border-primary text-xs text-primary',
               className
             )}
           >

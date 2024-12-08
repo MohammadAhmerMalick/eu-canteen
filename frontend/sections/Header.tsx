@@ -10,7 +10,7 @@ import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 
 export const adminMenuOptions = [
-  { link: '/admin/dashboard', name: 'Dashboard' },
+  { link: '/admin', name: 'Dashboard' },
   { link: '/admin/orders', name: 'Orders' },
 ]
 

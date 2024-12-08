@@ -1,5 +1,5 @@
 import { alias } from 'drizzle-orm/pg-core'
-import { and, eq, inArray } from 'drizzle-orm'
+import { and, desc, eq, inArray } from 'drizzle-orm'
 
 import db from '@/database/index'
 import usersTableSchema from '@/database/schema/usersSchema'
@@ -24,6 +24,7 @@ class OrderModel {
         eq(transactionsTable.id, ordersTable.transactionId)
       )
       .where(eq(ordersTable.published, true))
+      .orderBy(desc(ordersTable.createdAt), usersTable.name)
 
   static getOrdersByUserId = (userId: string) =>
     db
@@ -51,21 +52,22 @@ class OrderModel {
       )
       .where(and(eq(ordersTable.published, true), eq(ordersTable.id, id)))
 
-  static getAllOrders = () => db.select().from(ordersTable)
-
   static createOrder = (order: Order) =>
-    db.insert(ordersTable).values(order).returning({ id: ordersTable.id })
+    db
+      .insert(ordersTableSchema)
+      .values(order)
+      .returning({ id: ordersTableSchema.id })
 
   static updateOrdersStatus = (ids: string[], status: Order['status']) =>
     db
-      .update(ordersTable)
+      .update(ordersTableSchema)
       .set({
         status,
       })
       .returning({
-        id: ordersTable.id,
+        id: ordersTableSchema.id,
       })
-      .where(inArray(ordersTable.id, ids))
+      .where(inArray(ordersTableSchema.id, ids))
 }
 
 export default OrderModel

@@ -6,9 +6,14 @@ import {
   TableBody,
   TableHeader,
   type Selection,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  type Key,
 } from 'react-aria-components'
-import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
@@ -26,6 +31,9 @@ import getOrdersAction from '@/actions/orders/getOrderssAction'
 import StudentCellWidget from '@/components/widgets/StudentCellWidget'
 import ProductCellWidget from '@/components/widgets/ProductCellWidget'
 import updateOrdersStatusAction from '@/actions/orders/updateOrdersStatusAction'
+import orders from '@/database/data/ordersSampleData'
+import { classnames } from '@/utils'
+import Image from 'next/image'
 
 const dataErrorMessage = 'Unable to load orders'
 
@@ -49,18 +57,25 @@ const orderStatusOptions = [
 ]
 
 const OrdersPage = () => {
-  const { orders, setOrders, updateOrdersStatus } = useStore((state) => state)
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
+  const {
+    //  orders,
+    setOrders,
+    updateOrdersStatus,
+  } = useStore((state) => state)
 
-  const { isPending, error } = useQuery({
-    queryKey: ['getOrders'],
-    queryFn: async () => {
-      const { data, success } = await getOrdersAction()
-      if (success) setOrders(data)
-      else toast.error(dataErrorMessage)
-      return data
-    },
-  })
+  console.log({ orders })
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
+  const [tabId, setTabId] = useState<Key>('')
+
+  // const { isPending, error } = useQuery({
+  //   queryKey: ['getOrders'],
+  //   queryFn: async () => {
+  //     const { data, success } = await getOrdersAction()
+  //     if (success) setOrders(data)
+  //     else toast.error(dataErrorMessage)
+  //     return data
+  //   },
+  // })
 
   const onOrderStatusChange = (order: OrderSlice['order'], status: string) => {
     updateOrdersStatus({ ...order, id: order.id || '', status })
@@ -68,38 +83,162 @@ const OrdersPage = () => {
   }
 
   const bulkAction = (status: string) => {
-    const updatedOrders = orders.filter(
-      ({ order }) =>
-        [...selectedKeys].includes(order.id || '') || selectedKeys === 'all'
-    )
-
-    updatedOrders.map(({ order }) =>
-      updateOrdersStatus({ ...order, id: order.id || '', status })
-    )
-
-    const updatedOrdersIds = updatedOrders
-      .map((o) => o.order.id || '')
-      .filter((x) => x)
-
-    updateOrdersStatusAction({
-      ids: updatedOrdersIds,
-      status,
-    })
-
-    setSelectedKeys(new Set())
+    // const updatedOrders = orders.filter(
+    //   ({ order }) =>
+    //     [...selectedKeys].includes(order.id || '') || selectedKeys === 'all'
+    // )
+    // updatedOrders.map(({ order }) =>
+    //   updateOrdersStatus({ ...order, id: order.id || '', status })
+    // )
+    // const updatedOrdersIds = updatedOrders
+    //   .map((o) => o.order.id || '')
+    //   .filter((x) => x)
+    // updateOrdersStatusAction({
+    //   ids: updatedOrdersIds,
+    //   status,
+    // })
+    // setSelectedKeys(new Set())
   }
 
-  if (isPending) return <Loading />
+  const groupByDate = useMemo(
+    () =>
+      orders.reduce(
+        (
+          group: {
+            [key: string]: {
+              [userId: string]: OrderSlice[]
+            }
+          },
+          orderSlice
+        ) => {
+          const { userId, createdAt } = orderSlice.order
+          if (userId) {
+            const date = new Date(createdAt)
+            const key = date.toLocaleDateString()
 
-  if (error) return <DataError error={error} message={dataErrorMessage} />
+            if (!group[key]) group[key] = {}
+            if (!group[key][userId]) group[key][userId] = []
+
+            group[key][userId].push(orderSlice)
+          }
+
+          return group
+        },
+        {}
+      ),
+    [orders]
+  )
+
+  console.log({ groupByDate })
+  useEffect(() => {
+    const date = new Date(orders[0].order.createdAt || '')
+    const key = date.toLocaleDateString()
+
+    setTabId(key)
+  }, [orders])
+
+  // console.log({ groupByDate })
+  // console.log({ tabId })
+  // console.log({ x: Object.keys(groupByDate[tabId] || []) })
+
+  // if (isPending) return <Loading />
+
+  // if (error) return <DataError error={error} message={dataErrorMessage} />
+
+  Object.keys(groupByDate[tabId] || []).map(
+    (key: keyof (typeof groupByDate)[typeof tabId]) => {
+      console.log({ tabId })
+      return key
+    }
+  )
 
   return (
     <div>
+      <Tabs onSelectionChange={setTabId}>
+        <TabList
+          aria-label="Orders"
+          className="neutral- mb-4 flex flex-wrap gap-2 border-b-2 text-sm"
+        >
+          {Object.keys(groupByDate).map((key: string) => (
+            <Tab
+              id={key}
+              key={key}
+              className={classnames(
+                'inline-block cursor-pointer rounded-t-lg px-3 py-2',
+                tabId === key
+                  ? 'bg-primary-light text-primary'
+                  : 'bg-transparent'
+              )}
+            >
+              {key}
+            </Tab>
+          ))}
+        </TabList>
+
+        {Object.keys(groupByDate).map((key: string) => (
+          <TabPanel id={key} key={key}>
+            <Table
+              aria-label="Orders"
+              onRowAction={() => {}}
+              selectionMode="multiple"
+              className="w-full text-sm"
+              selectedKeys={selectedKeys}
+              onSelectionChange={setSelectedKeys}
+            >
+              <TableHeader>
+                <TableColumn isRowHeader>Student</TableColumn>
+                <TableColumn>Status</TableColumn>
+              </TableHeader>
+
+              <TableBody>
+                {Object.values(groupByDate[key]).map((sliceOrders) => (
+                  <Row key={sliceOrders?.[0]?.user?.id || ''}>
+                    <TableCell>
+                      {sliceOrders[0].user && (
+                        <StudentCellWidget student={sliceOrders[0].user} />
+                      )}
+                    </TableCell>
+                    <TableCell className="relative">
+                      <div className="flex pl-7">
+                        {sliceOrders.map(
+                          ({ product, order }) =>
+                            product && (
+                              <Image
+                                key={order.id}
+                                alt={product.name}
+                                width={52}
+                                height={52}
+                                src="/images/products/p-1.png"
+                                className={classnames(
+                                  '-ml-8 rounded-full border-2',
+                                  product.published
+                                    ? 'border-primary'
+                                    : 'border-neutral-400'
+                                )}
+                              />
+                            )
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {sliceOrders[0].user.id}
+                      {/* <br />k {userId} */}
+                      <br />
+                      {/* {groupByDate?.[tabId]?.[userId]?.[0].user?.email} */}
+                    </TableCell>
+                  </Row>
+                ))}
+              </TableBody>
+            </Table>
+          </TabPanel>
+        ))}
+      </Tabs>
+
       <Table
-        className="w-full"
         aria-label="Orders"
         onRowAction={() => {}}
         selectionMode="multiple"
+        className="w-full text-sm"
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
       >

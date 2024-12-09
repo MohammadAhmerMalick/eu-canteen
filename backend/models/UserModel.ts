@@ -1,4 +1,4 @@
-import { eq, getTableColumns, inArray, or } from 'drizzle-orm'
+import { and, eq, getTableColumns, inArray, or } from 'drizzle-orm'
 
 import db from '@/database/index'
 import usersTable from '@/database/schema/usersSchema'
@@ -64,6 +64,20 @@ class UserModel {
         id: usersTable.id,
       })
       .where(inArray(usersTable.id, ids))
-}
 
+  static getActiveCredits = () =>
+    db
+      .select({
+        id: usersTable.id,
+        credit: usersTable.credit,
+      })
+      .from(usersTable)
+      .where(
+        and(
+          eq(usersTable.approved, true),
+          eq(usersTable.published, true),
+          eq(usersTable.roleName, 'student')
+        )
+      )
+}
 export default UserModel

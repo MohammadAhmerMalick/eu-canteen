@@ -5,6 +5,7 @@ import type { Dispatch, SetStateAction } from 'react'
 
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import AiOutlinePlus from '@/components/icons/AiOutlinePlus'
 import AiOutlineMinus from '@/components/icons/AiOutlineMinus'
 import type { Product } from '@/database/schema/productsSchema'
@@ -82,7 +83,11 @@ const CreateCheckoutModal = ({
                 height={50}
                 alt={product.name}
                 className="size-11"
-                src={`/images/products/${product.image}`}
+                src={
+                  product.image
+                    ? `${assetsBaseUrl}${product.image}`
+                    : '/images/product/p-1.png'
+                }
               />
             </div>
             <div className="flex items-center justify-between p-2 text-sm">

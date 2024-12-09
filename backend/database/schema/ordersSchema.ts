@@ -46,4 +46,6 @@ const ordersTable = pgTable('orders', {
   deletedAt: timestamp(),
 })
 
+export type Order = typeof ordersTable.$inferInsert
+
 export default ordersTable

@@ -18,7 +18,7 @@ export type ProductsActions = {
   insertProduct(product: Products): void
   updateProduct(product: Products): void
   deleteProduct(id: string): void
-  updateProductsPublished(order: Products['products']): void
+  updateProductsPublished(product: Products['products']): void
 }
 
 export type ProductsSlice = ProductsState & ProductsActions
@@ -54,12 +54,12 @@ export const createProductsSlice: StateCreator<Store, [], [], ProductsSlice> = (
   updateProductsPublished: async (order) =>
     set((state) => ({
       ...state,
-      orders: state.orders.map((s) => ({
+      products: state.products.map((s) => ({
         ...s,
-        orders:
-          s.orders.id === order.id
-            ? { ...s.orders, published: order.published }
-            : s.orders,
+        products:
+          s.products.id === order.id
+            ? { ...s.products, published: order.published }
+            : s.products,
       })),
     })),
 })

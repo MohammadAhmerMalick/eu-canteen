@@ -2,13 +2,13 @@
 
 import { auth } from '@/auth'
 import OrderModel from '@/models/OrderModel'
-import { type Orders } from '@/store/slices/ordersSlice'
+import { type OrderSlice } from '@/store/slices/ordersSlice'
 
 const getOrdersAction = async () => {
   try {
     const session = await auth()
 
-    let orders: Orders[] = []
+    let orders: OrderSlice[] = []
 
     if (session?.user.role === 'admin') orders = await OrderModel.getOrders()
 

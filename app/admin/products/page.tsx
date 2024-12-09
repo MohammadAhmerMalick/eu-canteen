@@ -120,7 +120,7 @@ const ProductsPage = () => {
       <Table
         aria-label="Orders"
         selectionMode="multiple"
-        className="w-full"
+        className="w-full text-sm"
         onRowAction={(e) => console.log(e)}
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}

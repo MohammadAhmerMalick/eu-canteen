@@ -29,8 +29,8 @@ import type { User } from '@/database/schema/usersSchema'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
-import getAllStudentsAction from '@/actions/getAllStudentsAction'
 import EditUserModal from '@/components/modals/user/EditUserModal'
+import getAllStudentsAction from '@/actions/user/getAllStudentsAction'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
 import updateUsersApprovedAction from '@/actions/user/updateUsersApprovedAction'
@@ -114,7 +114,7 @@ const StudentsPage = () => {
       <Table
         aria-label="Orders"
         selectionMode="multiple"
-        className="w-full"
+        className="w-full text-sm"
         onRowAction={(e) => console.log(e)}
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}

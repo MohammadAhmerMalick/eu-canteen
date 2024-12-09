@@ -35,3 +35,12 @@ export const uploadFile = async (file: File, folder?: string) => {
   const { name, imagePath } = await storeFileLocally(file)
   return uploadToCloudinay({ name, imagePath, folder })
 }
+
+export const randomFromArray = (array: { [any: string]: any }) =>
+  array[Math.floor(Math.random() * array.length)]
+
+export const getRandomDate = (from: Date, to: Date) => {
+  const fromTime = from.getTime()
+  const toTime = to.getTime()
+  return new Date(fromTime + Math.random() * (toTime - fromTime))
+}

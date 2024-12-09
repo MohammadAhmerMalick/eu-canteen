@@ -5,8 +5,8 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
-import insertUserAction from '@/actions/insertUserAction'
 import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
+import insertUserAction from '@/actions/user/insertUserAction'
 import ModalContainer from '@/components/common/ModalContainer'
 import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 

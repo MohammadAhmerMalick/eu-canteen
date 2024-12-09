@@ -78,9 +78,9 @@ const CategoriesPage = () => {
       />
 
       <Table
-        className="w-full"
         aria-label="Categories"
         selectionMode="multiple"
+        className="w-full text-sm"
       >
         <TableHeader>
           <TableColumn isRowHeader className="text-left">

@@ -33,7 +33,7 @@ import ProductCellWidget from '@/components/widgets/ProductCellWidget'
 import updateOrdersStatusAction from '@/actions/orders/updateOrdersStatusAction'
 import orders from '@/database/data/ordersSampleData'
 import { classnames } from '@/utils'
-import Image from 'next/image'
+import Chip from '@/components/common/Chip'
 
 const dataErrorMessage = 'Unable to load orders'
 
@@ -63,7 +63,6 @@ const OrdersPage = () => {
     updateOrdersStatus,
   } = useStore((state) => state)
 
-  console.log({ orders })
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
   const [tabId, setTabId] = useState<Key>('')
 
@@ -129,7 +128,6 @@ const OrdersPage = () => {
     [orders]
   )
 
-  console.log({ groupByDate })
   useEffect(() => {
     const date = new Date(orders[0].order.createdAt || '')
     const key = date.toLocaleDateString()
@@ -144,13 +142,6 @@ const OrdersPage = () => {
   // if (isPending) return <Loading />
 
   // if (error) return <DataError error={error} message={dataErrorMessage} />
-
-  Object.keys(groupByDate[tabId] || []).map(
-    (key: keyof (typeof groupByDate)[typeof tabId]) => {
-      console.log({ tabId })
-      return key
-    }
-  )
 
   return (
     <div>
@@ -186,8 +177,12 @@ const OrdersPage = () => {
               onSelectionChange={setSelectedKeys}
             >
               <TableHeader>
-                <TableColumn isRowHeader>Student</TableColumn>
-                <TableColumn>Status</TableColumn>
+                <TableColumn className="text-left" isRowHeader>
+                  Student
+                </TableColumn>
+                <TableColumn className="text-left">Products</TableColumn>
+                <TableColumn className="text-left">Count</TableColumn>
+                <TableColumn className="text-left">Price</TableColumn>
               </TableHeader>
 
               <TableBody>
@@ -198,7 +193,20 @@ const OrdersPage = () => {
                         <StudentCellWidget student={sliceOrders[0].user} />
                       )}
                     </TableCell>
-                    <TableCell className="relative">
+                    <TableCell>
+                      <div className="flex max-h-20 flex-wrap gap-2 overflow-hidden">
+                        {sliceOrders.map(
+                          ({ product, order }) =>
+                            product && (
+                              <Chip key={order.id}>{product.name}</Chip>
+                            )
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {sliceOrders.length}
+                    </TableCell>
+                    {/* <TableCell className="relative">
                       <div className="flex pl-7">
                         {sliceOrders.map(
                           ({ product, order }) =>
@@ -219,12 +227,17 @@ const OrdersPage = () => {
                             )
                         )}
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      {sliceOrders[0].user.id}
-                      {/* <br />k {userId} */}
-                      <br />
-                      {/* {groupByDate?.[tabId]?.[userId]?.[0].user?.email} */}
+                    </TableCell> */}
+                    <TableCell className="text-center">
+                      <EuroChip
+                        amount={sliceOrders
+                          .reduce(
+                            (a, { transaction }) =>
+                              Number(a) + Number(transaction?.amount),
+                            0
+                          )
+                          .toString()}
+                      />
                     </TableCell>
                   </Row>
                 ))}

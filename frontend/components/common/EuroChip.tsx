@@ -1,15 +1,11 @@
-import React from 'react'
+import Chip from '@/components/common/Chip'
 
 interface EuroChipPorps {
   amount: string | undefined
 }
 
 const EuroChip = ({ amount = '0' }: EuroChipPorps) => {
-  return (
-    <span className="rounded-lg bg-primary-light p-2 text-primary">
-      €{parseFloat(amount).toFixed(2)}
-    </span>
-  )
+  return <Chip>€{parseFloat(amount).toFixed(2)}</Chip>
 }
 
 export default EuroChip

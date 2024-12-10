@@ -24,7 +24,7 @@ const insertProductAction = async (formData: FormData): Return => {
     const categoryId = formData.get('categoryId') as string
     const description = formData.get('description') as string
 
-    if (!name || !image || price)
+    if (!(name && image && price))
       return {
         data: null,
         success: false,

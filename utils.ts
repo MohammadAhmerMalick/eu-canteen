@@ -44,3 +44,8 @@ export const getRandomDate = (from: Date, to: Date) => {
   const toTime = to.getTime()
   return new Date(fromTime + Math.random() * (toTime - fromTime))
 }
+
+export const CONSTANTS = {
+  PRIMARY: '#FF7800',
+  PRIMARY_LIGHT: '#FEE9DE',
+}

@@ -9,13 +9,13 @@ import { classnames } from '@/utils'
 import Header from '@/sections/Header'
 import Footer from '@/sections/Footer'
 import { useStore } from '@/store/provider'
-import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
+import ProductCard from '@/components/ProductCard'
 import DataError from '@/components/common/DataError'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 import type { Product } from '@/database/schema/productsSchema'
 import { type Category } from '@/database/schema/categoriesSchema'
-import getAllProductsAction from '@/actions/product/getAllProductsAction'
+import getProductsAction from '@/actions/product/getProductsAction'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import CreateCheckoutModal from '@/components/modals/product/CreateCheckoutModal'
 
@@ -33,7 +33,7 @@ const ProductPage = () => {
   const { isPending, error } = useQuery({
     queryKey: ['getProducts'],
     queryFn: async () => {
-      const { data, success } = await getAllProductsAction()
+      const { data, success } = await getProductsAction()
       if (success) setProducts(data)
       else toast.error(dataErrorMessage)
       return data
@@ -120,36 +120,11 @@ const ProductPage = () => {
                   category?.id === activeCategory?.id
               )
               .map(({ products: product }) => (
-                <div
+                <ProductCard
+                  product={product}
+                  onPress={() => setCheckoutModalData(product)}
                   key={product.id}
-                  className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-sm duration-300 hover:shadow-lg"
-                >
-                  <div className="rounded-3xl bg-primary-light p-2 shadow">
-                    <Image
-                      width={140}
-                      height={112}
-                      alt="PRIMI €5"
-                      className="m-auto max-h-28 object-contain"
-                      src="/images/products/p-1.png"
-                    />
-                  </div>
-
-                  <div className="grid gap-1 px-6">
-                    <h2 className="text-xl font-semibold">Fried Noodles</h2>
-                    <p className="text-sm">
-                      Mezze manic he al ragu Pasta al ragu
-                    </p>
-                    <span className="text-2xl">
-                      €{Number(product.price).toFixed(2)}
-                    </span>
-                  </div>
-                  <Button
-                    className="mx-2 mb-2 rounded-b-3xl rounded-t-md"
-                    onPress={() => setCheckoutModalData(product)}
-                  >
-                    Buy Now
-                  </Button>
-                </div>
+                />
               ))}
           </div>
         </section>

@@ -7,8 +7,8 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
-import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
+import ProductCard from '@/components/ProductCard'
 import DataError from '@/components/common/DataError'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 import type { Product } from '@/database/schema/productsSchema'
@@ -97,36 +97,11 @@ const MenuPage = () => {
                 product.categoryId === activeCategory?.id
             )
             .map(({ products: product }) => (
-              <div
+              <ProductCard
                 key={product.id}
-                className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-lg duration-300"
-              >
-                <div className="rounded-3xl bg-primary-light p-2 shadow">
-                  <Image
-                    width={140}
-                    height={112}
-                    alt="PRIMI €5"
-                    className="m-auto max-h-28 object-contain"
-                    src="/images/products/p-1.png"
-                  />
-                </div>
-
-                <div className="grid gap-1 px-6">
-                  <h2 className="text-xl font-semibold">Fried Noodles</h2>
-                  <p className="text-sm">
-                    Mezze manic he al ragu Pasta al ragu
-                  </p>
-                  <span className="text-2xl">
-                    €{Number(product.price).toFixed(2)}
-                  </span>
-                </div>
-                <Button
-                  className="mx-2 mb-2 rounded-b-3xl rounded-t-md"
-                  onPress={() => setCheckoutModalData(product)}
-                >
-                  Buy Now
-                </Button>
-              </div>
+                product={product}
+                onPress={() => setCheckoutModalData(product)}
+              />
             ))}
         </div>
       </section>

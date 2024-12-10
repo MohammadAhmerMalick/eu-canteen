@@ -68,7 +68,7 @@ const AdminDashboardPage = () => {
         </div>
       </div>
 
-      <div className="gridmd:grid-cols-2">
+      <div className="grid md:grid-cols-2">
         <DoubleBarChart />
 
         <div className="md:flex">

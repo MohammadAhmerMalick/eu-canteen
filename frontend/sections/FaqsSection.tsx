@@ -5,6 +5,8 @@ import { DisclosureGroup } from 'react-aria-components'
 import Accordion from '@/components/common/Accordion'
 import { Heading } from '@/components/common/ExtraaComponents'
 
+const url = 'www.poolaster.com'
+
 const FaqsSection = () => {
   return (
     <section>
@@ -41,16 +43,13 @@ const FaqsSection = () => {
           Please submit basic registration details through{' '}
           <a
             className="font-semibold text-primary"
-            href={`${window.location.origin}/register`}
+            href={`https://${url}/register`}
           >
             This link
           </a>{' '}
           the “Register Here” button on the website or{' '}
-          <a
-            className="font-semibold text-primary"
-            href={window.location.origin}
-          >
-            {window.location.hostname}
+          <a className="font-semibold text-primary" href={`https://${url}`}>
+            {url}
           </a>
           . You will receive a notification on your university email with login
           details and a link to set your password.

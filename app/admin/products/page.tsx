@@ -31,6 +31,7 @@ import type { Product } from '@/database/schema/productsSchema'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import getAllProductsAction from '@/actions/product/getAllProductsAction'
 import EditProductModal from '@/components/modals/product/EditProductModal'
+import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import DeleteProductModal from '@/components/modals/product/DeleteProductModal'
 import CreateProductModal from '@/components/modals/product/CreateProductModal'
 import updateProductsPublishedAction from '@/actions/product/updateProductsPublishedAction'
@@ -49,9 +50,8 @@ const orderPublishedOptions = [
 ]
 
 const ProductsPage = () => {
-  const { products, setProducts, updateProductsPublished } = useStore(
-    (state) => state
-  )
+  const { products, setProducts, setCategories, updateProductsPublished } =
+    useStore((state) => state)
 
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
   const [editModalData, setEditModalData] = useState<Product | null>(null)
@@ -63,6 +63,16 @@ const ProductsPage = () => {
     queryFn: async () => {
       const { data, success } = await getAllProductsAction()
       if (success) setProducts(data)
+      else toast.error(dataErrorMessage)
+      return data
+    },
+  })
+
+  useQuery({
+    queryKey: ['getAllCategories'],
+    queryFn: async () => {
+      const { data, success } = await getAllCategoriesAction()
+      if (success) setCategories(data)
       else toast.error(dataErrorMessage)
       return data
     },

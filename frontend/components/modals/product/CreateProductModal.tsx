@@ -49,12 +49,7 @@ const CreateProductModal = ({ isOpen, setOpen }: CreateProductModalProp) => {
 
   return (
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+      <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
         <h1 className="text-lg font-semibold">Create Product</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input

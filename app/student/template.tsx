@@ -38,7 +38,7 @@ const Template = async ({ children }: TemplateProps) => {
       <Sidebar links={links} />
       <div className="overflow-auto">
         <PanelHeader />
-        <main className="rounded-lg p-4 shadow">{children}</main>
+        <main className="m-1 rounded-lg p-4 shadow">{children}</main>
       </div>
     </div>
   )

@@ -31,24 +31,13 @@ const Template = async ({ children }: TemplateProps) => {
 
   if (session?.user.role !== 'student') redirect('/')
 
-  const styles = {
-    gridTemplate: `
-    'adminSideBar adminHeader' 108px
-    'adminSideBar adminMain' auto
-     /300px auto                 
-  `,
-  }
   return (
-    <div className="grid" style={styles}>
-      <div style={{ gridArea: 'adminSideBar' }}>
-        <Sidebar links={links} />
-      </div>
-      <div style={{ gridArea: 'adminHeader' }}>
+    <div className="relative grid h-screen grid-cols-[84px_auto] overflow-hidden md:grid-cols-[300px_auto]">
+      <Sidebar links={links} />
+      <div className="overflow-auto">
         <PanelHeader />
+        <main className="rounded-lg p-4 shadow">{children}</main>
       </div>
-      <main style={{ gridArea: 'adminMain' }} className="rounded-lg p-4 shadow">
-        {children}
-      </main>
     </div>
   )
 }

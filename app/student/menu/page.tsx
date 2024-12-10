@@ -10,6 +10,7 @@ import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
 import type { Product } from '@/database/schema/productsSchema'
 import type { Category } from '@/database/schema/categoriesSchema'
 import getProductsAction from '@/actions/product/getProductsAction'
@@ -78,7 +79,11 @@ const MenuPage = () => {
               height={40}
               alt={category.name}
               className="h-9 w-auto"
-              src={`/images/categories/${category.image}`}
+              src={
+                category.image
+                  ? `${assetsBaseUrl}${category.image}`
+                  : '/images/product/p-1.png'
+              }
             />
             <p>{category.name}</p>
           </button>

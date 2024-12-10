@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
 import BiDish from '@/components/icons/BiDish'
 import FiUsers from '@/components/icons/FiUsers'
+import FaqIcon from '@/components/icons/FaqIcon'
 import PanelHeader from '@/sections/PanelHeader'
 import BsCreditCard from '@/components/icons/BsCreditCard'
 import AiOutlineFile from '@/components/icons/AiOutlineFile'
@@ -20,6 +21,7 @@ const links: SidebarLink[] = [
     label: 'Notifications',
     icon: <AiOutlineBell />,
   },
+  { link: '/student/faqs', label: 'FAQs', icon: <FaqIcon /> },
 ]
 
 interface TemplateProps {

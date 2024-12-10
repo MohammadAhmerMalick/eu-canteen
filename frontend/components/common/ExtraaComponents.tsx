@@ -1,10 +1,16 @@
+import { classnames } from '@/utils'
 import { type ReactNode } from 'react'
 
 interface HeadingProps {
+  className?: string
   children: ReactNode
 }
-export const Heading = ({ children }: HeadingProps) => {
-  return <h2 className="mb-2 mt-4 text-lg font-semibold">{children}</h2>
+export const Heading = ({ children, className }: HeadingProps) => {
+  return (
+    <h2 className={classnames('mb-2 mt-4 text-lg font-semibold', className)}>
+      {children}
+    </h2>
+  )
 }
 
 interface SubHeadingProps {

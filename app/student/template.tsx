@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
 import BiDish from '@/components/icons/BiDish'
 import FiUsers from '@/components/icons/FiUsers'
+import FaqIcon from '@/components/icons/FaqIcon'
 import PanelHeader from '@/sections/PanelHeader'
 import BsCreditCard from '@/components/icons/BsCreditCard'
 import AiOutlineFile from '@/components/icons/AiOutlineFile'
@@ -20,6 +21,7 @@ const links: SidebarLink[] = [
     label: 'Notifications',
     icon: <AiOutlineBell />,
   },
+  { link: '/student/faqs', label: 'FAQs', icon: <FaqIcon /> },
 ]
 
 interface TemplateProps {
@@ -31,24 +33,13 @@ const Template = async ({ children }: TemplateProps) => {
 
   if (session?.user.role !== 'student') redirect('/')
 
-  const styles = {
-    gridTemplate: `
-    'adminSideBar adminHeader' 108px
-    'adminSideBar adminMain' auto
-     /300px auto                 
-  `,
-  }
   return (
-    <div className="grid" style={styles}>
-      <div style={{ gridArea: 'adminSideBar' }}>
-        <Sidebar links={links} />
-      </div>
-      <div style={{ gridArea: 'adminHeader' }}>
+    <div className="relative grid h-screen grid-cols-[84px_auto] overflow-hidden md:grid-cols-[300px_auto]">
+      <Sidebar links={links} />
+      <div className="overflow-auto">
         <PanelHeader />
+        <main className="m-1 rounded-lg p-4 shadow">{children}</main>
       </div>
-      <main style={{ gridArea: 'adminMain' }} className="rounded-lg p-4 shadow">
-        {children}
-      </main>
     </div>
   )
 }

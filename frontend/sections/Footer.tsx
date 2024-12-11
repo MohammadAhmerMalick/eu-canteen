@@ -18,13 +18,15 @@ const Footer = () => {
           <div className="mx-auto max-w-72 border-b border-primary pb-3 md:mx-0 md:max-w-full md:border-b-0 md:border-r">
             <p className="mb-2 font-semibold uppercase">Address</p>
             <p className="font-light">
-              Address: Via Comasina, 115, 20161 Milan-Italy.
+              Address: Via Comasina, <br /> 115, 20161 Milan-Italy.
             </p>
           </div>
           <div>
             <p className="mb-2 font-semibold uppercase">opening hours</p>
             <p className="font-light">
-              Everyday : From 12.30 To 23.00 Kitchen Closes At 22.00
+              Monday - Saturday : From 12:00 To 15:00 and 19:00 To 01:00 <br />
+              Kitchen Closes at 22:00 <br />
+              Sunday : From 12:00 To 19:00
             </p>
           </div>
         </div>

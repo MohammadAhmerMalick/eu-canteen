@@ -36,9 +36,13 @@ const AgentAssistance = ({
         <p>LUCA</p>
         <p className="text-xs text-neutral-500">Management</p>
       </div>
-      <div className="flex h-full w-14 -scale-x-100 items-center justify-center rounded-full bg-primary text-3xl text-white">
+      <a
+        href="https://wa.me/+393420500567"
+        target="_blank"
+        className="flex h-full w-14 -scale-x-100 items-center justify-center rounded-full bg-primary text-3xl text-white"
+      >
         <AiOutlinePhone />
-      </div>
+      </a>
     </div>
   )
 }

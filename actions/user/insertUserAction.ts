@@ -1,22 +1,27 @@
 'use server'
 
+import { randomUUID } from 'crypto'
 import { uploadFile } from '@/utils'
 import UserModel from '@/models/UserModel'
 import type { User } from '@/database/schema/usersSchema'
 
 const insertUserAction = async (formData: FormData) => {
+  const userType = formData.get('userType') as string
+  const isPlayer = userType === 'player'
+
   const name = formData.get('name') as string
   const email = formData.get('email') as string
   const image = formData.get('image') as File
   const whatsapp = formData.get('whatsapp') as string
-  const matricola = formData.get('matricola') as string
+  const matricola = isPlayer
+    ? randomUUID().substring(0, 19)
+    : (formData.get('matricola') as string)
 
-  if (!name || !email || !whatsapp || !matricola)
+  if (!(name && email && whatsapp))
     return {
       data: [],
       success: false,
       message: 'All fields are required',
-      codeMessage: 'fields_are_missing',
     }
 
   // is email valid
@@ -25,7 +30,6 @@ const insertUserAction = async (formData: FormData) => {
       data: [],
       success: false,
       message: 'Kindly use an authorized email',
-      codeMessage: 'must_be_unimib_email',
     }
 
   // if user exists
@@ -35,7 +39,6 @@ const insertUserAction = async (formData: FormData) => {
       data: [],
       success: false,
       message: 'User already exist',
-      codeMessage: 'user_already_exist',
     }
 
   const payload: User = {
@@ -44,6 +47,7 @@ const insertUserAction = async (formData: FormData) => {
     whatsapp,
     matricola,
     image: image.name,
+    approved: isPlayer,
   }
 
   // store file locally
@@ -60,7 +64,6 @@ const insertUserAction = async (formData: FormData) => {
     success: true,
     data: newUser,
     message: 'User created',
-    codeMessage: 'user_created',
   }
 }
 

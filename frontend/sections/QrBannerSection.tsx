@@ -48,7 +48,7 @@ const QrBannerSection = () => {
           className="mx-auto w-56"
           src="/images/banners/player-login-qr-code.png"
         />
-        <LinkButton href="/login " className="mt-4">
+        <LinkButton href="/register-player " className="mt-4">
           Click Here
         </LinkButton>
       </div>

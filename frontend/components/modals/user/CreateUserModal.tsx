@@ -34,18 +34,13 @@ const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
 
-    const { success, message, codeMessage } = await insertUserAction(formData)
+    const { success, message } = await insertUserAction(formData)
 
     if (success) {
       queryClient.invalidateQueries({ queryKey: ['getAllStudents'] })
       toast.success('User created successfully')
       setOpen(false)
-    } else if (codeMessage === 'user_already_exist')
-      toast.warn(
-        'Your request is aready in pending state, contact admin for further information'
-      )
-    else if (codeMessage === 'fields_are_missing') toast.warn(message)
-    else if (codeMessage === 'must_be_unimib_email') toast.error(message)
+    } else if (message) toast.warn(message)
     else
       toast.error('Unable to handle request right now, please contact to admin')
   }

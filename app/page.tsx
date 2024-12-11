@@ -22,12 +22,12 @@ const HomePage = async () => {
             <h1 className="bellota-regular bellota-light text-5xl uppercase md:text-7xl">
               <span className="font-semibold">Poolaster</span>
               <span className="mx-auto -mt-4 mb-2 block h-2 w-[286px] bg-primary md:mx-0 md:-mt-5 md:h-3 md:w-[430px]" />
-              <span>Restaurant</span>
+              <span className="text-4xl md:text-6xl">Bar - Osteria</span>
             </h1>
 
             <p className="mt-4 md:max-w-[400px]">
-              Savor the essence of exquisite flavors at poolaster RESTAURANT,
-              where culinary artistry meets timeless elegance.
+              From Italy’s Heart to Your Table, Immerse Yourself in the Art of
+              True Italian Flavor.
             </p>
 
             <LinkButton className="mt-6" href="/products">
@@ -57,14 +57,16 @@ const HomePage = async () => {
         <section className="my-10 grid justify-between gap-10 text-center md:my-20 md:grid-cols-2 md:text-left">
           <div>
             <SectionHeading>
-              ONLY THE FINEST <br />
-              FOOD & GREAT SERVICE
+              Delight in ELEGANCE, <br />
+              FLAVOR & Comfort
             </SectionHeading>
             <p className="mt-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod temporincididunt ut labore et dolore agna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea ommodo consequat.
+              At Poolaster, we believe that dining is more than just a meal—it’s
+              an experience. Our chefs craft every dish with passion, blending
+              fresh, locally sourced ingredients with culinary artistry to
+              create flavors that linger in your memory. Whether you’re here for
+              a casual meal or a special celebration, we promise to make every
+              moment extraordinary.
             </p>
 
             <Button className="mt-6">Read More</Button>
@@ -78,6 +80,20 @@ const HomePage = async () => {
           />
         </section>
         <VideoBannerSection />
+
+        <section className="my-10 grid justify-center gap-8 text-center md:my-20">
+          <Image
+            width={178}
+            height={63}
+            className="mx-auto"
+            alt="For the best memories"
+            src="/images/extras/h1-icon-img.png"
+          />
+          <SectionHeading>
+            ONLY THE FINEST ITALIAN FOOD & GREAT SERVICE
+          </SectionHeading>
+        </section>
+
         <OurMenuSection />
       </main>
       <Footer />

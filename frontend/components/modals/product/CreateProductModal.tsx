@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
@@ -24,9 +24,9 @@ const CreateProductModal = ({ isOpen, setOpen }: CreateProductModalProp) => {
 
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
-  const [categoryId, setCategory] = useState('')
   const [image, setImage] = useState<File | ''>('')
   const [description, setDescription] = useState('')
+  const [categoryId, setCategory] = useState(categories?.[0]?.id || '')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -46,6 +46,10 @@ const CreateProductModal = ({ isOpen, setOpen }: CreateProductModalProp) => {
       setOpen(false)
     } else toast.error('Unable to handle request right now')
   }
+
+  useEffect(() => {
+    setCategory(categories?.[0]?.id || '')
+  }, [categories])
 
   return (
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>

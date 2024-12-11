@@ -8,6 +8,7 @@ import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
+import LanguageSelector from '@/components/common/LanguageSelector'
 
 export const adminMenuOptions = [
   { link: '/admin', name: 'Dashboard' },
@@ -45,6 +46,7 @@ const Header = () => {
             <p className="rounded-3xl bg-white px-4 py-2 text-sm shadow-lg">
               €{auth.credit}
             </p>
+            <LanguageSelector />
             <div className="relative">
               <div
                 aria-hidden

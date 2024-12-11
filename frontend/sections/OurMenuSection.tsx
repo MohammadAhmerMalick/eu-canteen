@@ -56,7 +56,7 @@ const OurMenuSection = () => {
         {menu.map(({ id, description, title, amount }) => (
           <div
             key={id}
-            className="grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-lg"
+            className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-lg"
           >
             <Image
               width={500}

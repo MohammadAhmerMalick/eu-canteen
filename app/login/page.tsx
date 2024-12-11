@@ -1,13 +1,14 @@
 'use client'
 
 import Link from 'next/link'
+import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
+import { getSession, signIn } from 'next-auth/react'
 import { useEffect, useState, type FormEvent } from 'react'
 
 import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
-import loginAction from '@/actions/loginAction'
 import AuthLayoutSection from '@/sections/AuthLayoutSection'
 
 const LoginPage = () => {
@@ -18,12 +19,28 @@ const LoginPage = () => {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    loginAction({ email, password })
     setAuthStatus('loading')
 
-    setTimeout(() => {
-      window.location.href = '/login'
-    }, 3000)
+    const res = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+      redirectTo: '/',
+    })
+
+    if (res?.error) {
+      setAuthStatus('unauthenticated')
+      toast.error('Credentials are not valid')
+
+      return
+    }
+
+    const session = await getSession()
+
+    setAuthStatus('authenticated')
+    if (session?.user.role === 'admin') redirect(`/${session?.user.role}`)
+    if (session?.user.role === 'student') redirect('/student/menu')
+    redirect('/')
   }
 
   useEffect(() => {

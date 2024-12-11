@@ -24,7 +24,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         try {
           const [dbUser] = await UserModel.getUserByEmail(email as string)
-          if (!dbUser) return {}
+          if (!dbUser) throw new Error('User not found.')
 
           user = dbUser
           const isPasswordCorrect = compareSync(
@@ -32,7 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             user.password || ''
           )
 
-          if (!isPasswordCorrect) return {}
+          if (!isPasswordCorrect) throw new Error('Invalid credentials.')
 
           return {
             id: user.id,
@@ -43,9 +43,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         } catch (error) {
           console.log({ authorize: error })
+          throw error
         }
-
-        return {}
       },
     }),
   ],

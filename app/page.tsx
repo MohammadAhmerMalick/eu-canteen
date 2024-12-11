@@ -7,6 +7,7 @@ import SevicesSecion from '@/sections/SevicesSecion'
 import OurMenuSection from '@/sections/OurMenuSection'
 import LinkButton from '@/components/common/LinkButton'
 import SectionHeading from '@/components/SectionHeading'
+import QrBannerSection from '@/sections/QrBannerSection'
 import AgentAssistance from '@/components/AgentAssistance'
 import ProductCarousel from '@/components/ProductCarousel'
 import VideoBannerSection from '@/sections/VideoBannerSection'
@@ -37,6 +38,7 @@ const HomePage = async () => {
         </section>
         <AgentAssistance className="ml-auto mt-4" expended />
         <SevicesSecion />
+        <QrBannerSection />
         <section className="my-10 grid justify-center gap-8 text-center md:my-20">
           <Image
             width={178}

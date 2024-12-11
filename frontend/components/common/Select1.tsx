@@ -47,7 +47,7 @@ export function Select1<T extends object>({
       <Button
         className={({ isPressed }) =>
           classnames(
-            'flex w-full items-center justify-between rounded-md border border-neutral-300 bg-white p-2 text-neutral-900',
+            'flex w-full items-center justify-between gap-2 rounded-md border border-neutral-300 bg-white p-2 text-neutral-900',
             isPressed && 'border-primary ring-1 ring-orange-300'
           )
         }

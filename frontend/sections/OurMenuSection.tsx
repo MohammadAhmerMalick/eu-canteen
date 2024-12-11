@@ -1,32 +1,31 @@
 import Image from 'next/image'
 
-import Button from '@/components/common/Button'
-import SectionHeading from '@/components/SectionHeading'
 import LinkButton from '@/components/common/LinkButton'
+import SectionHeading from '@/components/SectionHeading'
 
 const menu = [
   {
     id: 1,
-    title: 'PRIMI €5',
-    description: 'Gnocchi burro e salvia Gnocchi with butter and sage',
+    amount: 5,
+    title: 'PRIMI',
+    description:
+      'Discover our Primi menu. Fresh & delicious Italian dishes. To delight your taste buds',
     info: 'Mezze manic he al ragu Pasta al ragu',
   },
   {
     id: 2,
-    title: 'PRIMI €5',
-    description: 'Gnocchi burro e salvia Gnocchi with butter and sage',
+    amount: 7,
+    title: 'SECONDI',
+    description:
+      'Discover our Primi menu. Fresh & delicious Italian dishes. To delight your taste buds.',
     info: 'Mezze manic he al ragu Pasta al ragu',
   },
   {
     id: 3,
-    title: 'PRIMI €5',
-    description: 'Gnocchi burro e salvia Gnocchi with butter and sage',
-    info: 'Mezze manic he al ragu Pasta al ragu',
-  },
-  {
-    id: 4,
-    title: 'PRIMI €5',
-    description: 'Gnocchi burro e salvia Gnocchi with butter and sage',
+    amount: 3,
+    title: 'CONTORNI',
+    description:
+      'Discover our Primi menu. Fresh & delicious Italian dishes. To delight your taste buds.',
     info: 'Mezze manic he al ragu Pasta al ragu',
   },
 ]
@@ -53,11 +52,11 @@ const OurMenuSection = () => {
         </p>
       </div>
 
-      <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {menu.map(({ id }) => (
+      <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        {menu.map(({ id, description, title, amount }) => (
           <div
             key={id}
-            className="grid w-full gap-5 rounded-3xl bg-white p-2 shadow-lg"
+            className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-lg"
           >
             <Image
               width={500}
@@ -67,20 +66,20 @@ const OurMenuSection = () => {
               className="rounded-3xl shadow"
             />
             <p className="text-2xl">
-              PRIMI{' '}
+              {title}{' '}
               <span className="rounded-full bg-primary px-3 font-normal text-white">
-                €5
+                €{amount}
               </span>
             </p>
             <div className="grid gap-3 px-6 text-neutral-700">
-              <p className="text-sm">
-                Gnocchi burro e salvia Gnocchi with butter and sage
-              </p>
-              <p>Mezze manic he al ragu Pasta al ragu</p>
+              <p className="text-sm">{description}</p>
             </div>
-            <Button className="mx-2 mb-2 rounded-b-3xl rounded-t-md">
+            <LinkButton
+              href="/products"
+              className="mx-2 mb-2 rounded-b-3xl rounded-t-md"
+            >
               Buy Now
-            </Button>
+            </LinkButton>
           </div>
         ))}
       </div>

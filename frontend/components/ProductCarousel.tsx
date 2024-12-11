@@ -7,59 +7,39 @@ import 'react-multi-carousel/lib/styles.css'
 const products = [
   {
     id: 1,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+    image: '/images/products/p-4.png',
+    title: 'PIZZA CAPRICCIOSA',
+    details: '( Pomodoro - mozerella - funghi - cotto - olive )',
   },
   {
     id: 2,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+    image: '/images/products/p-5.png',
+    title: 'PIADINA KEBAP',
+    details: '( Chicken - Pomodoro - Onion - Sauce - Ketchup - Lettuce )',
   },
   {
     id: 3,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+    image: '/images/products/p-6.png',
+    title: "PENNE ALL'ARRABBIATA",
+    details: '( Pasta -  Spicy Tomato Sauce )',
   },
   {
     id: 4,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+    image: '/images/products/p-4.png',
+    title: 'PIZZA CAPRICCIOSA',
+    details: '( Pomodoro - mozerella - funghi - cotto - olive )',
   },
   {
     id: 5,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+    image: '/images/products/p-5.png',
+    title: 'PIADINA KEBAP',
+    details: '( Chicken - Pomodoro - Onion - Sauce - Ketchup - Lettuce )',
   },
   {
     id: 6,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-  {
-    id: 7,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
-  },
-  {
-    id: 8,
-    image: '/images/products/p-1.png',
-    title: 'Chinese Yakisbo',
-    details:
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+    image: '/images/products/p-6.png',
+    title: "PENNE ALL'ARRABBIATA",
+    details: '( Pasta -  Spicy Tomato Sauce )',
   },
 ]
 

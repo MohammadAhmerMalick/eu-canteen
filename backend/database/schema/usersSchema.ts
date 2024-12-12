@@ -20,7 +20,7 @@ const usersTable = pgTable('users', {
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
   whatsapp: varchar({ length: 20 }).notNull(),
-  matricola: varchar({ length: 20 }).notNull().unique(),
+  matricola: varchar({ length: 50 }).notNull().unique(),
   image: varchar({ length: 255 }),
   approved: boolean().default(false).notNull(),
   password: varchar({ length: 255 }),

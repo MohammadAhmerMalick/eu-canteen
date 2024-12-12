@@ -54,7 +54,7 @@ const ProfilePage = () => {
       onSubmit={onSubmit}
       className={classnames('grid max-h-full w-full max-w-3xl gap-4')}
     >
-      <h1 className="text-lg font-semibold">Update User</h1>
+      <h1 className="text-lg font-semibold">Profile</h1>
       <div className="grid grid-cols-2 gap-4">
         <Input
           isRequired

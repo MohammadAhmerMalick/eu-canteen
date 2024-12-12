@@ -6,42 +6,39 @@ import { useState } from 'react'
 
 import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
-import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import VscGear from '@/components/icons/VscGear'
-import FiSearch from '@/components/icons/FiSearch'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
+import BsCreditCard from '@/components/icons/BsCreditCard'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
+import LanguageSelector from '@/components/common/LanguageSelector'
 import { adminMenuOptions, studentMenuOptions } from '@/sections/Header'
 
 const PanelHeader = () => {
   const { auth, logout } = useStore((state) => state)
 
   const [expended, setExpended] = useState(false)
-  const [globalSarch, setGlobalSarch] = useState('')
 
   return (
-    <div className="z-0 grid h-min w-full grid-cols-[auto_300px] items-center gap-2 p-8">
-      <div className="relative">
-        <Input
-          value={globalSarch}
-          id="globalSarch"
-          placeholder="Search here"
-          inputClassName="text-sm h-full px-3"
-          onChange={({ value }) => setGlobalSarch(value)}
-        />
-
-        <span className="absolute bottom-0 right-3 top-0 my-auto h-min text-lg text-neutral-400">
-          <FiSearch />
-        </span>
-      </div>
+    <div className="z-0 h-min w-full items-center gap-2 p-8">
       <div className="flex flex-1 items-center justify-end gap-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-2xl text-blue-500">
-          <AiOutlineBell />
-        </div>
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 text-2xl text-red-500">
-          <VscGear />
-        </div>
+        {auth.role === 'admin' ? (
+          <>
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-2xl text-blue-500">
+              <AiOutlineBell />
+            </div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 text-2xl text-red-500">
+              <VscGear />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-2 rounded-3xl border border-neutral-300 bg-white px-2 py-1 text-sm text-neutral-900 md:px-4 md:py-2 md:text-base">
+              <BsCreditCard /> <span>€{auth.credit}</span>
+            </div>
+            <LanguageSelector />
+          </>
+        )}
 
         <span className="h-10 w-px bg-neutral-300" />
 

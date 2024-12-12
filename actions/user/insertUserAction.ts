@@ -14,7 +14,7 @@ const insertUserAction = async (formData: FormData) => {
   const image = formData.get('image') as File
   const whatsapp = formData.get('whatsapp') as string
   const matricola = isPlayer
-    ? randomUUID().substring(0, 19)
+    ? randomUUID()
     : (formData.get('matricola') as string)
 
   if (!(name && email && whatsapp))

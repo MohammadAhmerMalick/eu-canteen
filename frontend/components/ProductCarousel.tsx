@@ -24,6 +24,12 @@ const products = [
     details: '( Pasta -  Spicy Tomato Sauce )',
   },
   {
+    id: 7,
+    image: '/images/products/p-7.jpeg',
+    title: 'PANINO KEBAP',
+    details: '( Chicken - Pomodoro - Onion - Sauce - Ketchup - Lettuce )',
+  },
+  {
     id: 4,
     image: '/images/products/p-4.png',
     title: 'PIZZA CAPRICCIOSA',

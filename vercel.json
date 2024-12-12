@@ -1,8 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/api/stipendDebit",
-      "schedule": "0 5 * * *"
-    }
-  ]
-}

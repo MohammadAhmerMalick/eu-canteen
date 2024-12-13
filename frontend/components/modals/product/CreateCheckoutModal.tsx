@@ -34,21 +34,25 @@ const CreateCheckoutModal = ({
     if (operation === '+') {
       const updatedQuantity = quantity + 1
 
-      if (updatedQuantity * parseFloat(product.price) > parseFloat(auth.credit))
-        toast.warn('Low balance')
-      else setQuantity(updatedQuantity)
+      // if (updatedQuantity * parseFloat(product.price) > parseFloat(auth.credit))
+      //   toast.warn('Low balance')
+      // else
+      setQuantity(updatedQuantity)
     } else if (operation === '-') setQuantity((s) => (s > 1 ? s - 1 : s))
   }
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (quantity * parseFloat(product.price) > parseFloat(auth.credit)) {
-      toast.warn('Low balance')
+    // if (quantity * parseFloat(product.price) > parseFloat(auth.credit)) {
+    //   toast.warn('Low balance')
+    //   return
+    // }
+
+    if (!product.id) {
+      toast.warn('Product not found')
       return
     }
-
-    if (!product.id) return
 
     const { success, message, codeMessage, data } = await insertOrderAction({
       type,

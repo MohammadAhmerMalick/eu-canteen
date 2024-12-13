@@ -52,7 +52,7 @@ const SevicesSecion = () => {
         src="/images/banners/banner-1.png"
       />
 
-      <div className="relative z-10 mx-auto -mt-12 max-w-5xl rounded-3xl bg-white p-4 text-center">
+      <div className="relative z-10 mx-auto mt-4 max-w-5xl rounded-3xl bg-white p-4 text-center md:-mt-12">
         <Carousel
           ssr
           infinite
@@ -71,7 +71,7 @@ const SevicesSecion = () => {
                 src={image}
                 className="mx-auto h-8 drop-shadow md:h-14"
               />
-              <p className="mt-2"> {text}</p>
+              <p className="mt-2 text-sm">{text}</p>
             </div>
           ))}
         </Carousel>

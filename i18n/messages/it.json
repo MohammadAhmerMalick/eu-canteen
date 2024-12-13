@@ -1,5 +1,14 @@
 {
-  "HomePage": {
-    "title": "sdfsdadsf world!"
+  "HeroSection": {
+    "heading": "Poolaster",
+    "subHeading": "Bar - Osteria",
+    "paragraph": "From Italy’s Heart to Your Table, Immerse Yourself in the Art of True Italian Flavor.",
+    "buttonText": "Order Now",
+    "slider": {
+      "product1": {
+        "title": "PANINO KEBAP",
+        "description": "( Chicken - Pomodoro - Onion - Sauce - Ketchup - Lettuce )"
+      }
+    }
   }
 }

@@ -18,7 +18,7 @@ const menu = [
     amount: 7,
     title: 'SECONDI',
     description:
-      'Discover our Primi menu. Fresh & delicious Italian dishes. To delight your taste buds.',
+      'Explore our Secondi menu Enjoy authentic & perfectly crafted Italian main courses',
     image: '/images/products/p-8.png',
     info: 'Mezze manic he al ragu Pasta al ragu',
   },
@@ -27,7 +27,7 @@ const menu = [
     amount: 3,
     title: 'CONTORNI',
     description:
-      'Discover our Primi menu. Fresh & delicious Italian dishes. To delight your taste buds.',
+      'Enjoy our Contorni menu Tasty and delightful sides To complete your Italian feast',
     image: '/images/products/p-9.png',
     info: 'Mezze manic he al ragu Pasta al ragu',
   },

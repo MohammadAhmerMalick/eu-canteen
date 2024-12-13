@@ -1,11 +1,21 @@
 'use client'
 
+import {
+  Row,
+  Table,
+  TableBody,
+  TableHeader,
+  Button as AriaButton,
+} from 'react-aria-components'
 import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
+import TableCell from '@/components/common/TableCell'
+import TableColumn from '@/components/common/TableColumn'
+import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import ProductCell from '@/components/widgets/ProductCellWidget'
 import getMyOrdersAction from '@/actions/orders/getMyOrdersAction'
 
@@ -30,49 +40,41 @@ const OrdersPage = () => {
 
   return (
     <div>
-      <table className="w-full text-sm">
-        <thead>
-          <tr>
-            <td className="border-b border-neutral-300 p-2">Product</td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Order Type
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Quantity
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Placed At
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Price
-            </td>
-            <td className="border-b border-neutral-300 p-2 text-center">
-              Status
-            </td>
-          </tr>
-        </thead>
-        <tbody>
+      <Table aria-label="Orders" className="w-full text-sm">
+        <TableHeader>
+          <TableColumn className="text-left" isRowHeader>
+            Product
+          </TableColumn>
+          <TableColumn className="text-left">Order Type</TableColumn>
+          <TableColumn className="text-left">Quantity</TableColumn>
+          <TableColumn className="text-left">Placed At</TableColumn>
+          <TableColumn>Price</TableColumn>
+          <TableColumn>Status</TableColumn>
+          <TableColumn>Action</TableColumn>
+        </TableHeader>
+
+        <TableBody>
           {orders.map(({ order, product }) => (
-            <tr key={order.id}>
-              <td className="w-1 border-b border-neutral-300 p-2">
+            <Row key={order.id}>
+              <TableCell className="w-1 border-b border-neutral-300 p-2">
                 {product && <ProductCell product={product} />}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+              </TableCell>
+              <TableCell className="border-b border-neutral-300 p-2 text-center">
                 {order.type}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+              </TableCell>
+              <TableCell className="border-b border-neutral-300 p-2 text-center">
                 {order.quantity}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+              </TableCell>
+              <TableCell className="border-b border-neutral-300 p-2 text-center">
                 {new Date(order.createdAt || '').toLocaleTimeString()}{' '}
                 {new Date(order.createdAt || '').toLocaleDateString()}
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+              </TableCell>
+              <TableCell className="border-b border-neutral-300 p-2 text-center">
                 <span className="rounded-lg bg-primary-light p-2 text-primary">
                   €{(parseFloat(order.unitPrice) * order.quantity).toFixed(2)}
                 </span>
-              </td>
-              <td className="border-b border-neutral-300 p-2 text-center">
+              </TableCell>
+              <TableCell className="border-b border-neutral-300 p-2 text-center">
                 {/* <span className="flex items-center gap-1"> */}
                 {/* <AiOutlineFieldTime />
                   <BiDish />
@@ -80,11 +82,19 @@ const OrdersPage = () => {
                 <AiOutlineClose /> */}
                 {order.status?.toUpperCase()}
                 {/* </span> */}
-              </td>
-            </tr>
+              </TableCell>
+              <TableCell>
+                <AriaButton
+                  // onPress={() => setEditModalData(user)}
+                  className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
+                >
+                  <AiOutlineEdit />
+                </AriaButton>
+              </TableCell>
+            </Row>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }

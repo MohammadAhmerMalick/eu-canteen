@@ -65,9 +65,10 @@ const CreateCheckoutModal = ({
       setOpen(false)
       setAuth({
         ...auth,
-        credit: (parseFloat(auth?.credit) - parseFloat(product.price)).toFixed(
-          2
-        ),
+        credit: (
+          parseFloat(auth?.credit) +
+          parseFloat(product.price) * quantity
+        ).toFixed(2),
       })
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
     else

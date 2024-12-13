@@ -1,4 +1,4 @@
-import { and, eq } from 'drizzle-orm'
+import { and, eq, gte } from 'drizzle-orm'
 
 import db from '@/database/index'
 import usersTable from '@/database/schema/usersSchema'
@@ -71,6 +71,26 @@ class TransactionModel {
       .insert(transactionsTable)
       .values(transaction)
       .returning({ id: transactionsTable.id })
+
+  static getUserTodaysTransactions = (userId: string) =>
+    db
+      .select({ amount: transactionsTable.amount })
+      .from(transactionsTable)
+      .leftJoin(usersTable, eq(usersTable.id, transactionsTable.userId))
+      .leftJoin(
+        productsTable,
+        eq(productsTable.id, transactionsTable.productId)
+      )
+      .where(
+        and(
+          eq(transactionsTable.published, true),
+          eq(transactionsTable.userId, userId),
+          gte(
+            transactionsTable.createdAt,
+            new Date(new Date().setHours(0, 0, 0, 0))
+          )
+        )
+      )
 }
 
 export default TransactionModel

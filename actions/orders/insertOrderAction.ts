@@ -10,11 +10,13 @@ interface InsertOrderActionProps {
   type: string
   quantity: number
   productId: string
+  createdAt?: Date
 }
 const insertOrderAction = async ({
   type,
   quantity,
   productId,
+  createdAt,
 }: InsertOrderActionProps) => {
   const session = await auth()
   const userId = session?.user.id
@@ -34,6 +36,7 @@ const insertOrderAction = async ({
     type: 'credit',
     description: `${product.name} ordered on ${dateTime}`,
     amount: amount.toFixed(4),
+    createdAt,
   })
 
   const updatedCredit = (parseFloat(user.credit) + amount).toFixed(4)
@@ -46,9 +49,10 @@ const insertOrderAction = async ({
     unitPrice,
     productId,
     transactionId: transaction.id,
+    createdAt,
   })
 
-  const newOrder = await OrderModel.getOrdersId(newOrderId.id)
+  const newOrder = await OrderModel.getOrder(newOrderId.id)
 
   return {
     success: true,

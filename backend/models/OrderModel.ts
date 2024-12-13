@@ -39,8 +39,9 @@ class OrderModel {
       .where(
         and(eq(ordersTable.published, true), eq(ordersTable.userId, userId))
       )
+      .orderBy(desc(ordersTable.createdAt), usersTable.name)
 
-  static getOrdersId = (id: string) =>
+  static getOrder = (id: string) =>
     db
       .select()
       .from(ordersTable)

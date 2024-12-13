@@ -3,7 +3,8 @@ import { compareSync } from 'bcrypt'
 import Credentials from 'next-auth/providers/credentials'
 
 import UserModel from '@/models/UserModel'
-import type { User } from '@/database/schema/usersSchema'
+import type {} from '@/database/schema/usersSchema'
+import TransactionModel from '@/models/TransactionModel'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -20,19 +21,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       },
       authorize: async ({ email, password }) => {
-        let user: User | null = null
-
         try {
           const [dbUser] = await UserModel.getUserByEmail(email as string)
           if (!dbUser) throw new Error('User not found.')
 
-          user = dbUser
+          const user = dbUser
           const isPasswordCorrect = compareSync(
             password as string,
             user.password || ''
           )
 
           if (!isPasswordCorrect) throw new Error('Invalid credentials.')
+
+          const amount = await TransactionModel.getUserTodaysTransactions(
+            user.id
+          )
+
+          const credit = amount
+            .reduce((a, b) => Number(a) + Number(b.amount), 0)
+            .toString()
+
+          await UserModel.updateUserCredit(user.id, credit)
 
           return {
             id: user.id,

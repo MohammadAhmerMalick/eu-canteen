@@ -5,17 +5,16 @@ import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
-import { classnames } from '@/utils'
 import Header from '@/sections/Header'
 import Footer from '@/sections/Footer'
 import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
 import ProductCard from '@/components/ProductCard'
 import DataError from '@/components/common/DataError'
-import { assetsBaseUrl } from '@/libs/assetsManagement'
 import type { Product } from '@/database/schema/productsSchema'
-import { type Category } from '@/database/schema/categoriesSchema'
+import CategoryTabCell from '@/components/common/CategoryTabCell'
 import getProductsAction from '@/actions/product/getProductsAction'
+import { type Category } from '@/databaCategoryse/schema/categoriesSchema'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import CreateCheckoutModal from '@/components/modals/product/CreateCheckoutModal'
 
@@ -87,29 +86,12 @@ const ProductPage = () => {
         </section>
         <section className="mx-auto flex max-w-7xl flex-wrap justify-center gap-2 md:gap-4 md:pt-4">
           {categories.map((category) => (
-            <button
-              onClick={() => setActiveCategory(category)}
+            <CategoryTabCell
               key={category.id}
-              className={classnames(
-                'flex items-center gap-2 rounded-3xl border py-2 pl-3 pr-5 ring-1 duration-300',
-                activeCategory?.id === category.id
-                  ? 'border-primary bg-primary-light shadow ring-orange-200'
-                  : 'border-white bg-white ring-orange-200'
-              )}
-            >
-              <Image
-                width={40}
-                height={40}
-                alt={category.name}
-                className="h-9 w-auto"
-                src={
-                  category.image
-                    ? `${assetsBaseUrl}${category.image}`
-                    : '/images/product/p-1.png'
-                }
-              />
-              <p>{category.name}</p>
-            </button>
+              category={category}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+            />
           ))}
         </section>
         <section className="mx-auto max-w-7xl py-4">

@@ -22,6 +22,7 @@
       // "@/*": ["./*"]
       "@/auth": ["./auth"],
       "@/utils": ["./utils"],
+      "@/i18n/*": ["./i18n/*"],
       "@/actions/*": ["./actions/*"],
       "@/libs/*": ["./backend/libs/*"],
       "@/models/*": ["./backend/models/*"],

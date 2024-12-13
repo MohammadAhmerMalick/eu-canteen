@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
+
 import Toast from '@/components/Toast'
 import { AppStoreProvider } from '@/store/provider'
 
@@ -19,10 +22,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className="antialiased">
-        <AppStoreProvider>{children}</AppStoreProvider>
+        <AppStoreProvider>
+          <NextIntlClientProvider messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </AppStoreProvider>
         <Toast />
       </body>
     </html>

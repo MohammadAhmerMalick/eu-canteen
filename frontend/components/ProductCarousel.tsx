@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import Carousel, { ResponsiveType } from 'react-multi-carousel'
+import Carousel, { type ResponsiveType } from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
 const products = [
@@ -24,6 +24,12 @@ const products = [
     details: '( Pasta -  Spicy Tomato Sauce )',
   },
   {
+    id: 7,
+    image: '/images/products/p-7.jpeg',
+    title: 'PANINO KEBAP',
+    details: '( Chicken - Pomodoro - Onion - Sauce - Ketchup - Lettuce )',
+  },
+  {
     id: 4,
     image: '/images/products/p-4.png',
     title: 'PIZZA CAPRICCIOSA',
@@ -40,6 +46,12 @@ const products = [
     image: '/images/products/p-6.png',
     title: "PENNE ALL'ARRABBIATA",
     details: '( Pasta -  Spicy Tomato Sauce )',
+  },
+  {
+    id: 7,
+    image: '/images/products/p-7.jpeg',
+    title: 'PANINO KEBAP',
+    details: '( Chicken - Pomodoro - Onion - Sauce - Ketchup - Lettuce )',
   },
 ]
 
@@ -59,11 +71,12 @@ const ProductCarousel = () => {
       arrows={false}
       autoPlaySpeed={3000}
       responsive={responsive}
+      className="grid"
     >
       {products.map(({ id, image, title, details }) => (
         <div
           key={id}
-          className="relative mx-3 mb-6 mt-28 rounded-3xl bg-white p-6 pt-32 shadow-lg md:min-w-72"
+          className="relative mx-3 mb-6 mt-28 rounded-3xl bg-white p-6 pt-32 text-center shadow-lg md:min-w-72"
         >
           <Image
             height={230}
@@ -72,8 +85,8 @@ const ProductCarousel = () => {
             src={image}
             className="absolute -top-28 left-0 right-0 mx-auto drop-shadow-xl"
           />
-          <h2 className="mb-3 text-2xl">{title}</h2>
-          <p className="text-neutral-700">{details}</p>
+          <h2 className="mb-2 text-lg font-semibold">{title}</h2>
+          <p className="min-h-12 text-neutral-700">{details}</p>
         </div>
       ))}
     </Carousel>

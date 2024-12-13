@@ -12,7 +12,7 @@ interface ProductCardProps {
 const ProductCard = ({ product, onPress }: ProductCardProps) => {
   return (
     <div className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-sm duration-300 hover:shadow-lg">
-      <div className="rounded-3xl bg-primary-light p-2 shadow">
+      <div className="flex rounded-3xl bg-primary-light p-2 shadow">
         <Image
           width={140}
           height={112}

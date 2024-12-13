@@ -8,6 +8,7 @@ import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
+import BsCreditCard from '@/components/icons/BsCreditCard'
 import LanguageSelector from '@/components/common/LanguageSelector'
 
 export const adminMenuOptions = [
@@ -43,9 +44,9 @@ const Header = () => {
 
         {isLoggedIn ? (
           <div className="flex items-center gap-2">
-            <p className="rounded-3xl bg-white px-4 py-2 text-sm shadow-lg">
-              €{auth.credit}
-            </p>
+            <div className="flex items-center gap-2 rounded-3xl border border-neutral-300 bg-white px-2 py-1 text-sm text-neutral-900 md:px-4 md:py-2 md:text-base">
+              <BsCreditCard /> <span>€{auth.credit}</span>
+            </div>
             <LanguageSelector />
             <div className="relative">
               <div
@@ -56,7 +57,7 @@ const Header = () => {
                 <Image
                   width={40}
                   height={40}
-                  alt="Agent"
+                  alt={auth.name}
                   src={
                     auth.image
                       ? `${assetsBaseUrl}${auth.image}`
@@ -66,7 +67,7 @@ const Header = () => {
                 />
                 <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
                   <p>{auth.name}</p>
-                  <p className="text-neutral-500">#EP-1749051</p>
+                  <p className="text-neutral-500">{auth.matricola}</p>
                 </div>
               </div>
               <div
@@ -96,9 +97,7 @@ const Header = () => {
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            {/* <p className="rounded-3xl bg-white px-4 py-2 text-sm shadow-lg">
-              ENG
-            </p> */}
+            <LanguageSelector />
             <div className="flex items-center gap-1 rounded-full bg-black p-1 text-sm md:text-base">
               <Link href="/register" className="db pr-2 ps-3 text-white">
                 Register Here

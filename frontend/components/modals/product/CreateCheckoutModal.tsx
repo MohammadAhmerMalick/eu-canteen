@@ -34,21 +34,25 @@ const CreateCheckoutModal = ({
     if (operation === '+') {
       const updatedQuantity = quantity + 1
 
-      if (updatedQuantity * parseFloat(product.price) > parseFloat(auth.credit))
-        toast.warn('Low balance')
-      else setQuantity(updatedQuantity)
+      // if (updatedQuantity * parseFloat(product.price) > parseFloat(auth.credit))
+      //   toast.warn('Low balance')
+      // else
+      setQuantity(updatedQuantity)
     } else if (operation === '-') setQuantity((s) => (s > 1 ? s - 1 : s))
   }
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (quantity * parseFloat(product.price) > parseFloat(auth.credit)) {
-      toast.warn('Low balance')
+    // if (quantity * parseFloat(product.price) > parseFloat(auth.credit)) {
+    //   toast.warn('Low balance')
+    //   return
+    // }
+
+    if (!product.id) {
+      toast.warn('Product not found')
       return
     }
-
-    if (!product.id) return
 
     const { success, message, codeMessage, data } = await insertOrderAction({
       type,
@@ -61,9 +65,10 @@ const CreateCheckoutModal = ({
       setOpen(false)
       setAuth({
         ...auth,
-        credit: (parseFloat(auth?.credit) - parseFloat(product.price)).toFixed(
-          2
-        ),
+        credit: (
+          parseFloat(auth?.credit) +
+          parseFloat(product.price) * quantity
+        ).toFixed(2),
       })
     } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
     else

@@ -47,11 +47,32 @@ const Footer = () => {
         <div className="flex flex-wrap justify-center gap-2 text-sm md:-mt-12 md:justify-between">
           <div>
             <p className="flex gap-3">
-              <span className="uppercase">Pinterest</span>
+              <a
+                href="https://www.facebook.com/poolasterbar"
+                className="uppercase"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Facebook
+              </a>
               <span className="w-px bg-primary" />
-              <span className="uppercase">Facebook</span>
+              <a
+                href="https://www.instagram.com/poolasterpubosteria/"
+                className="uppercase"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Instagram
+              </a>
               <span className="w-px bg-primary" />
-              <span className="uppercase">Instagram</span>
+              <a
+                href="/"
+                className="uppercase"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Pinterest
+              </a>
             </p>
             <Image
               height={40}

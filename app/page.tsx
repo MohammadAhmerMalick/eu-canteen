@@ -2,7 +2,6 @@ import Image from 'next/image'
 
 import Header from '@/sections/Header'
 import Footer from '@/sections/Footer'
-import Button from '@/components/common/Button'
 import SevicesSecion from '@/sections/SevicesSecion'
 import OurMenuSection from '@/sections/OurMenuSection'
 import LinkButton from '@/components/common/LinkButton'
@@ -31,7 +30,7 @@ const HomePage = async () => {
             </p>
 
             <LinkButton className="mt-6" href="/products">
-              Explore More
+              Order Now
             </LinkButton>
           </div>
           <ProductCarousel />
@@ -41,16 +40,16 @@ const HomePage = async () => {
         <QrBannerSection />
         <section className="my-10 grid justify-center gap-8 text-center md:my-20">
           <Image
-            width={178}
-            height={63}
+            width={138}
+            height={50}
             className="mx-auto"
             alt="For the best memories"
             src="/images/extras/h1-icon-img.png"
           />
-          <SectionHeading>
-            Poolaster is for everyone who collects beautiful moments
+          <SectionHeading className="max-w-xl">
+            POOLASTER IS FOR EVERYONE WHO COLLECTS beautiful moments
           </SectionHeading>
-          <h3 className="mrs-saint-delafield-regular text-3xl text-orange-700/50">
+          <h3 className="mrs-saint-delafield-regular text-5xl text-orange-700/50">
             For the best memories
           </h3>
         </section>
@@ -60,7 +59,7 @@ const HomePage = async () => {
               Delight in ELEGANCE, <br />
               FLAVOR & Comfort
             </SectionHeading>
-            <p className="mt-4">
+            <p className="mt-4 font-normal">
               At Poolaster, we believe that dining is more than just a meal—it’s
               an experience. Our chefs craft every dish with passion, blending
               fresh, locally sourced ingredients with culinary artistry to
@@ -68,8 +67,6 @@ const HomePage = async () => {
               a casual meal or a special celebration, we promise to make every
               moment extraordinary.
             </p>
-
-            <Button className="mt-6">Read More</Button>
           </div>
           <Image
             width={320}

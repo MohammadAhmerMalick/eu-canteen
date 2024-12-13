@@ -14,8 +14,8 @@ import AuthLayoutSection from '@/sections/AuthLayoutSection'
 const LoginPage = () => {
   const { auth, authStatus, setAuthStatus } = useStore((state) => state)
 
-  const [email, setEmail] = useState('johndoe@campus.unimib.it')
-  const [password, setPassword] = useState('123123123')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()

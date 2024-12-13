@@ -16,7 +16,7 @@ const usersData = [
     whatsapp: '390000000000',
     matricola: '123123',
     image: '',
-    credit: parseFloat('700').toFixed(4),
+    credit: parseFloat('0').toFixed(4),
     approved: true,
     password: hashPassword('123123123'),
     roleName: 'student',

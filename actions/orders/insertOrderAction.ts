@@ -10,11 +10,13 @@ interface InsertOrderActionProps {
   type: string
   quantity: number
   productId: string
+  createdAt?: Date
 }
 const insertOrderAction = async ({
   type,
   quantity,
   productId,
+  createdAt,
 }: InsertOrderActionProps) => {
   const session = await auth()
   const userId = session?.user.id
@@ -25,14 +27,6 @@ const insertOrderAction = async ({
 
   const amount = quantity * parseFloat(unitPrice) // net amount
 
-  if (amount > parseFloat(user.credit))
-    return {
-      data: [],
-      success: false,
-      message: 'Low Balance',
-      codeMessage: 'low_balance',
-    }
-
   const date = new Date()
   const dateTime = `${date.toLocaleTimeString()} ${date.toLocaleDateString()}`
 
@@ -42,9 +36,10 @@ const insertOrderAction = async ({
     type: 'credit',
     description: `${product.name} ordered on ${dateTime}`,
     amount: amount.toFixed(4),
+    createdAt,
   })
 
-  const updatedCredit = (parseFloat(user.credit) - amount).toFixed(4)
+  const updatedCredit = (parseFloat(user.credit) + amount).toFixed(4)
   await UserModel.updateUserCredit(userId, updatedCredit)
 
   const [newOrderId] = await OrderModel.createOrder({
@@ -54,9 +49,10 @@ const insertOrderAction = async ({
     unitPrice,
     productId,
     transactionId: transaction.id,
+    createdAt,
   })
 
-  const newOrder = await OrderModel.getOrdersId(newOrderId.id)
+  const newOrder = await OrderModel.getOrder(newOrderId.id)
 
   return {
     success: true,

@@ -10,6 +10,7 @@ const menu = [
     title: 'PRIMI',
     description:
       'Discover our Primi menu. Fresh & delicious Italian dishes. To delight your taste buds',
+    image: '/images/products/p-2.png',
     info: 'Mezze manic he al ragu Pasta al ragu',
   },
   {
@@ -18,6 +19,7 @@ const menu = [
     title: 'SECONDI',
     description:
       'Discover our Primi menu. Fresh & delicious Italian dishes. To delight your taste buds.',
+    image: '/images/products/p-8.png',
     info: 'Mezze manic he al ragu Pasta al ragu',
   },
   {
@@ -26,6 +28,7 @@ const menu = [
     title: 'CONTORNI',
     description:
       'Discover our Primi menu. Fresh & delicious Italian dishes. To delight your taste buds.',
+    image: '/images/products/p-9.png',
     info: 'Mezze manic he al ragu Pasta al ragu',
   },
 ]
@@ -53,17 +56,17 @@ const OurMenuSection = () => {
       </div>
 
       <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-        {menu.map(({ id, description, title, amount }) => (
+        {menu.map(({ id, description, title, amount, image }) => (
           <div
             key={id}
             className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-lg"
           >
             <Image
-              width={500}
-              height={500}
-              alt="PRIMI €5"
-              src="/images/products/p-2.png"
-              className="rounded-3xl shadow"
+              width={288}
+              alt={title}
+              src={image}
+              height={208}
+              className="h-52 w-72 rounded-3xl bg-primary-light object-contain shadow"
             />
             <p className="text-2xl">
               {title}{' '}

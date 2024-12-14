@@ -76,7 +76,7 @@ const PrivacyPolicyPage = () => {
         <Para>
           If you have any query regarding terms and conditions, please contact
           us at:{' '}
-          <span className="">
+          <span>
             <a
               className="font-semibold text-primary"
               href="mailto:info@poolaster.com"

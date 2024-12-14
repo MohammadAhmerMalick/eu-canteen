@@ -83,7 +83,7 @@ const UserOrdersModal = ({ isOpen, setOpen, orders }: UserOrdersModalProp) => {
             <TableColumn>
               <Checkbox slot="selection" />
             </TableColumn>
-            <TableColumn isRowHeader className="">
+            <TableColumn isRowHeader>
               <div className="flex items-center gap-4">
                 {[...selectedKeys].length ? (
                   <MenuPopup>

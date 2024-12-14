@@ -1,7 +1,7 @@
 const VideoBannerSection = () => {
   return (
     <section className="-mx-96 my-10 bg-black md:my-20">
-      <div className="">
+      <div>
         <video
           muted
           controls

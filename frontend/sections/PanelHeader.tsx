@@ -48,7 +48,7 @@ const PanelHeader = () => {
           onClick={() => setExpended(!expended)}
         >
           <div>
-            <p className="">{auth?.name}</p>
+            <p>{auth?.name}</p>
             <p className="text-sm text-neutral-400">
               {auth?.role.toUpperCase()}
             </p>

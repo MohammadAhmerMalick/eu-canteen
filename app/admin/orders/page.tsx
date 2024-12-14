@@ -9,6 +9,7 @@ import {
   TabPanel,
   TableBody,
   TableHeader,
+  Button as AriaButton,
   type Selection,
   type Key,
 } from 'react-aria-components'
@@ -26,7 +27,7 @@ import TableCell from '@/components/common/TableCell'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
 import { type OrderSlice } from '@/store/slices/ordersSlice'
-import getOrdersAction from '@/actions/orders/getOrderssAction'
+import getOrdersAction from '@/actions/orders/getOrdersAction'
 import UserOrdersModal from '@/components/modals/order/UserOrdersModal'
 import StudentCellWidget from '@/components/widgets/StudentCellWidget'
 
@@ -170,12 +171,12 @@ const OrdersPage = () => {
                       />
                     </TableCell>
                     <TableCell className="text-center">
-                      <button
-                        onClick={() => setSelectedOrders(sliceOrders)}
+                      <AriaButton
+                        onPress={() => setSelectedOrders(sliceOrders)}
                         className="mx-1 rounded-lg bg-green-200 p-2 text-lg text-green-600 shadow"
                       >
                         <AiOutlineEye />
-                      </button>
+                      </AriaButton>
                     </TableCell>
                   </Row>
                 ))}

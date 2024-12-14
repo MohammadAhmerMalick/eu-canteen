@@ -41,30 +41,28 @@ const CreditsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map(
-            ({ transactions: transaction, products: product }) => (
-              <tr key={transaction.id}>
-                <td className="border-b border-neutral-300 p-2">
-                  <span className="rounded-lg bg-primary-light p-2 text-primary">
-                    €{parseFloat(transaction.amount).toFixed(2)}
-                  </span>
-                </td>
-                <td className="border-b border-neutral-300 p-2">
-                  {transaction.description}
-                </td>
-                <td className="border-b border-neutral-300 p-2">
-                  {transaction.type.toUpperCase()}
-                </td>
-                <td className="border-b border-neutral-300 p-2">
-                  {new Date(transaction.createdAt || '').toLocaleTimeString()}{' '}
-                  {new Date(transaction.createdAt || '').toLocaleDateString()}
-                </td>
-                <td className="w-1 border-b border-neutral-300 p-2">
-                  {product && <ProductCell product={product} />}
-                </td>
-              </tr>
-            )
-          )}
+          {transactions.map(({ transaction, product }) => (
+            <tr key={transaction.id}>
+              <td className="border-b border-neutral-300 p-2">
+                <span className="rounded-lg bg-primary-light p-2 text-primary">
+                  €{parseFloat(transaction.amount).toFixed(2)}
+                </span>
+              </td>
+              <td className="border-b border-neutral-300 p-2">
+                {transaction.description}
+              </td>
+              <td className="border-b border-neutral-300 p-2">
+                {transaction.type.toUpperCase()}
+              </td>
+              <td className="border-b border-neutral-300 p-2">
+                {new Date(transaction.createdAt || '').toLocaleTimeString()}{' '}
+                {new Date(transaction.createdAt || '').toLocaleDateString()}
+              </td>
+              <td className="w-1 border-b border-neutral-300 p-2">
+                {product && <ProductCell product={product} />}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

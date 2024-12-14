@@ -2,11 +2,11 @@
 
 import { auth } from '@/auth'
 import TransactionModel from '@/models/TransactionModel'
-import { Transactions } from '@/store/slices/transactionsSlice'
+import { type TransactionSlice } from '@/store/slices/transactionsSlice'
 
 const getMyTransactionsAction = async (): Promise<
   | {
-      data: Transactions[]
+      data: TransactionSlice[]
       success: true
     }
   | {

@@ -3,22 +3,22 @@ import { type StateCreator } from 'zustand'
 import { type Store } from '@/store/store'
 import type { User } from '@/database/schema/usersSchema'
 import type { Product } from '@/database/schema/productsSchema'
-import transactionsTable from '@/database/schema/transactionsSchema'
+import { type Transaction } from '@/database/schema/transactionsSchema'
 
-export interface Transactions {
-  transactions: typeof transactionsTable.$inferInsert
-  users: User | null
-  products: Product | null
+export interface TransactionSlice {
+  transaction: Transaction
+  user: User | null
+  product: Product | null
 }
 
 export interface TransactionsState {
-  transactions: Transactions[]
+  transactions: TransactionSlice[]
 }
 
 export type TransactionsActions = {
-  setTransactions(transactions: Transactions[]): void
-  insertTransaction(transaction: Transactions): void
-  updateTransaction(transaction: Transactions): void
+  setTransactions(transactions: TransactionSlice[]): void
+  insertTransaction(transaction: TransactionSlice): void
+  updateTransaction(transaction: TransactionSlice): void
 }
 
 export type TransactionsSlice = TransactionsState & TransactionsActions
@@ -46,7 +46,7 @@ export const createTransactionsSlice: StateCreator<
     set((state) => ({
       ...state,
       transactions: state.transactions.map((s) =>
-        s.transactions.id === transaction.transactions.id ? transaction : s
+        s.transaction.id === transaction.transaction.id ? transaction : s
       ),
     })),
 })

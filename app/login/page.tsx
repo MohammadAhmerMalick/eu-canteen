@@ -39,16 +39,13 @@ const LoginPage = () => {
 
     setAuthStatus('authenticated')
     if (session?.user.role === 'admin') redirect(`/${session?.user.role}`)
-    if (session?.user.role === 'student') redirect('/student/menu')
-    redirect('/')
+    else redirect('/student/menu')
   }
 
   useEffect(() => {
-    if (auth?.role) {
+    if (auth?.role)
       if (auth.role === 'admin') redirect(`/${auth.role}`)
-      if (auth.role === 'student') redirect('/student/menu')
-      redirect('/')
-    }
+      else redirect('/student/menu')
   }, [authStatus, auth])
 
   return (

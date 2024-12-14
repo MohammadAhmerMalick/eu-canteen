@@ -5,6 +5,9 @@ const rolesData = [
   {
     name: 'student',
   },
+  {
+    name: 'player',
+  },
 ]
 
 export default rolesData

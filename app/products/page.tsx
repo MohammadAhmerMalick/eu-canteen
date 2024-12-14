@@ -14,7 +14,7 @@ import DataError from '@/components/common/DataError'
 import type { Product } from '@/database/schema/productsSchema'
 import CategoryTabCell from '@/components/common/CategoryTabCell'
 import getProductsAction from '@/actions/product/getProductsAction'
-import { type Category } from '@/databaCategoryse/schema/categoriesSchema'
+import { type Category } from '@/database/schema/categoriesSchema'
 import getAllCategoriesAction from '@/actions/category/getAllCategoriesAction'
 import CreateCheckoutModal from '@/components/modals/product/CreateCheckoutModal'
 

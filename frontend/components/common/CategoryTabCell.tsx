@@ -4,7 +4,7 @@ import type { Dispatch, SetStateAction } from 'react'
 
 import { classnames } from '@/utils'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
-import { type Category } from '@/databaCategoryse/schema/categoriesSchema'
+import { type Category } from '@/database/schema/categoriesSchema'
 
 interface CategoryTabCellProps {
   category: Category

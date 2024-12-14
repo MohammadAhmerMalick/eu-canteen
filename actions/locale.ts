@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 
-import { type Locale } from '@/i18n/config'
+import { defaultLocale, type Locale } from '@/i18n/config'
 
 const COOKIE_NAME = 'NEXT_LOCALE'
 
@@ -15,7 +15,7 @@ export const setUserLocale = async (locale: Locale) => {
 export const getLocale = async () => {
   const cookieStore = await cookies()
 
-  const lang = cookieStore.get(COOKIE_NAME)?.value
+  const lang = cookieStore.get(COOKIE_NAME)?.value || defaultLocale
 
   return lang
 }

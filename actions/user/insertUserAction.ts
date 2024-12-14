@@ -3,6 +3,7 @@
 import { randomUUID } from 'crypto'
 import { uploadFile } from '@/utils'
 import UserModel from '@/models/UserModel'
+import { hashPassword } from '@/libs/bcrypt'
 import type { User } from '@/database/schema/usersSchema'
 
 const insertUserAction = async (formData: FormData) => {
@@ -12,6 +13,7 @@ const insertUserAction = async (formData: FormData) => {
   const name = formData.get('name') as string
   const email = formData.get('email') as string
   const image = formData.get('image') as File
+  const password = formData.get('password') as string
   const whatsapp = formData.get('whatsapp') as string
   const matricola = isPlayer
     ? randomUUID()
@@ -25,7 +27,7 @@ const insertUserAction = async (formData: FormData) => {
     }
 
   // is email valid
-  if (!/@campus.unimib.it\s*$/.test(email))
+  if (!/@campus.unimib.it\s*$/.test(email) && !isPlayer)
     return {
       data: [],
       success: false,
@@ -47,7 +49,11 @@ const insertUserAction = async (formData: FormData) => {
     whatsapp,
     matricola,
     image: image.name,
-    approved: isPlayer,
+  }
+
+  if (isPlayer) {
+    payload.password = hashPassword(password)
+    payload.approved = true
   }
 
   // store file locally

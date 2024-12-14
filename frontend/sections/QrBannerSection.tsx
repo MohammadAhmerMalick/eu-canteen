@@ -49,7 +49,7 @@ const QrBannerSection = () => {
           src="/images/banners/player-login-qr-code.svg"
         />
         <p>OR</p>
-        <LinkButton href="/register-player " className="mt-4">
+        <LinkButton href="/register-player" className="mt-4">
           Click Here
         </LinkButton>
       </div>

@@ -15,7 +15,7 @@ const QrBannerSection = () => {
         width={1280}
         height={600}
         className="absolute h-full w-full object-cover"
-        src="/images/banners/qr-banner.png"
+        src="/images/banners/qr-banner.jpg"
       />
 
       <div className="relative z-10 space-y-4 text-center md:space-y-8">

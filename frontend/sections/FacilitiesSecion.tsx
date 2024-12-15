@@ -52,7 +52,7 @@ const FacilitiesSecion = () => {
         width={1280}
         height={600}
         className="mx-auto"
-        src="/images/banners/banner-1.png"
+        src="/images/banners/banner-1.jpg"
       />
 
       <div className="relative z-10 mx-auto mt-4 max-w-5xl rounded-3xl bg-white p-4 text-center md:-mt-12">

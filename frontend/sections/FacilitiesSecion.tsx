@@ -70,7 +70,7 @@ const FacilitiesSecion = () => {
               <Image
                 width={50}
                 height={48}
-                alt={text}
+                alt={`${text} Facility Available`}
                 src={image}
                 className="mx-auto h-8 drop-shadow md:h-14"
               />

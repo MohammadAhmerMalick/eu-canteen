@@ -18,11 +18,11 @@ const QrBannerSection = () => {
         src="/images/banners/qr-banner.png"
       />
 
-      <div className="relative z-10 space-y-8 text-center">
-        <p className="mx-auto w-max border-b-2 border-white text-4xl text-primary">
+      <div className="relative z-10 space-y-4 text-center md:space-y-8">
+        <p className="mx-auto w-max border-b-2 border-white text-3xl text-primary md:text-4xl">
           {t('name')}
         </p>
-        <p className="px-8 text-4xl">{t('offer')}</p>
+        <p className="px-8 text-2xl md:text-4xl">{t('offer')}</p>
         <p className="text-xl">{t('condition.1')}</p>
         <Link
           className="mx-auto block w-max rounded-xl border border-white px-3 py-1"

@@ -1,14 +1,144 @@
 {
   "HeroSection": {
-    "heading": "Poolaster",
-    "subHeading": "Bar - Osteria",
-    "paragraph": "From Italy’s Heart to Your Table, Immerse Yourself in the Art of True Italian Flavor.",
-    "buttonText": "Order Now",
+    "heading": "POOLASTER",
+    "subHeading": "BAR-OSTERIA",
+    "paragraph": {
+      "1": "Dal Cuore dell'Italia alla Tua Tavola",
+      "2": "Immergiti nell'Arte del Vero Sapore Italiano."
+    },
+    "buttonText": "Ordina Ora",
+
     "slider": {
-      "product1": {
+      "1": {
+        "title": "PIADINA LOMBARDA",
+        "description": "( Cotoletta, Insalata, Pomodori, Maionese )"
+      },
+      "2": {
+        "title": "PIZZA CAPRICCIOSA",
+        "description": "( Pomodoro, Mozzarella, Funghi, Cotto, Oliva )"
+      },
+      "3": {
+        "title": "PENNE ALL'ARRABBIATA",
+        "description": "( Pasta, Salsa Di Pomodoro Piccante )"
+      },
+      "4": {
         "title": "PANINO KEBAP",
-        "description": "( Chicken - Pomodoro - Onion - Sauce - Ketchup - Lettuce )"
+        "description": "( Pollo, Pomodoro, Cipolla, Salsa, Lattuga )"
       }
+    }
+  },
+
+  "Agent": {
+    "name": "Luca",
+    "title": "Gestione"
+  },
+
+  "FacilitiesSection": {
+    "1": "Buffet",
+    "2": "Catering",
+    "3": "Aria Condizionata",
+    "4": "Parcheggio Autonomo",
+    "5": "Eventi Privati",
+    "6": "Area Fumatori",
+    "7": "Animali Ammessi"
+  },
+
+  "QrBannerSection": {
+    "name": "GIOCATORI SPORTIVI!",
+    "offer": "Registrati e Ottieni il 10% DI SCONTO*",
+    "condition": {
+      "1": "*solo sul primo ordine",
+      "2": "*Questa Offerta è valida solo per gli Sportivi."
+    },
+    "activate": "Scansiona il Codice QR per Registrarti",
+    "Or": "OPPURE",
+    "clickHere": "CLICCA QUI"
+  },
+
+  "MemoriesSection": {
+    "title": "POOLASTER È PER TUTTI QUELLI CHE VOGLIONO COLLEZIONARE BELLISSIMI MOMENTI",
+    "description": "Per i Migliori Ricordi"
+  },
+
+  "ExperienceSection": {
+    "title": "GODITI L'ELEGANZA, IL SAPORE E IL COMFORT",
+    "description": "Da Poolaster, crediamo che cenare sia più di un semplice pasto: è un'esperienza. I nostri chef realizzano ogni piatto con passione, mescolando ingredienti freschi e di provenienza locale con l'arte culinaria per creare sapori che rimangono impressi nella tua memoria. Che tu sia qui per un pasto informale o per una festa speciale, promettiamo di rendere ogni momento straordinario."
+  },
+
+  "GreatServiceSection": {
+    "title": "SOLO IL MIGLIOR CIBO ITALIANO CON UN SERVIZIO ECCELLENTE"
+  },
+
+  "OurMenuSection": {
+    "title": "IL NOSTRO MENÙ",
+    "menuItems": {
+      "1": {
+        "type": "Menu Completo",
+        "price": "11 €",
+        "details": "primo + secondo + contorno e acqua"
+      },
+      "2": {
+        "type": "Menu Primo",
+        "price": "6 €",
+        "details": "primo + acqua"
+      },
+      "3": {
+        "type": "Menu Secondo",
+        "price": "8 €",
+        "details": "secondo + contorno + acqua"
+      },
+      "4": {
+        "type": "Menu Studenti",
+        "price": "7,50 €",
+        "details": "Piatto unico"
+      }
+    },
+    "specialItems": {
+      "1": {
+        "title": "PRIMI",
+        "amount": "€5",
+        "description": "Scopri il Nostro Menù Primi. Piatti Italiani Freschi e Deliziosi. Per Deliziare le Vostre Papille Gustative",
+        "action": "Ordina Ora"
+      },
+      "2": {
+        "title": "SECONDI",
+        "amount": "€7",
+        "description": "Esplora il Nostro Menù Secondi. Godetevi Autentici e Perfettamente Realizzati, Piatti Principali Italiani",
+        "action": "Ordina Ora"
+      },
+      "3": {
+        "title": "CONTORNI",
+        "amount": "€3",
+        "description": "Godetevi il Nostro Menù Contorni. Contorni Gustosi e Deliziosi, Per Completare il vostro Banchetto Italiano",
+        "action": "Ordina Ora"
+      }
+    },
+    "exploreMore": "Scopri di Più"
+  },
+
+  "Footer": {
+    "contact": {
+      "title": "CONTATTACI",
+      "phone": "+39 342 050 0567",
+      "email": "info@poolaster.com"
+    },
+
+    "address": {
+      "title": "INDIRIZZO",
+      "address": "Indirizzo: Via Comasina, 115, 20161 Milano-Italia"
+    },
+
+    "operations": {
+      "title": "ORARI DI APERTURA",
+      "weekdays": "dalle 12:00 alle 15:00 e dalle 19:00 alle 01:00  ( Pranzo e Cena )",
+      "kitchen": "La Cucina Chiude alle 22:00",
+      "saturday": "dalle 19:00 alle 01:00  ( Solo Cena )",
+      "sunday": "dalle 12:00 alle 19:00  ( Solo Pranzo )"
+    },
+
+    "ribbon": {
+      "designedBy": "Realizzato con 💝 | Un prodotto di Asmeron (Pvt.) Ltd e OS Tech Hub LLC",
+      "copyright": "© 2024 Poolaster, Tutti I Diritti Riservati"
     }
   }
 }

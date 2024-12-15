@@ -40,8 +40,10 @@ const AgentAssistance = ({
         <p className="text-xs text-neutral-500">{t('title')}</p>
       </div>
       <a
-        href="https://wa.me/+393420500567"
         target="_blank"
+        aria-label="Our WhatsApp"
+        rel="noopener noreferrer"
+        href="https://wa.me/+393420500567"
         className="flex h-full w-14 -scale-x-100 items-center justify-center rounded-full bg-primary text-3xl text-white"
       >
         <AiOutlinePhone />

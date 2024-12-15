@@ -10,21 +10,28 @@ import AiOutlineBell from '@/components/icons/AiOutlineBell'
 import AiOutlineFile from '@/components/icons/AiOutlineFile'
 import AiOutlineHome from '@/components/icons/AiOutlineHome'
 import Sidebar, { type SidebarLink } from '@/components/Sidebar'
+import AiOutlineEuroCircle from '@/components/icons/AiOutlineEuroCircle'
 // import VscGraph from '@/icons/VscGraph'
 
 const links: SidebarLink[] = [
   { link: '/admin', label: 'Dashboard', icon: <AiOutlineHome /> },
   { link: '/admin/orders', label: 'Orders', icon: <AiOutlineFile /> },
-  { link: '/admin/students', label: 'Students', icon: <FiUsers /> },
   {
     link: '/admin/students-requests',
     label: 'Students Requests',
     icon: <FiUsers />,
   },
+  { link: '/admin/students', label: 'Students', icon: <FiUsers /> },
+  { link: '/admin/players', label: 'Players', icon: <FiUsers /> },
   {
-    link: '/admin/students-credit',
-    label: 'Students Credit History',
-    icon: <FiUsers />,
+    link: '/admin/students-transactions',
+    label: 'Students Transections',
+    icon: <AiOutlineEuroCircle />,
+  },
+  {
+    link: '/admin/players-transactions',
+    label: 'Players Transections',
+    icon: <AiOutlineEuroCircle />,
   },
   // {
   //   link: '/admin/analytics',

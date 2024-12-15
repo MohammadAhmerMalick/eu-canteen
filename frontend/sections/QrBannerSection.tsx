@@ -1,14 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 import LinkButton from '@/components/common/LinkButton'
 
 const QrBannerSection = () => {
+  const t = useTranslations('QrBannerSection')
+
   return (
     <section className="philosopher-bold relative my-10 grid items-center gap-y-12 overflow-hidden rounded-3xl px-6 py-10 text-white md:my-20 md:grid-cols-3">
       <Image
-        alt="banner"
+        alt={t('offer')}
         width={1280}
         height={600}
         className="absolute h-full w-full object-cover"
@@ -17,10 +20,10 @@ const QrBannerSection = () => {
 
       <div className="relative z-10 space-y-8 text-center">
         <p className="mx-auto w-max border-b-2 border-white text-4xl text-primary">
-          SPORTS PLAYERS!
+          {t('name')}
         </p>
-        <p className="px-8 text-4xl">Register Yourself and Get 10% OFF*</p>
-        <p className="text-xl">*only on First Order</p>
+        <p className="px-8 text-4xl">{t('offer')}</p>
+        <p className="text-xl">{t('condition.1')}</p>
         <Link
           className="mx-auto block w-max rounded-xl border border-white px-3 py-1"
           href="/"
@@ -37,20 +40,20 @@ const QrBannerSection = () => {
           className="absolute left-0 right-0 top-4 mx-auto w-72"
           src="/images/banners/banner-food-dish.png"
         />
-        <p className="mt-4">*This offer is only valid for sports players</p>
+        <p className="mt-4">{t('condition.2')}</p>
       </div>
       <div className="relative z-10 space-y-4 text-center">
-        <p>Scan the QR code to register</p>
+        <p>{t('activate')}</p>
         <Image
-          alt="Dish"
+          alt="/register-player"
           width={224}
           height={224}
           className="mx-auto w-56"
-          src="/images/banners/player-login-qr-code.png"
+          src="/images/banners/player-login-qr-code.svg"
         />
-        <p>OR</p>
-        <LinkButton href="/register-player " className="mt-4">
-          Click Here
+        <p>{t('Or')}</p>
+        <LinkButton href="/register-player" className="mt-4">
+          {t('clickHere')}
         </LinkButton>
       </div>
     </section>

@@ -8,7 +8,7 @@ const rolesTable = pgTable('roles', {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
 
-  name: varchar({ length: 20 }).notNull().unique(),
+  name: varchar({ length: 20 }).notNull().unique(), // admin student player
 
   published: boolean().default(true),
   createdAt: timestamp().default(sql`now()`),

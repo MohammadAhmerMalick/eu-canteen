@@ -17,6 +17,7 @@ const SignupPage = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
+  const [password, setPassword] = useState('')
   const [matricola, setMatricola] = useState('')
   const [image, setImage] = useState<File | ''>('')
 
@@ -34,6 +35,7 @@ const SignupPage = () => {
     formData.append('name', name)
     formData.append('email', email)
     formData.append('image', image)
+    formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
     formData.append('userType', 'player')
@@ -53,7 +55,7 @@ const SignupPage = () => {
   })
 
   return (
-    <AuthLayoutSection title="Student Registration">
+    <AuthLayoutSection title="Registration Player">
       <form onSubmit={mutate} className="grid gap-3">
         <Input
           isRequired
@@ -69,10 +71,20 @@ const SignupPage = () => {
           id="email"
           type="email"
           value={email}
-          labelText="Student Email"
+          labelText="Email"
           labelClassName="text-sm"
-          placeholder="student@campus.unimib.it"
+          placeholder="player@gmail.com"
           onChange={({ value }) => setEmail(value)}
+        />
+        <Input
+          isRequired
+          id="password"
+          type="password"
+          value={password}
+          labelText="Password"
+          labelClassName="text-sm"
+          placeholder="*********"
+          onChange={({ value }) => setPassword(value)}
         />
         <Input
           isRequired
@@ -138,7 +150,7 @@ const SignupPage = () => {
         </div>
 
         <Button className="mt-4" isDisabled={isPending}>
-          Request For Register
+          Register
         </Button>
         <p className="mt-2 text-center text-sm font-normal text-neutral-500">
           Already have an account?{' '}

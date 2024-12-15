@@ -1,38 +1,8 @@
 'use client'
 
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import Carousel, { type ResponsiveType } from 'react-multi-carousel'
-
-const blocks = [
-  {
-    image: '/images/extras/buffet-icon.svg',
-    text: 'Buffet',
-  },
-  {
-    image: '/images/extras/catering-icon.svg',
-    text: 'Catering',
-  },
-  {
-    image: '/images/extras/air-conditioning-icon.svg',
-    text: 'Air Conditioning',
-  },
-  {
-    image: '/images/extras/self-parking-icon.svg',
-    text: 'Self Parking',
-  },
-  {
-    image: '/images/extras/private-events-icon.svg',
-    text: 'Private Events',
-  },
-  {
-    image: '/images/extras/smoking-area-icon.svg',
-    text: 'Smoking Area',
-  },
-  {
-    image: '/images/extras/pets-allowed-icon.svg',
-    text: 'Pets Allowed',
-  },
-]
 
 const responsive: ResponsiveType = {
   superLargeDesktop: { items: 7, breakpoint: { max: 4000, min: 3000 } },
@@ -41,7 +11,40 @@ const responsive: ResponsiveType = {
   mobile: { items: 2, breakpoint: { max: 464, min: 0 } },
 }
 
-const SevicesSecion = () => {
+const FacilitiesSecion = () => {
+  const t = useTranslations('FacilitiesSection')
+
+  const blocks = [
+    {
+      image: '/images/extras/buffet-icon.svg',
+      text: t('1'),
+    },
+    {
+      image: '/images/extras/catering-icon.svg',
+      text: t('2'),
+    },
+    {
+      image: '/images/extras/air-conditioning-icon.svg',
+      text: t('3'),
+    },
+    {
+      image: '/images/extras/self-parking-icon.svg',
+      text: t('4'),
+    },
+    {
+      image: '/images/extras/private-events-icon.svg',
+      text: t('5'),
+    },
+    {
+      image: '/images/extras/smoking-area-icon.svg',
+      text: t('6'),
+    },
+    {
+      image: '/images/extras/pets-allowed-icon.svg',
+      text: t('7'),
+    },
+  ]
+
   return (
     <section className="my-10 md:my-20">
       <Image
@@ -52,7 +55,7 @@ const SevicesSecion = () => {
         src="/images/banners/banner-1.png"
       />
 
-      <div className="relative z-10 mx-auto -mt-12 max-w-5xl rounded-3xl bg-white p-4 text-center">
+      <div className="relative z-10 mx-auto mt-4 max-w-5xl rounded-3xl bg-white p-4 text-center md:-mt-12">
         <Carousel
           ssr
           infinite
@@ -71,7 +74,7 @@ const SevicesSecion = () => {
                 src={image}
                 className="mx-auto h-8 drop-shadow md:h-14"
               />
-              <p className="mt-2"> {text}</p>
+              <p className="mt-2 text-sm">{text}</p>
             </div>
           ))}
         </Carousel>
@@ -80,4 +83,4 @@ const SevicesSecion = () => {
   )
 }
 
-export default SevicesSecion
+export default FacilitiesSecion

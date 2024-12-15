@@ -1,32 +1,41 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 const Footer = () => {
+  const t = useTranslations('Footer')
+
   return (
     <footer className="bg-black">
       <div className="mx-auto max-w-7xl px-4 pb-10 pt-16 text-center text-neutral-300">
         <div className="grid gap-3 md:grid-cols-3">
           <div className="mx-auto max-w-72 border-b border-primary pb-3 md:mx-0 md:max-w-full md:border-b-0 md:border-r">
-            <p className="mb-2 font-semibold uppercase">Contact Us</p>
-            <a href="tel:+393420500567" className="block font-light">
-              +39 342 050 0567
+            <p className="mb-2 font-semibold uppercase">{t('contact.title')}</p>
+            <a
+              href={`tel:${t('contact.phone').replaceAll(' ', '')}`}
+              className="block font-light"
+            >
+              {t('contact.phone')}
             </a>
-            <a href="mailto:info@poolaster.com" className="font-light">
-              info@poolaster.com
+            <a href={`mailto:${t('contact.email')}`} className="font-light">
+              {t('contact.email')}
             </a>
           </div>
           <div className="mx-auto max-w-72 border-b border-primary pb-3 md:mx-0 md:max-w-full md:border-b-0 md:border-r">
-            <p className="mb-2 font-semibold uppercase">Address</p>
-            <p className="font-light">
-              Address: Via Comasina, <br /> 115, 20161 Milan-Italy.
+            <p className="mb-2 font-semibold uppercase">{t('address.title')}</p>
+            <p className="mx-auto max-w-40 font-light">
+              {t('address.address')}
             </p>
           </div>
           <div>
-            <p className="mb-2 font-semibold uppercase">opening hours</p>
-            <p className="font-light">
-              Monday - Saturday : From 12:00 To 15:00 and 19:00 To 01:00 <br />
-              Kitchen Closes at 22:00 <br />
-              Sunday : From 12:00 To 19:00
+            <p className="mb-2 font-semibold uppercase">
+              {t('operations.title')}
+            </p>
+            <p className="mx-auto max-w-[343px] font-light">
+              Monday-Friday: {t('operations.weekdays')} <br />
+              Kitchen Closesat: {t('operations.kitchen')} <br />
+              Saturday: {t('operations.saturday')} <br />
+              Sunday: {t('operations.sunday')}
             </p>
           </div>
         </div>
@@ -83,10 +92,8 @@ const Footer = () => {
             />
           </div>
           <div className="md:text-right">
-            <p>
-              Made with 💝 | A Product of Asmeron (Pvt.) Ltd & OS Tech Hub LLC
-            </p>
-            <p>© 2024 Poolaster, ALL RIGHTS RESERVED</p>
+            <p>{t('ribbon.designedBy')}</p>
+            <p>{t('ribbon.copyright')}</p>
           </div>
         </div>
       </div>

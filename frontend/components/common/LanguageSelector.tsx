@@ -7,18 +7,29 @@ import {
   ListBoxItem,
   type Key,
 } from 'react-aria-components'
-import { useState } from 'react'
-import { toast } from 'react-toastify'
+import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
+import { getLocale, setUserLocale } from '@/actions/locale'
 
 const LanguageSelector = () => {
-  const [selected, setSelected] = useState<Key>('english')
+  const [selected, setSelected] = useState<Key>('it')
 
   const onSelectionChange = (key: Key) => {
-    if (key === 'italiano') toast.warn('🇮🇹 ITALIANO currently not available')
-    setSelected('english')
+    const locale = key === 'en' ? 'en' : 'it'
+
+    setSelected(locale)
+    setUserLocale(locale)
   }
+
+  const getSavedLocale = useCallback(async () => {
+    const locale = await getLocale()
+    onSelectionChange(locale || '')
+  }, [])
+
+  useEffect(() => {
+    getSavedLocale()
+  }, [getSavedLocale])
 
   return (
     <Select
@@ -38,13 +49,17 @@ const LanguageSelector = () => {
       </Button>
       <Popover>
         <ListBox className="rounded-lg bg-white/70 p-1 px-4 shadow-lg ring-[1px] ring-neutral-300 backdrop-blur">
-          <ListBoxItem id="italiano" className="flex cursor-pointer gap-2 py-1">
+          <ListBoxItem id="it" className="flex cursor-pointer gap-2 py-1">
             <span className="text-xl">🇮🇹</span>{' '}
-            <span className="text-sm md:text-base">ITALIANO</span>
+            <span className="hidden text-sm md:block md:text-base">
+              ITALIANO
+            </span>
           </ListBoxItem>
-          <ListBoxItem id="english" className="flex cursor-pointer gap-2 py-1">
+          <ListBoxItem id="en" className="flex cursor-pointer gap-2 py-1">
             <span className="text-xl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>{' '}
-            <span className="text-sm md:text-base">ENGLISH</span>
+            <span className="hidden text-sm md:block md:text-base">
+              ENGLISH
+            </span>
           </ListBoxItem>
         </ListBox>
       </Popover>

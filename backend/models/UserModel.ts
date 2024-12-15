@@ -13,6 +13,9 @@ class UserModel {
   static getAllStudents = () =>
     db.select().from(usersTable).where(eq(usersTable.roleName, 'student'))
 
+  static getAllPlayers = () =>
+    db.select().from(usersTable).where(eq(usersTable.roleName, 'player'))
+
   static getUserByEmail = (email: string) =>
     db.select().from(usersTable).where(eq(usersTable.email, email))
 

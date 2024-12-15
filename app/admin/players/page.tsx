@@ -9,8 +9,8 @@ import {
   Button as AriaButton,
 } from 'react-aria-components'
 import Image from 'next/image'
-import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { classnames } from '@/utils'
@@ -30,16 +30,16 @@ import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
 import EditUserModal from '@/components/modals/user/EditUserModal'
-import getAllStudentsAction from '@/actions/user/getAllStudentsAction'
+import getAllPlayersAction from '@/actions/user/getAllPlayersAction'
 import CreateUserModal from '@/components/modals/user/CreateUserModal'
 import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
-import updateUsersApprovedAction from '@/actions/user/updateUsersApprovedAction'
+import updateUsersPublishedAction from '@/actions/user/updateUsersPublishedAction'
 
 const dataErrorMessage = 'Unable to load users'
 
-const studentApprovedOptions = [
+const playerPublishOptions = [
   {
-    id: 'approved',
+    id: 'published',
     name: 'Active',
   },
   {
@@ -48,40 +48,44 @@ const studentApprovedOptions = [
   },
 ]
 
-const StudentsPage = () => {
+const PlayersPage = () => {
   const { users, setUsers } = useStore((state) => state)
 
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false)
   const [editModalData, setEditModalData] = useState<User | null>(null)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
   const [deleteModalData, setDeleteModalData] = useState<User | null>(null)
-  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
 
   const { isPending, error, refetch } = useQuery({
-    queryKey: ['getAllStudents'],
+    queryKey: ['getAllPlayers'],
     queryFn: async () => {
-      const { data, success } = await getAllStudentsAction()
+      const { data, success } = await getAllPlayersAction()
       if (success) setUsers(data)
       else toast.error(dataErrorMessage)
       return data
     },
   })
 
-  const bulkAction = (isApproved: string) => {
+  const bulkAction = (isPublished: string) => {
     const updatedUsers = users.filter(
       ({ id }) => [...selectedKeys].includes(id || '') || selectedKeys === 'all'
     )
 
     const updatedUserIds = updatedUsers.map((u) => u.id || '')
 
-    updateUsersApprovedAction({
+    updateUsersPublishedAction({
       ids: updatedUserIds,
-      approved: !!isApproved,
+      published: !!isPublished,
     })
 
     refetch()
 
     setSelectedKeys(new Set())
   }
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   if (isPending) return <Loading />
 
@@ -93,7 +97,7 @@ const StudentsPage = () => {
         <EditUserModal
           student={editModalData}
           isOpen={!!editModalData}
-          setOpen={() => setDeleteModalData(null)}
+          setOpen={() => setEditModalData(null)}
         />
       )}
       {deleteModalData && (
@@ -104,17 +108,17 @@ const StudentsPage = () => {
         />
       )}
       <CreateUserModal
-        isOpen={isAddUserModalVisible}
-        setOpen={setIsAddUserModalVisible}
+        isOpen={isAddModalVisible}
+        setOpen={setIsAddModalVisible}
       />
 
       <Table
         aria-label="Orders"
         selectionMode="multiple"
         className="w-full text-sm"
-        onRowAction={(e) => console.log(e)}
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
+        onRowAction={(e) => console.log(e)}
       >
         <TableHeader>
           <TableColumn>
@@ -124,7 +128,7 @@ const StudentsPage = () => {
             <div className="flex items-center gap-4">
               {[...selectedKeys].length ? (
                 <MenuPopup>
-                  {studentApprovedOptions.map(({ id, name }) => (
+                  {playerPublishOptions.map(({ id, name }) => (
                     <MenuItem key={id} onAction={() => bulkAction(id)}>
                       {name}
                     </MenuItem>
@@ -144,70 +148,72 @@ const StudentsPage = () => {
           <TableColumn>
             <Button
               className="ml-auto flex items-center gap-1 rounded-lg"
-              onPress={() => setIsAddUserModalVisible(true)}
+              onPress={() => setIsAddModalVisible(true)}
             >
               <FaPlus /> Student
             </Button>
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
-            <Row key={user.id} id={user.id}>
-              <TableCell className="text-center">
-                <Checkbox slot="selection" />
-              </TableCell>
-              <TableCell>
-                <div className="grid grid-cols-[40px_auto] items-center gap-2">
-                  <Image
-                    alt={user.name}
-                    width={40}
-                    height={40}
-                    src={
-                      user.image
-                        ? `${assetsBaseUrl}${user.image}`
-                        : '/images/students/s-1.png'
-                    }
-                    className={classnames(
-                      'rounded-full border-2',
-                      user.approved ? 'border-primary' : 'border-neutral-400'
-                    )}
-                  />
-                  {user.name}
-                </div>
-              </TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell> {user.whatsapp}</TableCell>
-              <TableCell className="text-center">{user.matricola}</TableCell>
-              <TableCell className="text-center">
-                <EuroChip amount={user.credit} />
-              </TableCell>
-              <TableCell className="text-center">
-                {user.approved ? (
-                  <p className="text-green-700">Active</p>
-                ) : (
-                  <p className="text-red-700">Inactive</p>
-                )}
-              </TableCell>
-              <TableCell className="text-right">
-                <AriaButton
-                  onPress={() => setEditModalData(user)}
-                  className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
-                >
-                  <AiOutlineEdit />
-                </AriaButton>
-                <AriaButton
-                  onPress={() => setDeleteModalData(user)}
-                  className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
-                >
-                  <AiOutlineDelete />
-                </AriaButton>
-              </TableCell>
-            </Row>
-          ))}
+          {users
+            .filter((user) => user.approved)
+            .map((user) => (
+              <Row key={user.id} id={user.id}>
+                <TableCell className="text-center">
+                  <Checkbox slot="selection" />
+                </TableCell>
+                <TableCell>
+                  <div className="grid grid-cols-[40px_auto] items-center gap-2">
+                    <Image
+                      alt={user.name}
+                      width={40}
+                      height={40}
+                      src={
+                        user.image
+                          ? `${assetsBaseUrl}${user.image}`
+                          : '/images/students/s-1.png'
+                      }
+                      className={classnames(
+                        'rounded-full border-2',
+                        user.published ? 'border-primary' : 'border-neutral-400'
+                      )}
+                    />
+                    {user.name}
+                  </div>
+                </TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell> {user.whatsapp}</TableCell>
+                <TableCell className="text-center">{user.matricola}</TableCell>
+                <TableCell className="text-center">
+                  <EuroChip amount={user.credit} />
+                </TableCell>
+                <TableCell className="text-center">
+                  {user.published ? (
+                    <p className="text-green-700">Active</p>
+                  ) : (
+                    <p className="text-red-700">Inactive</p>
+                  )}
+                </TableCell>
+                <TableCell className="text-right">
+                  <AriaButton
+                    onPress={() => setEditModalData(user)}
+                    className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
+                  >
+                    <AiOutlineEdit />
+                  </AriaButton>
+                  <AriaButton
+                    onPress={() => setDeleteModalData(user)}
+                    className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
+                  >
+                    <AiOutlineDelete />
+                  </AriaButton>
+                </TableCell>
+              </Row>
+            ))}
         </TableBody>
       </Table>
     </div>
   )
 }
 
-export default StudentsPage
+export default PlayersPage

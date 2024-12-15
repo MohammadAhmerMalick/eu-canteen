@@ -4,13 +4,13 @@ import { type Store } from '@/store/store'
 import type { User } from '@/database/schema/usersSchema'
 import type { Order } from '@/database/schema/ordersSchema'
 import { type Product } from '@/database/schema/productsSchema'
-import transactionsTable from '@/database/schema/transactionsSchema'
+import { type Transaction } from '@/database/schema/transactionsSchema'
 
 export interface OrderSlice {
   order: Order
   user: User | null
   product: Product | null
-  transaction: typeof transactionsTable.$inferInsert | null
+  transaction: Transaction | null
 }
 
 export interface OrdersState {

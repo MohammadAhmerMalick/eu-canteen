@@ -128,9 +128,7 @@ const UserOrdersModal = ({ isOpen, setOpen, orders }: UserOrdersModalProp) => {
                 </TableCell>
                 <TableCell className="text-center">
                   <EuroChip
-                    amount={(
-                      parseFloat(order.unitPrice) * order.quantity
-                    ).toString()}
+                    amount={parseFloat(order.unitPrice) * order.quantity}
                   />
                 </TableCell>
                 <TableCell>

@@ -54,13 +54,13 @@ const CreateCheckoutModal = ({
       return
     }
 
-    const { success, message, codeMessage, data } = await insertOrderAction({
+    const { success, data } = await insertOrderAction({
       type,
       quantity,
       productId: product.id,
     })
     if (success) {
-      updateOrder(data[0])
+      updateOrder(data)
       toast.success('Order placed')
       setOpen(false)
       setAuth({
@@ -70,9 +70,7 @@ const CreateCheckoutModal = ({
           parseFloat(product.price) * quantity
         ).toFixed(2),
       })
-    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
-      toast.error('Unable to handle request right now, please contact to admin')
+    } else toast.error('Unable to create order')
   }
 
   return (

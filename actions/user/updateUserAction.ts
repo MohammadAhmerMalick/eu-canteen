@@ -1,8 +1,8 @@
 'use server'
 
-import { uploadFile } from '@/utils'
 import UserModel from '@/models/UserModel'
 import { hashPassword } from '@/libs/bcrypt'
+import { CONSTANTS, uploadFile } from '@/utils'
 import type { User } from '@/database/schema/usersSchema'
 
 type Return = Promise<
@@ -18,6 +18,9 @@ type Return = Promise<
 
 const updateUserAction = async (formData: FormData): Return => {
   try {
+    const userType = formData.get('userType') as string
+    const isPlayer = userType === CONSTANTS.roleName.player
+
     const id = formData.get('id') as string
     const name = formData.get('name') as string
     const image = formData.get('image') as File
@@ -29,7 +32,7 @@ const updateUserAction = async (formData: FormData): Return => {
     const matricola = formData.get('matricola') as string
 
     // is email valid
-    if (!/@campus.unimib.it\s*$/.test(email))
+    if (!/@campus.unimib.it\s*$/.test(email) && !isPlayer)
       return {
         data: null,
         success: false,

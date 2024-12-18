@@ -15,16 +15,10 @@ import ModalContainer from '@/components/common/ModalContainer'
 interface EditUserModalProp {
   student: User
   isOpen: boolean
-  isPlayer: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EditUserModal = ({
-  isOpen,
-  student,
-  isPlayer,
-  setOpen,
-}: EditUserModalProp) => {
+const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
   const queryClient = useQueryClient()
 
   const [password, setPassword] = useState('')
@@ -47,10 +41,12 @@ const EditUserModal = ({
     // formData.append('credit', credit)
     formData.append('password', password)
     formData.append('whatsapp', whatsapp)
+    formData.append('userType', student.roleName || '')
     formData.append('matricola', matricola)
     formData.append('approved', approved ? 'approved' : '')
 
-    if (isPlayer) formData.append('userType', CONSTANTS.roleName.player)
+    if (student.roleName === CONSTANTS.roleName.player)
+      formData.append('userType', CONSTANTS.roleName.player)
 
     const { success } = await updateUserAction(formData)
     if (success) {
@@ -104,7 +100,7 @@ const EditUserModal = ({
             placeholder="39000000000"
             labelClassName="text-sm"
           />
-          {!isPlayer && (
+          {student.roleName === CONSTANTS.roleName.student && (
             <Input
               isRequired
               onlyNumber

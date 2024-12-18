@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import type { Dispatch, SetStateAction } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
-import { classnames } from '@/utils'
+import { classnames, CONSTANTS } from '@/utils'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 import type { User } from '@/database/schema/usersSchema'
@@ -14,16 +14,10 @@ import ModalContainer from '@/components/common/ModalContainer'
 interface DeleteUserModalProp {
   student: User
   isOpen: boolean
-  isPlayer: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DeleteUserModal = ({
-  isOpen,
-  student,
-  isPlayer,
-  setOpen,
-}: DeleteUserModalProp) => {
+const DeleteUserModal = ({ isOpen, student, setOpen }: DeleteUserModalProp) => {
   const queryClient = useQueryClient()
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -70,7 +64,7 @@ const DeleteUserModal = ({
             <p>
               <span className="text-primary">WhatsApp:</span> {student.whatsapp}
             </p>
-            {!isPlayer && (
+            {student.roleName === CONSTANTS.roleName.student && (
               <p>
                 <span className="text-primary">Matricola Number:</span>{' '}
                 {student.matricola}

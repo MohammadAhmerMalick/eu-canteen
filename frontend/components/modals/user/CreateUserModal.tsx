@@ -13,14 +13,14 @@ import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
 interface CreateUserModalProp {
   isOpen: boolean
-  isPlayer: boolean
+  isPlayer?: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const CreateUserModal = ({
   isOpen,
   setOpen,
-  isPlayer,
+  isPlayer = false,
 }: CreateUserModalProp) => {
   const queryClient = useQueryClient()
 

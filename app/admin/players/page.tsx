@@ -94,7 +94,6 @@ const PlayersPage = () => {
     <div>
       {editModalData && (
         <EditUserModal
-          isPlayer
           student={editModalData}
           isOpen={!!editModalData}
           setOpen={() => setEditModalData(null)}
@@ -102,7 +101,6 @@ const PlayersPage = () => {
       )}
       {deleteModalData && (
         <DeleteUserModal
-          isPlayer
           student={deleteModalData}
           isOpen={!!deleteModalData}
           setOpen={() => setDeleteModalData(null)}

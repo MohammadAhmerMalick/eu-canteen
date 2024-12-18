@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { toast } from 'react-toastify'
+import { useSession } from 'next-auth/react'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -21,6 +22,7 @@ import CreateCheckoutModal from '@/components/modals/product/CreateCheckoutModal
 const dataErrorMessage = 'Unable to load products'
 
 const ProductPage = () => {
+  const { status } = useSession()
   const { products, setProducts } = useStore((state) => state)
   const { categories, setCategories } = useStore((state) => state)
 
@@ -43,6 +45,11 @@ const ProductPage = () => {
     const { data } = await getAllCategoriesAction()
     setCategories(data)
   }, [setCategories])
+
+  const showCheckoutModal = (product: Product) => {
+    if (status === 'authenticated') setCheckoutModalData(product)
+    else toast.info('Login Please')
+  }
 
   useEffect(() => {
     if (!categories.length) getCategories()
@@ -104,7 +111,7 @@ const ProductPage = () => {
               .map(({ products: product }) => (
                 <ProductCard
                   product={product}
-                  onPress={() => setCheckoutModalData(product)}
+                  onPress={() => showCheckoutModal(product)}
                   key={product.id}
                 />
               ))}

@@ -63,9 +63,9 @@ class TransactionModel {
 
   static createTransaction = (transaction: Transaction) =>
     db
-      .insert(transactionsTable)
+      .insert(transactionsTableSchema)
       .values(transaction)
-      .returning({ id: transactionsTable.id })
+      .returning({ id: transactionsTableSchema.id })
 
   static getUserTodaysTransactions = (userId: string) =>
     db

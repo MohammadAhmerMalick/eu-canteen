@@ -1,4 +1,5 @@
 import { FormEvent } from 'react'
+
 import { storeFileLocally, uploadToCloudinay } from '@/libs/assetsManagement'
 
 export const classnames = (...args: unknown[]) => {
@@ -48,4 +49,8 @@ export const getRandomDate = (from: Date, to: Date) => {
 export const CONSTANTS = {
   PRIMARY: '#FF7800',
   PRIMARY_LIGHT: '#FEE9DE',
+
+  imagePlaceholders: {
+    product: '/images/products/p-1.png',
+  },
 }

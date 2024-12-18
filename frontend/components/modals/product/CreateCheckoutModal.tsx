@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
+import { CONSTANTS } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
@@ -54,13 +55,13 @@ const CreateCheckoutModal = ({
       return
     }
 
-    const { success, message, codeMessage, data } = await insertOrderAction({
+    const { success, data } = await insertOrderAction({
       type,
       quantity,
       productId: product.id,
     })
     if (success) {
-      updateOrder(data[0])
+      updateOrder(data)
       toast.success('Order placed')
       setOpen(false)
       setAuth({
@@ -70,9 +71,7 @@ const CreateCheckoutModal = ({
           parseFloat(product.price) * quantity
         ).toFixed(2),
       })
-    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
-      toast.error('Unable to handle request right now, please contact to admin')
+    } else toast.error('Unable to create order')
   }
 
   return (
@@ -91,7 +90,7 @@ const CreateCheckoutModal = ({
                 src={
                   product.image
                     ? `${assetsBaseUrl}${product.image}`
-                    : '/images/product/p-1.png'
+                    : CONSTANTS.imagePlaceholders.product
                 }
               />
             </div>

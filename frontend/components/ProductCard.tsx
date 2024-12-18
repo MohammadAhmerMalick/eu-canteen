@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { CONSTANTS } from '@/utils'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 import { type Product } from '@/database/schema/productsSchema'
@@ -21,7 +22,7 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
           src={
             product.image
               ? `${assetsBaseUrl}${product.image}`
-              : '/images/products/p-1.png'
+              : CONSTANTS.imagePlaceholders.product
           }
         />
       </div>

@@ -12,10 +12,10 @@ import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
+import { classnames, CONSTANTS } from '@/utils'
 import Loading from '@/components/common/Loading'
 import TableCell from '@/components/common/TableCell'
 import DataError from '@/components/common/DataError'
@@ -108,7 +108,7 @@ const CategoriesPage = () => {
                     src={
                       category.image
                         ? `${assetsBaseUrl}${category.image}`
-                        : '/images/product/p-1.png'
+                        : CONSTANTS.imagePlaceholders.product
                     }
                     className={classnames(
                       'rounded-full border-2',

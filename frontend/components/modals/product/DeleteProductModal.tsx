@@ -3,9 +3,9 @@ import { FormEvent } from 'react'
 import { toast } from 'react-toastify'
 import type { Dispatch, SetStateAction } from 'react'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
+import { classnames, CONSTANTS } from '@/utils'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 import type { Product } from '@/database/schema/productsSchema'
 import ModalContainer from '@/components/common/ModalContainer'
@@ -51,7 +51,7 @@ const DeleteProductModal = ({
             src={
               product.image
                 ? `${assetsBaseUrl}${product.image}`
-                : '/images/product/p-1.png'
+                : CONSTANTS.imagePlaceholders.product
             }
             className={classnames(
               'rounded-full border-2',

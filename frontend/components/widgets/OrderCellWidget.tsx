@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { classnames } from '@/utils'
+import { classnames, CONSTANTS } from '@/utils'
 import { type OrderSlice } from '@/store/slices/ordersSlice'
 
 interface OrderCellWidgetProps {
@@ -19,7 +19,7 @@ const OrderCellWidget = ({ orderSlice }: OrderCellWidgetProps) => {
               alt={product.name}
               width={52}
               height={52}
-              src="/images/products/p-1.png"
+              src={CONSTANTS.imagePlaceholders.product}
               className={classnames(
                 'rounded-full border-2',
                 product.published ? 'border-primary' : 'border-neutral-400'

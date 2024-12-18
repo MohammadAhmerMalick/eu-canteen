@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import type { Dispatch, SetStateAction } from 'react'
 
-import { classnames } from '@/utils'
+import { classnames, CONSTANTS } from '@/utils'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
 import { type Category } from '@/database/schema/categoriesSchema'
 
@@ -36,7 +36,7 @@ const CategoryTabCell = ({
         src={
           category.image
             ? `${assetsBaseUrl}${category.image}`
-            : '/images/product/p-1.png'
+            : CONSTANTS.imagePlaceholders.product
         }
       />
       <p className="text-sm md:text-base">{category.name}</p>

@@ -18,13 +18,13 @@ const ProductCarousel = () => {
   const products = [
     {
       id: 1,
-      image: '/images/products/p-4.png',
+      image: '/images/products/p-5.png',
       title: t('slider.1.title'),
       details: t('slider.1.description'),
     },
     {
       id: 2,
-      image: '/images/products/p-5.png',
+      image: '/images/products/p-4.png',
       title: t('slider.2.title'),
       details: t('slider.2.description'),
     },

@@ -15,10 +15,12 @@ const HeroSection = () => {
           <span className="text-4xl md:text-6xl">{t('subHeading')}</span>
         </h1>
 
-        <p>{t('paragraph.1')}</p>
-        <p>{t('paragraph.2')}</p>
+        <div className="mt-4 md:text-lg">
+          <p>{t('paragraph.1')}</p>
+          <p>{t('paragraph.2')}</p>
+        </div>
 
-        <LinkButton className="mt-6" href="/products">
+        <LinkButton className="mt-6 md:text-lg" href="/products">
           {t('buttonText')}
         </LinkButton>
       </div>

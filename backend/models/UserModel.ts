@@ -12,7 +12,10 @@ class UserModel {
     db.select().from(usersTable).where(eq(usersTable.id, id))
 
   static getAllStudents = () =>
-    db.select().from(usersTable).where(eq(usersTable.roleName, 'student'))
+    db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.roleName, CONSTANTS.roleName.student))
 
   static getAllPlayers = () =>
     db
@@ -83,7 +86,7 @@ class UserModel {
         and(
           eq(usersTable.approved, true),
           eq(usersTable.published, true),
-          eq(usersTable.roleName, 'student')
+          eq(usersTable.roleName, CONSTANTS.roleName.student)
         )
       )
 }

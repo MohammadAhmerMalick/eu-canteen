@@ -28,8 +28,8 @@ import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
 import { type OrderSlice } from '@/store/slices/ordersSlice'
 import getOrdersAction from '@/actions/orders/getOrdersAction'
+import UserCellWidget from '@/components/widgets/UserCellWidget'
 import UserOrdersModal from '@/components/modals/order/UserOrdersModal'
-import StudentCellWidget from '@/components/widgets/StudentCellWidget'
 
 interface GroupByDate {
   [key: string]: {
@@ -143,7 +143,7 @@ const OrdersPage = () => {
                   <Row key={sliceOrders?.[0]?.user?.id || ''}>
                     <TableCell>
                       {sliceOrders[0].user && (
-                        <StudentCellWidget student={sliceOrders[0].user} />
+                        <UserCellWidget user={sliceOrders[0].user} />
                       )}
                     </TableCell>
                     <TableCell>

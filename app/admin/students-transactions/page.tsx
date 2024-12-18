@@ -27,7 +27,7 @@ import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
 import TableColumn from '@/components/common/TableColumn'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
-import StudentCellWidget from '@/components/widgets/StudentCellWidget'
+import UserCellWidget from '@/components/widgets/UserCellWidget'
 import { type TransactionSlice } from '@/store/slices/transactionsSlice'
 import getTransactionsAction from '@/actions/transaction/getTransactionsAction'
 import UserTransactionsModal from '@/components/modals/transaction/UserTransactionsModal'
@@ -148,9 +148,7 @@ const TransactionPage = () => {
                   <Row key={sliceTransactions?.[0]?.user?.id || ''}>
                     <TableCell>
                       {sliceTransactions[0].user && (
-                        <StudentCellWidget
-                          student={sliceTransactions[0].user}
-                        />
+                        <UserCellWidget user={sliceTransactions[0].user} />
                       )}
                     </TableCell>
                     <TableCell className="hidden md:block">

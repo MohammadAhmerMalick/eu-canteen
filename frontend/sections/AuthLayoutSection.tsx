@@ -24,7 +24,7 @@ const AuthLayoutSection = ({ children, title }: AuthLayoutSectionProps) => {
         {children}
       </div>
 
-      <div className="absolute bottom-0 mt-auto w-full p-2 text-right text-sm">
+      <div className="absolute bottom-0 mt-auto w-full p-2 text-center text-sm text-white drop-shadow md:text-right">
         <p>Made with 💝 | A Product of Asmeron (Pvt.) Ltd & OS Tech Hub LLC</p>
         <p>© 2024 Poolaster, ALL RIGHTS RESERVED</p>
       </div>

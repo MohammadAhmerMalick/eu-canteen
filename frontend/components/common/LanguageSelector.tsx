@@ -7,6 +7,7 @@ import {
   ListBoxItem,
   type Key,
 } from 'react-aria-components'
+import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
@@ -50,13 +51,27 @@ const LanguageSelector = () => {
       <Popover>
         <ListBox className="rounded-lg bg-white/70 p-1 px-4 shadow-lg ring-[1px] ring-neutral-300 backdrop-blur">
           <ListBoxItem id="it" className="flex cursor-pointer gap-2 py-1">
-            <span className="text-xl">🇮🇹</span>{' '}
+            <span className="text-xl">
+              <Image
+                width={20}
+                height={20}
+                alt="Italian"
+                src="/images/extras/italy-flag.png"
+              />
+            </span>{' '}
             <span className="hidden text-sm md:block md:text-base">
               ITALIANO
             </span>
           </ListBoxItem>
           <ListBoxItem id="en" className="flex cursor-pointer gap-2 py-1">
-            <span className="text-xl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>{' '}
+            <span className="text-xl">
+              <Image
+                width={20}
+                height={20}
+                alt="English"
+                src="/images/extras/english-flag.png"
+              />
+            </span>{' '}
             <span className="hidden text-sm md:block md:text-base">
               ENGLISH
             </span>

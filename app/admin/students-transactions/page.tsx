@@ -168,13 +168,11 @@ const TransactionPage = () => {
                     </TableCell>
                     <TableCell className="text-center">
                       <EuroChip
-                        amount={sliceTransactions
-                          .reduce(
-                            (a, { transaction }) =>
-                              Number(a) + Number(transaction?.amount),
-                            0
-                          )
-                          .toString()}
+                        amount={sliceTransactions.reduce(
+                          (a, { transaction }) =>
+                            Number(a) + Number(transaction?.amount),
+                          0
+                        )}
                       />
                     </TableCell>
                     <TableCell className="text-center">

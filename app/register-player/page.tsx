@@ -12,6 +12,7 @@ import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
 import AuthLayoutSection from '@/sections/AuthLayoutSection'
 import insertUserAction from '@/actions/user/insertUserAction'
 import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
+import RegistrationSuccess from '@/components/modals/user/RegistrationSuccess'
 
 const SignupPage = () => {
   const [name, setName] = useState('')
@@ -20,6 +21,7 @@ const SignupPage = () => {
   const [password, setPassword] = useState('')
   const [matricola, setMatricola] = useState('')
   const [image, setImage] = useState<File | ''>('')
+  const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false)
 
   const resetForm = () => {
     setName('')
@@ -44,10 +46,15 @@ const SignupPage = () => {
     if (success) {
       toast.success('Your request has been submitted for the review')
       resetForm()
-      redirect('/')
+      setIsRegistrationSuccess(true)
     } else if (message) toast.warn(message)
     else
       toast.error('Unable to handle request right now, please contact to admin')
+  }
+
+  const onSuccessModalClose = () => {
+    setIsRegistrationSuccess(false)
+    redirect('/')
   }
 
   const { mutate, isPending } = useMutation({
@@ -56,6 +63,15 @@ const SignupPage = () => {
 
   return (
     <AuthLayoutSection title="Registration Player">
+      <RegistrationSuccess
+        isOpen={isRegistrationSuccess}
+        setOpen={() => onSuccessModalClose()}
+      >
+        <div className="font-normal text-neutral-500">
+          <p>{name} you have been successfully registered</p>
+          <p>Enjoy our service</p>
+        </div>
+      </RegistrationSuccess>
       <form onSubmit={mutate} className="grid gap-3">
         <Input
           isRequired

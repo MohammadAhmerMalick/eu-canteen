@@ -1,6 +1,7 @@
 import { and, eq, getTableColumns, inArray, or } from 'drizzle-orm'
 
 import db from '@/database/index'
+import { CONSTANTS } from '@/utils'
 import usersTable from '@/database/schema/usersSchema'
 import type { User } from '@/database/schema/usersSchema'
 
@@ -14,7 +15,10 @@ class UserModel {
     db.select().from(usersTable).where(eq(usersTable.roleName, 'student'))
 
   static getAllPlayers = () =>
-    db.select().from(usersTable).where(eq(usersTable.roleName, 'player'))
+    db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.roleName, CONSTANTS.roleName.player))
 
   static getUserByEmail = (email: string) =>
     db.select().from(usersTable).where(eq(usersTable.email, email))

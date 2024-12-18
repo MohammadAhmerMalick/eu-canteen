@@ -53,4 +53,9 @@ export const CONSTANTS = {
   imagePlaceholders: {
     product: '/images/products/p-1.png',
   },
+
+  roleName: {
+    player: 'player',
+    student: 'student',
+  },
 }

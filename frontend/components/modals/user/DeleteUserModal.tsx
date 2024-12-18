@@ -14,10 +14,16 @@ import ModalContainer from '@/components/common/ModalContainer'
 interface DeleteUserModalProp {
   student: User
   isOpen: boolean
+  isPlayer: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const DeleteUserModal = ({ isOpen, setOpen, student }: DeleteUserModalProp) => {
+const DeleteUserModal = ({
+  isOpen,
+  student,
+  isPlayer,
+  setOpen,
+}: DeleteUserModalProp) => {
   const queryClient = useQueryClient()
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -64,10 +70,12 @@ const DeleteUserModal = ({ isOpen, setOpen, student }: DeleteUserModalProp) => {
             <p>
               <span className="text-primary">WhatsApp:</span> {student.whatsapp}
             </p>
-            <p>
-              <span className="text-primary">Matricola Number:</span>{' '}
-              {student.matricola}
-            </p>
+            {!isPlayer && (
+              <p>
+                <span className="text-primary">Matricola Number:</span>{' '}
+                {student.matricola}
+              </p>
+            )}
             <p>
               <span className="text-primary">Status:</span>{' '}
               {student.approved ? (

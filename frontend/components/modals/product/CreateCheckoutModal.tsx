@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
+import { CONSTANTS } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
@@ -89,7 +90,7 @@ const CreateCheckoutModal = ({
                 src={
                   product.image
                     ? `${assetsBaseUrl}${product.image}`
-                    : '/images/product/p-1.png'
+                    : CONSTANTS.imagePlaceholders.product
                 }
               />
             </div>

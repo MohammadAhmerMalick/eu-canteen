@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { classnames } from '@/utils'
+import { classnames, CONSTANTS } from '@/utils'
 import type { Product } from '@/database/schema/productsSchema'
 
 interface ProductCellWidgetProps {
@@ -15,7 +15,7 @@ const ProductCellWidget = ({ product }: ProductCellWidgetProps) => {
           alt={product.name}
           width={52}
           height={52}
-          src="/images/products/p-1.png"
+          src={CONSTANTS.imagePlaceholders.product}
           className={classnames(
             'rounded-full border-2',
             product.published ? 'border-primary' : 'border-neutral-400'

@@ -14,10 +14,10 @@ import {
   Button as AriaButton,
   type Selection,
 } from 'react-aria-components'
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
+import { classnames, CONSTANTS } from '@/utils'
 import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import EuroChip from '@/components/common/EuroChip'
@@ -183,7 +183,7 @@ const ProductsPage = () => {
                     src={
                       product.image
                         ? `${assetsBaseUrl}${product.image}`
-                        : '/images/products/p-1.png'
+                        : CONSTANTS.imagePlaceholders.product
                     }
                     className={classnames(
                       'rounded-full border-2',
@@ -212,7 +212,7 @@ const ProductsPage = () => {
                       src={
                         category.image
                           ? `${assetsBaseUrl}${category.image}`
-                          : '/images/products/p-1.png'
+                          : CONSTANTS.imagePlaceholders.product
                       }
                       className={classnames(
                         'rounded-full border-2',

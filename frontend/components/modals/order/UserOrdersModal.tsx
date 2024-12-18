@@ -19,7 +19,7 @@ import TableCell from '@/components/common/TableCell'
 import TableColumn from '@/components/common/TableColumn'
 import { type OrderSlice } from '@/store/slices/ordersSlice'
 import ModalContainer from '@/components/common/ModalContainer'
-import StudentCellWidget from '@/components/widgets/StudentCellWidget'
+import UserCellWidget from '@/components/widgets/UserCellWidget'
 import ProductCellWidget from '@/components/widgets/ProductCellWidget'
 import updateOrdersStatusAction from '@/actions/orders/updateOrdersStatusAction'
 
@@ -112,9 +112,7 @@ const UserOrdersModal = ({ isOpen, setOpen, orders }: UserOrdersModalProp) => {
                 <TableCell className="text-center">
                   <Checkbox slot="selection" />
                 </TableCell>
-                <TableCell>
-                  {user && <StudentCellWidget student={user} />}
-                </TableCell>
+                <TableCell>{user && <UserCellWidget user={user} />}</TableCell>
                 <TableCell>
                   {product && <ProductCellWidget product={product} />}
                 </TableCell>

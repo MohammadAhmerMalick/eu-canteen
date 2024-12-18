@@ -3,6 +3,7 @@ import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
+import { CONSTANTS } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
@@ -12,14 +13,20 @@ import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
 interface CreateUserModalProp {
   isOpen: boolean
+  isPlayer?: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
+const CreateUserModal = ({
+  isOpen,
+  setOpen,
+  isPlayer = false,
+}: CreateUserModalProp) => {
   const queryClient = useQueryClient()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [matricola, setMatricola] = useState('')
   const [image, setImage] = useState<File | ''>('')
@@ -31,8 +38,11 @@ const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
     formData.append('name', name)
     formData.append('email', email)
     formData.append('image', image)
+    formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
+
+    if (isPlayer) formData.append('userType', CONSTANTS.roleName.player)
 
     const { success, message } = await insertUserAction(formData)
 
@@ -79,16 +89,30 @@ const CreateUserModal = ({ isOpen, setOpen }: CreateUserModalProp) => {
             placeholder="39000000000"
             labelClassName="text-sm"
           />
-          <Input
-            isRequired
-            onlyNumber
-            id="matricola"
-            value={matricola}
-            onChange={({ value }) => setMatricola(value)}
-            labelText="Matricola Number"
-            placeholder="✳✳✳✳✳✳✳✳✳✳"
-            labelClassName="text-sm"
-          />
+
+          {isPlayer ? (
+            <Input
+              isRequired
+              id="password"
+              type="password"
+              value={password}
+              labelText="Password"
+              labelClassName="text-sm"
+              placeholder="*********"
+              onChange={({ value }) => setPassword(value)}
+            />
+          ) : (
+            <Input
+              isRequired
+              onlyNumber
+              id="matricola"
+              value={matricola}
+              onChange={({ value }) => setMatricola(value)}
+              labelText="Matricola Number"
+              placeholder="✳✳✳✳✳✳✳✳✳✳"
+              labelClassName="text-sm"
+            />
+          )}
 
           <label
             htmlFor="image"

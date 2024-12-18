@@ -1,3 +1,4 @@
+import { CONSTANTS } from '@/utils'
 import { hashPassword } from '@/libs/bcrypt'
 
 const usersData = [
@@ -19,7 +20,7 @@ const usersData = [
     credit: parseFloat('0').toFixed(4),
     approved: true,
     password: hashPassword('123123123'),
-    roleName: 'student',
+    roleName: CONSTANTS.roleName.student,
     email: 'johndoe@campus.unimib.it',
   },
   {
@@ -29,7 +30,7 @@ const usersData = [
     image: '',
     approved: true,
     password: hashPassword('123123123'),
-    roleName: 'student',
+    roleName: CONSTANTS.roleName.student,
     email: 'janesmith@campus.unimib.it',
   },
   {
@@ -39,7 +40,7 @@ const usersData = [
     image: '',
     approved: true,
     password: hashPassword('123123123'),
-    roleName: 'player',
+    roleName: CONSTANTS.roleName.player,
     email: 'bob@gmail.com',
   },
   {
@@ -49,7 +50,7 @@ const usersData = [
     image: '',
     approved: true,
     password: hashPassword('123123123'),
-    roleName: 'player',
+    roleName: CONSTANTS.roleName.player,
     email: 'emily@gmail.com',
   },
   {
@@ -59,7 +60,7 @@ const usersData = [
     image: '',
     approved: true,
     password: hashPassword('123123123'),
-    roleName: 'player',
+    roleName: CONSTANTS.roleName.player,
     email: 'william@gmail.com',
   },
 ]

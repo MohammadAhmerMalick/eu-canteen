@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
+import { CONSTANTS } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
@@ -40,7 +41,7 @@ const SignupPage = () => {
     formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
-    formData.append('userType', 'player')
+    formData.append('userType', CONSTANTS.roleName.player)
 
     const { success, message } = await insertUserAction(formData)
     if (success) {

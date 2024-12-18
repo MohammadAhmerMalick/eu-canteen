@@ -21,7 +21,6 @@ import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import Checkbox from '@/components/common/Checkbox'
 import MenuItem from '@/components/common/MenuItem'
-import EuroChip from '@/components/common/EuroChip'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
@@ -108,6 +107,7 @@ const PlayersPage = () => {
         />
       )}
       <CreateUserModal
+        isPlayer
         isOpen={isAddModalVisible}
         setOpen={setIsAddModalVisible}
       />
@@ -142,8 +142,6 @@ const PlayersPage = () => {
           </TableColumn>
           <TableColumn className="text-left">Email</TableColumn>
           <TableColumn className="text-left">Contact</TableColumn>
-          <TableColumn>Matricola</TableColumn>
-          <TableColumn>Credit</TableColumn>
           <TableColumn>Status</TableColumn>
           <TableColumn>
             <Button
@@ -183,10 +181,7 @@ const PlayersPage = () => {
                 </TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell> {user.whatsapp}</TableCell>
-                <TableCell className="text-center">{user.matricola}</TableCell>
-                <TableCell className="text-center">
-                  <EuroChip amount={user.credit} />
-                </TableCell>
+
                 <TableCell className="text-center">
                   {user.published ? (
                     <p className="text-green-700">Active</p>

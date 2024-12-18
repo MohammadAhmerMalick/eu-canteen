@@ -1,14 +1,14 @@
 'use server'
 
 import { randomUUID } from 'crypto'
-import { uploadFile } from '@/utils'
 import UserModel from '@/models/UserModel'
 import { hashPassword } from '@/libs/bcrypt'
+import { CONSTANTS, uploadFile } from '@/utils'
 import type { User } from '@/database/schema/usersSchema'
 
 const insertUserAction = async (formData: FormData) => {
   const userType = formData.get('userType') as string
-  const isPlayer = userType === 'player'
+  const isPlayer = userType === CONSTANTS.roleName.player
 
   const name = formData.get('name') as string
   const email = formData.get('email') as string
@@ -52,8 +52,9 @@ const insertUserAction = async (formData: FormData) => {
   }
 
   if (isPlayer) {
-    payload.password = hashPassword(password)
     payload.approved = true
+    payload.password = hashPassword(password)
+    payload.roleName = CONSTANTS.roleName.player
   }
 
   // store file locally

@@ -43,7 +43,7 @@ const Header = () => {
         </Link>
 
         {isLoggedIn ? (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:gap-6">
             <div className="flex items-center gap-2 rounded-3xl border border-neutral-300 bg-white px-2 py-1 text-sm text-neutral-900 md:px-4 md:py-2 md:text-base">
               <BsCreditCard /> <span>€{auth.credit}</span>
             </div>
@@ -96,7 +96,7 @@ const Header = () => {
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:gap-6">
             <LanguageSelector />
             <div className="flex items-center gap-1 rounded-full bg-black p-1 text-sm md:text-base">
               <Link href="/register" className="db pr-2 ps-3 text-white">

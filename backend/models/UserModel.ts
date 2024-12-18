@@ -1,6 +1,7 @@
 import { and, eq, getTableColumns, inArray, or } from 'drizzle-orm'
 
 import db from '@/database/index'
+import { CONSTANTS } from '@/utils'
 import usersTable from '@/database/schema/usersSchema'
 import type { User } from '@/database/schema/usersSchema'
 
@@ -11,10 +12,16 @@ class UserModel {
     db.select().from(usersTable).where(eq(usersTable.id, id))
 
   static getAllStudents = () =>
-    db.select().from(usersTable).where(eq(usersTable.roleName, 'student'))
+    db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.roleName, CONSTANTS.roleName.student))
 
   static getAllPlayers = () =>
-    db.select().from(usersTable).where(eq(usersTable.roleName, 'player'))
+    db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.roleName, CONSTANTS.roleName.player))
 
   static getUserByEmail = (email: string) =>
     db.select().from(usersTable).where(eq(usersTable.email, email))
@@ -79,7 +86,7 @@ class UserModel {
         and(
           eq(usersTable.approved, true),
           eq(usersTable.published, true),
-          eq(usersTable.roleName, 'student')
+          eq(usersTable.roleName, CONSTANTS.roleName.student)
         )
       )
 }

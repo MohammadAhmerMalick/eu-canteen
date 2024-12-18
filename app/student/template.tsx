@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
 import BiDish from '@/components/icons/BiDish'
 import FiUsers from '@/components/icons/FiUsers'
 import FaqIcon from '@/components/icons/FaqIcon'
@@ -31,7 +32,13 @@ interface TemplateProps {
 const Template = async ({ children }: TemplateProps) => {
   const session = await auth()
 
-  if (session?.user.role !== 'student') redirect('/')
+  if (
+    !(
+      session?.user.role === CONSTANTS.roleName.player ||
+      session?.user.role === CONSTANTS.roleName.student
+    )
+  )
+    redirect('/')
 
   return (
     <div className="relative grid h-screen grid-cols-[84px_auto] overflow-hidden md:grid-cols-[300px_auto]">

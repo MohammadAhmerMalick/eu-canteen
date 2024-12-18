@@ -8,6 +8,7 @@ import {
 } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 
+import { CONSTANTS } from '@/utils'
 import rolesTable from '@/database/schema/rolesSchema'
 
 const usersTable = pgTable('users', {
@@ -28,7 +29,7 @@ const usersTable = pgTable('users', {
 
   roleName: varchar({ length: 20 })
     .notNull()
-    .default('student')
+    .default(CONSTANTS.roleName.student)
     .references(() => rolesTable.name, {
       onDelete: 'cascade',
     }),

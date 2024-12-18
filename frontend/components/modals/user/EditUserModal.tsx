@@ -3,6 +3,7 @@ import { FormEvent, useState } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
+import { CONSTANTS } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
@@ -17,14 +18,14 @@ interface EditUserModalProp {
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
+const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
   const queryClient = useQueryClient()
 
   const [password, setPassword] = useState('')
   const [name, setName] = useState(student.name)
   const [image, setImage] = useState<File | ''>('')
   const [email, setEmail] = useState(student.email)
-  const [credit, setCredit] = useState(student.credit || '')
+  // const [credit, setCredit] = useState(student.credit || '')
   const [whatsapp, setWhatsapp] = useState(student.whatsapp)
   const [matricola, setMatricola] = useState(student.matricola)
   const [approved, setApproved] = useState(!!student.approved)
@@ -37,11 +38,15 @@ const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
     formData.append('name', name)
     formData.append('email', email)
     formData.append('image', image)
-    formData.append('credit', credit)
+    // formData.append('credit', credit)
     formData.append('password', password)
     formData.append('whatsapp', whatsapp)
+    formData.append('userType', student.roleName || '')
     formData.append('matricola', matricola)
     formData.append('approved', approved ? 'approved' : '')
+
+    if (student.roleName === CONSTANTS.roleName.player)
+      formData.append('userType', CONSTANTS.roleName.player)
 
     const { success } = await updateUserAction(formData)
     if (success) {
@@ -76,7 +81,7 @@ const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
             labelClassName="text-sm"
             placeholder="email@campus.unimib.it"
           />
-          <Input
+          {/* <Input
             onlyNumber
             id="credit"
             value={credit}
@@ -84,7 +89,7 @@ const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
             labelText="Credit"
             labelClassName="text-sm"
             onChange={({ value }) => setCredit(value)}
-          />
+          /> */}
           <Input
             isRequired
             onlyNumber
@@ -95,16 +100,18 @@ const EditUserModal = ({ isOpen, setOpen, student }: EditUserModalProp) => {
             placeholder="39000000000"
             labelClassName="text-sm"
           />
-          <Input
-            isRequired
-            onlyNumber
-            id="matricola"
-            value={matricola}
-            onChange={({ value }) => setMatricola(value)}
-            labelText="Matricola Number"
-            placeholder="✳✳✳✳✳✳✳✳✳✳"
-            labelClassName="text-sm"
-          />
+          {student.roleName === CONSTANTS.roleName.student && (
+            <Input
+              isRequired
+              onlyNumber
+              id="matricola"
+              value={matricola}
+              onChange={({ value }) => setMatricola(value)}
+              labelText="Matricola Number"
+              placeholder="✳✳✳✳✳✳✳✳✳✳"
+              labelClassName="text-sm"
+            />
+          )}
           <Input
             id="password"
             value={password}

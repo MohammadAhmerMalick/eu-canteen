@@ -20,7 +20,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { classnames } from '@/utils'
 import Chip from '@/components/common/Chip'
 import { useStore } from '@/store/provider'
-import BiDish from '@/components/icons/BiDish'
 import Loading from '@/components/common/Loading'
 import EuroChip from '@/components/common/EuroChip'
 import DataError from '@/components/common/DataError'
@@ -133,11 +132,11 @@ const TransactionPage = () => {
                 <TableColumn className="text-left" isRowHeader>
                   Student
                 </TableColumn>
-                <TableColumn className="hidden text-left md:block">
+                <TableColumn className="hidden text-left md:table-cell">
                   Products
                 </TableColumn>
-                <TableColumn className="hidden text-left md:block">
-                  <BiDish /> Count
+                <TableColumn className="hidden text-left md:table-cell">
+                  Count
                 </TableColumn>
                 <TableColumn>Spent</TableColumn>
                 <TableColumn>Action</TableColumn>
@@ -151,7 +150,7 @@ const TransactionPage = () => {
                         <UserCellWidget user={sliceTransactions[0].user} />
                       )}
                     </TableCell>
-                    <TableCell className="hidden md:block">
+                    <TableCell className="hidden md:table-cell">
                       <div className="flex max-h-20 flex-wrap gap-2 overflow-hidden">
                         {sliceTransactions.map(
                           ({ product, transaction }) =>
@@ -161,7 +160,7 @@ const TransactionPage = () => {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell className="hidden text-center md:block">
+                    <TableCell className="hidden text-center md:table-cell">
                       {sliceTransactions.length}
                     </TableCell>
                     <TableCell className="text-center">

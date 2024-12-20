@@ -54,7 +54,7 @@ const AdminDashboardPage = () => {
 
   return (
     <div className="grid gap-4">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <AnalyticWidget
           title="Total Order Recieved"
           cost={orderObject.recieved.cost}

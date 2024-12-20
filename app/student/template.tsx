@@ -8,14 +8,18 @@ import FiUsers from '@/components/icons/FiUsers'
 import FaqIcon from '@/components/icons/FaqIcon'
 import PanelHeader from '@/sections/PanelHeader'
 // import BsCreditCard from '@/components/icons/BsCreditCard'
-import AiOutlineFile from '@/components/icons/AiOutlineFile'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
 import Sidebar, { type SidebarLink } from '@/components/Sidebar'
+import AiOutlineOrderedList from '@/components/icons/AiOutlineOrderedList'
 
 const links: SidebarLink[] = [
   { link: '/student/menu', label: 'Menu', icon: <BiDish /> },
   { link: '/student', label: 'Profile', icon: <FiUsers /> },
-  { link: '/student/orders', label: 'My Orders', icon: <AiOutlineFile /> },
+  {
+    link: '/student/orders',
+    label: 'My Orders',
+    icon: <AiOutlineOrderedList />,
+  },
   // { link: '/student/credits', label: 'Credits', icon: <BsCreditCard /> },
   {
     link: '/student/notifications',

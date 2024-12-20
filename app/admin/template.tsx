@@ -2,37 +2,35 @@ import type { ReactNode } from 'react'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/auth'
-import BiDish from '@/components/icons/BiDish'
-import FiUsers from '@/components/icons/FiUsers'
+import BiDish from '@/icons/BiDish'
+import BiBasket from '@/icons/BiBasket'
+import BiFootball from '@/icons/BiFootball'
 import PanelHeader from '@/sections/PanelHeader'
-import BiBasket from '@/components/icons/BiBasket'
-import AiOutlineBell from '@/components/icons/AiOutlineBell'
-import AiOutlineFile from '@/components/icons/AiOutlineFile'
-import AiOutlineHome from '@/components/icons/AiOutlineHome'
+import AiOutlineBell from '@/icons/AiOutlineBell'
+import AiOutlineHome from '@/icons/AiOutlineHome'
+import AiOutlineRead from '@/icons/AiOutlineRead'
+import AiOutlineUserAdd from '@/icons/AiOutlineUserAdd'
+import AiOutlineEuroCircle from '@/icons/AiOutlineEuroCircle'
+import AiOutlineOrderedList from '@/icons/AiOutlineOrderedList'
 import Sidebar, { type SidebarLink } from '@/components/Sidebar'
-import AiOutlineEuroCircle from '@/components/icons/AiOutlineEuroCircle'
 // import VscGraph from '@/icons/VscGraph'
 
 const links: SidebarLink[] = [
   { link: '/admin', label: 'Dashboard', icon: <AiOutlineHome /> },
-  { link: '/admin/orders', label: 'Orders', icon: <AiOutlineFile /> },
+  { link: '/admin/orders', label: 'Orders', icon: <AiOutlineOrderedList /> },
   {
     link: '/admin/students-requests',
     label: 'Students Requests',
-    icon: <FiUsers />,
+    icon: <AiOutlineUserAdd />,
   },
-  { link: '/admin/students', label: 'Students', icon: <FiUsers /> },
-  { link: '/admin/players', label: 'Players', icon: <FiUsers /> },
+  { link: '/admin/students', label: 'Students', icon: <AiOutlineRead /> },
+  { link: '/admin/players', label: 'Players', icon: <BiFootball /> },
   {
-    link: '/admin/students-transactions',
-    label: 'Students Transections',
+    link: '/admin/transactions',
+    label: 'Transections',
     icon: <AiOutlineEuroCircle />,
   },
-  {
-    link: '/admin/players-transactions',
-    label: 'Players Transections',
-    icon: <AiOutlineEuroCircle />,
-  },
+
   // {
   //   link: '/admin/analytics',
   //   label: 'Analytics',

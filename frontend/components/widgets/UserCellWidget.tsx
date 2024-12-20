@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import BiFootball from '@/icons/BiFootball'
 import { classnames, CONSTANTS } from '@/utils'
-import FaGraduationCap from '@/icons/FaGraduationCap'
+import AiOutlineRead from '@/icons/AiOutlineRead'
 import type { User } from '@/database/schema/usersSchema'
 
 interface UserCellWidgetProps {
@@ -28,7 +28,7 @@ const UserCellWidget = ({ user }: UserCellWidgetProps) => {
             {user.roleName === CONSTANTS.roleName.player ? (
               <BiFootball />
             ) : (
-              <FaGraduationCap />
+              <AiOutlineRead />
             )}
             {user.name}
           </p>

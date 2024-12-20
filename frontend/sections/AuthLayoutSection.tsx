@@ -1,16 +1,29 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { type ReactNode } from 'react'
+import { classnames } from '@/utils'
 
 interface AuthLayoutSectionProps {
+  lg?: boolean
   title: string
   children: ReactNode
+  textCenter?: boolean
 }
 
-const AuthLayoutSection = ({ children, title }: AuthLayoutSectionProps) => {
+const AuthLayoutSection = ({
+  title,
+  children,
+  lg = false,
+  textCenter = false,
+}: AuthLayoutSectionProps) => {
   return (
     <main className="relative flex min-h-dscreen items-center justify-center bg-[url('/images/backgrounds/auth-bg.jpg')] p-4 pb-20">
-      <div className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10 md:pb-6">
+      <div
+        className={classnames(
+          'grid w-full gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10 md:pb-6',
+          lg ? 'max-w-2xl' : 'max-w-md'
+        )}
+      >
         <Link href="/">
           <Image
             height={90}
@@ -20,7 +33,14 @@ const AuthLayoutSection = ({ children, title }: AuthLayoutSectionProps) => {
             className="mx-auto w-20"
           />
         </Link>
-        <h1 className="my-4 text-xl font-semibold">{title}</h1>
+        <h1
+          className={classnames(
+            'my-4 text-xl font-semibold',
+            textCenter && 'text-center'
+          )}
+        >
+          {title}
+        </h1>
         {children}
       </div>
 

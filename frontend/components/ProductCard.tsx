@@ -12,7 +12,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, onPress }: ProductCardProps) => {
   return (
-    <div className="mx-auto grid w-full max-w-72 gap-5 rounded-3xl bg-white p-2 shadow-sm duration-300 hover:shadow-lg">
+    <div className="mx-auto grid w-full max-w-72 gap-3 rounded-3xl bg-white p-2 shadow duration-300 hover:shadow-lg">
       <div className="flex rounded-3xl bg-primary-light p-2 shadow">
         <Image
           width={140}
@@ -27,15 +27,12 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
         />
       </div>
 
-      <div className="grid gap-1 px-6">
-        <h2 className="text-xl font-semibold">{product.name}</h2>
-        <p className="text-sm">{product.description}</p>
-        <span className="text-2xl">€{Number(product.price).toFixed(2)}</span>
+      <div className="grid gap-1 px-2">
+        <h2 className="text-lg font-semibold md:text-xl">{product.name}</h2>
+        <p className="text-sm font-normal">{product.description}</p>
+        <span className="text-xl">€{Number(product.price).toFixed(2)}</span>
       </div>
-      <Button
-        className="mx-2 mb-2 rounded-b-3xl rounded-t-md"
-        onPress={onPress}
-      >
+      <Button className="mx-2 mb-2 rounded-3xl !p-3" onPress={onPress}>
         Buy Now
       </Button>
     </div>

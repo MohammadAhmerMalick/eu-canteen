@@ -5,14 +5,14 @@ import { auth } from '@/auth'
 import BiDish from '@/icons/BiDish'
 import BiBasket from '@/icons/BiBasket'
 import BiFootball from '@/icons/BiFootball'
-import PanelHeader from '@/sections/PanelHeader'
 import AiOutlineBell from '@/icons/AiOutlineBell'
 import AiOutlineHome from '@/icons/AiOutlineHome'
 import AiOutlineRead from '@/icons/AiOutlineRead'
+import PanelTemplate from '@/sections/PanelTemplate'
 import AiOutlineUserAdd from '@/icons/AiOutlineUserAdd'
+import { type SidebarLink } from '@/components/Sidebar'
 import AiOutlineEuroCircle from '@/icons/AiOutlineEuroCircle'
 import AiOutlineOrderedList from '@/icons/AiOutlineOrderedList'
-import Sidebar, { type SidebarLink } from '@/components/Sidebar'
 // import VscGraph from '@/icons/VscGraph'
 
 const links: SidebarLink[] = [
@@ -54,15 +54,7 @@ const Template = async ({ children }: TemplateProps) => {
   const session = await auth()
   if (session?.user.role !== 'admin') redirect('/')
 
-  return (
-    <div className="relative grid h-screen grid-cols-[84px_auto] overflow-hidden md:grid-cols-[300px_auto]">
-      <Sidebar links={links} isAdmin />
-      <div className="overflow-auto">
-        <PanelHeader />
-        <main className="m-1 rounded-lg p-4 shadow">{children}</main>
-      </div>
-    </div>
-  )
+  return <PanelTemplate links={links}>{children}</PanelTemplate>
 }
 
 export default Template

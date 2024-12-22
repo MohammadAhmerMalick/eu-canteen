@@ -6,10 +6,10 @@ import { CONSTANTS } from '@/utils'
 import BiDish from '@/components/icons/BiDish'
 import FiUsers from '@/components/icons/FiUsers'
 import FaqIcon from '@/components/icons/FaqIcon'
-import PanelHeader from '@/sections/PanelHeader'
 // import BsCreditCard from '@/components/icons/BsCreditCard'
+import PanelTemplate from '@/sections/PanelTemplate'
+import { type SidebarLink } from '@/components/Sidebar'
 import AiOutlineBell from '@/components/icons/AiOutlineBell'
-import Sidebar, { type SidebarLink } from '@/components/Sidebar'
 import AiOutlineOrderedList from '@/components/icons/AiOutlineOrderedList'
 
 const links: SidebarLink[] = [
@@ -44,15 +44,7 @@ const Template = async ({ children }: TemplateProps) => {
   )
     redirect('/')
 
-  return (
-    <div className="relative grid h-screen grid-cols-[84px_auto] overflow-hidden md:grid-cols-[300px_auto]">
-      <Sidebar links={links} />
-      <div className="overflow-auto">
-        <PanelHeader />
-        <main className="m-1 rounded-lg p-4 shadow">{children}</main>
-      </div>
-    </div>
-  )
+  return <PanelTemplate links={links}>{children}</PanelTemplate>
 }
 
 export default Template

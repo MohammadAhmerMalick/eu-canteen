@@ -41,11 +41,12 @@ const updateUserAction = async (formData: FormData): Return => {
     let payload: User = {
       name,
       email,
-      credit,
       whatsapp,
       matricola,
       approved: !!approved,
     }
+
+    if (credit) payload.credit = credit
 
     if (password) payload = { ...payload, password: hashPassword(password) }
 

@@ -20,7 +20,7 @@ const PanelHeader = () => {
   const [expended, setExpended] = useState(false)
 
   return (
-    <div className="z-0 h-min w-full items-center gap-2 p-8">
+    <div className="z-0 h-min w-full items-center gap-2 px-6 py-4 md:p-8">
       <div className="flex flex-1 items-center justify-end gap-4">
         {auth.role === 'admin' ? (
           <>
@@ -36,7 +36,9 @@ const PanelHeader = () => {
             <div className="flex items-center gap-2 rounded-3xl border border-neutral-300 bg-white px-2 py-1 text-sm text-neutral-900 md:px-4 md:py-2 md:text-base">
               <BsCreditCard /> <span>€{auth.credit}</span>
             </div>
-            <LanguageSelector />
+            <div className="hidden md:block">
+              <LanguageSelector />
+            </div>
           </>
         )}
 
@@ -49,9 +51,7 @@ const PanelHeader = () => {
         >
           <div>
             <p>{auth?.name}</p>
-            <p className="text-sm text-neutral-400">
-              {auth?.role.toUpperCase()}
-            </p>
+            <p className="text-sm uppercase text-neutral-400">{auth?.role}</p>
           </div>
           <Image
             width={40}
@@ -67,23 +67,31 @@ const PanelHeader = () => {
 
           <div
             className={classnames(
-              'absolute right-0 top-14 z-50 overflow-hidden rounded-3xl bg-white px-4 shadow duration-300 md:left-0',
+              'absolute right-0 top-14 z-50 overflow-hidden rounded-lg bg-white px-3 shadow duration-300 md:left-0 md:top-16',
               expended ? 'max-h-48 py-3' : 'max-h-0 py-0'
             )}
           >
             <div className="grid gap-1 text-right text-sm md:text-left">
               {auth.role === 'admin'
                 ? adminMenuOptions.map(({ link, name }) => (
-                    <Link key={name} href={link}>
+                    <Link
+                      key={name}
+                      href={link}
+                      className="rounded-lg px-2 py-1 hover:bg-primary-light"
+                    >
                       {name}
                     </Link>
                   ))
                 : studentMenuOptions.map(({ link, name }) => (
-                    <Link key={name} href={link}>
+                    <Link
+                      key={name}
+                      href={link}
+                      className="rounded-lg px-2 py-1 hover:bg-primary-light"
+                    >
                       {name}
                     </Link>
                   ))}
-              <Button onPress={logout} className="w-full min-w-max">
+              <Button onPress={logout} className="w-full min-w-max rounded-lg">
                 Log out
               </Button>
             </div>

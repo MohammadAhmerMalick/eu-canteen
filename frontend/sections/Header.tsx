@@ -52,7 +52,10 @@ const Header = () => {
               <div
                 aria-hidden
                 onClick={() => setExpended(!expended)}
-                className="flex h-12 cursor-pointer overflow-hidden rounded-full bg-white p-1 shadow md:h-14 md:p-2"
+                className={classnames(
+                  'flex h-12 cursor-pointer overflow-hidden rounded-3xl bg-white p-1 shadow duration-150 md:h-14 md:p-2',
+                  expended && 'rounded-b-lg rounded-t-3xl'
+                )}
               >
                 <Image
                   width={40}
@@ -67,28 +70,39 @@ const Header = () => {
                 />
                 <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
                   <p>{auth.name}</p>
-                  <p className="text-neutral-500">{auth.matricola}</p>
+                  <p className="uppercase text-neutral-500">{auth.role}</p>
                 </div>
               </div>
               <div
                 className={classnames(
-                  'absolute right-0 top-14 z-50 overflow-hidden rounded-3xl bg-white px-4 shadow duration-300 md:left-0 md:top-16',
+                  'absolute right-0 top-14 z-50 overflow-hidden rounded-lg bg-white px-3 shadow duration-300 md:left-0 md:top-16',
                   expended ? 'max-h-48 py-3' : 'max-h-0 py-0'
                 )}
               >
                 <div className="grid gap-1 text-right text-sm md:text-left">
                   {auth.role === 'admin'
                     ? adminMenuOptions.map(({ link, name }) => (
-                        <Link key={name} href={link}>
+                        <Link
+                          key={name}
+                          href={link}
+                          className="rounded-lg px-2 py-1 hover:bg-primary-light"
+                        >
                           {name}
                         </Link>
                       ))
                     : studentMenuOptions.map(({ link, name }) => (
-                        <Link key={name} href={link}>
+                        <Link
+                          key={name}
+                          href={link}
+                          className="rounded-lg px-2 py-1 hover:bg-primary-light"
+                        >
                           {name}
                         </Link>
                       ))}
-                  <Button onPress={logout} className="mt-2 w-full min-w-max">
+                  <Button
+                    onPress={logout}
+                    className="w-full min-w-max rounded-lg"
+                  >
                     Log out
                   </Button>
                 </div>

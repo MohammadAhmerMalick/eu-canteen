@@ -23,14 +23,14 @@ const Sidebar = ({ links, isAdmin }: SidebarProps) => {
   const pathname = usePathname()
 
   return (
-    <aside className="flex h-dscreen min-h-screen flex-col gap-4 overflow-hidden p-4">
+    <aside className="flex h-dscreen min-h-screen flex-col gap-4 overflow-hidden p-2 md:p-4">
       <Link href="/">
         <Image
           height={100}
           width={80}
           alt="Poolaster"
           src="/images/logo.svg"
-          className="mb-4 w-14 max-w-full duration-300 md:mx-5 md:w-20"
+          className="mx-auto mb-4 w-14 max-w-full duration-300 md:mx-5 md:w-20"
         />
       </Link>
 
@@ -40,7 +40,7 @@ const Sidebar = ({ links, isAdmin }: SidebarProps) => {
             key={label}
             href={link}
             className={classnames(
-              'group relative flex items-center gap-3 rounded-lg px-2 py-3 text-sm duration-300 md:px-6',
+              'group relative flex w-full items-center gap-3 rounded-lg px-2 py-3 text-sm duration-300 md:px-6',
               pathname === link
                 ? 'bg-primary-light !text-primary'
                 : 'bg-white !text-black'

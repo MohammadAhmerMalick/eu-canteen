@@ -51,7 +51,7 @@ const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
     const { success } = await updateUserAction(formData)
     if (success) {
       queryClient.invalidateQueries({ queryKey: ['getAllStudents'] })
-      toast.success('Student updated')
+      toast.success('User updated')
       setOpen(false)
     } else
       toast.error('Unable to handle request right now, please contact to admin')

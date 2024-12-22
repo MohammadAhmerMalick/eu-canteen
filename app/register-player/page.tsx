@@ -63,7 +63,7 @@ const SignupPage = () => {
   })
 
   return (
-    <AuthLayoutSection title="Registration Player">
+    <AuthLayoutSection title="Player Registration">
       <RegistrationSuccess
         isOpen={isRegistrationSuccess}
         setOpen={() => onSuccessModalClose()}

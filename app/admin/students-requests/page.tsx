@@ -96,7 +96,7 @@ const StudentsPage = () => {
         <EditUserModal
           student={editModalData}
           isOpen={!!editModalData}
-          setOpen={() => setDeleteModalData(null)}
+          setOpen={() => setEditModalData(null)}
         />
       )}
       {deleteModalData && (

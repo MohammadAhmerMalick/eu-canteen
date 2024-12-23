@@ -95,32 +95,37 @@ const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
             onlyNumber
             id="whatsapp"
             value={whatsapp}
-            onChange={({ value }) => setWhatsapp(value)}
-            labelText="WhatsApp Number"
-            placeholder="39000000000"
+            pattern=".{10,16}"
             labelClassName="text-sm"
+            placeholder="39000000000"
+            labelText="WhatsApp Number"
+            title="10 to 16 characters"
+            onChange={({ value }) => setWhatsapp(value)}
+          />
+          <Input
+            id="password"
+            pattern=".{8,}"
+            value={password}
+            labelText="Password"
+            placeholder="✳✳✳✳✳✳✳✳✳✳"
+            labelClassName="text-sm"
+            title="8 characters minimum"
+            onChange={({ value }) => setPassword(value)}
           />
           {student.roleName === CONSTANTS.roleName.student && (
             <Input
               isRequired
               onlyNumber
               id="matricola"
+              pattern=".{6}"
               value={matricola}
-              onChange={({ value }) => setMatricola(value)}
-              labelText="Matricola Number"
               placeholder="✳✳✳✳✳✳✳✳✳✳"
               labelClassName="text-sm"
+              labelText="Matricola Number"
+              title="Matricola must be of 6 characters"
+              onChange={({ value }) => setMatricola(value)}
             />
           )}
-          <Input
-            id="password"
-            value={password}
-            onChange={({ value }) => setPassword(value)}
-            labelText="Password"
-            placeholder="✳✳✳✳✳✳✳✳✳✳"
-            labelClassName="text-sm"
-          />
-
           <div>
             <p>Images</p>
             <label

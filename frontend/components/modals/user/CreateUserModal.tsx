@@ -65,9 +65,9 @@ const CreateUserModal = ({
             id="name"
             value={name}
             labelText="Full Name"
-            onChange={({ value }) => setName(value)}
-            labelClassName="text-sm"
             placeholder="Asad Khan"
+            labelClassName="text-sm"
+            onChange={({ value }) => setName(value)}
           />
           <Input
             isRequired
@@ -75,42 +75,48 @@ const CreateUserModal = ({
             type="email"
             value={email}
             labelText="Email"
-            onChange={({ value }) => setEmail(value)}
             labelClassName="text-sm"
             placeholder="email@campus.unimib.it"
+            onChange={({ value }) => setEmail(value)}
           />
           <Input
             isRequired
             onlyNumber
             id="whatsapp"
             value={whatsapp}
-            onChange={({ value }) => setWhatsapp(value)}
-            labelText="WhatsApp Number"
-            placeholder="39000000000"
+            pattern=".{10,16}"
             labelClassName="text-sm"
+            placeholder="39000000000"
+            labelText="WhatsApp Number"
+            title="10 to 16 characters"
+            onChange={({ value }) => setWhatsapp(value)}
           />
 
-          {isPlayer ? (
-            <Input
-              isRequired
-              id="password"
-              type="password"
-              value={password}
-              labelText="Password"
-              labelClassName="text-sm"
-              placeholder="*********"
-              onChange={({ value }) => setPassword(value)}
-            />
-          ) : (
+          <Input
+            isRequired
+            id="password"
+            type="password"
+            pattern=".{8,}"
+            value={password}
+            labelText="Password"
+            placeholder="*********"
+            labelClassName="text-sm"
+            title="8 characters minimum"
+            onChange={({ value }) => setPassword(value)}
+          />
+
+          {!isPlayer && (
             <Input
               isRequired
               onlyNumber
               id="matricola"
+              pattern=".{6}"
               value={matricola}
-              onChange={({ value }) => setMatricola(value)}
-              labelText="Matricola Number"
               placeholder="✳✳✳✳✳✳✳✳✳✳"
               labelClassName="text-sm"
+              labelText="Matricola Number"
+              title="Matricola must be of 6 characters"
+              onChange={({ value }) => setMatricola(value)}
             />
           )}
 

@@ -20,7 +20,7 @@ const HeroSection = () => {
           <p>{t('paragraph.2')}</p>
         </div>
 
-        <LinkButton className="mt-6 md:text-lg" href="/products">
+        <LinkButton className="mt-6 !px-8 !py-3 md:text-lg" href="/products">
           {t('buttonText')}
         </LinkButton>
       </div>

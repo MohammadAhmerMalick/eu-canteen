@@ -171,7 +171,7 @@ const ProductsPage = () => {
         <TableBody>
           {products.map(({ products: product, categories: category }) => (
             <Row key={product.id} id={product.id}>
-              <TableCell className="text-center">
+              <TableCell className="w-9 text-center">
                 <Checkbox slot="selection" />
               </TableCell>
               <TableCell>
@@ -186,7 +186,7 @@ const ProductsPage = () => {
                         : CONSTANTS.imagePlaceholders.product
                     }
                     className={classnames(
-                      'rounded-full border-2',
+                      'size-10 rounded-full border-2 bg-primary-light object-contain',
                       product.published
                         ? 'border-primary'
                         : 'border-neutral-400'
@@ -215,7 +215,7 @@ const ProductsPage = () => {
                           : CONSTANTS.imagePlaceholders.product
                       }
                       className={classnames(
-                        'rounded-full border-2',
+                        'size-10 rounded-full border-2 bg-primary-light object-contain',
                         category.published
                           ? 'border-primary'
                           : 'border-neutral-400'

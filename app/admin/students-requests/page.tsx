@@ -167,7 +167,7 @@ const StudentsPage = () => {
                           : '/images/students/s-1.png'
                       }
                       className={classnames(
-                        'rounded-full border-2',
+                        'size-10 rounded-full border-2 bg-primary-light object-contain',
                         user.approved ? 'border-primary' : 'border-neutral-400'
                       )}
                     />

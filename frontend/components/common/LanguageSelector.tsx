@@ -34,8 +34,9 @@ const LanguageSelector = () => {
 
   return (
     <Select
-      defaultSelectedKey={selected}
       selectedKey={selected}
+      defaultSelectedKey={selected}
+      aria-label="Language Selector"
       onSelectionChange={onSelectionChange}
     >
       <Button
@@ -58,7 +59,7 @@ const LanguageSelector = () => {
                 alt="Italian"
                 src="/images/extras/italy-flag.png"
               />
-            </span>{' '}
+            </span>
             <span className="hidden text-sm md:block md:text-base">
               ITALIANO
             </span>
@@ -71,7 +72,7 @@ const LanguageSelector = () => {
                 alt="English"
                 src="/images/extras/english-flag.png"
               />
-            </span>{' '}
+            </span>
             <span className="hidden text-sm md:block md:text-base">
               ENGLISH
             </span>

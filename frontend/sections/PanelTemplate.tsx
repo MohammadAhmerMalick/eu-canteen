@@ -14,7 +14,12 @@ const PanelTemplate = ({ links, children }: PanelTemplateProps) => {
       <Sidebar links={links} isAdmin />
       <div className="overflow-auto">
         <PanelHeader />
-        <main className="m-1 rounded-lg p-2 md:p-4 md:shadow">{children}</main>
+        <main
+          className="m-1 rounded-lg p-2 md:p-4 md:shadow"
+          style={{ minHeight: 'calc(100% - 117px)' }}
+        >
+          {children}
+        </main>
       </div>
     </div>
   )

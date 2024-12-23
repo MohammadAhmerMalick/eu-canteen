@@ -7,6 +7,8 @@ import { allowOnlyNumber, classnames } from '@/utils'
 interface Input {
   id: string
   value: string
+  title?: string
+  pattern?: string
   labelText?: string
   readOnly?: boolean
   placeholder: string
@@ -21,6 +23,8 @@ interface Input {
 const Input = ({
   id,
   value,
+  title,
+  pattern,
   readOnly,
   labelText,
   isRequired,
@@ -39,8 +43,10 @@ const Input = ({
       {isRequired && <span className="text-red-600">*</span>}
       <input
         id={id}
+        pattern={pattern}
         readOnly={readOnly}
         type={type}
+        title={title}
         ref={INPUT}
         value={value}
         onInput={(e) => (onlyNumber ? allowOnlyNumber(e) : e)}

@@ -38,14 +38,8 @@ import updateUsersPublishedAction from '@/actions/user/updateUsersPublishedActio
 const dataErrorMessage = 'Unable to load users'
 
 const studentPublishOptions = [
-  {
-    id: 'published',
-    name: 'Active',
-  },
-  {
-    id: '',
-    name: 'Inactive',
-  },
+  { id: 'published', name: 'Active' },
+  { id: '', name: 'Inactive' },
 ]
 
 const StudentsPage = () => {
@@ -156,10 +150,10 @@ const StudentsPage = () => {
         </TableHeader>
         <TableBody>
           {users
-            .filter((user) => user.approved)
+            .filter((u) => u.approved)
             .map((user) => (
               <Row key={user.id} id={user.id}>
-                <TableCell className="text-center">
+                <TableCell className="w-9 text-center">
                   <Checkbox slot="selection" />
                 </TableCell>
                 <TableCell>
@@ -212,6 +206,18 @@ const StudentsPage = () => {
             ))}
         </TableBody>
       </Table>
+
+      {!users.filter((u) => u.approved).length && (
+        <div className="mt-4 space-y-2 text-center">
+          <p>No user yet!</p>
+          <Button
+            className="mx-auto flex items-center gap-1 rounded-lg"
+            onPress={() => setIsAddModalVisible(true)}
+          >
+            <FaPlus /> Student
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

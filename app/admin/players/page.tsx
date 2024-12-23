@@ -37,14 +37,8 @@ import updateUsersPublishedAction from '@/actions/user/updateUsersPublishedActio
 const dataErrorMessage = 'Unable to load users'
 
 const playerPublishOptions = [
-  {
-    id: 'published',
-    name: 'Active',
-  },
-  {
-    id: '',
-    name: 'Inactive',
-  },
+  { id: 'published', name: 'Active' },
+  { id: '', name: 'Inactive' },
 ]
 
 const PlayersPage = () => {
@@ -56,7 +50,7 @@ const PlayersPage = () => {
   const [deleteModalData, setDeleteModalData] = useState<User | null>(null)
 
   const { isPending, error, refetch } = useQuery({
-    queryKey: ['getAllPlayers'],
+    queryKey: ['getAllStudents'],
     queryFn: async () => {
       const { data, success } = await getAllPlayersAction()
       if (success) setUsers(data)
@@ -148,65 +142,75 @@ const PlayersPage = () => {
               className="ml-auto flex items-center gap-1 rounded-lg"
               onPress={() => setIsAddModalVisible(true)}
             >
-              <FaPlus /> Student
+              <FaPlus /> Player
             </Button>
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {users
-            .filter((user) => user.approved)
-            .map((user) => (
-              <Row key={user.id} id={user.id}>
-                <TableCell className="text-center">
-                  <Checkbox slot="selection" />
-                </TableCell>
-                <TableCell>
-                  <div className="grid grid-cols-[40px_auto] items-center gap-2">
-                    <Image
-                      alt={user.name}
-                      width={40}
-                      height={40}
-                      src={
-                        user.image
-                          ? `${assetsBaseUrl}${user.image}`
-                          : '/images/students/s-1.png'
-                      }
-                      className={classnames(
-                        'rounded-full border-2',
-                        user.published ? 'border-primary' : 'border-neutral-400'
-                      )}
-                    />
-                    {user.name}
-                  </div>
-                </TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell> {user.whatsapp}</TableCell>
+          {users.map((user) => (
+            <Row key={user.id} id={user.id}>
+              <TableCell className="w-9 text-center">
+                <Checkbox slot="selection" />
+              </TableCell>
+              <TableCell>
+                <div className="grid grid-cols-[40px_auto] items-center gap-2">
+                  <Image
+                    alt={user.name}
+                    width={40}
+                    height={40}
+                    src={
+                      user.image
+                        ? `${assetsBaseUrl}${user.image}`
+                        : '/images/students/s-1.png'
+                    }
+                    className={classnames(
+                      'rounded-full border-2',
+                      user.published ? 'border-primary' : 'border-neutral-400'
+                    )}
+                  />
+                  {user.name}
+                </div>
+              </TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell> {user.whatsapp}</TableCell>
 
-                <TableCell className="text-center">
-                  {user.published ? (
-                    <p className="text-green-700">Active</p>
-                  ) : (
-                    <p className="text-red-700">Inactive</p>
-                  )}
-                </TableCell>
-                <TableCell className="text-right">
-                  <AriaButton
-                    onPress={() => setEditModalData(user)}
-                    className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
-                  >
-                    <AiOutlineEdit />
-                  </AriaButton>
-                  <AriaButton
-                    onPress={() => setDeleteModalData(user)}
-                    className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
-                  >
-                    <AiOutlineDelete />
-                  </AriaButton>
-                </TableCell>
-              </Row>
-            ))}
+              <TableCell className="text-center">
+                {user.published ? (
+                  <p className="text-green-700">Active</p>
+                ) : (
+                  <p className="text-red-700">Inactive</p>
+                )}
+              </TableCell>
+              <TableCell className="text-right">
+                <AriaButton
+                  onPress={() => setEditModalData(user)}
+                  className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
+                >
+                  <AiOutlineEdit />
+                </AriaButton>
+                <AriaButton
+                  onPress={() => setDeleteModalData(user)}
+                  className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
+                >
+                  <AiOutlineDelete />
+                </AriaButton>
+              </TableCell>
+            </Row>
+          ))}
         </TableBody>
       </Table>
+
+      {!users.filter((u) => !u.approved).length && (
+        <div className="mt-4 space-y-2 text-center">
+          <p>No user yet!</p>
+          <Button
+            className="mx-auto flex items-center gap-1 rounded-lg"
+            onPress={() => setIsAddModalVisible(true)}
+          >
+            <FaPlus /> Player
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

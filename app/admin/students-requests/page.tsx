@@ -38,23 +38,17 @@ import updateUsersApprovedAction from '@/actions/user/updateUsersApprovedAction'
 const dataErrorMessage = 'Unable to load users'
 
 const orderStatusOptions = [
-  {
-    id: 'approved',
-    name: 'Active',
-  },
-  {
-    id: 'pending',
-    name: 'Inactive',
-  },
+  { id: 'approved', name: 'Active' },
+  { id: 'pending', name: 'Inactive' },
 ]
 
 const StudentsPage = () => {
   const { users, setUsers, updateUser } = useStore((state) => state)
 
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false)
   const [editModalData, setEditModalData] = useState<User | null>(null)
-  const [deleteModalData, setDeleteModalData] = useState<User | null>(null)
-  const [isAddUserModalVisible, setIsAddUserModalVisible] = useState(false)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
+  const [deleteModalData, setDeleteModalData] = useState<User | null>(null)
 
   const { isPending, error } = useQuery({
     queryKey: ['getAllStudents'],
@@ -107,8 +101,8 @@ const StudentsPage = () => {
         />
       )}
       <CreateUserModal
-        isOpen={isAddUserModalVisible}
-        setOpen={setIsAddUserModalVisible}
+        isOpen={isAddModalVisible}
+        setOpen={setIsAddModalVisible}
       />
 
       <Table
@@ -147,7 +141,7 @@ const StudentsPage = () => {
           <TableColumn>
             <Button
               className="ml-auto flex items-center gap-1 rounded-lg"
-              onPress={() => setIsAddUserModalVisible(true)}
+              onPress={() => setIsAddModalVisible(true)}
             >
               <FaPlus /> Student
             </Button>
@@ -155,10 +149,10 @@ const StudentsPage = () => {
         </TableHeader>
         <TableBody>
           {users
-            .filter((user) => !user.approved)
+            .filter((u) => !u.approved)
             .map((user) => (
               <Row key={user.id} id={user.id}>
-                <TableCell className="text-center">
+                <TableCell className="w-9 text-center">
                   <Checkbox slot="selection" />
                 </TableCell>
                 <TableCell>
@@ -211,6 +205,18 @@ const StudentsPage = () => {
             ))}
         </TableBody>
       </Table>
+
+      {!users.filter((u) => !u.approved).length && (
+        <div className="mt-4 space-y-2 text-center">
+          <p>No user request yet!</p>
+          <Button
+            className="mx-auto flex items-center gap-1 rounded-lg"
+            onPress={() => setIsAddModalVisible(true)}
+          >
+            <FaPlus /> Student
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

@@ -8,8 +8,8 @@ import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
-import insertCategoryAction from '@/actions/category/insertCategoryAction'
 import ModalContainer from '@/components/common/ModalContainer'
+import insertCategoryAction from '@/actions/category/insertCategoryAction'
 
 interface CreateCategoryModalProp {
   isOpen: boolean
@@ -51,13 +51,13 @@ const CreateCategoryModal = ({ isOpen, setOpen }: CreateCategoryModalProp) => {
         <h1 className="text-lg font-semibold">Create Category</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input
-            isRequired
             id="name"
+            isRequired
             value={name}
+            placeholder="BBQ"
+            labelClassName="text-sm"
             labelText="Category Name"
             onChange={({ value }) => setName(value)}
-            labelClassName="text-sm"
-            placeholder="BBQ"
           />
 
           <div>

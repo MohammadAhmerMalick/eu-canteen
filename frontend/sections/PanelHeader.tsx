@@ -49,7 +49,7 @@ const PanelHeader = () => {
           className="relative flex cursor-pointer items-center gap-3"
           onClick={() => setExpended(!expended)}
         >
-          <div>
+          <div className="hidden md:block">
             <p>{auth?.name}</p>
             <p className="text-sm uppercase text-neutral-400">{auth?.role}</p>
           </div>
@@ -67,7 +67,7 @@ const PanelHeader = () => {
 
           <div
             className={classnames(
-              'absolute right-0 top-14 z-50 overflow-hidden rounded-lg bg-white px-3 shadow duration-300 md:left-0 md:top-16',
+              'absolute right-0 top-14 z-50 min-w-36 overflow-hidden rounded-lg bg-white px-3 shadow duration-300 md:top-16',
               expended ? 'max-h-48 py-3' : 'max-h-0 py-0'
             )}
           >

@@ -68,14 +68,14 @@ const Header = () => {
                   }
                   className="size-10nrounded-full object-contai border border-primary bg-primary"
                 />
-                <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
+                <div className="hidden max-w-0 overflow-hidden text-sm duration-300 md:block md:max-w-40 md:px-2 md:pr-3">
                   <p>{auth.name}</p>
                   <p className="uppercase text-neutral-500">{auth.role}</p>
                 </div>
               </div>
               <div
                 className={classnames(
-                  'absolute right-0 top-14 z-50 overflow-hidden rounded-lg bg-white px-3 shadow duration-300 md:left-0 md:top-16',
+                  'absolute right-0 top-14 z-50 min-w-36 overflow-hidden rounded-lg bg-white px-3 shadow duration-300 md:top-16',
                   expended ? 'max-h-48 py-3' : 'max-h-0 py-0'
                 )}
               >

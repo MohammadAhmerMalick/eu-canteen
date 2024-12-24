@@ -14,10 +14,7 @@ const orderSeedAction = async () => {
       const quantity = 1
       const productId = product.id
 
-      const createdAt = getRandomDate(
-        new Date(2024, 11, 5),
-        new Date(2024, 11, 14)
-      )
+      const createdAt = getRandomDate(new Date(2024, 11, 5), new Date())
 
       const order = await insertOrderAction({
         type: 'takeaway',

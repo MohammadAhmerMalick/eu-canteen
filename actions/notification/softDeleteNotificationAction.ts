@@ -1,12 +1,13 @@
 'use server'
 
 import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
 import NotificationModel from '@/models/NotificationModel'
 
 const softDeleteNotificationAction = async (id: string) => {
   try {
     const session = await auth()
-    if (session?.user.role !== 'admin')
+    if (session?.user.role !== CONSTANTS.roleName.admin)
       return {
         success: false,
         data: {},

@@ -97,10 +97,12 @@ const SignupPage = () => {
           isRequired
           id="password"
           type="password"
+          pattern=".{8,}"
           value={password}
           labelText="Password"
           labelClassName="text-sm"
           placeholder="*********"
+          title="8 characters minimum"
           onChange={({ value }) => setPassword(value)}
         />
         <Input
@@ -108,9 +110,11 @@ const SignupPage = () => {
           onlyNumber
           id="whatsapp"
           value={whatsapp}
+          pattern=".{10,16}"
           labelClassName="text-sm"
           placeholder="393445474757"
           labelText="WhatsApp Number"
+          title="10 to 16 characters"
           onChange={({ value }) => setWhatsapp(value)}
         />
 

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 
-import { classnames } from '@/utils'
+import { classnames, CONSTANTS } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
@@ -66,21 +66,21 @@ const Header = () => {
                       ? `${assetsBaseUrl}${auth.image}`
                       : '/images/students/s-1.png'
                   }
-                  className="h-10 w-10 rounded-full border border-primary bg-primary"
+                  className="size-10nrounded-full object-contai border border-primary bg-primary"
                 />
-                <div className="max-w-0 overflow-hidden text-sm duration-300 md:max-w-40 md:px-2 md:pr-3">
+                <div className="hidden max-w-0 overflow-hidden text-sm duration-300 md:block md:max-w-40 md:px-2 md:pr-3">
                   <p>{auth.name}</p>
                   <p className="uppercase text-neutral-500">{auth.role}</p>
                 </div>
               </div>
               <div
                 className={classnames(
-                  'absolute right-0 top-14 z-50 overflow-hidden rounded-lg bg-white px-3 shadow duration-300 md:left-0 md:top-16',
+                  'absolute right-0 top-14 z-50 min-w-36 overflow-hidden rounded-lg bg-white px-3 shadow duration-300 md:top-16',
                   expended ? 'max-h-48 py-3' : 'max-h-0 py-0'
                 )}
               >
                 <div className="grid gap-1 text-right text-sm md:text-left">
-                  {auth.role === 'admin'
+                  {auth.role === CONSTANTS.roleName.admin
                     ? adminMenuOptions.map(({ link, name }) => (
                         <Link
                           key={name}

@@ -109,7 +109,7 @@ const UserOrdersModal = ({ isOpen, setOpen, orders }: UserOrdersModalProp) => {
           <TableBody>
             {orders.map(({ order, product, user }) => (
               <Row key={order.id} id={order.id}>
-                <TableCell className="text-center">
+                <TableCell className="w-9 text-center">
                   <Checkbox slot="selection" />
                 </TableCell>
                 <TableCell>{user && <UserCellWidget user={user} />}</TableCell>

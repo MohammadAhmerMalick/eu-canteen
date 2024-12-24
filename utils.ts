@@ -55,6 +55,7 @@ export const CONSTANTS = {
   },
 
   roleName: {
+    admin: 'admin',
     player: 'player',
     student: 'student',
   },

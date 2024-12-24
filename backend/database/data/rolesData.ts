@@ -2,10 +2,10 @@ import { CONSTANTS } from '@/utils'
 
 const rolesData = [
   {
-    name: 'admin',
+    name: CONSTANTS.roleName.admin,
   },
   {
-    name: CONSTANTS.roleName.student,
+    name: CONSTANTS.roleName.player,
   },
   {
     name: CONSTANTS.roleName.student,

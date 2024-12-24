@@ -183,6 +183,12 @@ const OrdersPage = () => {
           </TabPanel>
         ))}
       </Tabs>
+
+      {!orders.length && (
+        <div className="mt-4 space-y-2 text-center">
+          <p>No order yet!</p>
+        </div>
+      )}
     </div>
   )
 }

@@ -75,8 +75,8 @@ const CreateCheckoutModal = ({
   }
 
   return (
-    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
-      <form onSubmit={onSubmit}>
+    <ModalContainer setOpen={setOpen} isOpen={isOpen} className="max-w-lg">
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-center text-xl font-semibold">Checkout</h1>
 
         <div className="space-y-2">

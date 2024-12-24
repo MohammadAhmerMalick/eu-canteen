@@ -111,7 +111,7 @@ const CategoriesPage = () => {
                         : CONSTANTS.imagePlaceholders.product
                     }
                     className={classnames(
-                      'rounded-full border-2',
+                      'size-10 rounded-full border-2 bg-primary-light object-contain',
                       category.published
                         ? 'border-primary'
                         : 'border-neutral-400'

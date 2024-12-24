@@ -94,19 +94,23 @@ const SignupPage = () => {
           onlyNumber
           id="whatsapp"
           value={whatsapp}
+          pattern=".{10,16}"
           labelClassName="text-sm"
           placeholder="393445474757"
           labelText="WhatsApp Number"
+          title="10 to 16 characters"
           onChange={({ value }) => setWhatsapp(value)}
         />
         <Input
           isRequired
           onlyNumber
           id="matricola"
+          pattern=".{6}"
           value={matricola}
           labelClassName="text-sm"
           labelText="Matricola Number"
           placeholder="Enter Your Matricola ID"
+          title="Matricola must be of 6 characters"
           onChange={({ value }) => setMatricola(value)}
         />
 

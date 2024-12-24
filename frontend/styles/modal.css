@@ -1,0 +1,43 @@
+/* overlay */
+.react-aria-ModalOverlay[data-entering] {
+  animation: react-aria-ModalOverlay 350ms;
+}
+
+.react-aria-ModalOverlay[data-exiting] {
+  animation: react-aria-ModalOverlay 350ms reverse;
+}
+
+@keyframes react-aria-ModalOverlay {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* modal */
+
+.react-aria-Modal {
+  --origin: translateY(8px);
+}
+.react-aria-Modal[data-entering] {
+  animation: slide 350ms;
+}
+
+.react-aria-Modal[data-exiting] {
+  animation: slide 350ms reverse;
+}
+
+@keyframes slide {
+  from {
+    transform: var(--origin);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

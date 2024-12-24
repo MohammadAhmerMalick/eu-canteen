@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
 import NotificationModel from '@/models/NotificationModel'
 
 const getNotificationsAction = async () => {
@@ -8,7 +9,7 @@ const getNotificationsAction = async () => {
     const session = await auth()
 
     let notification = []
-    if (session?.user.role === 'admin')
+    if (session?.user.role === CONSTANTS.roleName.admin)
       notification = await NotificationModel.getNotifications()
     else
       notification =

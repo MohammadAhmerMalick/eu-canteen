@@ -52,7 +52,10 @@ const QrBannerSection = () => {
           src="/images/banners/player-login-qr-code.svg"
         />
         <p>{t('Or')}</p>
-        <LinkButton href="/register-player" className="mt-4">
+        <LinkButton
+          href="/register-player"
+          className="poppins-medium mt-4 !px-6"
+        >
           {t('clickHere')}
         </LinkButton>
       </div>

@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
 import UserModel from '@/models/UserModel'
 
 interface Props {
@@ -22,7 +23,7 @@ const updateUsersApprovedAction = async ({ ids, approved }: Props): Return => {
   try {
     const session = await auth()
 
-    if (session?.user.role !== 'admin')
+    if (session?.user.role !== CONSTANTS.roleName.admin)
       return {
         success: false,
         data: null,

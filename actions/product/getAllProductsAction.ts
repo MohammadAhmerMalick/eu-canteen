@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
 import ProductModel from '@/models/ProductModel'
 import { type Products } from '@/store/slices/productsSlice'
 
@@ -10,7 +11,7 @@ const getAllProductsAction = async () => {
 
     let products: Products[] = []
 
-    if (session?.user.role === 'admin')
+    if (session?.user.role === CONSTANTS.roleName.admin)
       products = await ProductModel.getAllProducts()
 
     console.log({ getAllProductsAction: 'success' })

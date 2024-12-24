@@ -1,9 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bellota:wght@300;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,126 +8,6 @@
   font-family: inherit;
 
   outline: 0;
-}
-
-.poppins-thin {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.poppins-extralight {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 200;
-  font-style: normal;
-}
-
-.poppins-light {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.poppins-regular {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.poppins-medium {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.poppins-semibold {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.poppins-bold {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.poppins-extrabold {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.poppins-black {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.bellota-light {
-  font-family: 'Bellota', system-ui;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.bellota-regular {
-  font-family: 'Bellota', system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.bellota-bold {
-  font-family: 'Bellota', system-ui;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.playfair-display-light {
-  font-family: 'Playfair Display', serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.playfair-display-regular {
-  font-family: 'Playfair Display', serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.playfair-display-bold {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.mrs-saint-delafield-regular {
-  font-family: 'Mrs Saint Delafield', cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.philosopher-regular {
-  font-family: 'Philosopher', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.philosopher-bold {
-  font-family: 'Philosopher', sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.philosopher-regular-italic {
-  font-family: 'Philosopher', sans-serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.philosopher-bold-italic {
-  font-family: 'Philosopher', sans-serif;
-  font-weight: 700;
-  font-style: italic;
 }
 
 /* :root {
@@ -180,3 +54,7 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: black;
 }
+
+@import url('../frontend/styles/fonts.css');
+@import url('../frontend/styles/popover.css');
+@import url('../frontend/styles/modal.css');

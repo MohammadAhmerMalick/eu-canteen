@@ -10,8 +10,8 @@ import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
 import Textarea from '@/components/common/Textarea'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
-import insertProductAction from '@/actions/product/insertProductAction'
 import ModalContainer from '@/components/common/ModalContainer'
+import insertProductAction from '@/actions/product/insertProductAction'
 
 interface CreateProductModalProp {
   isOpen: boolean
@@ -42,8 +42,9 @@ const CreateProductModal = ({ isOpen, setOpen }: CreateProductModalProp) => {
 
     if (success) {
       insertProduct(data)
-      toast.success('Product created successfully')
       setOpen(false)
+      e.currentTarget.reset()
+      toast.success('Product created successfully')
     } else toast.error('Unable to handle request right now')
   }
 
@@ -55,27 +56,28 @@ const CreateProductModal = ({ isOpen, setOpen }: CreateProductModalProp) => {
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>
       <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
         <h1 className="text-lg font-semibold">Create Product</h1>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <Input
             isRequired
             id="name"
             value={name}
-            labelText="Product Name"
-            onChange={({ value }) => setName(value)}
-            labelClassName="text-sm"
             placeholder="BBQ"
+            labelText="Product Name"
+            labelClassName="text-sm"
+            onChange={({ value }) => setName(value)}
           />
           <Input
             isRequired
             id="price"
             onlyNumber
             value={price}
-            labelText="Price"
-            onChange={({ value }) => setPrice(value)}
-            labelClassName="text-sm"
             placeholder="10"
+            labelText="Price"
+            labelClassName="text-sm"
+            onChange={({ value }) => setPrice(value)}
           />
           <Select
+            isRequired
             id="categoryId"
             value={categoryId}
             labelText="Category"
@@ -121,8 +123,8 @@ const CreateProductModal = ({ isOpen, setOpen }: CreateProductModalProp) => {
           id="description"
           value={description}
           labelText="Description"
-          onChange={({ value }) => setDescription(value)}
           labelClassName="text-sm"
+          onChange={({ value }) => setDescription(value)}
           placeholder="A patty of ground beef grilled and placed between two halves of a bun"
         />
         <Button className="ml-auto w-max !py-1">Create Product</Button>

@@ -189,6 +189,12 @@ const TransactionPage = () => {
           </TabPanel>
         ))}
       </Tabs>
+
+      {!transactions.length && (
+        <div className="mt-4 space-y-2 text-center">
+          <p>No transaction yet!</p>
+        </div>
+      )}
     </div>
   )
 }

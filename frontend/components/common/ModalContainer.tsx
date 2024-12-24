@@ -8,6 +8,7 @@ interface ModalContainerProps {
   children: ReactNode
   setOpen: Dispatch<SetStateAction<boolean>>
 }
+
 const ModalContainer = ({
   isOpen,
   children,
@@ -19,13 +20,21 @@ const ModalContainer = ({
       isDismissable
       isOpen={isOpen}
       onOpenChange={setOpen}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-black/50 p-3 backdrop-blur md:p-4"
+      className={({ defaultClassName }) =>
+        classnames(
+          defaultClassName,
+          'fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-black/50 p-3 backdrop-blur md:p-4'
+        )
+      }
     >
       <Modal
-        className={classnames(
-          'max-h-full w-full max-w-3xl overflow-auto rounded-lg bg-white p-3 shadow-lg backdrop-blur-sm md:rounded-3xl md:p-6',
-          className
-        )}
+        className={({ defaultClassName }) =>
+          classnames(
+            defaultClassName,
+            'max-h-full max-w-3xl overflow-auto rounded-lg bg-white p-3 shadow-lg backdrop-blur-sm md:rounded-3xl md:p-6',
+            className
+          )
+        }
       >
         <Dialog>{children}</Dialog>
       </Modal>

@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
 import ProductModel from '@/models/ProductModel'
 
 interface Props {
@@ -25,7 +26,7 @@ const updateProductsPublishedAction = async ({
   try {
     const session = await auth()
 
-    if (session?.user.role !== 'admin')
+    if (session?.user.role !== CONSTANTS.roleName.admin)
       return {
         success: false,
         data: null,

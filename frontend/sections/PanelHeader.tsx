@@ -4,8 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 
-import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
+import { classnames, CONSTANTS } from '@/utils'
 import Button from '@/components/common/Button'
 import VscGear from '@/components/icons/VscGear'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
@@ -22,7 +22,7 @@ const PanelHeader = () => {
   return (
     <div className="z-0 h-min w-full items-center gap-2 px-6 py-4 md:p-8">
       <div className="flex flex-1 items-center justify-end gap-4">
-        {auth.role === 'admin' ? (
+        {auth.role === CONSTANTS.roleName.admin ? (
           <>
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-2xl text-blue-500">
               <AiOutlineBell />
@@ -72,7 +72,7 @@ const PanelHeader = () => {
             )}
           >
             <div className="grid gap-1 text-right text-sm md:text-left">
-              {auth.role === 'admin'
+              {auth.role === CONSTANTS.roleName.admin
                 ? adminMenuOptions.map(({ link, name }) => (
                     <Link
                       key={name}

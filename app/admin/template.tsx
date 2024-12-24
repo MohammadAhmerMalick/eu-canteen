@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 
 import { auth } from '@/auth'
 import BiDish from '@/icons/BiDish'
+import { CONSTANTS } from '@/utils'
 import BiBasket from '@/icons/BiBasket'
 import BiFootball from '@/icons/BiFootball'
 import AiOutlineBell from '@/icons/AiOutlineBell'
@@ -52,7 +53,7 @@ interface TemplateProps {
 
 const Template = async ({ children }: TemplateProps) => {
   const session = await auth()
-  if (session?.user.role !== 'admin') redirect('/')
+  if (session?.user.role !== CONSTANTS.roleName.admin) redirect('/')
 
   return <PanelTemplate links={links}>{children}</PanelTemplate>
 }

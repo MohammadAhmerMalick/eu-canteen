@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
 import TransactionModel from '@/models/TransactionModel'
 import { type TransactionSlice } from '@/store/slices/transactionsSlice'
 
@@ -10,7 +11,7 @@ const getTransactionsAction = async () => {
 
     let transactions: TransactionSlice[] = []
 
-    if (session?.user.role === 'admin')
+    if (session?.user.role === CONSTANTS.roleName.admin)
       transactions = await TransactionModel.getTransactions()
 
     console.log({ getTransactionsAction: 'success' })

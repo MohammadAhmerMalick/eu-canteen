@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { getSession, signIn } from 'next-auth/react'
 import { useEffect, useState, type FormEvent } from 'react'
 
+import { CONSTANTS } from '@/utils'
 import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
@@ -38,13 +39,14 @@ const LoginPage = () => {
     const session = await getSession()
 
     setAuthStatus('authenticated')
-    if (session?.user.role === 'admin') redirect(`/${session?.user.role}`)
+    if (session?.user.role === CONSTANTS.roleName.admin)
+      redirect(`/${session?.user.role}`)
     else redirect('/student/menu')
   }
 
   useEffect(() => {
     if (auth?.role)
-      if (auth.role === 'admin') redirect(`/${auth.role}`)
+      if (auth.role === CONSTANTS.roleName.admin) redirect(`/${auth.role}`)
       else redirect('/student/menu')
   }, [authStatus, auth])
 

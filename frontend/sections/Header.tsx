@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 
-import { classnames } from '@/utils'
+import { classnames, CONSTANTS } from '@/utils'
 import { useStore } from '@/store/provider'
 import Button from '@/components/common/Button'
 import { assetsBaseUrl } from '@/libs/assetsManagement'
@@ -80,7 +80,7 @@ const Header = () => {
                 )}
               >
                 <div className="grid gap-1 text-right text-sm md:text-left">
-                  {auth.role === 'admin'
+                  {auth.role === CONSTANTS.roleName.admin
                     ? adminMenuOptions.map(({ link, name }) => (
                         <Link
                           key={name}

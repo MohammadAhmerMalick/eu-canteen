@@ -10,7 +10,7 @@ const usersData = [
     image: '',
     approved: true,
     password: hashPassword('123123123'),
-    roleName: 'admin',
+    roleName: CONSTANTS.roleName.admin,
   },
   {
     name: 'John',

@@ -1,6 +1,7 @@
 'use server'
 
 import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
 import OrderModel from '@/models/OrderModel'
 import { type OrderSlice } from '@/store/slices/ordersSlice'
 
@@ -10,7 +11,8 @@ const getOrdersAction = async () => {
 
     let orders: OrderSlice[] = []
 
-    if (session?.user.role === 'admin') orders = await OrderModel.getOrders()
+    if (session?.user.role === CONSTANTS.roleName.admin)
+      orders = await OrderModel.getOrders()
 
     console.log({ getOrdersAction: 'success' })
 

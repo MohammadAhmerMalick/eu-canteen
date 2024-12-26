@@ -13,14 +13,35 @@ import {
   CalendarGrid,
   RangeCalendar,
   DateRangePicker as ArialDateRangePicker,
+  type DateRange,
 } from 'react-aria-components'
-import { classnames } from '@/utils'
+import { type Dispatch, type SetStateAction } from 'react'
+import { today, getLocalTimeZone } from '@internationalized/date'
 
-const DateRangePicker = () => {
+import { classnames } from '@/utils'
+import BiChevronLeft from '@/icons/BiChevronLeft'
+import BiChevronDown from '@/icons/BiChevronDown'
+import BiChevronRight from '@/icons/BiChevronRight'
+
+const fallbackRange = {
+  start: today(getLocalTimeZone()),
+  end: today(getLocalTimeZone()),
+}
+interface DateRangePickerProps {
+  range: DateRange | null
+  setRange: Dispatch<SetStateAction<DateRange | null>>
+}
+
+const DateRangePicker = ({
+  setRange,
+  range = fallbackRange,
+}: DateRangePickerProps) => {
+ 
+
   return (
-    <ArialDateRangePicker>
+    <ArialDateRangePicker onChange={setRange} value={range}>
       <Label>Trip dates</Label>
-      <Group className="flex gap-2">
+      <Group className="flex w-fit gap-2 rounded-md border border-neutral-300 p-2 px-3 text-neutral-900 focus:border-primary focus:ring-1 focus:ring-orange-300 focus-visible:outline-0">
         <DateInput className="flex gap-1" slot="start">
           {(segment) => <DateSegment segment={segment} />}
         </DateInput>
@@ -28,28 +49,41 @@ const DateRangePicker = () => {
         <DateInput className="flex gap-1" slot="end">
           {(segment) => <DateSegment segment={segment} />}
         </DateInput>
-        <Button>▼</Button>
+        <Button className="text-xl">
+          <BiChevronDown />
+        </Button>
       </Group>
-      <Popover>
+      <Popover className="rounded-lg border border-primary-light bg-white/90 p-4 shadow-lg backdrop-blur">
         <Dialog>
           <RangeCalendar>
-            <header className="flex items-center gap-2">
-              <Button slot="previous">◀</Button>
+            <header className="mb-3 flex items-center justify-between gap-2">
+              <Button slot="previous" className="text-xl">
+                <BiChevronLeft />
+              </Button>
               <Heading />
-              <Button slot="next">▶</Button>
+              <Button slot="next" className="text-xl">
+                <BiChevronRight />
+              </Button>
             </header>
-            <div className="w-full rounded-lg border-primary bg-white/50 p-2 text-center shadow-lg backdrop-blur">
-              <CalendarGrid>
-                {(date) => (
-                  <CalendarCell
-                    className={({ isSelected }) =>
-                      classnames(isSelected ? 'bg-primary-light' : '', 'p-2')
-                    }
-                    date={date}
-                  />
-                )}
-              </CalendarGrid>
-            </div>
+            <CalendarGrid className="w-full">
+              {(date) => (
+                <CalendarCell
+                  className={({
+                    isSelected,
+                    isSelectionEnd,
+                    isSelectionStart,
+                  }) =>
+                    classnames(
+                      isSelected ? 'text-datk bg-primary-light' : '',
+                      isSelectionEnd && 'rounded-e !bg-primary text-white',
+                      isSelectionStart && 'rounded-s !bg-primary text-white',
+                      'p-1 text-center'
+                    )
+                  }
+                  date={date}
+                />
+              )}
+            </CalendarGrid>
           </RangeCalendar>
         </Dialog>
       </Popover>

@@ -1,8 +1,14 @@
 import Image from 'next/image'
 
-const Loading = () => {
+import { classnames } from '@/utils'
+
+interface LoadingProps {
+  className?: string
+}
+
+const Loading = ({ className }: LoadingProps) => {
   return (
-    <div className="space-y-4 text-center">
+    <div className={classnames('space-y-4 text-center', className)}>
       <Image
         height={90}
         width={90}

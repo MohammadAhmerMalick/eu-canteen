@@ -1,6 +1,7 @@
-import { type ReactNode } from 'react'
+import { Suspense, type ReactNode } from 'react'
 
 import PanelHeader from '@/sections/PanelHeader'
+import Loading from '@/components/common/Loading'
 import Sidebar, { type SidebarLink } from '@/components/Sidebar'
 
 interface PanelTemplateProps {
@@ -14,12 +15,14 @@ const PanelTemplate = ({ links, children }: PanelTemplateProps) => {
       <Sidebar links={links} isAdmin />
       <div className="overflow-auto">
         <PanelHeader />
-        <main
-          className="m-1 rounded-lg p-2 md:p-4 md:shadow"
-          style={{ minHeight: 'calc(100% - 117px)' }}
-        >
-          {children}
-        </main>
+        <Suspense fallback={<Loading />}>
+          <main
+            className="m-1 rounded-lg p-2 md:p-4 md:shadow"
+            style={{ minHeight: 'calc(100% - 117px)' }}
+          >
+            {children}
+          </main>
+        </Suspense>
       </div>
     </div>
   )

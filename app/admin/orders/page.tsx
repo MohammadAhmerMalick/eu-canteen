@@ -97,12 +97,15 @@ const OrdersPage = () => {
           setOpen={() => setSelectedOrders(null)}
         />
       )}
-      <DateRangePicker range={range} setRange={setRange} />
+
+      <div className="mb-4 flex items-center justify-end gap-2 text-sm">
+        <span>Select Range</span>
+        <DateRangePicker range={range} setRange={setRange} />
+      </div>
 
       <Table
         aria-label="Orders"
         onRowAction={() => {}}
-        selectionMode="multiple"
         className="w-full text-sm"
       >
         <TableHeader>
@@ -116,7 +119,7 @@ const OrdersPage = () => {
           <TableColumn>Action</TableColumn>
         </TableHeader>
 
-        <TableBody className={classnames(isRefetching ? 'hidden' : '')}>
+        <TableBody className={classnames(isRefetching && 'hidden')}>
           {Object.keys(groupByDate).map((key: string) =>
             Object.values(groupByDate[key]).map((sliceOrders) => (
               <Row key={sliceOrders?.[0]?.user?.id || ''}>
@@ -162,12 +165,14 @@ const OrdersPage = () => {
         </TableBody>
       </Table>
 
-      {(isPending || isRefetching) && <Loading className="mt-4" />}
-
-      {!(isPending || isRefetching || orders.length) && (
-        <div className="mt-4 space-y-2 text-center">
-          <p>No order yet!</p>
-        </div>
+      {isPending || isRefetching ? (
+        <Loading className="mt-4" />
+      ) : (
+        !orders.length && (
+          <div className="mt-4 space-y-2 text-center">
+            <p>No orders yet!</p>
+          </div>
+        )
       )}
     </div>
   )

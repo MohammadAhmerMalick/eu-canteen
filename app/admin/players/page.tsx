@@ -200,7 +200,7 @@ const PlayersPage = () => {
         </TableBody>
       </Table>
 
-      {!users.filter((u) => !u.approved).length && (
+      {!users.filter((u) => u.approved).length && (
         <div className="mt-4 space-y-2 text-center">
           <p>No user yet!</p>
           <Button

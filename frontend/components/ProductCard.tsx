@@ -32,7 +32,7 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
         <p className="text-sm font-normal">{product.description}</p>
         <span className="text-xl">€{Number(product.price).toFixed(2)}</span>
       </div>
-      <Button className="mx-2 mb-2 rounded-3xl !p-3" onPress={onPress}>
+      <Button className="mx-2 mb-2 rounded-3xl md:!p-3" onPress={onPress}>
         Buy Now
       </Button>
     </div>

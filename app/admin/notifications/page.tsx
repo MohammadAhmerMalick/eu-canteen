@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { useStore } from '@/store/provider'
@@ -27,7 +27,7 @@ const NotificationsPage = () => {
   const [isSendModalVisible, setIsSendModalVisible] = useState(false)
   const [viewModalDate, setViewModalData] = useState<Notification | null>(null)
 
-  const { isPending, error } = useQuery({
+  const { isPending, error, refetch } = useQuery({
     queryKey: ['getNotifications'],
     queryFn: async () => {
       const { data, success } = await getNotificationsAction()
@@ -46,6 +46,10 @@ const NotificationsPage = () => {
     } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   if (isPending) return <Loading />
 

@@ -84,7 +84,7 @@ const TransactionPage = () => {
 
   useEffect(() => {
     refetch()
-  }, [range])
+  }, [range, refetch])
 
   if (error) return <DataError error={error} message={dataErrorMessage} />
 

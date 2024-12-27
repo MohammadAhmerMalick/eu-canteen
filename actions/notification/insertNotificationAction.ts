@@ -12,27 +12,40 @@ const insertNotificationAction = async ({
   message,
   to,
 }: insertNotificationActionProps) => {
-  if (!(message && to))
+  try {
+    if (!(message && to))
+      return {
+        data: [],
+        success: false,
+        message: 'All fields are required',
+        codeMessage: 'fields_are_missing',
+      }
+
+    const session = await auth()
+
+    const newNotification = await NotificationModel.createNotification({
+      to,
+      message,
+      from: session?.user.id || to[0],
+    })
+
+    console.log({ insertNotificationAction: 'success' })
+
     return {
-      data: [],
-      success: false,
-      message: 'All fields are required',
-      codeMessage: 'fields_are_missing',
+      success: true,
+      data: newNotification,
+      message: 'Notification created',
+      codeMessage: 'notification_created',
     }
+  } catch (error) {
+    console.log({ insertNotificationAction: error })
 
-  const session = await auth()
-
-  const newNotification = await NotificationModel.createNotification({
-    to,
-    message,
-    from: session?.user.id,
-  })
-
-  return {
-    success: true,
-    data: newNotification,
-    message: 'Notification created',
-    codeMessage: 'notification_created',
+    return {
+      success: false,
+      data: [],
+      message: 'Notification not send',
+      codeMessage: 'notification__not_sent',
+    }
   }
 }
 

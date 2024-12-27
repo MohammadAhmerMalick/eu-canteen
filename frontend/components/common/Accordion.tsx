@@ -21,7 +21,7 @@ const Accordion = ({ id, heading, children }: AccordionProps) => {
             slot="trigger"
             className="w-full text-left text-base font-semibold"
           >
-            <span className="flex justify-between">
+            <span className="flex items-center justify-between">
               {heading}
               {isExpanded ? <AiOutlineMinus /> : <AiOutlinePlus />}
             </span>

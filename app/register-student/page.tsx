@@ -18,6 +18,7 @@ const SignupPage = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
+  const [password, setPassword] = useState('')
   const [matricola, setMatricola] = useState('')
   const [image, setImage] = useState<File | ''>('')
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false)
@@ -36,6 +37,7 @@ const SignupPage = () => {
     formData.append('name', name)
     formData.append('email', email)
     formData.append('image', image)
+    formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
 
@@ -88,6 +90,18 @@ const SignupPage = () => {
           labelClassName="text-sm"
           placeholder="student@campus.unimib.it"
           onChange={({ value }) => setEmail(value)}
+        />
+        <Input
+          isRequired
+          id="password"
+          type="password"
+          pattern=".{8,}"
+          value={password}
+          labelText="Password"
+          labelClassName="text-sm"
+          placeholder="*********"
+          title="8 characters minimum"
+          onChange={({ value }) => setPassword(value)}
         />
         <Input
           isRequired

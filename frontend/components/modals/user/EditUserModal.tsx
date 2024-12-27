@@ -25,10 +25,8 @@ const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
   const [name, setName] = useState(student.name)
   const [image, setImage] = useState<File | ''>('')
   const [email, setEmail] = useState(student.email)
-  // const [credit, setCredit] = useState(student.credit || '')
   const [whatsapp, setWhatsapp] = useState(student.whatsapp)
   const [matricola, setMatricola] = useState(student.matricola)
-  const [approved, setApproved] = useState(!!student.approved)
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -38,12 +36,10 @@ const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
     formData.append('name', name)
     formData.append('email', email)
     formData.append('image', image)
-    // formData.append('credit', credit)
     formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('userType', student.roleName || '')
     formData.append('matricola', matricola)
-    formData.append('approved', approved ? 'approved' : '')
 
     if (student.roleName === CONSTANTS.roleName.player)
       formData.append('userType', CONSTANTS.roleName.player)
@@ -61,7 +57,7 @@ const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
     <ModalContainer setOpen={setOpen} isOpen={isOpen}>
       <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Update User</h1>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <Input
             isRequired
             id="name"
@@ -81,15 +77,6 @@ const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
             labelClassName="text-sm"
             placeholder="email@campus.unimib.it"
           />
-          {/* <Input
-            onlyNumber
-            id="credit"
-            value={credit}
-            placeholder="123"
-            labelText="Credit"
-            labelClassName="text-sm"
-            onChange={({ value }) => setCredit(value)}
-          /> */}
           <Input
             isRequired
             onlyNumber
@@ -151,38 +138,6 @@ const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
                 ''
               )}
             </label>
-          </div>
-
-          <div>
-            <p>Status:</p>
-
-            <div className="mt-1 text-xs text-neutral-500">
-              <p className="mb-2">
-                Checking this means user profile will automatically be active
-              </p>
-              <label htmlFor="approve" className="me-3 inline-flex gap-2">
-                <input
-                  required
-                  type="radio"
-                  name="approved"
-                  id="approve"
-                  checked={approved}
-                  onChange={() => setApproved(true)}
-                />
-                Approve
-              </label>
-              <label htmlFor="pending" className="me-3 inline-flex gap-2">
-                <input
-                  required
-                  type="radio"
-                  name="approved"
-                  id="pending"
-                  checked={!approved}
-                  onChange={() => setApproved(false)}
-                />
-                Pending
-              </label>
-            </div>
           </div>
         </div>
         <Button className="ml-auto w-max !py-1">Update User</Button>

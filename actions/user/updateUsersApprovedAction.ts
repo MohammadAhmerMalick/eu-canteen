@@ -3,6 +3,7 @@
 import { auth } from '@/auth'
 import { CONSTANTS } from '@/utils'
 import UserModel from '@/models/UserModel'
+import insertNotificationAction from '@/actions/notification/insertNotificationAction'
 
 interface Props {
   ids: string[]
@@ -36,6 +37,10 @@ const updateUsersApprovedAction = async ({ ids, approved }: Props): Return => {
       }
 
     const updatedUser = await UserModel.updateUsersApproved(ids, approved)
+
+    const message = 'Your Account has been approved'
+
+    insertNotificationAction({ message, to: ids })
 
     console.log({ updateUsersApprovedAction: 'success' })
 

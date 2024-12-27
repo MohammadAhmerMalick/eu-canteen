@@ -1,5 +1,5 @@
 import { alias } from 'drizzle-orm/pg-core'
-import { and, desc, eq, inArray } from 'drizzle-orm'
+import { and, desc, eq, gt, lt, inArray } from 'drizzle-orm'
 
 import db from '@/database/index'
 import usersTableSchema from '@/database/schema/usersSchema'
@@ -38,6 +38,25 @@ class OrderModel {
       )
       .where(
         and(eq(ordersTable.published, true), eq(ordersTable.userId, userId))
+      )
+      .orderBy(desc(ordersTable.createdAt), usersTable.name)
+
+  static getOrdersByDate = (start: Date, end: Date) =>
+    db
+      .select()
+      .from(ordersTable)
+      .leftJoin(usersTable, eq(usersTable.id, ordersTable.userId))
+      .leftJoin(productsTable, eq(productsTable.id, ordersTable.productId))
+      .leftJoin(
+        transactionsTable,
+        eq(transactionsTable.id, ordersTable.transactionId)
+      )
+      .where(
+        and(
+          eq(ordersTable.published, true),
+          gt(ordersTable.createdAt, start),
+          lt(ordersTable.createdAt, end)
+        )
       )
       .orderBy(desc(ordersTable.createdAt), usersTable.name)
 

@@ -66,7 +66,7 @@ const Header = () => {
                       ? `${assetsBaseUrl}${auth.image}`
                       : '/images/students/s-1.png'
                   }
-                  className="size-10nrounded-full object-contai border border-primary bg-primary"
+                  className="size-10 rounded-full border border-primary bg-primary object-contain"
                 />
                 <div className="hidden max-w-0 overflow-hidden text-sm duration-300 md:block md:max-w-40 md:px-2 md:pr-3">
                   <p>{auth.name}</p>

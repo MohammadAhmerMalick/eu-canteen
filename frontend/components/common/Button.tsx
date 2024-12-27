@@ -1,6 +1,5 @@
 'use client'
 
-import { type RefAttributes } from 'react'
 import { Button as AriaButton, type ButtonProps } from 'react-aria-components'
 
 import { classnames } from '@/utils'
@@ -10,7 +9,7 @@ const Button = ({
   className,
   type = 'submit',
   ...props
-}: ButtonProps & RefAttributes<HTMLButtonElement>) => {
+}: ButtonProps) => {
   return (
     <AriaButton
       {...props}

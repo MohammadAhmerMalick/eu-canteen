@@ -1,21 +1,14 @@
 'use client'
 
-import {
-  Row,
-  Table,
-  TableBody,
-  TableHeader,
-  Button as AriaButton,
-} from 'react-aria-components'
 import { toast } from 'react-toastify'
 import { useQuery } from '@tanstack/react-query'
+import { Row, Table, TableBody, TableHeader } from 'react-aria-components'
 
 import { useStore } from '@/store/provider'
 import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
 import TableColumn from '@/components/common/TableColumn'
-import AiOutlineEdit from '@/components/icons/AiOutlineEdit'
 import ProductCell from '@/components/widgets/ProductCellWidget'
 import getMyOrdersAction from '@/actions/orders/getMyOrdersAction'
 
@@ -50,7 +43,6 @@ const OrdersPage = () => {
           <TableColumn className="text-left">Placed At</TableColumn>
           <TableColumn>Price</TableColumn>
           <TableColumn>Status</TableColumn>
-          <TableColumn>Action</TableColumn>
         </TableHeader>
 
         <TableBody>
@@ -75,21 +67,7 @@ const OrdersPage = () => {
                 </span>
               </TableCell>
               <TableCell className="border-b border-neutral-300 p-2 text-center">
-                {/* <span className="flex items-center gap-1"> */}
-                {/* <AiOutlineFieldTime />
-                  <BiDish />
-                <AiOutlineCheck />
-                <AiOutlineClose /> */}
                 {order.status?.toUpperCase()}
-                {/* </span> */}
-              </TableCell>
-              <TableCell>
-                <AriaButton
-                  // onPress={() => setEditModalData(user)}
-                  className="mx-1 rounded-lg bg-yellow-200 p-2 text-lg text-yellow-600 shadow"
-                >
-                  <AiOutlineEdit />
-                </AriaButton>
               </TableCell>
             </Row>
           ))}

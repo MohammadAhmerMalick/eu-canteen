@@ -27,7 +27,6 @@ const updateUserAction = async (formData: FormData): Return => {
     const email = formData.get('email') as string
     const credit = formData.get('credit') as string
     const password = formData.get('password') as string
-    const approved = formData.get('approved') as string
     const whatsapp = formData.get('whatsapp') as string
     const matricola = formData.get('matricola') as string
 
@@ -43,7 +42,6 @@ const updateUserAction = async (formData: FormData): Return => {
       email,
       whatsapp,
       matricola,
-      approved: !!approved,
     }
 
     if (credit) payload.credit = credit

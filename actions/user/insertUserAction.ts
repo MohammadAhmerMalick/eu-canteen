@@ -11,8 +11,8 @@ const insertUserAction = async (formData: FormData) => {
   const isPlayer = userType === CONSTANTS.roleName.player
 
   const name = formData.get('name') as string
-  const email = formData.get('email') as string
   const image = formData.get('image') as File
+  const email = formData.get('email') as string
   const password = formData.get('password') as string
   const whatsapp = formData.get('whatsapp') as string
   const matricola = isPlayer
@@ -49,11 +49,12 @@ const insertUserAction = async (formData: FormData) => {
     whatsapp,
     matricola,
     image: image.name,
+    password: hashPassword(password),
+    roleName: CONSTANTS.roleName.student,
   }
 
   if (isPlayer) {
     payload.approved = true
-    payload.password = hashPassword(password)
     payload.roleName = CONSTANTS.roleName.player
   }
 

@@ -58,10 +58,10 @@ const LoginPage = () => {
           id="email"
           type="email"
           value={email}
-          labelText="University Email"
+          labelText="Email"
           onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
-          placeholder="student@campus.unimib.it"
+          placeholder="user@campus.unimib.it"
         />
         <Input
           isRequired

@@ -14,7 +14,7 @@ const Loading = ({ className }: LoadingProps) => {
         width={90}
         alt="Poolaster"
         src="/images/logo.svg"
-        className="mx-auto w-20"
+        className="mx-auto w-12 md:w-20"
       />
       <div className="flex items-center justify-center gap-3">
         <svg
@@ -33,7 +33,7 @@ const Loading = ({ className }: LoadingProps) => {
             fill="currentFill"
           />
         </svg>
-        <span>Loading...</span>
+        <span className="text-sm md:text-base">Loading...</span>
       </div>
     </div>
   )

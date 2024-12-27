@@ -63,6 +63,8 @@ class UserModel {
       .set({ approved })
       .returning({
         id: usersTable.id,
+        name: usersTable.name,
+        email: usersTable.email,
       })
       .where(inArray(usersTable.id, ids))
 

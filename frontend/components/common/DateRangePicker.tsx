@@ -79,7 +79,7 @@ const DateRangePicker = ({
                     isOutsideMonth,
                   }) =>
                     classnames(
-                      isOutsideMonth&& "hidden",
+                      isOutsideMonth && 'hidden',
                       isSelected ? 'text-datk bg-primary-light' : '',
                       isSelectionEnd && 'rounded-e !bg-primary text-white',
                       isSelectionStart && 'rounded-s !bg-primary text-white',

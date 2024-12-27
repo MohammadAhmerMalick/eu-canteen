@@ -2,6 +2,7 @@
 
 import { auth } from '@/auth'
 import { CONSTANTS } from '@/utils'
+import Email from '@/libs/sendgrid'
 import UserModel from '@/models/UserModel'
 import insertNotificationAction from '@/actions/notification/insertNotificationAction'
 
@@ -37,6 +38,10 @@ const updateUsersApprovedAction = async ({ ids, approved }: Props): Return => {
       }
 
     const updatedUser = await UserModel.updateUsersApproved(ids, approved)
+
+    updatedUser.forEach((user) => {
+      Email.send({ name: user.name, to: user.email })
+    })
 
     const message = 'Your Account has been approved'
 

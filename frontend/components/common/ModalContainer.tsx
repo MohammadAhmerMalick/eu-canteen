@@ -31,7 +31,7 @@ const ModalContainer = ({
         className={({ defaultClassName }) =>
           classnames(
             defaultClassName,
-            'max-h-full max-w-3xl overflow-auto rounded-lg bg-white p-3 shadow-lg backdrop-blur-sm md:rounded-3xl md:p-6',
+            'max-h-full w-full max-w-3xl overflow-auto rounded-lg bg-white p-3 shadow-lg backdrop-blur-sm md:rounded-3xl md:p-6',
             className
           )
         }

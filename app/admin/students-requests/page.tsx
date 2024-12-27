@@ -17,10 +17,8 @@ import { classnames } from '@/utils'
 import { useStore } from '@/store/provider'
 import FaPlus from '@/components/icons/FaPlus'
 import Button from '@/components/common/Button'
-import MenuPopup from '@/components/common/Menu'
 import Loading from '@/components/common/Loading'
 import Checkbox from '@/components/common/Checkbox'
-import MenuItem from '@/components/common/MenuItem'
 import EuroChip from '@/components/common/EuroChip'
 import DataError from '@/components/common/DataError'
 import TableCell from '@/components/common/TableCell'
@@ -36,11 +34,6 @@ import DeleteUserModal from '@/components/modals/user/DeleteUserModal'
 import updateUsersApprovedAction from '@/actions/user/updateUsersApprovedAction'
 
 const dataErrorMessage = 'Unable to load users'
-
-const orderStatusOptions = [
-  { id: 'approved', name: 'Active' },
-  { id: 'pending', name: 'Inactive' },
-]
 
 const StudentsPage = () => {
   const { users, setUsers, updateUser } = useStore((state) => state)
@@ -60,21 +53,19 @@ const StudentsPage = () => {
     },
   })
 
-  const bulkAction = (isApproved: string) => {
-    const approved = isApproved === 'approved'
-
+  const bulkAction = () => {
     const updatedUsers = users.filter(
       ({ id }) => [...selectedKeys].includes(id || '') || selectedKeys === 'all'
     )
 
     const updatedUserIds = updatedUsers.map((u) => {
-      updateUser({ ...u, approved })
+      updateUser({ ...u, approved: true })
       return u.id || ''
     })
 
     updateUsersApprovedAction({
       ids: updatedUserIds,
-      approved,
+      approved: true,
     })
 
     setSelectedKeys(new Set())
@@ -120,13 +111,9 @@ const StudentsPage = () => {
           <TableColumn isRowHeader>
             <div className="flex items-center gap-4">
               {[...selectedKeys].length ? (
-                <MenuPopup>
-                  {orderStatusOptions.map(({ id, name }) => (
-                    <MenuItem key={id} onAction={() => bulkAction(id)}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                </MenuPopup>
+                <Button className="rounded-lg" onPress={bulkAction}>
+                  Approve
+                </Button>
               ) : (
                 ''
               )}

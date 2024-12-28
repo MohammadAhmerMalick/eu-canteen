@@ -13,29 +13,40 @@ const OrderCellWidget = ({ orderSlice }: OrderCellWidgetProps) => {
   if (product && transaction)
     return (
       <div className="w-max min-w-full max-w-80 rounded-lg bg-primary-light p-2">
-        {orderSlice.order && (
-          <div className="flex gap-4">
-            <Image
-              alt={product.name}
-              width={52}
-              height={52}
-              src={CONSTANTS.imagePlaceholders.product}
-              className={classnames(
-                'rounded-full border-2',
-                product.published ? 'border-primary' : 'border-neutral-400'
-              )}
-            />
-            <div className="text-xs">
-              <p className="text-sm font-semibold">{product.name}</p>
-              <p>
-                Price: <span className="font-semibold">€{product.price}</span>
-              </p>
-              <p>
-                Price: <span className="font-semibold">€{order.quantity}</span>
-              </p>
-            </div>
+        <div className="flex gap-4">
+          <Image
+            alt={product.name}
+            width={52}
+            height={52}
+            src={CONSTANTS.imagePlaceholders.product}
+            className={classnames(
+              'rounded-full border-2',
+              product.published ? 'border-primary' : 'border-neutral-400'
+            )}
+          />
+          <div className="text-xs">
+            <p className="text-sm font-semibold">{product.name}</p>
+            <p>
+              Cost:{' '}
+              <span className="font-semibold">
+                €{parseFloat(transaction.amount).toFixed(2)}({order.quantity}x
+                {parseFloat(order.unitPrice).toFixed(2)})
+              </span>
+            </p>
+            <p>
+              Quantity: <span className="font-semibold">{order.quantity}</span>
+            </p>
           </div>
-        )}
+        </div>
+
+        <div className="mt-2 flex justify-between border-t border-primary pt-2 text-xs">
+          <p className="capitalize">{order.type}</p>
+          <p>{new Date(order.createdAt || '').toLocaleTimeString()}</p>
+        </div>
+        <div className="flex justify-between text-xs">
+          <p>{order.status?.toUpperCase()}</p>
+          <p>{new Date(order.createdAt || '').toLocaleDateString()}</p>
+        </div>
       </div>
     )
 

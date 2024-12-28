@@ -52,7 +52,7 @@ export const createAuthSlice: StateCreator<Store, [], [], AuthSlice> = (
 
   logout: async () =>
     set((state) => {
-      signOut({ redirectTo: '/login' })
+      signOut({ redirect: false, callbackUrl: '/login' })
       return { ...state, auth: initialAuthState.auth }
     }),
 

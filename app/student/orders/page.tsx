@@ -11,6 +11,7 @@ import TableCell from '@/components/common/TableCell'
 import TableColumn from '@/components/common/TableColumn'
 import ProductCell from '@/components/widgets/ProductCellWidget'
 import getMyOrdersAction from '@/actions/orders/getMyOrdersAction'
+import OrderCellWidget from '@/components/widgets/OrderCellWidget'
 
 const dataErrorMessage = 'Unable to load orders'
 
@@ -33,7 +34,13 @@ const OrdersPage = () => {
 
   return (
     <div>
-      <Table aria-label="Orders" className="w-full text-sm">
+      <div className="block space-y-2 md:hidden">
+        {orders.map((orderSlice) => (
+          <OrderCellWidget orderSlice={orderSlice} key={orderSlice.order.id} />
+        ))}
+      </div>
+
+      <Table aria-label="Orders" className="hidden w-full text-sm md:block">
         <TableHeader>
           <TableColumn className="text-left" isRowHeader>
             Product

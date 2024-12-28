@@ -55,7 +55,7 @@ const ProfilePage = () => {
       className={classnames('grid max-h-full w-full max-w-3xl gap-4')}
     >
       <h1 className="text-lg font-semibold">Profile</h1>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         <Input
           isRequired
           id="name"

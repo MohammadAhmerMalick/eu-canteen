@@ -6,6 +6,7 @@ import OrderModel from '@/models/OrderModel'
 import ProductModel from '@/models/ProductModel'
 import TransactionModel from '@/models/TransactionModel'
 import { type OrderSlice } from '@/store/slices/ordersSlice'
+import insertNotificationAction from '@/actions/notification/insertNotificationAction'
 
 interface InsertOrderActionProps {
   type: string
@@ -67,6 +68,13 @@ const insertOrderAction = async ({
     })
 
     const [newOrder] = await OrderModel.getOrder(newOrderId.id)
+
+    const admins = await UserModel.getAdmin()
+
+    insertNotificationAction({
+      to: admins.map((admin) => admin.id),
+      message: `🍔 ${user.name}(${user.email}) had placed the order: ${product.name}`,
+    })
 
     console.log({ insertOrderAction: 'success' })
 

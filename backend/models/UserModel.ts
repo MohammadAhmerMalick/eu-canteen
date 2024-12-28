@@ -26,6 +26,12 @@ class UserModel {
   static getUserByEmail = (email: string) =>
     db.select().from(usersTable).where(eq(usersTable.email, email))
 
+  static getAdmin = () =>
+    db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.roleName, CONSTANTS.roleName.admin))
+
   static getUserByEmailOrMatricola = (email: string, matricola: string) =>
     db
       .select()
@@ -63,6 +69,8 @@ class UserModel {
       .set({ approved })
       .returning({
         id: usersTable.id,
+        name: usersTable.name,
+        email: usersTable.email,
       })
       .where(inArray(usersTable.id, ids))
 

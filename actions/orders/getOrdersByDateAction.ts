@@ -20,7 +20,7 @@ const getOrdersByDateAction = async ({
 
     let orders: OrderSlice[] = []
 
-    dateRange.end.setDate(new Date(dateRange.end).getDate() + 1)
+    // dateRange.end.setDate(new Date(dateRange.end).getDate() + 1)
 
     if (session?.user.role === CONSTANTS.roleName.admin)
       orders = await OrderModel.getOrdersByDate(dateRange.start, dateRange.end)

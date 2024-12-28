@@ -3,7 +3,7 @@
 import { createContext, type ReactNode, useContext, useRef } from 'react'
 import { type StoreApi, useStore as useZustandStore } from 'zustand'
 
-import { createAppStore, initStore, type Store } from './store'
+import { createAppStore, initStore, type Store } from '@/store/store'
 
 const AppStoreContext = createContext<StoreApi<Store> | null>(null)
 
@@ -12,7 +12,7 @@ interface AppStoreProviderProps {
 }
 
 export const AppStoreProvider = ({ children }: AppStoreProviderProps) => {
-  const storeRef = useRef<StoreApi<Store>>()
+  const storeRef = useRef<StoreApi<Store> | null>(null)
   if (!storeRef.current) storeRef.current = createAppStore(initStore())
 
   return (

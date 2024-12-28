@@ -108,12 +108,14 @@ const NotificationsPage = () => {
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 <button
+                  type="button"
                   onClick={() => setViewModalData(notification)}
                   className="mx-1 rounded-lg bg-green-200 p-2 text-lg text-green-600 shadow"
                 >
                   <AiOutlineEye />
                 </button>
                 <button
+                  type="button"
                   onClick={() => onDelete(notification.id || '')}
                   className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
                 >

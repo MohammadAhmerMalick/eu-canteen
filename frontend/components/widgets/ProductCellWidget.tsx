@@ -24,7 +24,10 @@ const ProductCellWidget = ({ product }: ProductCellWidgetProps) => {
         <div className="text-xs">
           <p className="text-sm font-semibold">{product.name}</p>
           <p>
-            Price: <span className="font-semibold">€{product.price}</span>
+            Price:{' '}
+            <span className="font-semibold">
+              €{parseFloat(product.price).toFixed(2)}
+            </span>
           </p>
           <p className="line-clamp-1">
             <span className="font-semibold">{product.description}</span>

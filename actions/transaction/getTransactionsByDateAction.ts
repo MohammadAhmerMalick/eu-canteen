@@ -20,7 +20,7 @@ const getTransactionsByDateAction = async ({
 
     let transactions: TransactionSlice[] = []
 
-    dateRange.end.setDate(new Date(dateRange.end).getDate() + 1)
+    // dateRange.end.setDate(new Date(dateRange.end).getDate() + 1)
 
     if (session?.user.role === CONSTANTS.roleName.admin)
       transactions = await TransactionModel.getTransactionsByDate(

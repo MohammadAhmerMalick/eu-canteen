@@ -12,7 +12,7 @@ const OrderCellWidget = ({ orderSlice }: OrderCellWidgetProps) => {
 
   if (product && transaction)
     return (
-      <div className="w-max min-w-full max-w-80 rounded-lg bg-primary-light p-2 pb-1">
+      <div className="w-max min-w-full max-w-80 rounded-lg bg-primary-light p-2">
         <div className="flex gap-4">
           <Image
             alt={product.name}
@@ -39,9 +39,13 @@ const OrderCellWidget = ({ orderSlice }: OrderCellWidgetProps) => {
           </div>
         </div>
 
-        <div className="my-2 flex justify-between border-t border-primary pt-2 text-xs">
+        <div className="mt-2 flex justify-between border-t border-primary pt-2 text-xs">
           <p className="capitalize">{order.type}</p>
-          <p> {order.status?.toUpperCase()}</p>
+          <p>{new Date(order.createdAt || '').toLocaleTimeString()}</p>
+        </div>
+        <div className="flex justify-between text-xs">
+          <p>{order.status?.toUpperCase()}</p>
+          <p>{new Date(order.createdAt || '').toLocaleDateString()}</p>
         </div>
       </div>
     )

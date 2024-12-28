@@ -9,6 +9,7 @@ import Loading from '@/components/common/Loading'
 import DataError from '@/components/common/DataError'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
 import type { Notification } from '@/database/schema/notificationsSchema'
+import NotificationCellWidget from '@/components/widgets/NotificationCellWidget'
 import getNotificationsAction from '@/actions/notification/getNotificationsAction'
 import ViewNotificationModal from '@/components/modals/notification/ViewNotificationModal'
 
@@ -43,7 +44,17 @@ const NotificationsPage = () => {
         />
       )}
 
-      <table className="w-full text-sm">
+      <div className="block w-full space-y-2 md:hidden">
+        {notifications.map((notification) => (
+          <NotificationCellWidget
+            key={notification.id}
+            notification={notification}
+            onClick={() => setViewModalData(notification)}
+          />
+        ))}
+      </div>
+
+      <table className="hidden w-full text-sm md:block">
         <thead>
           <tr>
             <td className="border-b border-neutral-300 p-2">Name</td>

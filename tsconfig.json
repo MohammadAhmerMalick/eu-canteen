@@ -20,16 +20,26 @@
     ],
     "paths": {
       // "@/*": ["./*"]
+      "@/auth": ["./auth"],
       "@/utils": ["./utils"],
+      "@/i18n/*": ["./i18n/*"],
       "@/actions/*": ["./actions/*"],
+      "@/libs/*": ["./backend/libs/*"],
       "@/models/*": ["./backend/models/*"],
       "@/store/*": ["./state_management/*"],
-      "@/sections/*": ["./frontend/sections/*"],
       "@/database/*": ["./backend/database/*"],
+      "@/sections/*": ["./frontend/sections/*"],
       "@/components/*": ["./frontend/components/*"],
-      "@/icons/*": ["./frontend/components/icons/*"]
+      "@/icons/*": ["./frontend/components/icons/*"],
+      "@/widgets/*": ["./frontend/components/widgets/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "types/nextauth.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

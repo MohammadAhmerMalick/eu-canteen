@@ -1,44 +1,58 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
-import { useState, type FormEvent } from 'react'
+import { getSession, signIn } from 'next-auth/react'
+import { useEffect, useState, type FormEvent } from 'react'
 
+import { CONSTANTS } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
-import loginAction from '@/actions/loginAction'
+import AuthLayoutSection from '@/sections/AuthLayoutSection'
 
 const LoginPage = () => {
+  const { auth, authStatus, setAuthStatus } = useStore((state) => state)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setAuthStatus('loading')
 
-    const { success, message } = await loginAction({ email, password })
-    if (success) redirect('/')
+    const res = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+      redirectTo: '/',
+    })
 
-    toast.error(message)
+    if (res?.error) {
+      setAuthStatus('unauthenticated')
+      toast.error('Credentials are not valid')
+
+      return
+    }
+
+    const session = await getSession()
+
+    setAuthStatus('authenticated')
+    if (session?.user.role === CONSTANTS.roleName.admin)
+      redirect(`/${session?.user.role}`)
+    else redirect('/student/menu')
   }
 
+  useEffect(() => {
+    if (auth?.role)
+      if (auth.role === CONSTANTS.roleName.admin) redirect(`/${auth.role}`)
+      else redirect('/student/menu')
+  }, [authStatus, auth])
+
   return (
-    <main className="flex min-h-dscreen items-center justify-center bg-primary-light p-2">
-      <form
-        onSubmit={onSubmit}
-        className="grid w-full max-w-md gap-3 rounded-3xl border border-primary-light bg-white p-6 shadow-lg md:p-10"
-      >
-        <Link href="/">
-          <Image
-            height={90}
-            width={90}
-            src="/images/logo.svg"
-            alt="Poolaster"
-            className="mx-auto w-20"
-          />
-        </Link>
-        <h1 className="text-lg font-semibold">Login</h1>
+    <AuthLayoutSection title="Login">
+      <form onSubmit={onSubmit} className="grid gap-3">
         <Input
           isRequired
           id="email"
@@ -47,7 +61,7 @@ const LoginPage = () => {
           labelText="Email"
           onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
-          placeholder="email@compas.unimib.it"
+          placeholder="user@campus.unimib.it"
         />
         <Input
           isRequired
@@ -62,20 +76,17 @@ const LoginPage = () => {
         <p className="ml-auto w-max cursor-pointer text-sm text-neutral-500">
           Forgot Password?
         </p>
-        <Button
-          onClick={() => localStorage.setItem('isLoggedIn', 'true')}
-          className="mt-4"
-        >
+        <Button className="mt-4" isDisabled={authStatus === 'loading'}>
           Login
         </Button>
-        <p className="text-center text-sm font-light">
-          Don&apos;t have and account yet?{' '}
-          <Link href="register" className="font-semibold">
-            Register for free
+        <p className="mt-2 text-center text-sm font-normal text-neutral-500">
+          Don&apos;t have an account yet?{' '}
+          <Link href="register" className="font-semibold text-black">
+            Register for Free
           </Link>
         </p>
       </form>
-    </main>
+    </AuthLayoutSection>
   )
 }
 

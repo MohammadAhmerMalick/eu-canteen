@@ -1,17 +1,49 @@
 'use client'
 
-import { useEffect } from 'react'
+import {
+  useQuery,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { SessionProvider, useSession } from 'next-auth/react'
 
-import { getCookie } from '@/utils'
-import { useMainStore } from '@/store/provider'
+import { useStore } from '@/store/provider'
+// import orderSeedAction from '@/actions/seeds/orderSeedAction'
+import getMyProfileAction from '@/actions/user/getMyProfileActon'
 
-export default function Template({ children }: { children: React.ReactNode }) {
-  const { setIsLoggedIn } = useMainStore((state) => state)
+const C = () => {
+  const { data: session, status } = useSession()
+  const { setAuth, setAuthStatus } = useStore((state) => state)
+
+  useQuery({
+    queryKey: ['getMyProfile'],
+    queryFn: async () => {
+      setAuthStatus(status)
+      if (status === 'authenticated') setAuth(session?.user)
+
+      const { data, success } = await getMyProfileAction()
+      if (success) setAuth(data)
+      return data
+    },
+  })
 
   useEffect(() => {
-    const token = getCookie('token')
-    setIsLoggedIn(!!token)
-  }, [setIsLoggedIn])
+    // orderSeedAction()
+    setAuthStatus(status)
+  }, [setAuthStatus, status])
+  return <span className="absolute -z-50 hidden opacity-0">Poolaster</span>
+}
 
-  return <div>{children}</div>
+export default function Template({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient())
+
+  return (
+    <SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <C />
+        {children}
+      </QueryClientProvider>
+    </SessionProvider>
+  )
 }

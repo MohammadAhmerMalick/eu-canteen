@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { classnames } from '@/utils'
 import AiOutlinePhone from '@/icons/AiOutlinePhone'
@@ -14,6 +15,8 @@ const AgentAssistance = ({
   className,
   expended = false,
 }: AgentAssistanceProps) => {
+  const t = useTranslations('Agent')
+
   const [expend, setExpend] = useState(expended)
 
   return (
@@ -27,18 +30,24 @@ const AgentAssistance = ({
       <Image
         width={56}
         height={56}
-        alt="Agent"
+        alt={t('name')}
         src="/images/agents/agent-1.png"
         className="w-14 rounded-full border border-primary bg-primary"
         onClick={() => setExpend(!expend)}
       />
       <div className="min-w-40 text-sm">
-        <p>LUCA</p>
-        <p className="text-xs text-neutral-500">Management</p>
+        <p>{t('name')}</p>
+        <p className="text-xs text-neutral-500">{t('title')}</p>
       </div>
-      <div className="flex h-full w-14 -scale-x-100 items-center justify-center rounded-full bg-primary text-3xl text-white">
+      <a
+        target="_blank"
+        aria-label="Our WhatsApp"
+        rel="noopener noreferrer"
+        href="https://wa.me/+393420500567"
+        className="flex h-full w-14 -scale-x-100 items-center justify-center rounded-full bg-primary text-3xl text-white"
+      >
         <AiOutlinePhone />
-      </div>
+      </a>
     </div>
   )
 }

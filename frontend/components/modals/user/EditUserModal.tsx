@@ -1,68 +1,63 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
-import { classnames } from '@/utils'
+import { CONSTANTS } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
-import usersTable from '@/database/schema/usersSchema'
-import updateUserAction from '@/actions/updateUserAction'
+import type { User } from '@/database/schema/usersSchema'
 import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import updateUserAction from '@/actions/user/updateUserAction'
+import ModalContainer from '@/components/common/ModalContainer'
 
 interface EditUserModalProp {
-  onClose(): any
-  student: typeof usersTable.$inferInsert
+  student: User
+  isOpen: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
+const EditUserModal = ({ isOpen, student, setOpen }: EditUserModalProp) => {
+  const queryClient = useQueryClient()
 
+  const [password, setPassword] = useState('')
   const [name, setName] = useState(student.name)
+  const [image, setImage] = useState<File | ''>('')
   const [email, setEmail] = useState(student.email)
   const [whatsapp, setWhatsapp] = useState(student.whatsapp)
   const [matricola, setMatricola] = useState(student.matricola)
-  const [approved, setApproved] = useState(!!student.approved)
-  const [idCardBackImage, setIdCardBackImage] = useState<File | ''>('')
-  const [idCardFrontImage, setIdCardFrontImage] = useState<File | ''>('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const formData = new FormData()
-    formData.append('name', student.id || '')
+    formData.append('id', student.id || '')
     formData.append('name', name)
     formData.append('email', email)
+    formData.append('image', image)
+    formData.append('password', password)
     formData.append('whatsapp', whatsapp)
+    formData.append('userType', student.roleName || '')
     formData.append('matricola', matricola)
-    formData.append('idCardBackImage', idCardBackImage)
-    formData.append('idCardFrontImage', idCardFrontImage)
-    formData.append('approved', approved ? 'approved' : '')
 
-    const { success, message, codeMessage } = await updateUserAction(formData)
+    if (student.roleName === CONSTANTS.roleName.player)
+      formData.append('userType', CONSTANTS.roleName.player)
+
+    const { success } = await updateUserAction(formData)
     if (success) {
-      toast.success('Student updated')
-      onClose()
-    } else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
+      queryClient.invalidateQueries({ queryKey: ['getAllStudents'] })
+      toast.success('User updated')
+      setOpen(false)
+    } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Update User</h1>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <Input
             isRequired
             id="name"
@@ -80,49 +75,62 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
             labelText="Email"
             onChange={({ value }) => setEmail(value)}
             labelClassName="text-sm"
-            placeholder="email@compus.unimib.it"
+            placeholder="email@campus.unimib.it"
           />
           <Input
             isRequired
             onlyNumber
             id="whatsapp"
             value={whatsapp}
-            onChange={({ value }) => setWhatsapp(value)}
-            labelText="WhatsApp Number"
-            placeholder="39000000000"
+            pattern=".{10,16}"
             labelClassName="text-sm"
+            placeholder="39000000000"
+            labelText="WhatsApp Number"
+            title="10 to 16 characters"
+            onChange={({ value }) => setWhatsapp(value)}
           />
           <Input
-            isRequired
-            onlyNumber
-            id="matricola"
-            value={matricola}
-            onChange={({ value }) => setMatricola(value)}
-            labelText="Matricola Number"
+            id="password"
+            pattern=".{8,}"
+            value={password}
+            labelText="Password"
             placeholder="✳✳✳✳✳✳✳✳✳✳"
             labelClassName="text-sm"
+            title="8 characters minimum"
+            onChange={({ value }) => setPassword(value)}
           />
-
+          {student.roleName === CONSTANTS.roleName.student && (
+            <Input
+              isRequired
+              onlyNumber
+              id="matricola"
+              pattern=".{6}"
+              value={matricola}
+              placeholder="✳✳✳✳✳✳✳✳✳✳"
+              labelClassName="text-sm"
+              labelText="Matricola Number"
+              title="Matricola must be of 6 characters"
+              onChange={({ value }) => setMatricola(value)}
+            />
+          )}
           <div>
-            <p>University Id Card</p>
+            <p>Images</p>
             <label
-              htmlFor="idCardFront"
+              htmlFor="profileImage"
               className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
             >
               <input
                 type="file"
-                id="idCardFront"
+                id="profileImage"
                 accept="image/*"
                 className="absolute left-10 w-1 opacity-0"
-                onChange={({ target }) =>
-                  setIdCardFrontImage(target.files?.[0] || '')
-                }
+                onChange={({ target }) => setImage(target.files?.[0] || '')}
               />
               <span className="text-primary">
                 <AiOutlinePaperClip />
               </span>
-              Upload Front
-              {idCardFrontImage ? (
+              Upload Profile Image
+              {image ? (
                 <span className="text-green-600">
                   <HiBadgeCheck />
                 </span>
@@ -130,68 +138,11 @@ const EditUserModal = ({ onClose, student }: EditUserModalProp) => {
                 ''
               )}
             </label>
-            <label
-              htmlFor="idCardBack"
-              className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
-            >
-              <input
-                type="file"
-                id="idCardBack"
-                accept="image/*"
-                className="absolute left-10 w-1 opacity-0"
-                onChange={({ target }) =>
-                  setIdCardBackImage(target.files?.[0] || '')
-                }
-              />
-              <span className="text-primary">
-                <AiOutlinePaperClip />
-              </span>
-              Upload Back
-              {idCardBackImage ? (
-                <span className="text-green-600">
-                  <HiBadgeCheck />
-                </span>
-              ) : (
-                ''
-              )}
-            </label>
-          </div>
-
-          <div>
-            <p>Status:</p>
-
-            <div className="mt-1 text-xs text-neutral-500">
-              <p className="mb-2">
-                Checking this means user profile will automatically be active
-              </p>
-              <label htmlFor="approve" className="me-3 inline-flex gap-2">
-                <input
-                  required
-                  type="radio"
-                  name="approved"
-                  id="approve"
-                  checked={approved}
-                  onChange={() => setApproved(true)}
-                />
-                Approve
-              </label>
-              <label htmlFor="pending" className="me-3 inline-flex gap-2">
-                <input
-                  required
-                  type="radio"
-                  name="approved"
-                  id="pending"
-                  checked={!approved}
-                  onChange={() => setApproved(false)}
-                />
-                Pending
-              </label>
-            </div>
           </div>
         </div>
         <Button className="ml-auto w-max !py-1">Update User</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
+
 import Toast from '@/components/Toast'
-import { MainStoreProvider } from '@/store/provider'
+import { AppStoreProvider } from '@/store/provider'
 
 import './globals.css'
 
@@ -14,15 +17,22 @@ export const metadata: Metadata = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang="en">
-      <body className="overflow-x-hidden antialiased">
-        <MainStoreProvider>{children}</MainStoreProvider>
+    <html lang={locale}>
+      <body className="antialiased">
+        <AppStoreProvider>
+          <NextIntlClientProvider messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </AppStoreProvider>
         <Toast />
       </body>
     </html>

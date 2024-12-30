@@ -1,28 +1,35 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import { FormEvent, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
-import { classnames } from '@/utils'
+import { CONSTANTS } from '@/utils'
 import Input from '@/components/common/Input'
 import Button from '@/components/common/Button'
-import HiBadgeCheck from '@/icons/HiBadgeCheck'
-import insertUserAction from '@/actions/insertUserAction'
-import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import HiBadgeCheck from '@/components/icons/HiBadgeCheck'
+import insertUserAction from '@/actions/user/insertUserAction'
+import ModalContainer from '@/components/common/ModalContainer'
+import AiOutlinePaperClip from '@/components/icons/AiOutlinePaperClip'
 
 interface CreateUserModalProp {
-  onClose(): any
+  isOpen: boolean
+  isPlayer?: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
+const CreateUserModal = ({
+  isOpen,
+  setOpen,
+  isPlayer = false,
+}: CreateUserModalProp) => {
+  const queryClient = useQueryClient()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
   const [matricola, setMatricola] = useState('')
-  const [idCardBackImage, setIdCardBackImage] = useState<File | ''>('')
-  const [idCardFrontImage, setIdCardFrontImage] = useState<File | ''>('')
+  const [image, setImage] = useState<File | ''>('')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,42 +37,27 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
     const formData = new FormData(e.currentTarget)
     formData.append('name', name)
     formData.append('email', email)
+    formData.append('image', image)
+    formData.append('password', password)
     formData.append('whatsapp', whatsapp)
     formData.append('matricola', matricola)
-    formData.append('idCardBackImage', idCardBackImage)
-    formData.append('idCardFrontImage', idCardFrontImage)
 
-    if (idCardBackImage && idCardFrontImage) {
-      const { success, message, codeMessage } = await insertUserAction(formData)
+    if (isPlayer) formData.append('userType', CONSTANTS.roleName.player)
 
-      if (success) {
-        toast.success('User created successfully')
-        onClose()
-      } else if (codeMessage === 'user_already_exist')
-        toast.warn(
-          'Your request is aready in pending state, contact admin for further information'
-        )
-      else if (codeMessage === 'fields_are_missing') toast.warn(message)
-      else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-      else
-        toast.error(
-          'Unable to handle request right now, please contact to admin'
-        )
-    }
+    const { success, message } = await insertUserAction(formData)
+
+    if (success) {
+      queryClient.invalidateQueries({ queryKey: ['getAllStudents'] })
+      toast.success('User created successfully')
+      setOpen(false)
+    } else if (message) toast.warn(message)
+    else
+      toast.error('Unable to handle request right now, please contact to admin')
   }
 
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className="grid gap-4">
         <h1 className="text-lg font-semibold">Create User</h1>
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -73,9 +65,9 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
             id="name"
             value={name}
             labelText="Full Name"
-            onChange={({ value }) => setName(value)}
-            labelClassName="text-sm"
             placeholder="Asad Khan"
+            labelClassName="text-sm"
+            onChange={({ value }) => setName(value)}
           />
           <Input
             isRequired
@@ -83,90 +75,78 @@ const CreateUserModal = ({ onClose }: CreateUserModalProp) => {
             type="email"
             value={email}
             labelText="Email"
-            onChange={({ value }) => setEmail(value)}
             labelClassName="text-sm"
-            placeholder="email@compus.unimib.it"
+            placeholder="email@campus.unimib.it"
+            onChange={({ value }) => setEmail(value)}
           />
           <Input
             isRequired
             onlyNumber
             id="whatsapp"
             value={whatsapp}
-            onChange={({ value }) => setWhatsapp(value)}
-            labelText="WhatsApp Number"
+            pattern=".{10,16}"
+            labelClassName="text-sm"
             placeholder="39000000000"
-            labelClassName="text-sm"
-          />
-          <Input
-            isRequired
-            onlyNumber
-            id="matricola"
-            value={matricola}
-            onChange={({ value }) => setMatricola(value)}
-            labelText="Matricola Number"
-            placeholder="✳✳✳✳✳✳✳✳✳✳"
-            labelClassName="text-sm"
+            labelText="WhatsApp Number"
+            title="10 to 16 characters"
+            onChange={({ value }) => setWhatsapp(value)}
           />
 
-          <div>
-            <p>University Id Card</p>
-            <label
-              htmlFor="idCardFront"
-              className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
-            >
-              <input
-                required
-                type="file"
-                id="idCardFront"
-                accept="image/*"
-                className="absolute left-10 w-1 opacity-0"
-                onChange={({ target }) =>
-                  setIdCardFrontImage(target.files?.[0] || '')
-                }
-              />
-              <span className="text-primary">
-                <AiOutlinePaperClip />
+          <Input
+            isRequired
+            id="password"
+            type="password"
+            pattern=".{8,}"
+            value={password}
+            labelText="Password"
+            placeholder="*********"
+            labelClassName="text-sm"
+            title="8 characters minimum"
+            onChange={({ value }) => setPassword(value)}
+          />
+
+          {!isPlayer && (
+            <Input
+              isRequired
+              onlyNumber
+              id="matricola"
+              pattern=".{6}"
+              value={matricola}
+              placeholder="✳✳✳✳✳✳✳✳✳✳"
+              labelClassName="text-sm"
+              labelText="Matricola Number"
+              title="Matricola must be of 6 characters"
+              onChange={({ value }) => setMatricola(value)}
+            />
+          )}
+
+          <label
+            htmlFor="image"
+            className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
+          >
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              className="absolute left-10 w-1 opacity-0"
+              onChange={({ target }) => setImage(target.files?.[0] || '')}
+            />
+            <span className="text-primary">
+              <AiOutlinePaperClip />
+            </span>
+            Upload Profile Picture
+            {image ? (
+              <span className="text-green-600">
+                <HiBadgeCheck />
               </span>
-              Upload Front
-              {idCardFrontImage ? (
-                <span className="text-green-600">
-                  <HiBadgeCheck />
-                </span>
-              ) : (
-                ''
-              )}
-            </label>
-            <label
-              htmlFor="idCardBack"
-              className="relative mt-1 flex w-max cursor-pointer items-center gap-1 text-xs text-neutral-500"
-            >
-              <input
-                required
-                type="file"
-                id="idCardBack"
-                accept="image/*"
-                className="absolute left-10 w-1 opacity-0"
-                onChange={({ target }) =>
-                  setIdCardBackImage(target.files?.[0] || '')
-                }
-              />
-              <span className="text-primary">
-                <AiOutlinePaperClip />
-              </span>
-              Upload Back
-              {idCardBackImage ? (
-                <span className="text-green-600">
-                  <HiBadgeCheck />
-                </span>
-              ) : (
-                ''
-              )}
-            </label>
-          </div>
+            ) : (
+              ''
+            )}
+          </label>
         </div>
         <Button className="ml-auto w-max !py-1">Create User</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

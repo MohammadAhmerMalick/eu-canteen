@@ -1,0 +1,50 @@
+import type { ReactNode } from 'react'
+import { redirect } from 'next/navigation'
+
+import { auth } from '@/auth'
+import { CONSTANTS } from '@/utils'
+import BiDish from '@/components/icons/BiDish'
+import FiUsers from '@/components/icons/FiUsers'
+import FaqIcon from '@/components/icons/FaqIcon'
+// import BsCreditCard from '@/components/icons/BsCreditCard'
+import PanelTemplate from '@/sections/PanelTemplate'
+import { type SidebarLink } from '@/components/Sidebar'
+import AiOutlineBell from '@/components/icons/AiOutlineBell'
+import AiOutlineOrderedList from '@/components/icons/AiOutlineOrderedList'
+
+const links: SidebarLink[] = [
+  { link: '/student/menu', label: 'Menu', icon: <BiDish /> },
+  { link: '/student', label: 'Profile', icon: <FiUsers /> },
+  {
+    link: '/student/orders',
+    label: 'My Orders',
+    icon: <AiOutlineOrderedList />,
+  },
+  // { link: '/student/credits', label: 'Credits', icon: <BsCreditCard /> },
+  {
+    link: '/student/notifications',
+    label: 'Notifications',
+    icon: <AiOutlineBell />,
+  },
+  { link: '/student/faqs', label: 'FAQs', icon: <FaqIcon /> },
+]
+
+interface TemplateProps {
+  children: ReactNode
+}
+
+const Template = async ({ children }: TemplateProps) => {
+  const session = await auth()
+
+  if (
+    !(
+      session?.user.role === CONSTANTS.roleName.player ||
+      session?.user.role === CONSTANTS.roleName.student
+    )
+  )
+    redirect('/')
+
+  return <PanelTemplate links={links}>{children}</PanelTemplate>
+}
+
+export default Template

@@ -1,52 +1,73 @@
 'use client'
 
 import { toast } from 'react-toastify'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
+import { useStore } from '@/store/provider'
+import FaPlus from '@/components/icons/FaPlus'
+import Button from '@/components/common/Button'
+import Loading from '@/components/common/Loading'
+import DataError from '@/components/common/DataError'
 import AiOutlineEye from '@/components/icons/AiOutlineEye'
 import AiOutlineDelete from '@/components/icons/AiOutlineDelete'
-import notificationsTable from '@/database/schema/notificationsSchema'
+import type { Notification } from '@/database/schema/notificationsSchema'
 import getNotificationsAction from '@/actions/notification/getNotificationsAction'
 import ViewNotificationModal from '@/components/modals/notification/ViewNotificationModal'
+import SendNotificationModal from '@/components/modals/notification/SendNotificationModal'
 import softDeleteNotificationAction from '@/actions/notification/softDeleteNotificationAction'
 
-const NotificationsPage = () => {
-  const [notifications, setNotifications] = useState<
-    (typeof notificationsTable.$inferInsert)[]
-  >([])
+const dataErrorMessage = 'Unable to load notifications'
 
-  const [viewModalDate, setViewModalData] = useState<
-    typeof notificationsTable.$inferInsert | null
-  >(null)
+const NotificationsPage = () => {
+  const { notifications, deleteNotification, setNotifications } = useStore(
+    (state) => state
+  )
+
+  const [isSendModalVisible, setIsSendModalVisible] = useState(false)
+  const [viewModalDate, setViewModalData] = useState<Notification | null>(null)
+
+  const { isPending, error, refetch } = useQuery({
+    queryKey: ['getNotifications'],
+    queryFn: async () => {
+      const { data, success } = await getNotificationsAction()
+      if (success) setNotifications(data)
+      else toast.error(dataErrorMessage)
+      return data
+    },
+  })
 
   const onDelete = async (id: string) => {
-    const formData = new FormData()
-    formData.append('id', id)
+    const { success } = await softDeleteNotificationAction(id)
 
-    const { success } = await softDeleteNotificationAction(formData)
-    if (success) toast.success('Notification Deleted')
-    else
+    if (success) {
+      deleteNotification(id)
+      toast.success('Notification Deleted')
+    } else
       toast.error('Unable to handle request right now, please contact to admin')
   }
 
-  const getNotifications = useCallback(async () => {
-    const { data } = await getNotificationsAction()
-    setNotifications(data)
-  }, [])
-
   useEffect(() => {
-    getNotifications()
-  }, [getNotifications])
+    refetch()
+  }, [refetch])
+
+  if (isPending) return <Loading />
+
+  if (error) return <DataError error={error} message={dataErrorMessage} />
 
   return (
     <div>
       {viewModalDate && (
         <ViewNotificationModal
+          isOpen={!!viewModalDate}
           notification={viewModalDate}
-          onClose={() => setViewModalData(null)}
+          setOpen={() => setViewModalData(null)}
         />
       )}
-
+      <SendNotificationModal
+        isOpen={isSendModalVisible}
+        setOpen={setIsSendModalVisible}
+      />
       <table className="w-full text-sm">
         <thead>
           <tr>
@@ -58,7 +79,12 @@ const NotificationsPage = () => {
               Status
             </td>
             <td className="border-b border-neutral-300 p-2 text-center">
-              Actions
+              <Button
+                className="mx-auto flex items-center gap-1 rounded-lg"
+                onPress={() => setIsSendModalVisible(true)}
+              >
+                <FaPlus /> Notification
+              </Button>
             </td>
           </tr>
         </thead>
@@ -70,8 +96,8 @@ const NotificationsPage = () => {
               </td>
 
               <td className="border-b border-neutral-300 p-2 text-center">
-                {new Date(notification.createdAt || '').toLocaleDateString()}{' '}
-                {new Date(notification.createdAt || '').toLocaleTimeString()}
+                {new Date(notification.createdAt || '').toLocaleTimeString()}{' '}
+                {new Date(notification.createdAt || '').toLocaleDateString()}
               </td>
               <td className="border-b border-neutral-300 p-2 text-center font-semibold">
                 {notification.isRead ? (
@@ -82,12 +108,14 @@ const NotificationsPage = () => {
               </td>
               <td className="border-b border-neutral-300 p-2 text-center">
                 <button
+                  type="button"
                   onClick={() => setViewModalData(notification)}
                   className="mx-1 rounded-lg bg-green-200 p-2 text-lg text-green-600 shadow"
                 >
                   <AiOutlineEye />
                 </button>
                 <button
+                  type="button"
                   onClick={() => onDelete(notification.id || '')}
                   className="mx-1 rounded-lg bg-red-200 p-2 text-lg text-red-600 shadow"
                 >

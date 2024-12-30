@@ -1,0 +1,144 @@
+{
+  "HeroSection": {
+    "heading": "POOLASTER",
+    "subHeading": "BAR - OSTERIA",
+    "paragraph": {
+      "1": "From Italy's Heart to Your Table",
+      "2": "Immerse Yourself in the Art of True Italian Flavor."
+    },
+    "buttonText": "Order Now",
+
+    "slider": {
+      "1": {
+        "title": "PIADINA LOMBARDA",
+        "description": "( Cutlet, Salad, Tomatoes, Mayonnaise )"
+      },
+      "2": {
+        "title": "PIZZA CAPRICCIOSA",
+        "description": "( Pomodoro, Mozzarella, Funghi, Cotto, Olive )"
+      },
+      "3": {
+        "title": "PENNE ALL'ARRABBIATA",
+        "description": "( Pasta, Spicy Tomato Sauce )"
+      },
+      "4": {
+        "title": "PANINO KEBAP",
+        "description": "( Chicken, Tomato, Onion, Sauce, Lettuce )"
+      }
+    }
+  },
+
+  "Agent": {
+    "name": "Luca Gestione",
+    "title": "Management"
+  },
+
+  "FacilitiesSection": {
+    "1": "Buffet",
+    "2": "Catering",
+    "3": "Air Conditioning",
+    "4": "Self Parking",
+    "5": "Private Events",
+    "6": "Smoking Area",
+    "7": "Pets Allowed"
+  },
+
+  "QrBannerSection": {
+    "name": "SPORTS PLAYERS!",
+    "offer": "Register Yourself and Get 10% OFF*",
+    "condition": {
+      "1": "*only on First Order",
+      "2": "*This offer is only valid for sports players."
+    },
+    "activate": "Scan the QR Code to Register",
+    "Or": "OR",
+    "clickHere": "CLICK HERE"
+  },
+
+  "MemoriesSection": {
+    "title": "POOLASTER IS FOR EVERYONE WHO COLLECTS BEAUTIFUL MOMENTS",
+    "description": "For the best memories"
+  },
+
+  "ExperienceSection": {
+    "title": "Delight in Elegance, Flavor & Comfort",
+    "description": "At Poolaster, we believe that dining is more than just a meal - it's an experience. Our chefs craft every dish with passion, blending fresh, locally sourced ingredients with culinary artistry to create flavors that linger in your memory. Whether you're here for a casual meal or a special celebration, we promise to make every moment extraordinary."
+  },
+
+  "GreatServiceSection": {
+    "title": "ONLY THE FINEST ITALIAN FOOD WITH GREAT SERVICE"
+  },
+
+  "OurMenuSection": {
+    "title": "OUR MENU",
+    "menuItems": {
+      "1": {
+        "type": "Menu Completo",
+        "price": "11€",
+        "details": "primo + secondo + contorno e acqua"
+      },
+      "2": {
+        "type": "Menu Primo",
+        "price": "6€",
+        "details": "primo + acqua"
+      },
+      "3": {
+        "type": "Menu Secondo",
+        "price": "8€",
+        "details": "secondo + contorno + acqua"
+      },
+      "4": {
+        "type": "Menu Studenti",
+        "price": "7,50€",
+        "details": "Piatto unico"
+      }
+    },
+    "specialItems": {
+      "1": {
+        "title": "PRIMI",
+        "amount": "€5",
+        "description": "Discover our Primi Menu. Fresh & Delicious Italian Dishes. To Delight Your Taste Buds",
+        "action": "Order Now"
+      },
+      "2": {
+        "title": "SECONDI",
+        "amount": "€7",
+        "description": "Explore our Secondi Menu. Enjoy Authentic & Perfectly Crafted, Italian Main Courses",
+        "action": "Order Now"
+      },
+      "3": {
+        "title": "CONTORNI",
+        "amount": "€3",
+        "description": "Enjoy our Contorni Menu. Tasty and Delightful Sides, To Complete Your Italian Feast",
+        "action": "Order Now"
+      }
+    },
+    "exploreMore": "Explore More"
+  },
+
+  "Footer": {
+    "contact": {
+      "title": "Contact Us",
+      "phone": "+39 342 050 0567",
+      "email": "info@poolaster.com"
+    },
+
+    "address": {
+      "title": "ADDRESS",
+      "address": "Via Comasina, 115, 20161 Milan-Italy"
+    },
+
+    "operations": {
+      "title": "OPENING HOURS",
+      "weekdays": "12:00-15:00 and 19:00-01:00  ( Lunch and Dinner )",
+      "kitchen": "Kitchen Closes at 22:00",
+      "saturday": "19:00-01:00  ( Dinner Only)",
+      "sunday": "12:00-19:00  ( Lunch Only )"
+    },
+
+    "ribbon": {
+      "designedBy": "Made with 💝 | A Product of Asmeron (Pvt.) Ltd & OS Tech Hub LLC",
+      "copyright": "© 2024 Poolaster, All Rights Reserved"
+    }
+  }
+}

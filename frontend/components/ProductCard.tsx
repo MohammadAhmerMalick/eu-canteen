@@ -1,0 +1,42 @@
+import Image from 'next/image'
+
+import { CONSTANTS } from '@/utils'
+import Button from '@/components/common/Button'
+import { assetsBaseUrl } from '@/libs/assetsManagement'
+import { type Product } from '@/database/schema/productsSchema'
+
+interface ProductCardProps {
+  product: Product
+  onPress: () => void
+}
+
+const ProductCard = ({ product, onPress }: ProductCardProps) => {
+  return (
+    <div className="mx-auto grid w-full max-w-72 gap-3 rounded-3xl bg-white p-2 shadow duration-300 hover:shadow-lg">
+      <div className="flex rounded-3xl bg-primary-light p-2 shadow">
+        <Image
+          width={140}
+          height={112}
+          alt={product.name}
+          className="m-auto max-h-28 object-contain"
+          src={
+            product.image
+              ? `${assetsBaseUrl}${product.image}`
+              : CONSTANTS.imagePlaceholders.product
+          }
+        />
+      </div>
+
+      <div className="grid gap-1 px-2">
+        <h2 className="text-lg font-semibold md:text-xl">{product.name}</h2>
+        <p className="text-sm font-normal">{product.description}</p>
+        <span className="text-xl">€{Number(product.price).toFixed(2)}</span>
+      </div>
+      <Button className="mx-2 mb-2 rounded-3xl md:!p-3" onPress={onPress}>
+        Buy Now
+      </Button>
+    </div>
+  )
+}
+
+export default ProductCard

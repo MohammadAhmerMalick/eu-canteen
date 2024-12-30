@@ -8,12 +8,14 @@ const categoriesTable = pgTable('categories', {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
 
-  name: varchar({ length: 20 }).notNull().unique(),
+  name: varchar({ length: 20 }).notNull(),
   image: varchar({ length: 255 }).notNull(),
 
   published: boolean().default(true),
   createdAt: timestamp().default(sql`now()`),
   deletedAt: timestamp(),
 })
+
+export type Category = typeof categoriesTable.$inferInsert
 
 export default categoriesTable

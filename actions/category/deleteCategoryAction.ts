@@ -21,7 +21,7 @@ const deleteCategoryAction = async (formData: FormData) => {
 
     return {
       success: false,
-      data: {},
+      data: [],
       message: 'Unable to delete category',
       codeMessage: 'server_error',
     }

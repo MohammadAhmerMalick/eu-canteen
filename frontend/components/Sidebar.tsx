@@ -1,71 +1,46 @@
 'use client'
 
+import Link from 'next/link'
 import Image from 'next/image'
+import { type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 
-import BiDish from '@/icons/BiDish'
 import { classnames } from '@/utils'
-import FiUsers from '@/icons/FiUsers'
-// import VscGraph from '@/icons/VscGraph'
-import BiBasket from '@/icons/BiBasket'
-import Button from '@/components/common/Button'
-import AiOutlineHome from '@/icons/AiOutlineHome'
-// import AiOutlineFile from '@/icons/AiOutlineFile'
-import AiOutlineBell from '@/icons/AiOutlineBell'
 import LinkButton from '@/components/common/LinkButton'
+import AddProductWidget from '@/widgets/AddProductWidget'
 
-const links = [
-  {
-    link: '/admin/dashboard',
-    label: 'Dashboard',
-    Icon: AiOutlineHome,
-  },
-  // {
-  //   link: '/admin/orders',
-  //   label: 'Orders',
-  //   Icon: AiOutlineFile,
-  // },
-  { link: '/admin/students', label: 'Students', Icon: FiUsers },
-  // {
-  //   link: '/admin/analytics',
-  //   label: 'Analytics',
-  //   isActive: false,
-  //   Icon: VscGraph,
-  // },
-  { link: '/admin/products', label: 'Products', Icon: BiDish },
-  {
-    link: '/admin/notifications',
-    label: 'Notifications',
-    isActive: false,
-    Icon: AiOutlineBell,
-  },
-  {
-    link: '/admin/categories',
-    label: 'Categories',
-    isActive: false,
-    Icon: BiBasket,
-  },
-]
-const Sidebar = () => {
+export interface SidebarLink {
+  link: string
+  label: string
+  icon: ReactNode
+}
+interface SidebarProps {
+  links: SidebarLink[]
+  isAdmin?: boolean
+}
+
+const Sidebar = ({ links, isAdmin }: SidebarProps) => {
   const pathname = usePathname()
 
   return (
-    <aside className="flex min-h-screen max-w-80 flex-col gap-4 p-4">
-      <Image
-        height={100}
-        width={80}
-        alt="Poolaster"
-        src="/images/logo.svg"
-        className="mx-5 mb-4 w-14 duration-300 md:w-20"
-      />
+    <aside className="flex h-dscreen min-h-screen flex-col gap-4 overflow-hidden p-2 md:p-4">
+      <Link href="/">
+        <Image
+          height={100}
+          width={80}
+          alt="Poolaster"
+          src="/images/logo.svg"
+          className="mx-auto mb-4 w-14 max-w-full duration-300 md:mx-5 md:w-20"
+        />
+      </Link>
 
       <div className="grid">
-        {links.map(({ link, label, Icon }) => (
+        {links.map(({ link, label, icon }) => (
           <LinkButton
             key={label}
             href={link}
             className={classnames(
-              'group relative flex items-center gap-3 rounded-lg px-6 py-3 text-sm duration-300',
+              'group relative flex w-full items-center gap-3 rounded-lg px-2 py-3 text-sm duration-300 md:px-6',
               pathname === link
                 ? 'bg-primary-light !text-primary'
                 : 'bg-white !text-black'
@@ -77,31 +52,17 @@ const Sidebar = () => {
                 pathname === link ? 'h-11' : 'h-0'
               )}
             />
-            <span className="text-xl">
-              <Icon />
-            </span>
-            {label}
+            <span className="text-xl">{icon}</span>
+            <span className="hidden md:block">{label}</span>
           </LinkButton>
         ))}
       </div>
 
-      <div className="mt-auto flex gap-4 rounded-lg bg-primary p-4">
-        <div className="flex-2 grid gap-3">
-          <p className="text-sm font-light text-white">
-            Please, organize your menus through button bellow! +Add Menus
-          </p>
-          <Button className="rounded-lg bg-white text-sm !text-black">
-            Add Meny
-          </Button>
+      {isAdmin && (
+        <div className="hidden md:block">
+          <AddProductWidget />
         </div>
-        <Image
-          width={76}
-          height={90}
-          alt='"Cheff'
-          className="flex-1"
-          src="/images/extras/chef.svg"
-        />
-      </div>
+      )}
     </aside>
   )
 }

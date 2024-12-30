@@ -1,28 +1,32 @@
 import { toast } from 'react-toastify'
-import { FormEvent, useState, type MouseEvent } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
 import Input from '@/components/common/Input'
+import Select from '@/components/common/select'
 import Button from '@/components/common/Button'
 import HiBadgeCheck from '@/icons/HiBadgeCheck'
-import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
-import insertProductAction from '@/actions/product/insertProductAction'
 import Textarea from '@/components/common/Textarea'
+import AiOutlinePaperClip from '@/icons/AiOutlinePaperClip'
+import ModalContainer from '@/components/common/ModalContainer'
+import insertProductAction from '@/actions/product/insertProductAction'
 
 interface CreateProductModalProp {
-  onClose(): any
+  isOpen: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
-  const onContainerClick = (
-    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
-  ) => e.currentTarget === e.target && onClose()
+const CreateProductModal = ({ isOpen, setOpen }: CreateProductModalProp) => {
+  const { categories } = useStore((state) => state)
+  const { insertProduct } = useStore((state) => state)
 
   const [name, setName] = useState('')
-  const [stock, setStock] = useState('')
   const [price, setPrice] = useState('')
-  const [description, setDescription] = useState('')
   const [image, setImage] = useState<File | ''>('')
+  const [description, setDescription] = useState('')
+  const [categoryId, setCategory] = useState(categories?.[0]?.id || '')
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,66 +34,60 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
     const formData = new FormData()
     formData.append('name', name)
     formData.append('image', image)
+    formData.append('price', price)
+    formData.append('categoryId', categoryId)
     formData.append('description', description)
 
-    const { success, message, codeMessage } =
-      await insertProductAction(formData)
+    const { success, data } = await insertProductAction(formData)
 
     if (success) {
+      insertProduct(data)
+      setOpen(false)
+      e.currentTarget.reset()
       toast.success('Product created successfully')
-      onClose()
-    } else if (codeMessage === 'product_already_exist')
-      toast.warn(
-        'Your request is aready in pending state, contact admin for further information'
-      )
-    else if (codeMessage === 'fields_are_missing') toast.warn(message)
-    else if (codeMessage === 'must_be_unimib_email') toast.error(message)
-    else
-      toast.error('Unable to handle request right now, please contact to admin')
+    } else toast.error('Unable to handle request right now')
   }
 
+  useEffect(() => {
+    setCategory(categories?.[0]?.id || '')
+  }, [categories])
+
   return (
-    <div
-      aria-hidden
-      onClick={onContainerClick}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-neutral-900/40 p-3 backdrop-blur-sm md:p-4"
-    >
-      <form
-        onSubmit={onSubmit}
-        className={classnames(
-          'grid max-h-full w-full max-w-3xl gap-4 overflow-hidden rounded-lg bg-white p-3 shadow-lg md:mt-0 md:p-6'
-        )}
-      >
+    <ModalContainer setOpen={setOpen} isOpen={isOpen}>
+      <form onSubmit={onSubmit} className={classnames('grid gap-4')}>
         <h1 className="text-lg font-semibold">Create Product</h1>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <Input
             isRequired
             id="name"
             value={name}
-            labelText="Product Name"
-            onChange={({ value }) => setName(value)}
-            labelClassName="text-sm"
             placeholder="BBQ"
-          />
-          <Input
-            isRequired
-            id="stock"
-            onlyNumber
-            value={stock}
-            labelText="stock"
-            onChange={({ value }) => setStock(value)}
+            labelText="Product Name"
             labelClassName="text-sm"
-            placeholder="10"
+            onChange={({ value }) => setName(value)}
           />
           <Input
             isRequired
             id="price"
             onlyNumber
             value={price}
-            labelText="price"
-            onChange={({ value }) => setPrice(value)}
-            labelClassName="text-sm"
             placeholder="10"
+            labelText="Price"
+            labelClassName="text-sm"
+            onChange={({ value }) => setPrice(value)}
+          />
+          <Select
+            isRequired
+            id="categoryId"
+            value={categoryId}
+            labelText="Category"
+            labelClassName="text-sm"
+            onChange={({ value }) => setCategory(value)}
+            options={categories.map(({ id, name }) => ({
+              text: name,
+              key: id || '',
+              value: id || '',
+            }))}
           />
 
           <div>
@@ -125,13 +123,13 @@ const CreateProductModal = ({ onClose }: CreateProductModalProp) => {
           id="description"
           value={description}
           labelText="Description"
-          onChange={({ value }) => setDescription(value)}
           labelClassName="text-sm"
+          onChange={({ value }) => setDescription(value)}
           placeholder="A patty of ground beef grilled and placed between two halves of a bun"
         />
         <Button className="ml-auto w-max !py-1">Create Product</Button>
       </form>
-    </div>
+    </ModalContainer>
   )
 }
 

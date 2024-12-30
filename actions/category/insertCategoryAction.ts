@@ -1,7 +1,8 @@
 'use server'
 
-// import { storeFileLocally } from '@/utils'
+import { uploadFile } from '@/utils'
 import CategoryModel from '@/models/CategoryModel'
+import { type Category } from '@/database/schema/categoriesSchema'
 
 const insertCategoryAction = async (formData: FormData) => {
   const name = formData.get('name') as string
@@ -9,6 +10,7 @@ const insertCategoryAction = async (formData: FormData) => {
 
   if (!name || !image)
     return {
+      data: [],
       success: false,
       message: 'All fields are required',
       codeMessage: 'fields_are_missing',
@@ -18,17 +20,24 @@ const insertCategoryAction = async (formData: FormData) => {
   const category = await CategoryModel.getCategoryByName(name)
   if (category.length)
     return {
+      data: [],
       success: false,
       message: 'Category already exist',
       codeMessage: 'category_already_exist',
     }
 
-  // const { destinationFileName } = await storeFileLocally(image, 'categories/')
-
-  const newCategory = await CategoryModel.createCategory({
+  const payload: Category = {
     name,
     image: image.name,
-  })
+  }
+
+  // store file locally
+  const uploadedImage = await uploadFile(image, 'categories/')
+
+  if (uploadedImage)
+    payload.image = `${uploadedImage.public_id}.${uploadedImage.format}`
+
+  const newCategory = await CategoryModel.createCategory(payload)
 
   return {
     success: true,

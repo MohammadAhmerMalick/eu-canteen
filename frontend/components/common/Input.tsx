@@ -7,6 +7,8 @@ import { allowOnlyNumber, classnames } from '@/utils'
 interface Input {
   id: string
   value: string
+  title?: string
+  pattern?: string
   labelText?: string
   readOnly?: boolean
   placeholder: string
@@ -21,6 +23,8 @@ interface Input {
 const Input = ({
   id,
   value,
+  title,
+  pattern,
   readOnly,
   labelText,
   isRequired,
@@ -36,10 +40,13 @@ const Input = ({
   return (
     <label htmlFor={id} className={classnames('block', labelClassName)}>
       {labelText}
+      {isRequired && <span className="text-red-600">*</span>}
       <input
         id={id}
+        pattern={pattern}
         readOnly={readOnly}
         type={type}
+        title={title}
         ref={INPUT}
         value={value}
         onInput={(e) => (onlyNumber ? allowOnlyNumber(e) : e)}
@@ -47,7 +54,8 @@ const Input = ({
         placeholder={placeholder}
         className={classnames(
           labelText && 'mt-2',
-          'block w-full rounded-md border border-neutral-300 p-2 text-neutral-900 focus:border-primary focus:ring-1 focus:ring-orange-300 focus-visible:outline-0',
+          'block w-full rounded-md border border-neutral-300 p-2 px-3 text-neutral-900 focus:border-primary focus:ring-1 focus:ring-orange-300 focus-visible:outline-0',
+          readOnly && 'bg-neutral-100 !text-neutral-500',
           inputClassName
         )}
         onChange={({ currentTarget }) => onChange(currentTarget)}

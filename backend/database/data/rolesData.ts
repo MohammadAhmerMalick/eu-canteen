@@ -1,9 +1,14 @@
+import { CONSTANTS } from '@/utils'
+
 const rolesData = [
   {
-    name: 'admin',
+    name: CONSTANTS.roleName.admin,
   },
   {
-    name: 'student',
+    name: CONSTANTS.roleName.player,
+  },
+  {
+    name: CONSTANTS.roleName.student,
   },
 ]
 

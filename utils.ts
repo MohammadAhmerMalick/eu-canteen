@@ -1,8 +1,6 @@
-// import fs from 'fs'
-import path from 'path'
 import { FormEvent } from 'react'
-import { randomUUID } from 'crypto'
-import { writeFile } from 'fs/promises'
+
+import { storeFileLocally, uploadToCloudinay } from '@/libs/assetsManagement'
 
 export const classnames = (...args: unknown[]) => {
   return args
@@ -18,7 +16,7 @@ export const allowOnlyNumber = (
   const target = event?.currentTarget
   const value = target?.value
 
-  target.value = value.replace(/\D/g, '')
+  target.value = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1')
 }
 
 export const getCookie = (name: string): string => {
@@ -28,27 +26,37 @@ export const getCookie = (name: string): string => {
   return ''
 }
 
-// store file locally
-export const storeFileLocally = async (
-  file: File,
-  directoryFolder: string = ''
-) => {
-  // set unique name for file to upload to prevent file name conflict
-  const destinationFileName = `${randomUUID()}_${file.name}`
+/**
+ * store file locally
+ * @param file
+ * @param folder should end with /
+ * @returns
+ */
+export const uploadFile = async (file: File, folder?: string) => {
+  const { name, imagePath } = await storeFileLocally(file)
+  return uploadToCloudinay({ name, imagePath, folder })
+}
 
-  const directory = `public/images/${directoryFolder}`
+export const randomFromArray = (array: { [any: string]: any }) =>
+  array[Math.floor(Math.random() * array.length)]
 
-  // // create directory if it does not exist
-  // if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
+export const getRandomDate = (from: Date, to: Date) => {
+  const fromTime = from.getTime()
+  const toTime = to.getTime()
+  return new Date(fromTime + Math.random() * (toTime - fromTime))
+}
 
-  const fileLocalPath = path.join(
-    process.cwd(),
-    `${directory}${destinationFileName}`
-  )
+export const CONSTANTS = {
+  PRIMARY: '#FF7800',
+  PRIMARY_LIGHT: '#FEE9DE',
 
-  // upload file to local
-  const buffer = Buffer.from(await file.arrayBuffer())
-  await writeFile(fileLocalPath, buffer)
+  imagePlaceholders: {
+    product: '/images/products/p-1.png',
+  },
 
-  return { fileLocalPath, destinationFileName }
+  roleName: {
+    admin: 'admin',
+    player: 'player',
+    student: 'student',
+  },
 }

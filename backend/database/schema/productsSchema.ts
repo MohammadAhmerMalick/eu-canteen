@@ -1,13 +1,15 @@
-import { sql } from 'drizzle-orm'
 import {
   boolean,
-  integer,
+  numeric,
   pgTable,
   text,
   timestamp,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
+import { sql } from 'drizzle-orm'
+
+import categoriesTable from '@/database/schema/categoriesSchema'
 
 const productsTable = pgTable('products', {
   id: uuid()
@@ -19,12 +21,19 @@ const productsTable = pgTable('products', {
   name: varchar({ length: 20 }).notNull(),
   image: varchar({ length: 255 }).notNull(),
   description: text().notNull(),
-  stock: integer().notNull(),
-  price: integer().notNull(),
+  price: numeric({ precision: 10, scale: 4 }).notNull(),
+
+  categoryId: uuid('categoryId')
+    .notNull()
+    .references(() => categoriesTable.id, {
+      onDelete: 'cascade',
+    }),
 
   published: boolean().default(true),
   createdAt: timestamp().default(sql`now()`),
   deletedAt: timestamp(),
 })
+
+export type Product = typeof productsTable.$inferInsert
 
 export default productsTable

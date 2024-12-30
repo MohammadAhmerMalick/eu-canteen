@@ -1,24 +1,29 @@
-import { MouseEvent, ReactNode } from 'react'
+'use client'
+
+import { Button as AriaButton, type ButtonProps } from 'react-aria-components'
 
 import { classnames } from '@/utils'
 
-interface ButtonProps {
-  className?: string
-  children: ReactNode
-  onClick?: (e: MouseEvent<HTMLButtonElement>) => void
-}
-
-const Button = ({ children, className = '', onClick }: ButtonProps) => {
+const Button = ({
+  children,
+  className,
+  type = 'submit',
+  ...props
+}: ButtonProps) => {
   return (
-    <button
-      onClick={onClick}
-      className={classnames(
-        'rounded-3xl bg-primary px-4 py-2 text-white',
-        className
-      )}
+    <AriaButton
+      {...props}
+      type={type}
+      className={({ isDisabled }) =>
+        classnames(
+          'rounded-3xl px-4 py-2 text-white',
+          isDisabled ? 'bg-neutral-400' : 'bg-primary',
+          className
+        )
+      }
     >
       {children}
-    </button>
+    </AriaButton>
   )
 }
 

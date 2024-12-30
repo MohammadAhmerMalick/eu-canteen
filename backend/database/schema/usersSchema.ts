@@ -1,6 +1,14 @@
+import {
+  boolean,
+  pgTable,
+  varchar,
+  uuid,
+  timestamp,
+  numeric,
+} from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
-import { boolean, pgTable, varchar, uuid, timestamp } from 'drizzle-orm/pg-core'
 
+import { CONSTANTS } from '@/utils'
 import rolesTable from '@/database/schema/rolesSchema'
 
 const usersTable = pgTable('users', {
@@ -13,15 +21,15 @@ const usersTable = pgTable('users', {
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
   whatsapp: varchar({ length: 20 }).notNull(),
-  matricola: varchar({ length: 20 }).notNull(),
-  idCardFrontImage: varchar({ length: 255 }),
-  idCardBackImage: varchar({ length: 255 }),
+  matricola: varchar({ length: 50 }).notNull().unique(),
+  image: varchar({ length: 255 }),
   approved: boolean().default(false).notNull(),
-  password: varchar({ length: 36 }),
+  password: varchar({ length: 255 }),
+  credit: numeric({ precision: 10, scale: 4 }).default('0').notNull(),
 
   roleName: varchar({ length: 20 })
     .notNull()
-    .default('student')
+    .default(CONSTANTS.roleName.student)
     .references(() => rolesTable.name, {
       onDelete: 'cascade',
     }),
@@ -30,5 +38,7 @@ const usersTable = pgTable('users', {
   createdAt: timestamp().default(sql`now()`),
   deletedAt: timestamp(),
 })
+
+export type User = typeof usersTable.$inferInsert
 
 export default usersTable

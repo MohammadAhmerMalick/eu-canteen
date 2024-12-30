@@ -3,8 +3,8 @@
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
-import { getSession, signIn } from 'next-auth/react'
 import { useEffect, useState, type FormEvent } from 'react'
+import { getSession, signIn, signOut } from 'next-auth/react'
 
 import { CONSTANTS } from '@/utils'
 import { useStore } from '@/store/provider'
@@ -22,21 +22,22 @@ const LoginPage = () => {
     e.preventDefault()
     setAuthStatus('loading')
 
-    const res = await signIn('credentials', {
+    await signIn('credentials', {
       redirect: false,
       email,
       password,
       redirectTo: '/',
     })
 
-    if (res?.error) {
+    const session = await getSession()
+
+    if (session?.error) {
       setAuthStatus('unauthenticated')
-      toast.error('Credentials are not valid')
+      toast.error(session.error)
+      signOut({ redirect: false })
 
       return
     }
-
-    const session = await getSession()
 
     setAuthStatus('authenticated')
     if (session?.user.role === CONSTANTS.roleName.admin)

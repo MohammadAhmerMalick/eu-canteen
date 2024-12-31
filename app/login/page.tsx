@@ -60,23 +60,26 @@ const LoginPage = () => {
           type="email"
           value={email}
           labelText="Email"
-          onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
           placeholder="user@campus.unimib.it"
+          onChange={({ value }) => setEmail(value)}
         />
         <Input
           isRequired
           id="password"
           type="password"
           value={password}
-          onChange={({ value }) => setPassword(value)}
           labelText="Password"
           placeholder="✳✳✳✳✳✳✳✳✳✳"
           labelClassName="text-sm"
+          onChange={({ value }) => setPassword(value)}
         />
-        <p className="ml-auto w-max cursor-pointer text-sm text-neutral-500">
+        <Link
+          href="/reset-password"
+          className="ml-auto w-max cursor-pointer text-sm text-neutral-500"
+        >
           Forgot Password?
-        </p>
+        </Link>
         <Button className="mt-4" isDisabled={authStatus === 'loading'}>
           Login
         </Button>

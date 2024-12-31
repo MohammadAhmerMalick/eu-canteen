@@ -30,7 +30,7 @@ const SignupPage = () => {
         </Link>
       </div>
 
-      <p className="mt-2 mt-4 text-center text-sm font-normal text-neutral-500">
+      <p className="mt-4 text-center text-sm font-normal text-neutral-500">
         Already have an account?{' '}
         <Link
           href="login"

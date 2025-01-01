@@ -9,8 +9,8 @@ const GreatServiceSection = () => {
   return (
     <section className="my-10 grid justify-center gap-8 text-center md:my-20">
       <Image
-        width={178}
-        height={63}
+        width={179}
+        height={64}
         className="mx-auto"
         alt={t('title')}
         src="/images/extras/h1-icon-img.png"

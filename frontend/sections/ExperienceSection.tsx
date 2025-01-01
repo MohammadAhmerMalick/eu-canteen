@@ -14,7 +14,7 @@ const ExperienceSection = () => {
       </div>
       <Image
         width={320}
-        height={3025}
+        height={325}
         alt={t('title')}
         src="/images/banners/service-banner.png"
         className="mx-auto hidden w-full max-w-80 md:block"

@@ -56,7 +56,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         } catch (error) {
           console.log({ authorize: error })
-          throw error
+          // throw error
+          return {
+            error: 'Unable to handle request',
+          }
         }
       },
     }),

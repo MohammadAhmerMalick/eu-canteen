@@ -59,4 +59,8 @@ export const CONSTANTS = {
     player: 'player',
     student: 'student',
   },
+
+  otpType: {
+    resetPassword: 'resetPassword',
+  },
 }

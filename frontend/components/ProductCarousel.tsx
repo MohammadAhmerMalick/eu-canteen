@@ -82,11 +82,11 @@ const ProductCarousel = () => {
           className="relative mx-3 mb-6 mt-28 rounded-3xl bg-white p-6 pt-32 text-center shadow-lg md:min-w-72"
         >
           <Image
-            width={230}
             alt={title}
             src={image}
+            width={230}
             height={230}
-            className="absolute -top-28 left-0 right-0 mx-auto drop-shadow-xl"
+            className="absolute -top-28 left-0 right-0 mx-auto w-56 drop-shadow-xl"
           />
           <h2 className="mb-2 text-lg font-semibold">{title}</h2>
           <p className="min-h-12 text-neutral-700">{details}</p>

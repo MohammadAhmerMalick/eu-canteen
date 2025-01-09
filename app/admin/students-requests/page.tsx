@@ -98,9 +98,9 @@ const StudentsPage = () => {
 
       <Table
         aria-label="Orders"
+        onRowAction={() => {}}
         selectionMode="multiple"
         className="w-full text-sm"
-        onRowAction={(e) => console.log(e)}
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
       >

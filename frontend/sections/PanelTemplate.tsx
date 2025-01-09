@@ -12,7 +12,7 @@ interface PanelTemplateProps {
 const PanelTemplate = ({ links, children }: PanelTemplateProps) => {
   return (
     <div className="relative grid h-screen grid-cols-[69px_auto] overflow-hidden md:grid-cols-[300px_auto]">
-      <Sidebar links={links} isAdmin />
+      <Sidebar links={links} />
       <div className="overflow-auto">
         <PanelHeader />
         <Suspense fallback={<Loading />}>

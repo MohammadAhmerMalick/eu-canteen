@@ -1,6 +1,43 @@
 import sgMail from '@sendgrid/mail'
 
 class Email {
+  static sendOtp = async ({
+    to,
+    otp,
+    name,
+  }: {
+    to: string
+    otp: string
+    name: string
+  }) => {
+    if (!process.env.SENDGRID_API_KEY) {
+      console.log({ email: 'SendGrid key not found' })
+      return false
+    }
+
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+    const msg = {
+      to,
+      from: 'info@poolaster.com',
+      subject: 'Password Reset otp',
+      html: `
+      <strong> Dear ${name}</strong>,
+      
+      <p>Your password reset otp is <strong>${otp}</strong>.</p>
+      <p>The Poolaster Team</p>`,
+    }
+
+    try {
+      await sgMail.send(msg)
+      console.log({ otpEmail: 'success' })
+      return true
+    } catch (error) {
+      console.error({ otpEmail: JSON.stringify(error) })
+      return false
+    }
+  }
+
   static send = async ({ to, name }: { to: string; name: string }) => {
     if (!process.env.SENDGRID_API_KEY) {
       console.log({ email: 'SendGrid key not found' })

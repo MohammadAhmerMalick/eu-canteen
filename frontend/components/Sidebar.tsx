@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 
-import { classnames } from '@/utils'
+import { useStore } from '@/store/provider'
+import { classnames, CONSTANTS } from '@/utils'
 import LinkButton from '@/components/common/LinkButton'
 import AddProductWidget from '@/widgets/AddProductWidget'
 
@@ -16,10 +17,10 @@ export interface SidebarLink {
 }
 interface SidebarProps {
   links: SidebarLink[]
-  isAdmin?: boolean
 }
 
-const Sidebar = ({ links, isAdmin }: SidebarProps) => {
+const Sidebar = ({ links }: SidebarProps) => {
+  const { auth } = useStore((state) => state)
   const pathname = usePathname()
 
   return (
@@ -58,7 +59,7 @@ const Sidebar = ({ links, isAdmin }: SidebarProps) => {
         ))}
       </div>
 
-      {isAdmin && (
+      {auth.role === CONSTANTS.roleName.admin && (
         <div className="hidden md:block">
           <AddProductWidget />
         </div>

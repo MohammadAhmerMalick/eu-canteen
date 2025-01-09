@@ -7,6 +7,7 @@ const schemas = [
   'products',
   'notifications',
   'orders',
+  'otps',
   'transactions',
 ]
 

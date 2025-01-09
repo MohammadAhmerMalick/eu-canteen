@@ -14,7 +14,7 @@ const Toast = () => {
       pauseOnHover={false}
       pauseOnFocusLoss={false}
       toastClassName={() =>
-        'relative m-4 flex min-h-12 cursor-pointer justify-between overflow-hidden rounded-3xl bg-white p-2 text-sm text-black shadow md:m-0 md:mb-4 md:min-h-16 rounded-se-sm'
+        'relative m-4 flex min-h-12 cursor-pointer items-center justify-between overflow-hidden rounded-3xl rounded-se-sm bg-white px-4 py-2 text-sm text-black shadow md:m-0 md:mb-4 md:min-h-16'
       }
     />
   )

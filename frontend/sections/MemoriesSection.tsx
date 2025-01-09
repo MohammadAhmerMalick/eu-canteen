@@ -9,8 +9,8 @@ const MemoriesSection = () => {
   return (
     <section className="my-10 grid justify-center gap-8 text-center md:my-20">
       <Image
-        width={138}
-        height={50}
+        width={179}
+        height={64}
         className="mx-auto"
         alt={t('description')}
         src="/images/extras/h1-icon-img.png"

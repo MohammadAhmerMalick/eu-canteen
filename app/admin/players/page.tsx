@@ -108,11 +108,11 @@ const PlayersPage = () => {
 
       <Table
         aria-label="Orders"
+        onRowAction={() => {}}
         selectionMode="multiple"
         className="w-full text-sm"
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
-        onRowAction={(e) => console.log(e)}
       >
         <TableHeader>
           <TableColumn>

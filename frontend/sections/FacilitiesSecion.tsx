@@ -69,7 +69,7 @@ const FacilitiesSecion = () => {
             <div key={text} className="texe-sm font-normal">
               <Image
                 width={50}
-                height={48}
+                height={56}
                 alt={`${text} Facility Available`}
                 src={image}
                 className="mx-auto h-8 drop-shadow md:h-14"

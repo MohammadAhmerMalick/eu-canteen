@@ -183,7 +183,7 @@ const SignupPage = () => {
         <Button className="mt-4" isDisabled={isPending}>
           Request For Register
         </Button>
-        <p className="mt-2 mt-4 text-center text-sm font-normal text-neutral-500">
+        <p className="mt-4 text-center text-sm font-normal text-neutral-500">
           Already have an account?{' '}
           <Link
             href="login"

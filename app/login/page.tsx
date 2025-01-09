@@ -3,8 +3,8 @@
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 import { redirect } from 'next/navigation'
-import { getSession, signIn } from 'next-auth/react'
 import { useEffect, useState, type FormEvent } from 'react'
+import { getSession, signIn, signOut } from 'next-auth/react'
 
 import { CONSTANTS } from '@/utils'
 import { useStore } from '@/store/provider'
@@ -22,21 +22,22 @@ const LoginPage = () => {
     e.preventDefault()
     setAuthStatus('loading')
 
-    const res = await signIn('credentials', {
+    await signIn('credentials', {
       redirect: false,
       email,
       password,
       redirectTo: '/',
     })
 
-    if (res?.error) {
+    const session = await getSession()
+
+    if (session?.error) {
       setAuthStatus('unauthenticated')
-      toast.error('Credentials are not valid')
+      toast.error(session.error)
+      signOut({ redirect: false })
 
       return
     }
-
-    const session = await getSession()
 
     setAuthStatus('authenticated')
     if (session?.user.role === CONSTANTS.roleName.admin)
@@ -59,23 +60,26 @@ const LoginPage = () => {
           type="email"
           value={email}
           labelText="Email"
-          onChange={({ value }) => setEmail(value)}
           labelClassName="text-sm"
           placeholder="user@campus.unimib.it"
+          onChange={({ value }) => setEmail(value)}
         />
         <Input
           isRequired
           id="password"
           type="password"
           value={password}
-          onChange={({ value }) => setPassword(value)}
           labelText="Password"
           placeholder="✳✳✳✳✳✳✳✳✳✳"
           labelClassName="text-sm"
+          onChange={({ value }) => setPassword(value)}
         />
-        <p className="ml-auto w-max cursor-pointer text-sm text-neutral-500">
+        <Link
+          href="/reset-password"
+          className="ml-auto w-max cursor-pointer text-sm text-neutral-500"
+        >
           Forgot Password?
-        </p>
+        </Link>
         <Button className="mt-4" isDisabled={authStatus === 'loading'}>
           Login
         </Button>

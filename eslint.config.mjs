@@ -29,6 +29,7 @@ const eslintConfig = [
       'react/jsx-props-no-spreading': 'off',
       'import/prefer-default-export': 'warn',
       'import/no-extraneous-dependencies': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
       'react/function-component-definition': 'off',
     },
   },

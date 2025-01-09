@@ -4,7 +4,6 @@ import Credentials from 'next-auth/providers/credentials'
 
 import UserModel from '@/models/UserModel'
 import type {} from '@/database/schema/usersSchema'
-import TransactionModel from '@/models/TransactionModel'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -36,16 +35,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return {
               error: 'Your request in not approved yet, please contact admin',
             }
-
-          const amount = await TransactionModel.getUserTodaysTransactions(
-            user.id
-          )
-
-          const credit = amount
-            .reduce((a, b) => Number(a) + Number(b.amount), 0)
-            .toString()
-
-          await UserModel.updateUserCredit(user.id, credit)
 
           return {
             id: user.id,

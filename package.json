@@ -9,10 +9,15 @@
     "start": "next start",
     "i": "pnpm i",
     "lint": "next lint",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose stop db",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
     "db:seed": "node --import tsx --env-file .env ./backend/database/seeds/index.ts",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
     "format": "prettier . --write"
   },
   "dependencies": {

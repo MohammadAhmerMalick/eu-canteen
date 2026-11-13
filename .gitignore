@@ -33,9 +33,7 @@ pnpm-debug.log*
 
 # env files (can opt-in for commiting if needed)
 .env*
-
-# vercel
-.vercel
+!.env.example
 
 # typescript
 *.tsbuildinfo

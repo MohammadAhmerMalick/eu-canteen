@@ -1,46 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EU Canteen
 
-## Getting Started
+Next.js canteen app with Postgres, Drizzle, and Docker.
 
-Install dependencies, then run the development server:
+[Figma working file](https://www.figma.com/design/959XeBxti4P0azOmJPiE2l/POS?node-id=180-51&t=QrxwCL7Vu3pArpFM-1)
+
+## Getting started
+
+Install dependencies, start Postgres, apply the schema, then run the dev server:
 
 ```bash
 pnpm install
+cp .env.example .env
+pnpm db:up
+pnpm db:push
+pnpm db:seed
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`pnpm db:down` stops Postgres and keeps its data volume.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Docker
 
-## Learn More
+Run the app and Postgres together:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm docker:up
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`pnpm docker:down` stops the stack and keeps the database volume. `pnpm docker:logs` follows container logs.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`pnpm docker:up` builds the app, waits for Postgres, and applies the Drizzle schema before the app starts.
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Next.js dev server |
+| `pnpm build` / `pnpm start` | Production build and server |
+| `pnpm db:up` / `pnpm db:down` | Start or stop Postgres |
+| `pnpm db:push` | Apply the Drizzle schema |
+| `pnpm db:seed` | Load sample data |
+| `pnpm db:studio` | Open Drizzle Studio |
+| `pnpm docker:up` / `pnpm docker:down` | Start or stop the full stack |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Environment
 
-[figma working file ](https://www.figma.com/design/959XeBxti4P0azOmJPiE2l/POS?node-id=180-51&t=QrxwCL7Vu3pArpFM-1)
+Copy `.env.example` to `.env`. Docker Compose reads `POSTGRES_*` from that file. On the host, `DATABASE_URL` uses `localhost`. Inside Compose, the app uses the `db` hostname instead.
 
-## Environment Variables
+```bash
+POSTGRES_USER=canteen
+POSTGRES_PASSWORD=canteen
+POSTGRES_DB=canteen
+POSTGRES_PORT=5432
+APP_PORT=3000
 
-### .env.local
+DATABASE_URL=postgresql://canteen:canteen@localhost:5432/canteen
 
-AUTH_SECRET=""
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=""
-CLOUDINARY_API_KEY=""
-CLOUDINARY_API_SECRET=""
-
-### .env
-
-DATABASE_URL=""
+AUTH_SECRET=
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+SENDGRID_API_KEY=
+CRON_SECRET=
+```

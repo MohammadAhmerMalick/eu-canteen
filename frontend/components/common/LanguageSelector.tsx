@@ -16,7 +16,9 @@ import { getLocale, setUserLocale } from '@/actions/locale'
 const LanguageSelector = () => {
   const [selected, setSelected] = useState<Key>('it')
 
-  const onSelectionChange = (key: Key) => {
+  const onSelectionChange = (key: Key | null) => {
+    if (key == null) return
+
     const locale = key === 'en' ? 'en' : 'it'
 
     setSelected(locale)

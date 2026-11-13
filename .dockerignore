@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.husky
+.vscode
+coverage
+out
+build
+tmp
+drizzle
+*.log
+.DS_Store
+.env
+.env.*
+Dockerfile
+docker-compose.yml

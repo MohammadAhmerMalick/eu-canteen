@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-canteen}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-canteen}
+      POSTGRES_DB: ${POSTGRES_DB:-canteen}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  migrate:
+    build:
+      context: .
+      target: migrator
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-canteen}:${POSTGRES_PASSWORD:-canteen}@db:5432/${POSTGRES_DB:-canteen}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:-}
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-canteen}:${POSTGRES_PASSWORD:-canteen}@db:5432/${POSTGRES_DB:-canteen}
+      AUTH_SECRET: ${AUTH_SECRET:-dev-only-auth-secret-change-me}
+      AUTH_TRUST_HOST: "true"
+      AUTH_URL: http://localhost:${APP_PORT:-3000}
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:-}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY:-}
+      CRON_SECRET: ${CRON_SECRET:-}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  postgres_data:

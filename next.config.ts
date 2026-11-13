@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin()
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'standalone',
   webpack: (config, { isServer }) => {
     if (!isServer)
       config.resolve.fallback = {

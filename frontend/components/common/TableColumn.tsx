@@ -6,7 +6,8 @@ const TableColumn = ({
   children,
   className,
   ...props
-}: ColumnProps & React.RefAttributes<object>) => {
+}: ColumnProps &
+  React.RefAttributes<HTMLDivElement | HTMLTableCellElement>) => {
   return (
     <Column
       {...props}

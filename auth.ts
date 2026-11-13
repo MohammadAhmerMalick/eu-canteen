@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth'
-import { compareSync } from 'bcrypt'
+import { compareSync } from 'bcryptjs'
 import Credentials from 'next-auth/providers/credentials'
 
 import UserModel from '@/models/UserModel'
